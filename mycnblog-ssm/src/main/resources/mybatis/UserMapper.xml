@@ -38,4 +38,8 @@
     <update id="editIntroduction">
         update userinfo set introduction = #{introduction} where id = #{id}
     </update>
+
+    <update id="uploadAvatar">
+        update userinfo set avatar_url = #{avatar_url} where id = #{id}
+    </update>
 </mapper>

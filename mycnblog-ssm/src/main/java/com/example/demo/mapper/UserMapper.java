@@ -53,7 +53,7 @@ public interface UserMapper {
     public int resetPassword(@Param("username") String username,@Param("password") String password);
 
     /**
-     * 根据当前用户ID绑定邮箱
+     * 根据当前用户 ID 绑定邮箱
      * @param email
      * @param id
      * @return
@@ -61,7 +61,7 @@ public interface UserMapper {
     public int bindEmail(@Param("email") String email,@Param("id") Integer id);
 
     /**
-     * 根据用户ID修改昵称
+     * 根据用户 ID 修改昵称
      * @param nickname
      * @param id
      * @return
@@ -69,10 +69,18 @@ public interface UserMapper {
     public int editNickname(@Param("nickname") String nickname,@Param("id") Integer id);
 
     /**
-     * 根据用户ID修改个人简介
+     * 根据用户 ID 修改个人简介
      * @param introduction
      * @param id
      * @return
      */
     public int editIntroduction(@Param("introduction") String introduction,@Param("id") Integer id);
+
+    /**
+     * 根据用户 ID 上传头像
+     * @param avatar_url
+     * @param id
+     * @return
+     */
+    public int uploadAvatar(@Param("avatar_url") String avatar_url,@Param("id") Integer id);
 }

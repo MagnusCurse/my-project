@@ -116,7 +116,7 @@ public class UserController{
             /**
              * 将图片存储到指定文件路径
              */
-            String fileNameAndType = file.getOriginalFilename(); // 获取文件类型,例如 .png
+            String fileNameAndType = file.getOriginalFilename(); // 获取文件名及类型
             String path = Constant.AVATAR_FILE_PATH + fileNameAndType; // 获取文件路径
             File dest = new File(path);
             if(!dest.exists()){ // 该文件夹不存在 , 则创建一个
@@ -130,9 +130,14 @@ public class UserController{
             /**
              * 将图片存储到数据库中
              */
-
-
+            int res = userService.uploadAvatar(path,userInfo.getId()); // path 即是图片存储的路径
+            if(res == 1){
+                return AjaxResult.success(1,"插入成功!");
+            }else {
+                return AjaxResult.fail(-1,"插入失败!");
+            }
         }
+        return AjaxResult.fail(-1,"获取不到用户对象!");
     }
 
     /**

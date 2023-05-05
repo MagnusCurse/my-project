@@ -45,4 +45,8 @@ public class UserService {
     public int editIntroduction(String introduction,Integer id){
         return userMapper.editIntroduction(introduction,id);
     }
+
+    public int uploadAvatar(String avatar_url,Integer id){
+        return userMapper.uploadAvatar(avatar_url,id);
+    }
 }
