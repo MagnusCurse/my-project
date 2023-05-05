@@ -1,0 +1,266 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 原来的body内容 */
+/* height: 100%;
+    background-color: #f2f2f2;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    background: linear-gradient(
+    135deg,
+    #282828 0%,
+    #666666 25%,
+    #9e9e9e 50%,
+    #666666 75%,
+    #282828 100%
+    );
+    background-size: 100% 200%;
+    animation: animateBackground 10s ease-in-out infinite; */
+
+html, body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* 星空壁纸 */
+#canvas {
+    position: fixed;
+    display: block;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to bottom, rgb(33,33,33), rgb(38,50,56));
+    z-index: -1; /* 表示位于最底层,要配合 position: fixed; 使用才能生效 */
+}
+  
+.particle {
+    position: absolute;
+    border-radius: 100%;
+    z-index: 999;
+    display: block;
+    box-shadow: 0 0 3px rgb(240,230,140);
+    transition: all .7s linear;
+}
+  
+.content {
+    width: 80vw;
+    height: 90vh;
+    display: block;
+    position: absolute;
+    top: 5%;
+    left: 9%;
+}
+  
+header.header {
+    background-color: rgba(20, 20, 20, .7);
+    color: #eee;
+    font-family: sans-serif;
+    border-radius: 5px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    margin: 10px auto;
+    position: relative;
+    display: block;
+}
+  
+ul.menu {
+    list-style: none;
+    position: relative;
+}
+  
+ul.menu > li.item {
+    display: inline-block;
+    padding: 0 60px 0 0;
+}
+      
+/* 上方导航栏 */
+.nav{
+    width: 100%;
+    height: 50px;
+    background-color: #fff;
+    color: #333;
+
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    position: relative; /* 添加相对定位 */
+}
+
+/* 添加横线 */
+.nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+}
+
+/* 鼠标悬停时改变横线颜色或宽度 */
+.nav:hover::before {
+    background-color: #333;
+    height: 2px;
+    transition: all 0.3s ease;
+}
+
+/* 鼠标悬停时改变背景色和过渡效果 */
+.nav:hover {
+    background-color: #f2f2f2;
+    transition: all 0.3s ease;
+}
+
+/* 导航栏中的图标 */
+.nav img{
+    width: 40px;
+    height: 40px;
+    margin-left: 30px;
+    margin-right: 10px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    transition: transform 0.3s ease; /* 添加旋转动画效果 */
+}
+
+/* 鼠标悬停时增加阴影效果 */
+.nav img:hover {
+    box-shadow: 0px 0px 5px #333;
+    transform: scale(1.1);
+    transform: scale(1.1) rotate(360deg); 
+}
+
+
+/* 导航栏中的占位器 */
+.nav .spacer {
+    width: 70%;
+}
+
+/* 导航栏中的按钮 */
+.nav a {
+    color: #333;
+    text-decoration: none;
+    padding: 0 10px;
+    position: relative;
+
+}
+
+.nav a::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #333;
+    transition: width 0.3s ease;
+}
+
+.nav a:hover::after {
+    width: 100%;
+}
+
+/* 登录框架内容设置 */
+.login-container {
+    width: 100%;
+    height: calc(100% - 50px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-dialog {
+    width: 400px;
+    height: 500px;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    margin: 15px;
+
+    /* 鼠标悬停效果 */
+    cursor: pointer;
+}
+
+/*这里悬浮会和星空背景冲突*/
+
+/* .login-dialog:hover {
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+} */
+
+/* 过渡动画效果 */
+/* .login-dialog:active {
+    transform: translateY(0);
+    transition-duration: 0.1s;
+}
+
+.login-dialog:active:hover {
+    transform: translateY(-2px);
+}
+
+.login-dialog:active:active {
+    transform: translateY(0);
+    transition-duration: 0.1s;
+}  */
+
+.login-dialog h3 {
+    padding: 50px 0;
+    text-align: center;
+    color: #333;
+}
+
+.login-dialog .row {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-dialog .row span {
+    display: block;
+    width: 100px;
+    font-weight: 700;
+    color: #333;
+}
+
+.login-dialog .row input {
+    width: 50%;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    transition: border-color 0.3s ease;
+  }
+  
+.login-dialog .row input:focus {
+    outline: none;
+    border-color: #333;
+    box-shadow: 0px 0px 5px #333;
+}
+  
+
+.login-dialog button {
+    width: 300px;
+    height: 50px;
+    font-weight: 100;
+    color: #fff;
+    background-color: #333;
+    border: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.login-dialog button:hover {
+    background-color: #666;
+    transform: translateY(-3px);
+}
+
+.login-dialog button:active {
+    background-color: #111;
+    transform: translateY(1px);
+}

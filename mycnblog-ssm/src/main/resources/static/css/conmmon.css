@@ -1,0 +1,197 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 设置整体页面高度 */
+html, body {
+    height: 100%;
+    background-image: url(../img/ballon.png);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* 上方导航栏 */
+.nav{
+    width: 100%;
+    height: 50px;
+    background-color: #98909038;
+    color: #333;
+
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    position: relative; /* 添加相对定位 */
+    margin-bottom: 10px;
+}
+
+/* 添加横线 */
+.nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+}
+
+/* 鼠标悬停时改变横线颜色或宽度 */
+.nav:hover::before {
+    background-color: #333;
+    height: 2px;
+    transition: all 0.3s ease;
+}
+
+/* 鼠标悬停时改变背景色和过渡效果 */
+.nav:hover {
+    background-color: #f2f2f2;
+    transition: all 0.3s ease;
+}
+
+/* 导航栏中的图标 */
+.nav img{
+    width: 40px;
+    height: 40px;
+    margin-left: 30px;
+    margin-right: 10px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    transition: transform 0.3s ease; /* 添加旋转动画效果 */
+}
+
+/* 鼠标悬停时增加阴影效果 */
+.nav img:hover {
+    box-shadow: 0px 0px 5px #333;
+    transform: scale(1.1);
+    transform: scale(1.1) rotate(360deg); 
+}
+
+/* 导航栏中的占位器 */
+.nav .spacer {
+    width: 70%;
+}
+
+/* 导航栏中的按钮 */
+.nav a {
+    color: #0f0c0c;
+    text-decoration: none;
+    padding: 0 10px;
+    position: relative;
+
+}
+
+.nav a::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #333;
+    transition: width 0.3s ease;
+}
+
+.nav a:hover::after {
+    width: 100%;
+}
+
+/* 页面内容容器, 版心 */
+.container {
+    /* 使用 calc 计算高度 */
+    height: calc(100% - 50px);
+    /* 设置版心宽度 */
+    width: 1000px;
+    /* 水平居中 */
+    margin: 0 auto;
+    /* 使用弹性布局 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 左侧部分, 用来放置用户信息 */
+.container-left {
+    height: 100%;
+    width: 200px;
+}
+
+/* 右侧部分, 用来放置正文 */
+.container-right {
+    height: 100%;
+    /* 和左侧部分中间留出 5px 间隙 */
+    width: 795px;
+    /* 如果内容溢出就自动加上滚动条 */
+    overflow: auto;
+    background-color:rgb(211 212 222 / 38%);
+    border-radius: 10px;
+}
+
+.card {
+    background-color: #ffffff45;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.card img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+}
+
+.card img:hover {
+    transform: rotate(10deg);
+}
+
+.card h3 {
+    text-align: center;
+    padding: 10px;
+    font-size: 24px;
+    color: #333;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.card a {
+    display: inline-block;
+    width: 140px;
+    height: 40px;
+    line-height: 40px;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    margin: 10px auto;
+    border-radius: 5px;
+    border: 2px solid transparent;
+    background-color: transparent;
+    font-size: 16px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.card a:hover {
+    background-color: rgba(255,255,255,0.3);
+    border-color: rgba(255,255,255,0.7);
+    box-shadow: 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+/* 展示文章数目的面板 */
+.card .counter {
+    padding: 5px;
+    display: flex;
+    justify-content: space-around;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}

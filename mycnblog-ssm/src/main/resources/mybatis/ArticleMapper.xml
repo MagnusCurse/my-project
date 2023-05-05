@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ArticleMapper">
+
+    <select id="myList" resultType="com.example.demo.model.Articleinfo">
+        select * from articleinfo where uid = #{uid}
+    </select>
+
+    <select id="myDetail" resultType="com.example.demo.model.Articleinfo">
+        select * from articleinfo where id = #{id}
+    </select>
+
+    <delete id="myDelete">
+        delete from articleinfo where id = #{id}
+    </delete>
+
+    <update id="myUpdate">
+        update articleinfo set content = #{content},title = #{title} where id = #{id}
+    </update>
+
+    <insert id="myAdd">
+        insert into articleinfo(title,content,uid)
+        values(#{title},#{content},#{uid})
+    </insert>
+
+    <select id="selectUid" resultType="java.lang.Integer">
+        select uid from articleinfo where id = #{id}
+    </select>
+
+    <select id="pageList" resultType="com.example.demo.model.Articleinfo">
+        select * from articleinfo limit #{psize} offset #{offset}
+    </select>
+
+    <select id="selectAll" resultType="com.example.demo.model.Articleinfo">
+        select * from articleinfo
+    </select>
+
+    <select id="selectComment" resultType="com.example.demo.model.CommentInfo">
+        select * from commentinfo where aid = #{aid}
+    </select>
+
+    <insert id="insertComment">
+        insert into commentinfo(aid,content,username)
+        values(#{aid},#{content},#{username})
+    </insert>
+</mapper>

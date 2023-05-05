@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客列表</title>
+    <link rel="stylesheet" href="css/conmmon.css">
+    <link rel="stylesheet" href="css/myblog_list.css">
+    <!--引入jquery-->
+    <script src="js/jquery.min.js"></script>
+    <!--引入自己写的js工具包-->
+    <script src="js/tool.js"></script>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <div class="nav">
+        <img src="img/d-logoblack.png" alt="">
+        <span class="title"></span>
+        <!-- 用来占据中间位置 -->
+        <span class="spacer"></span>
+        <a href="blog_list.html">主页</a>
+        <a href="myblog_list.html">我的博客</a>
+        <a href="blog_edit.html">创作</a>
+        <!--a 标签 onclick 有些浏览器不生效,所以跳转写在href中,javascript表示后面的是js代码-->
+        <a href="javascript:onExit()">注销</a>
+        <!-- <a href="#">注销</a> -->
+    </div>
+    <!-- 版心 -->
+    <div class="container">
+        <!-- 左侧个人信息 -->
+        <div class="container-left">
+            <div class="card">
+                <img src="img/default-image.png" class="avtar" alt="">
+                <h3 id = "username"><!--通过函数initMyInfo()添加 username--></h3>
+                <a href="http:www.github.com">github</a>
+                <div class="counter">
+                    <span>文章</span>
+                    <span>分类</span>
+                </div>
+                <div class="counter">
+                    <span>2</span>
+                    <span>1</span>
+                </div>            
+                <div class="counter">
+                    <span>邮箱</span>
+                </div>
+                <div class="counter">
+                    <span id="email"></span>                       
+                </div>
+                <a href="blog_center.html">个人中心</a>                    
+            </div>
+        </div>
+        <!-- 右侧内容详情 -->
+        <div class="container-right" id = "articleList">
+           
+        </div>
+    </div>
+</body>
+
+<script>
+    
+    //删除指定文章
+    function onDelete(id){
+       if(confirm("是否删除该文章")){ 
+       //发送ajax给后端
+       jQuery.ajax({
+        url: "/article/delete",
+        type: "POST",
+        data: {
+            id: id
+        },
+        success: function(result){
+            if(result != null && result.data == 1){
+                alert("删除成功");
+                //刷新当前页面
+                location.reload(true);
+            }
+        }
+       });
+       }
+    }
+
+    //初始化左侧个人信息
+    function initMyInfo(){
+        //发送ajxa给后端
+        jQuery.ajax({
+         url: "/user/myinfo",
+         type: "POST",
+         data: {},
+         success: function(result){
+            if(result != null && result.data != null){
+            jQuery("#username").text(result.data.username);
+            if(result.data.email != null){
+                 jQuery("#email").text(result.data.email);
+               }else{
+                 jQuery("#email").text("该用户目前没有绑定邮箱");
+               }
+            }
+         }
+        });
+    }
+    initMyInfo();//页面渲染后即立刻加载
+
+    //初始化博客列表页函数
+    function initList(){
+       //发送ajax请求给后端
+       jQuery.ajax({
+         url: "/article/mylist",
+         type: "POST",
+         data: {},
+         success: function(result){
+             if(result != null && result.code == 200 && result.data != null && result.data.length > 0){
+                //显示该用户发表的文章
+                <!-- 每一篇博客包含标题, 摘要, 时间 -->
+                var html = "";
+                result.data.forEach(function(item){//item是一个ArticleInfo对象
+                    html += '<div class="blog">' + 
+                        '<div class="title">' + item.title + '</div>' +
+                        '<div class="date">' + item.createtime + '</div>' +
+                        '<div class="desc">' + mySubString(item.content) + '</div>' +
+                        '<div class="buttons">' +
+                        '<a href="blog_content.html?id=' + item.id + '" class="detail">查看全文</a>' +
+                        '<a href="blog_update.html?id=' + item.id + '" class="detail">修改文章</a>' +
+                        '<a class="detail" href="javascript:onDelete(' + item.id + ')">删除文章</a>' +//a 标签 onclick 有些浏览器不生效,所以跳转写在href中,javascript表示后面的是js代码
+                        '</div>'
+                        '</div>'//点击查看全文后跳转后应该是文章id而不是用户
+                });
+                jQuery("#articleList").html(html);    
+              }else{//该用户没有发表任何文章
+                jQuery("#articleList").html("<h1>该用户没有发表任何文章</h1>");
+              }
+           }
+       })
+    }
+    initList();//页面渲染后即立刻加载
+
+    //退出登录函数
+    function onExit(){
+        if(confirm("是否退出登录?")){
+            //发送 ajax 给后端
+            jQuery.ajax({
+               url:"/user/logout",
+               type: "POST",
+               data: {},//这里不需要传data
+               success: function(result){
+                //退出登录后跳转回登录页面
+                  if(result.code == 200 && result.data == 1){
+                    alert("退出登录成功");
+                    location.href = "login.html";
+                  }
+               },
+
+               error: function(err){
+                //此时用户未登录,被拦截器拦截
+                  if(err != null && err.status == 401){//err不是你返回的那个哈希表了,里面没有data等值,只有status,所以用status判断
+                    alert("用户未登录,即将返回登录页面");
+                    location.href = "login.html";
+                  }
+               }
+             });
+        } 
+    }
+</script>
+</html>

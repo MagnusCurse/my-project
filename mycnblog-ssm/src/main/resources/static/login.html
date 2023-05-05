@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录页面</title>
+    <link rel="stylesheet" href="css/login.css">
+    <!--引入 jquery-->
+    <script src="js/jquery.min.js"></script>
+</head>
+
+<body>
+    <!--星空背景-->
+    <canvas id="canvas"></canvas>
+    <!-- 导航栏 -->
+    <div class="nav">
+        <img src="img/d-logoblack.png" alt="">
+        <span class="title"></span>
+        <!-- 用来占据中间位置 -->
+        <span class="spacer"></span>
+        <a href="blog_list.html">主页</a>
+        <a href="login.html">登录</a>
+        <a href="reg.html">注册</a>
+        <!-- <a href="#">注销</a> -->
+    </div>
+    <!-- 版心 -->
+    <div class="login-container">
+        <!-- 中间的登陆框 -->
+        <div class="login-dialog">
+            <h3>登录</h3>
+            <div class="row">
+                <span>用户名</span>
+                <input type="text" id="username">
+            </div>
+            <div class="row">
+                <span>密码</span>
+                <input type="password" id="password">
+            </div>
+            <div class="row">
+                <span>验证码</span>
+                <input type="text" id="vertificationcode">
+            </div>
+            <div class="row">
+                <!--这个 canvas 就是生成的验证码图片 // 目前位置有点偏后面会改-->
+                <canvas id="identifycode" width="100" height="30" onclick="reload()"></canvas>
+            </div>
+            <div class="row">
+                <a href="forget.html" style="color: rgba(10, 9, 9, 0.8); font-size: large;">忘记密码</a>
+            </div>
+            <div class="row">
+                <button id="submit" onclick="mysub()">提交</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    //进入后显示验证码图片
+    var show_num = [];//show_num为当前验证码的值
+    draw(show_num);
+
+    //点击后刷新验证码图片
+    function reload(){
+       draw(show_num);
+    }
+
+    //登录验证函数
+    function mysub(){
+      var username = jQuery("#username");
+      var password = jQuery("#password");
+      var vertificationcode = jQuery("#vertificationcode");
+      //非空校验
+      if(username.val() == ""){
+         alert("请先输入用户名");
+         username.focus();
+         return false;
+      }
+      if(password == ""){
+         alert("请先输入密码");
+         password.focus();
+         return false;
+      }
+      if(vertificationcode.val() == ""){
+         alert("请输入验证码");
+         vertificationcode.focus();
+         return false; 
+      }
+
+      //判断验证码是否正确
+      var check = show_num.join("");
+      if(vertificationcode.val().toLowerCase() == check){
+         
+      }else{
+         alert("验证码错误,请重新输入");
+         return false;
+      }
+ 
+      //发送ajax给后端
+      jQuery.ajax({
+         url:"/user/login",
+         type: "POST",
+         data: {
+            username: username.val(),
+            password: password.val()
+         },
+         success: function(result){
+            if(result.code == 200 && result.data == 1){//result是自定义参数,代表返回的数据
+                alert("登录成功");
+                location.href = "myblog_list.html";
+            }else{
+                alert("用户名或者密码错误,请重试");
+            }
+         }
+       });
+    }
+
+    //生成并渲染出验证码图形
+    function draw(show_num) {
+        var canvas_width=$('#identifycode').width();
+        var canvas_height=$('#identifycode').height();
+        var canvas = document.getElementById("identifycode");//获取到canvas的对象，演员
+        var context = canvas.getContext("2d");//获取到canvas画图的环境，演员表演的舞台
+        canvas.width = canvas_width;
+        canvas.height = canvas_height;
+        var sCode = "a,b,c,d,e,f,g,h,i,j,k,m,n,p,q,r,s,t,u,v,w,x,y,z,A,B,C,E,F,G,H,J,K,L,M,N,P,Q,R,S,T,W,X,Y,Z,1,2,3,4,5,6,7,8,9,0";
+        var aCode = sCode.split(",");
+        var aLength = aCode.length;//获取到数组的长度
+        
+        for (var i = 0; i < 4; i++) {  //这里的for循环可以控制验证码位数（如果想显示6位数，4改成6即可）
+            var j = Math.floor(Math.random() * aLength);//获取到随机的索引值
+            // var deg = Math.random() * 30 * Math.PI / 180;//产生0~30之间的随机弧度
+            var deg = Math.random() - 0.5; //产生一个随机弧度
+            var txt = aCode[j];//得到随机的一个内容
+            show_num[i] = txt.toLowerCase();
+            var x = 10 + i * 20;//文字在canvas上的x坐标
+            var y = 20 + Math.random() * 8;//文字在canvas上的y坐标
+            context.font = "bold 23px 微软雅黑";
+ 
+            context.translate(x, y);
+            context.rotate(deg);
+ 
+            context.fillStyle = randomColor();
+            context.fillText(txt, 0, 0);
+ 
+            context.rotate(-deg);
+            context.translate(-x, -y);
+        }
+        for (var i = 0; i <= 5; i++) { //验证码上显示线条
+            context.strokeStyle = randomColor();
+            context.beginPath();
+            context.moveTo(Math.random() * canvas_width, Math.random() * canvas_height);
+            context.lineTo(Math.random() * canvas_width, Math.random() * canvas_height);
+            context.stroke();
+        }
+        for (var i = 0; i <= 30; i++) { //验证码上显示小点
+            context.strokeStyle = randomColor();
+            context.beginPath();
+            var x = Math.random() * canvas_width;
+            var y = Math.random() * canvas_height;
+            context.moveTo(x, y);
+            context.lineTo(x + 1, y + 1);
+            context.stroke();
+        }
+    }
+ 
+    //得到随机的颜色值
+    function randomColor() {
+        var r = Math.floor(Math.random() * 256);
+        var g = Math.floor(Math.random() * 256);
+        var b = Math.floor(Math.random() * 256);
+        return "rgb(" + r + "," + g + "," + b + ")";
+    }
+
+
+    //星空背景
+    window.onload = function() {            
+            document.getElementById( "canvas" ).setAttribute( "width", window.innerWidth );
+            document.getElementById( "canvas" ).setAttribute( "height", window.innerHeight );
+
+            let config = {
+                containerID     : "canvas",
+                containerW      : document.getElementById( "canvas" ).offsetWidth,
+                containerH      : document.getElementById( "canvas" ).offsetHeight,
+                particlesCount  : 350,
+                particlesRadius : "random", // "random" or specific size
+                particlesColor  : "random", // "random" or specific color
+            }
+
+            init( config );
+    }
+
+/* =================== S E T T I N G S  V A R I B L E S ==================== */
+/*
+ * space parameters.
+ */
+const starMaxSize    = 0.6;
+const starMinSize    = 0.5;
+const cometApperance = 15000 // ms
+/*
+ * canvas consts.
+ */
+const canvas      = document.getElementById( "canvas" );
+const ctx         = canvas.getContext( "2d" );
+/*
+ * default varibles.
+ */
+var starColors    = [ "#FFEFD5", "#FFFFE0", "#FFE4B5", "#F0E68C", "#FFDAB9", "#E0FFFF" ];
+var particlesArr  = [];
+var mouse         = { x: 2, y: 2 };
+var mouseCoords   = {
+	getX: function(e) {
+		if (e.pageX) {
+			return e.pageX;
+		}
+		else if (e.clientX) {
+            return e.clientX + 
+                (document.documentElement.scrollLeft || document.body.scrollLeft) - 
+                document.documentElement.clientLeft;
+		}
+		return 0;
+	},
+	getY: function(e) {
+		if (e.pageY) {
+			return e.pageY;
+		}
+		else if (e.clientY) {
+            return e.clientY + 
+                (document.documentElement.scrollTop || document.body.scrollTop) - 
+                document.documentElement.clientTop;
+		}
+		return 0;
+	}
+}
+
+/* ===================== R E N D E R I N G   S T A R S ===================== */
+/*
+ * initilize programm.
+ */
+function init( config ) {
+    for( let i = 0; i < config.particlesCount; i++ ) {
+        addParticle( createParticle( config ) );
+    }
+    window.requestAnimationFrame( drawParticles );
+}
+/*
+ * create particle object.
+ */
+function createParticle( config ) {
+    return {
+        container : config.containerID,
+        color     : ( config.particlesColor == "random" ) ? getRandomColor() : config.particlesColor,
+        size      : ( config.particlesRadius == "random" ) ? getRandom( starMaxSize, starMinSize ) : config.particlesRadius,
+        x         : getRandom( config.containerW, 0 ),
+        y         : getRandom( config.containerH, 0 )
+    }
+}
+/*
+ * add particle into particles array.
+ */
+function addParticle( elem ) {
+    particlesArr.push( elem );
+}
+/*
+ * Function for update particles position.
+ */
+function updatePosition() {
+    for( let i = 0; i < particlesArr.length; i++ ) {
+        particlesArr[i].x = 
+            parseFloat( particlesArr[i].x ) +
+            ( parseFloat( ( canvas.width / 2 ) - mouse.x ) / 100 )
+        
+        particlesArr[i].y = 
+            parseFloat( particlesArr[i].y ) +
+            ( parseFloat( ( canvas.width / 2 ) - mouse.y ) / 100 )
+
+        if( 
+            particlesArr[i].x > canvas.width || particlesArr[i].y > canvas.height ||
+            particlesArr[i].x < 0 || particlesArr[i].y < 0
+        ) {
+            particlesArr[i].x = canvas.width - particlesArr[i].x;
+            particlesArr[i].y = canvas.height - particlesArr[i].y;
+        }
+    }
+}
+/*
+ * draw particles on canvas.
+ */
+function drawParticles() {
+    if( particlesArr.length == 0 ){ 
+        console.log("The end of space."); 
+        return;
+    }
+    ctx.clearRect( 0, 0, canvas.width, canvas.height );
+    particlesArr.forEach( function( elem ) {
+        ctx.beginPath();
+        ctx.arc( elem.x, elem.y, elem.size, 0, 2 * Math.PI );
+        ctx.fillStyle = elem.color;
+        ctx.fill();
+    } );
+    updatePosition();
+    setTimeout( 
+        function() { drawParticles() }, 20 
+    );
+}
+
+/* ================= A D D I T I O N A L   F U N C T I O N S ================ */
+/*
+ * Get random number.
+ */
+function getRandom( max, min ) {
+    return min - 0.5 + Math.random() * ( max - min + 1 );
+}
+/*
+ * Get random color.
+ */
+function getRandomColor() {
+    return starColors[ Math.round( Math.random() ) ];
+}
+/*
+ * Mouse movement event.
+ */
+document.onmousemove = function( event ) {
+    if( !event ) { event = window.event };
+    
+    mouse.x = mouseCoords.getX(event);
+    mouse.y = mouseCoords.getY(event);
+
+    console.log(mouse);
+}
+
+</script>
+</html>

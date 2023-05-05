@@ -1,0 +1,78 @@
+/* 博客正文容器 */
+.blog-content {
+    padding: 30px;
+}
+
+/* 博客标题 */
+.blog-content h3 {
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* 博客日期 */
+.blog-content .date {
+    color: #008000;
+    padding: 10px 0;
+    text-align: center;
+
+}
+
+/* 博客内容段落 */
+.blog-content p {
+    text-indent: 2em;
+    padding: 10px 0;
+}
+
+
+/* 评论区部分,用来放置该文章评论 */
+.container-comment {
+    height: 100%;
+    width: 1000 px;
+    /* 如果内容溢出就自动加上滚动条 */
+    overflow: auto;
+    background-color: rgba(8, 8, 8, 0.8);
+    padding: 50px;
+    margin-top: 65px;/*设置上边距*/
+}
+
+/*评论框,用来显示评论和输入框*/
+.comment-list {
+    height: 100%;
+    width: 1100px;
+    /* 如果内容溢出就自动加上滚动条 */
+    overflow: auto;
+}
+
+/*输入框,用来输入评论*/
+.comment-box{
+    height: 40%;
+    width: 100%;
+    
+}
+
+/*每个评论块*/
+.comment-block{
+    height: 200px;
+    width: 100%;
+    border-radius: 5px;
+    /* 使用弹性布局 */
+    display: flex;
+    justify-content: space-between;
+    background-color: aliceblue;
+    margin-top: 10px;
+}
+
+/*评论日期*/
+.comment-date{
+    float: left;
+}
+
+/*评论区用户头像*/
+.photo .avator{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+
+

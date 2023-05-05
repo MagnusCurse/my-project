@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>personal_center</title>
+    <link rel="stylesheet" href="css/blog_center.css">
+    <!--引入jquery-->
+    <script src="js/jquery.min.js"></script>
+    <!--引入自己写的js工具包-->
+    <script src="js/tool.js"></script>
+    <!--fontawesome 配置文件-->
+    <script src="https://kit.fontawesome.com/f4b134f611.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://kit.fontawesome.com/f4b134f611.css" crossorigin="anonymous">
+</head>
+<body>
+    
+
+    <!-- 导航栏 -->
+    <div class="nav">
+        <img src="img/d-logoorange.png" alt="">
+        <span class="title"></span>
+        <!-- 用来占据中间位置 -->
+        <span class="spacer"></span>
+        <a href="blog_list.html">主页</a>
+        <a href="myblog_list.html">我的博客</a>
+        <a href="blog_edit.html">创作</a>
+        <!--a 标签 onclick 有些浏览器不生效,所以跳转写在href中,javascript表示后面的是js代码-->
+        <a href="javascript:onExit()">注销</a>
+        <!-- <a href="#">注销</a> -->
+    </div>
+    <!-- 版心 -->
+    <div class="container">
+        
+        <!-- 个人信息内容详情 -->
+        <div class="container-right">
+            <!--左列表-->
+            <div class="left-list">
+                <div class="photo">
+                    <img src="img/default-image.png" class="avtar" alt="">
+                </div>
+                <div class="username">
+                    <span class="row">用户名:</span>
+                    <span class="space">&nbsp;</span>
+                    <span id="username" class="row"></span>
+                    
+                </div>
+                <div class="email">
+                    <span class="row">邮箱:</span>
+                    <span class="space">&nbsp;</span>
+                    <span id="email" class="row"></span>
+                    <span class="space">&nbsp;</span>
+                    <i class="fa-sharp fa-solid fa-pen-to-square" onclick="bindEmail()"></i>
+                </div>
+                <div class="nickname">
+                    <sapn class="row">昵称:</sapn>
+                    <span class="space">&nbsp;</span>
+                    <span id="nickname" class="row"></span>
+                    <span class="space">&nbsp;</span>
+                    <i class="fa-sharp fa-solid fa-pen-to-square" onclick="editNickname()"></i>
+                </div>
+            </div>
+            <!--右列表-->
+            <div class="right-list">
+                <div class="top-sign"></div>
+                <div class="introduction">
+                    <span class="row">个人简介:</span>
+                    <span class="space">&nbsp;</span>
+                    <!-- <textarea id="introduction" rows="18" cols="50" type="textarea" autocomplete="off" disabled="disabled"
+                    style="margin: 5px; font-size: large;"></textarea> -->
+                    <div contenteditable="true" id="introduction" class="editable-textarea"></div>
+                    <span class="space">&nbsp;</span>
+                    <i class="fa-sharp fa-solid fa-pen-to-square" onclick="editIntroduction()"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 云朵背景 -->
+    <div id="Clouds">
+        <div class="Cloud Foreground"></div>
+        <div class="Cloud Background"></div>
+        <div class="Cloud Foreground"></div>
+        <div class="Cloud Background"></div>
+        <div class="Cloud Foreground"></div>
+        <div class="Cloud Background"></div>
+        <div class="Cloud Background"></div>
+        <div class="Cloud Foreground"></div>
+        <div class="Cloud Background"></div>
+        <div class="Cloud Background"></div>
+      <!--  <svg viewBox="0 0 40 24" class="Cloud"><use xlink:href="#Cloud"></use></svg>-->
+      </div>
+      
+      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           width="40px" height="24px" viewBox="0 0 40 24" enable- xml:space="preserve">
+        <defs>
+          <path id="Cloud" d="M33.85,14.388c-0.176,0-0.343,0.034-0.513,0.054c0.184-0.587,0.279-1.208,0.279-1.853c0-3.463-2.809-6.271-6.272-6.271
+          c-0.38,0-0.752,0.039-1.113,0.104C24.874,2.677,21.293,0,17.083,0c-5.379,0-9.739,4.361-9.739,9.738
+          c0,0.418,0.035,0.826,0.084,1.229c-0.375-0.069-0.761-0.11-1.155-0.11C2.811,10.856,0,13.665,0,17.126
+          c0,3.467,2.811,6.275,6.272,6.275c0.214,0,27.156,0.109,27.577,0.109c2.519,0,4.56-2.043,4.56-4.562
+          C38.409,16.43,36.368,14.388,33.85,14.388z"/>
+        </defs>
+      </svg>
+
+    <script>
+        //初始化个人中心信息
+        function initCenterlInfo(){
+            //发送ajax请求给后端
+            jQuery.ajax({
+                url: "/user/center",
+                type: "POST",
+                data: {},
+                success: function(result){
+                    if(result.code == 200 && result.data != null){
+                        jQuery("#username").text(result.data.username);
+                        if(result.data.email != null){
+                            jQuery("#email").text(result.data.email);
+                        }else{
+                            jQuery("#email").text("此用户未绑定邮箱");
+                        }
+
+                        if(result.data.nickname != null){
+                            jQuery("#nickname").text(result.data.nickname);
+                        }else{
+                            jQuery("#nickname").text("未设置昵称");
+                        }
+
+                        if(result.data.introduction != null){
+                            jQuery("#introduction").text(result.data.introduction);
+                        }else{
+                            jQuery("#introduction").text("未设置个人简介");
+                        }
+                    }
+                }
+            });
+        }
+        initCenterlInfo();
+
+        //绑定邮箱功能
+        function bindEmail(){
+            var email = prompt("输入要绑定的邮箱");
+            if(email == ""){
+                alert("请先输入邮箱!")
+                return false;
+            }
+            //发送ajax请求给后端
+            jQuery.ajax({
+                url: "/user/email",
+                type: "POST",
+                data: {
+                    email: email
+                },
+                success: function(result){
+                   if(result.code == 200 && result.data == 1){
+                      alert("绑定邮箱成功");
+                      location.href = "blog_center.html";
+                   }else{
+                      alert("绑定邮箱失败,请重试!(检查邮箱格式是否正确)");
+                   }
+                }
+            });
+        }
+
+        //编辑昵称功能
+        function editNickname(){
+            var nickname = prompt("输入昵称");
+            if(email == ""){
+                alert("输入不能为空白!")
+                return false;
+            }
+            //发送ajax请求给后端
+            jQuery.ajax({
+                url: "/user/nickname",
+                type: "POST",
+                data: {
+                    nickname: nickname
+                },
+                success: function(result){
+                   if(result.code == 200 && result.data == 1){
+                      alert("修改成功!");
+                      location.href = "blog_center.html";
+                   }
+                }
+            });
+        }
+        //编辑个人简介功能
+        function editIntroduction(){
+            var introduction = prompt("输入个人简介!");
+            if(introduction == ""){
+                alert("输入不能为空白!")
+                return false;
+            }
+            //发送ajax请求给后端
+            jQuery.ajax({
+                url: "/user/introduction",
+                type: "POST",
+                data: {
+                    introduction: introduction
+                },
+                success: function(result){
+                   if(result.code == 200 && result.data == 1){
+                      alert("修改成功!");
+                      location.href = "blog_center.html";
+                   }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
