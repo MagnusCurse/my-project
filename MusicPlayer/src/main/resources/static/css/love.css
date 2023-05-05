@@ -1,0 +1,84 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FF69B4;
+    color: white;
+    padding: 10px;
+  }
+  
+  nav input[type="text"] {
+    border: none;
+    padding: 5px;
+    margin-right: 10px;
+    font-size: 16px;
+    width: 300px;
+    background-color: #f2f2f2;
+  }
+  
+  nav button {
+    border: none;
+    padding: 10px;
+    background-color: #FF1493;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  nav button:hover {
+    background-color: #FF00FF;
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  table th {
+    background-color: #FF69B4;
+    color: white;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  table td:first-child {
+    width: 50px;
+    text-align: center;
+  }
+  
+  table td:last-child {
+    width: 100px;
+    text-align: center;
+  }
+  
+  table button {
+    border: none;
+    padding: 5px;
+    background-color: #FF1493;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  table button:hover {
+    background-color: #FF00FF;
+  }
+  
+  table input[type="checkbox"] {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  

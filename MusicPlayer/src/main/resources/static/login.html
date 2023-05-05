@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="css/login.css">
+    
+    <!--引入jQuery-->
+    <script src="js/jquery.min.js"></script>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <div class="nav">
+        <img src="img/logo.png" alt="">
+        <span class="title">LISTENING</span>
+        <!-- 用来占据中间位置 -->
+        <span class="spacer"></span>
+        <a href="list.html">HOMEPAGE</a>
+        <a href="reg.html">REGISTER</a>
+        <!-- <a href="#">注销</a> -->
+    </div>
+    <!-- 版心 -->
+    <div class="login-container">
+        <!-- 中间的登陆框 -->
+        <div class="login-dialog">
+            <h3>LOGIN</h3>
+            <div class="row">
+                <span>ACCOUNT</span>
+                <input type="text" id="username">
+            </div>
+            <div class="row">
+                <span>PASSWORD</span>
+                <input type="password" id="password">
+            </div>
+            <div class="row">
+                <button id="submit" onclick="login()">SIGN IN</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+   //登录验证函数 
+   function login(){
+     var username = jQuery("#username");
+     var password = jQuery("#password");
+     if(username.val() == ""){
+        alert("Please input the username!!");
+        return false;
+     }
+     if(password.val() == ""){
+        alert("Please input the password!!");
+        return false;
+     }
+     
+     //给后端发送 ajax 请求
+     jQuery.ajax({
+        url: "/user/login",
+        type: "POST",
+        data: {
+            username: username.val(),
+            password: password.val()
+        },
+        success: function(result){
+            if(result.code == 200 && result.data == 1){
+                alert("Login is successful!");
+                location.href = "list.html";
+            }else{
+                alert("Your username or password is wrong!!");
+            }
+        }
+     });
+   }
+   
+</script>
+
+</html>

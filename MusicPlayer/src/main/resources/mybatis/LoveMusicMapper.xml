@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.LoveMusicMapper">
+
+    <select id="findLoveMusic" resultType="com.example.demo.model.Music">
+        select * from love where user_id = #{user_id} and music_id = #{music_id}
+    </select>
+
+    <!--这里要注意要用 love 中的 user_id,不然收藏了显示不出来-->
+    <select id="findLoveMusicByUserId" resultType="com.example.demo.model.Music">
+        select ms.*
+        from love as lo,music as ms
+        where lo.music_id = ms.id and lo.user_id = #{user_id}
+    </select>
+
+    <select id="findLoveMusicByTitleAndUserId" resultType="com.example.demo.model.Music">
+        select ms.*
+        from love as lo inner join music as ms
+        on lo.music_id = ms.id
+        where lo.user_id = #{user_id}
+        and ms.title like concat('%', #{title}, '%');
+    </select>
+
+    <insert id="insertLoveMusic">
+        insert into love (user_id,music_id) values (#{user_id},#{music_id})
+    </insert>
+
+    <delete id="deleteLoveMusic">
+        delete from love where music_id = #{music_id} and user_id = #{user_id}
+    </delete>
+
+    <delete id="deleteLoveMusicByMusicId">
+        delete from love where music_id = #{music_id}
+    </delete>
+</mapper>

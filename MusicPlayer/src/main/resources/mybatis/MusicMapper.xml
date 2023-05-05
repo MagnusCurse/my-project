@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.MusicMapper">
+    <insert id="insert">
+        insert into music (title,singer,uploadtime,url,user_id)
+        values
+        (#{title},#{singer},#{uploadtime},#{url},#{user_id})
+    </insert>
+
+    <delete id="deleteById">
+        delete from music where id = #{id}
+    </delete>
+
+    <select id="selectByTitle" resultType="com.example.demo.model.Music">
+        select * from music where title like concat('%',#{title},'%')
+    </select>
+
+    <select id="selectByTitleAndSinger" resultType="com.example.demo.model.Music">
+        select * from music where title = #{title} and singer = #{singer}
+    </select>
+
+    <select id="selectById" resultType="com.example.demo.model.Music">
+        select * from music where id = #{id}
+    </select>
+
+    <select id="selectAll" resultType="com.example.demo.model.Music">
+        select * from music limit #{psize} offset #{offset}
+    </select>
+
+    <select id="selectAllNoParam" resultType="com.example.demo.model.Music">
+        select * from music
+    </select>
+</mapper>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp Page</title>
+    <link rel="stylesheet" href="css/login.css">
+    <!--引入jQuery-->
+    <script src="js/jquery.min.js"></script>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <div class="nav">
+        <img src="img/logo.png" alt="">
+        <span class="title">LISTENING</span>
+        <!-- 用来占据中间位置 -->
+        <span class="spacer"></span>
+        <a href="blog_list.html">HOMEPAGE</a>
+        <a href="login.html">LOGIN</a>
+        <!-- <a href="#">注销</a> -->
+    </div>
+    <!-- 版心 -->
+    <div class="login-container">
+        <!-- 中间的注册框 -->
+        <div class="login-dialog" style="width: 600px;">
+            <h3>SIGN UP</h3>
+            <div class="row">
+                <span class="inrow">ACCOUNT</span>
+                <input type="text" id="username">
+            </div>
+            <div class="row">
+                <span class="inrow">PASSWORD</span>
+                <input type="password" id="password">
+            </div>
+            <div class="row">
+                <span class="inrow">CONFIRM PASSWORD</span>
+                <input type="password" id="confirmpassword">
+            </div>
+            <div class="row">
+                <button id="submit" style="width: 600px;" onclick="reg()">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+//注册函数
+function reg(){
+    var username = jQuery("#username");
+    var password = jQuery("#password");
+    var confirmpassword = jQuery("#confirmpassword");
+
+     if(username.val() == ""){
+        alert("Please input the username!!");
+        return false;
+     }
+     if(password.val() == ""){
+        alert("Please input the password!!");
+        return false;
+     }
+     if(confirmpassword.val() == ""){
+        alert("Please input the confirm password!!");
+        return false;
+     }
+     if(password.val() != confirmpassword.val()){
+        alert("Two inputs of password are not the same!!");
+        return false;
+     }
+
+    //给后端发送 ajax 请求
+    jQuery.ajax({
+        url: "/user/reg",
+        type: "POST",
+        data: {
+            username: username.val(),
+            password: password.val()
+        },
+        success: function(result){
+            if(result.code == 200 && result.data == 1){
+                alert("Sign up successfully!");
+                if(confirm("Jump to the login page?")){
+                    location.href = "login.html";
+                }
+            }else{
+                alert("Something wrong,please try again!!");
+            }
+        }
+        // ,
+        // error: function(result){
+        //     alert("Something wrong,please try again!!");
+        // }
+    }); 
+}
+</script>
+
+</html>

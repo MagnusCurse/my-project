@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--引入jQuery-->
+    <script src="js/jquery.min.js"></script>
+	  <link rel="stylesheet" href="css/love.css">
+</head>
+<body>
+	<!--导航栏-->
+    <nav>
+      <div>
+        <input type="text" placeholder="Search..." id="queryValue">
+        <button onclick="query()">Query</button>
+      </div>
+      <div>
+        <button onclick="location.href='list.html'">HomePage</button>
+        <button onclick="deleteSel()">Delete Selected</button>
+      </div>
+    </nav>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Select</th>
+          <th>Song Name</th>
+          <th>Artist</th>
+          <th>Del</th>
+          <th>Play</th>
+        </tr>
+      </thead>
+      <!--音乐内容-->
+      <tbody id="tBody">
+       <!--由initMusic()函数初始化-->
+      </tbody>
+    </table>
+  </body>
+</html>
+
+<!--音乐播放器-->
+<div style="width: 180px; height: 140px; position:absolute; bottom:10px; right:10px">
+  <script type="text/javascript" src="player/sewise.player.min.js"></script>
+  <script type="text/javascript">
+  SewisePlayer.setup({
+  server: "vod",
+  type: "mp3",
+  //这里是默认的一个网址
+  videourl:"http://jackzhang1204.github.io/materials/where_did_time_go.mp3",
+  skin: "vodWhite",
+  //这里需要设置false,表示不自动播放
+  autostart:"false",
+  });
+  </script>
+</div>
+
+<script>
+ //初始化喜欢列表音乐函数
+ function initMusic(){
+        //发送ajax请求给后端
+		jQuery.ajax({
+          url: "/love/findall",
+		      type: "POST",
+		      data: {},
+          success: function(result){
+             if(result.code == 200 && result.data.length > 0){
+				      var tbodyHTML = "";
+				      for(var i = 0;i < result.data.length;i++){
+					       var item = result.data[i];
+					         tbodyHTML += 
+					         '<tr>' +
+						       '<td><input id="' + item.id + '"type="checkbox"></td>' +
+						       '<td>' + item.title + '</td>' +
+						       '<td>' + item.singer + '</td>' +
+						       '<td>' + '<button onclick="deleteMusic(' + item.id + ')">Dele</button>' + '</td>' +
+						       '<td>' + '<button onclick="playMusic(\'' + item.url + '\')">Play</button>' + '</td>' +
+						       '</tr>'
+				       }
+				       jQuery("#tBody").html(tbodyHTML); //
+			       }
+		      },
+
+		      error: function(result){
+			        alert("Something wrong,please try again!!");
+		      } 
+		});
+	}
+	initMusic(); // 页面一加载就调用
+
+  //删除喜欢列表音乐函数
+  function deleteMusic(music_id){
+     //发送ajax请求给后端
+     jQuery.ajax({
+        url: "/love/delete",
+        type: "POST",
+        data: {
+          music_id : music_id
+        },
+        success: function(result){
+          if(result.code == 200 && result.data == 1){
+            alert("Deletion succeeds!!");
+            location.href="love.html";
+          }else{
+            alert("Deletion fails,please try again!!");
+          }
+        },
+        error: function(result){
+          alert("Something wrong,please try again!!");
+        }
+     });
+  }
+
+  //删除喜欢列表选中的音乐函数
+  function deleteSel(){
+       var ids = new Array(); // 创建一个数组存储要删除音乐的id
+		   var index = 0; // 数组的下标
+
+		   jQuery("input:checkbox").each(function(){ // 遍历所有 checkbox
+		   	if(jQuery(this).is(":checked")) { // 如果 checkbox 被选中
+		   		ids[index] = jQuery(this).attr("id"); // 将该 id 加入数组
+		   		index++;
+		   	}
+		   });
+
+       //发送ajax请求给后端
+       jQuery.ajax({
+         url: "/love/deleteSel",
+         type: "POST",
+         data: {
+            music_ids : ids
+         },
+         success: function(result){
+             if(result.code == 200 && result.data == 1){
+				         alert("Deletion successful!!");
+				         location.href="love.html";
+			       }else{
+				         alert("fail to dlete,please try again!!"); 
+			       }
+         },
+         error: function(result){
+             alert("Something wrong! please try it again!!");
+         }
+       });
+  }
+
+  //查询音乐函数
+  function query(){
+    var queryValue = jQuery("#queryValue");
+
+    //向后端发送ajax请求
+    jQuery.ajax({
+        url: "/love/search",
+        type: "POST",
+        data: {
+          title : queryValue.val()
+        },
+        success: function(result){
+          if(result.code == 200 && result.data.length > 0){
+				        var tbodyHTML = "";
+				        for(var i = 0;i < result.data.length;i++){
+				        	var item = result.data[i];
+				        	tbodyHTML += 
+                  '<tr>' +
+						       '<td><input id="' + item.id + '"type="checkbox"></td>' +
+						       '<td>' + item.title + '</td>' +
+						       '<td>' + item.singer + '</td>' +
+						       '<td>' + '<button onclick="deleteMusic(' + item.id + ')">Dele</button>' + '</td>' +
+						       '<td>' + '<button onclick="playMusic(\'' + item.url + '\')">Play</button>' + '</td>' +
+						       '</tr>'
+				        }
+				        jQuery("#tBody").html(tbodyHTML); 
+			      }
+        },
+
+        error: function(result){
+            alert("Something wrong,please try again!!");
+        }
+    });
+  }
+
+   //播放音乐函数
+	 function playMusic(url){
+	    console.log(url);
+		var name = url.substring(url.lastIndexOf("=") + 1);
+        console.log(name);
+		//url:播放歌曲的路径
+		//name:歌曲名
+		//0:播放的开始时间
+		//true:点击后是否开始播放
+        SewisePlayer.toPlay(url,name,0,true);
+	 }
+
+</script>
