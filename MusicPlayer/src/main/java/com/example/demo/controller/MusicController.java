@@ -81,7 +81,7 @@ public class MusicController {
         User user = sessionUtils.getLoginUser(request); // 会获取到空对象,目前还不知道啥问题
         int user_id = user.getId(); // 获取 user_id
 
-        String url = "/music/get?path=" + title + "." + type; //
+        String url = "/music/get?path=" + title + "." + type; // 这个 url 用来在播放音乐函数中向 get 方法发送请求得到音乐文件字节数组
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String uploadtime = sdf.format(new Date()); // 获取当前时间
@@ -93,7 +93,7 @@ public class MusicController {
     }
 
     /**
-     * 播放音乐的时候:发送请求到这,返回音乐文件字节数组
+     * 播放音乐的时候:发送请求到这,返回音乐文件字节数组 ( 前端播放音乐函数的 url 会向这发送请求 )
      * @param path
      * @return
      */

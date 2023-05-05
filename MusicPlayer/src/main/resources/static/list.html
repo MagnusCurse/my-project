@@ -287,8 +287,7 @@
      }
 
 	 //播放音乐函数
-	 function playMusic(url){
-	    console.log(url);
+	 function playMusic(url){ // 该 url 会向后端 get 方法发送请求获取到音乐文件的字节数组
 		var name = url.substring(url.lastIndexOf("=") + 1);
         console.log(name);
 		//url:播放歌曲的路径
