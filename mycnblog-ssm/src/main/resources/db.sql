@@ -17,7 +17,8 @@ create table userinfo(
     `state` int default 1,
     email varchar(100) unique,
     nickname varchar(100) unique,
-    introduction varchar(500)
+    introduction varchar(500),
+    avatar_url varchar(200) default 'img/avatar/default-image.png'
 ) default charset 'utf8mb4';
 
 -- 创建文章表

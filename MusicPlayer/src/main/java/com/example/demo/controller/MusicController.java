@@ -86,8 +86,8 @@ public class MusicController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String uploadtime = sdf.format(new Date()); // 获取当前时间
 
-//        response.sendRedirect("http://localhost:8080/list.html"); // 实现页面跳转:记得要写完整路径,要不然容易出错
-          response.sendRedirect("http://43.139.61.124:8084/list.html"); // 打包的时候记得修改,这里是要跳转到云服务器的 list.html
+//       response.sendRedirect("http://localhost:8080/list.html"); // 实现页面跳转:记得要写完整路径,要不然容易出错
+        response.sendRedirect("http://43.139.61.124:8084/list.html"); // 打包的时候记得修改,这里是要跳转到云服务器的 list.html
         int res = musicService.insert(title,singer,uploadtime,url,user_id); // 插入成功返回 1,否则 0
         return res;
     }

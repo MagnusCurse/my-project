@@ -17,4 +17,5 @@ public class UserInfo implements Serializable{// 因为要存入 Redis 中,要�
     private String email;
     private String nickname;
     private String introduction;
+    private String avatar_url;
 }

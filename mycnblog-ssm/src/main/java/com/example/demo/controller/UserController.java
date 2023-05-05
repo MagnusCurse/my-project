@@ -12,9 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
+import java.io.File;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/user")
@@ -99,6 +103,36 @@ public class UserController{
             return AjaxResult.success(userInfo, "获取信息成功");
         }
         return AjaxResult.fail("-1","获取信息失败");
+    }
+
+    /**
+     * 上传用户头像
+     * @return
+     */
+    @RequestMapping("/upload")
+    public Object uploadAvatar(MultipartFile file,HttpServletRequest request){
+        UserInfo userInfo = SessionUnit.getLoginUser(request); // 获取当前用户对象
+        if(userInfo != null){
+            /**
+             * 将图片存储到指定文件路径
+             */
+            String fileNameAndType = file.getOriginalFilename(); // 获取文件类型,例如 .png
+            String path = Constant.AVATAR_FILE_PATH + fileNameAndType; // 获取文件路径
+            File dest = new File(path);
+            if(!dest.exists()){ // 该文件夹不存在 , 则创建一个
+                dest.mkdir();
+            }
+            try {
+                file.transferTo(dest); // 将文件上传到 dest 位置
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            /**
+             * 将图片存储到数据库中
+             */
+
+
+        }
     }
 
     /**
