@@ -12,6 +12,10 @@
     <script src="js/tool.js"></script>
     <!--fontawesome 配置文件-->
     <script src="https://kit.fontawesome.com/f4b134f611.js" crossorigin="anonymous"></script>
+    <!--引入 Vue-->
+    <script src="js/vue.js"></script>
+    <!--引入 Aixos -->
+    <script src="js/axios.min.js"></script>
     <link rel="stylesheet" href="https://kit.fontawesome.com/f4b134f611.css" crossorigin="anonymous">
 </head>
 <body>
@@ -37,9 +41,57 @@
         <div class="container-right">
             <!--左列表-->
             <div class="left-list">
-                <div class="photo">
-                    <img src="img/default-image.png" class="avtar" alt="">
+                <div class="photo" id="photo">
+                    <img src="img/default-image.png" class="avtar" alt="" :src="imageUrl" @click="chooseFile">
+                    <input type="file" ref="fileInput" style="display:none;">
                 </div>
+
+                <!-- 上传头像 JavaScript Vue 代码-->
+                <script>
+                    var app = new Vue({
+				    el: "#photo",
+				    data: {
+				    	imageUrl: "default.jpg", // 显示的图片
+				    	avatarFile : null // 上传头像的文件对象
+				    },
+				    methods: {
+				    	chooseFile: function() { // 选择文件函数,点击后选择本地文件
+				    		this.$refs.fileInput.click();
+
+				    	},
+				    	handleFileChange: function(event) { // 当选择本地文件时候，就会调用该函数
+				    		var file = event.target.files[0];
+				    		if(file) { // 已经选择文件
+				    			this.avatarFile = file; // 将上传的文件对象保存到 data 中
+				    			var reader = new FileReader();
+				    			reader.onload = function(e) {
+				    				app.imageUrl = e.target.result; // 更新 imageUrl 的值
+				    			};
+				    			reader.readAsDataURL(file);
+				    		}
+				    	}
+				    },
+				    mounted: function() {
+				    	this.$refs.fileInput.addEventListener("change", this.handleFileChange);
+				    },
+				    uploadAvatar : function() { // 将图片文件上传给后端
+                        if(this.avatarFile) {
+				    		var formData = new FormData();
+				    		formData.append("file",this.avatarFile);
+				    		axios.post("/upload",formData)
+				    		.then(function(response){
+				    			// 处理上传成功的结果
+				    			console.log(response);
+				    		}).catch(function(error){
+				    			// 处理上传失败的结果
+				    			console.error(error);
+				    		});
+				    	}
+				    }
+			    });
+                </script>
+
+
                 <div class="username">
                     <span class="row">用户名:</span>
                     <span class="space">&nbsp;</span>
@@ -81,14 +133,7 @@
     <div id="Clouds">
         <div class="Cloud Foreground"></div>
         <div class="Cloud Background"></div>
-        <div class="Cloud Foreground"></div>
-        <div class="Cloud Background"></div>
-        <div class="Cloud Foreground"></div>
-        <div class="Cloud Background"></div>
-        <div class="Cloud Background"></div>
-        <div class="Cloud Foreground"></div>
-        <div class="Cloud Background"></div>
-        <div class="Cloud Background"></div>
+        
       <!--  <svg viewBox="0 0 40 24" class="Cloud"><use xlink:href="#Cloud"></use></svg>-->
       </div>
       
@@ -206,6 +251,9 @@
                 }
             });
         }
+
+
+
     </script>
 </body>
 </html>
