@@ -19,7 +19,16 @@
     <link rel="stylesheet" href="https://kit.fontawesome.com/f4b134f611.css" crossorigin="anonymous">
 </head>
 <body>
-    
+    <!-- 云朵背景 -->
+    <div id="Clouds">
+        <div class="Cloud Foreground"></div>
+        <div class="Cloud Background"></div>
+        <div class="Cloud Foreground"></div>
+        <div class="Cloud Background"></div>
+        <div class="Cloud Foreground"></div>
+        
+      <!--  <svg viewBox="0 0 40 24" class="Cloud"><use xlink:href="#Cloud"></use></svg>-->
+    </div>
 
     <!-- 导航栏 -->
     <div class="nav">
@@ -57,7 +66,9 @@
 
 				    methods: {
 				    	chooseFile: function() { // 选择文件函数,点击后选择本地文件
-				    		this.$refs.fileInput.click();
+                            if(confirm("是否更换当前头像?")){
+                                this.$refs.fileInput.click(); 
+                            }
 				    	},
 				    	handleFileChange: function(event) { // 当选择本地文件时候，就会调用该函数
 				    		var file = event.target.files[0];
@@ -78,10 +89,10 @@
 				    	  	   axios.post("/user/upload",formData)
 				    	  	   .then(function(response){
 				    	  	  	  // 处理上传成功的结果
-				    	  	  	  console.log(response);
+				    	  	  	  
 				    	  	   }).catch(function(error){
 				    	  	  	  // 处理上传失败的结果
-				    	  	  	  console.error(error);
+				    	  	  	  
 				    	  	   });
 				    	    }
 				        },
@@ -117,14 +128,14 @@
                     <span class="space">&nbsp;</span>
                     <span id="email" class="row"></span>
                     <span class="space">&nbsp;</span>
-                    <i class="fa-sharp fa-solid fa-pen-to-square" onclick="bindEmail()"></i>
+                    <i class="fa-regular fa-pen-to-square fa-beat fa-lg" onclick="bindEmail()"></i>
                 </div>
                 <div class="nickname">
                     <sapn class="row">昵称:</sapn>
                     <span class="space">&nbsp;</span>
                     <span id="nickname" class="row"></span>
                     <span class="space">&nbsp;</span>
-                    <i class="fa-sharp fa-solid fa-pen-to-square" onclick="editNickname()"></i>
+                    <i class="fa-regular fa-pen-to-square fa-beat fa-lg" onclick="editNickname()"></i>
                 </div>
             </div>
             <!--右列表-->
@@ -137,19 +148,13 @@
                     style="margin: 5px; font-size: large;"></textarea> -->
                     <div contenteditable="true" id="introduction" class="editable-textarea"></div>
                     <span class="space">&nbsp;</span>
-                    <i class="fa-sharp fa-solid fa-pen-to-square" onclick="editIntroduction()"></i>
+                    <i class="fa-regular fa-pen-to-square fa-beat fa-lg" onclick="editIntroduction()"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 云朵背景 -->
-    <div id="Clouds">
-        <div class="Cloud Foreground"></div>
-        <div class="Cloud Background"></div>
-        
-      <!--  <svg viewBox="0 0 40 24" class="Cloud"><use xlink:href="#Cloud"></use></svg>-->
-      </div>
+    
       
       <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
            width="40px" height="24px" viewBox="0 0 40 24" enable- xml:space="preserve">
@@ -214,8 +219,6 @@
                    if(result.code == 200 && result.data == 1){
                       alert("绑定邮箱成功");
                       location.href = "blog_center.html";
-                   }else{
-                      alert("绑定邮箱失败,请重试!(检查邮箱格式是否正确)");
                    }
                 }
             });

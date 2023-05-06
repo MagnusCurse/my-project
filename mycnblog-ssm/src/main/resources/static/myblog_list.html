@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>博客列表</title>
     <link rel="stylesheet" href="css/conmmon.css">
-    <link rel="stylesheet" href="css/myblog_list.css">
+    <link rel="stylesheet" href="css/blog_list.css">
     <!--引入jquery-->
     <script src="js/jquery.min.js"></script>
     <!--引入自己写的js工具包-->
@@ -35,7 +35,7 @@
             <div class="card">
                 <img src="img/default-image.png" class="avtar" alt="">
                 <h3 id = "username"><!--通过函数initMyInfo()添加 username--></h3>
-                <a href="http:www.github.com">github</a>
+                <a href="http:www.github.com">Github</a>
                 <div class="counter">
                     <span>文章</span>
                     <span>分类</span>
@@ -96,7 +96,7 @@
             if(result.data.email != null){
                  jQuery("#email").text(result.data.email);
                }else{
-                 jQuery("#email").text("该用户目前没有绑定邮箱");
+                 jQuery("#email").text("目前没有绑定邮箱");
                }
             }
          }
@@ -121,11 +121,11 @@
                         '<div class="title">' + item.title + '</div>' +
                         '<div class="date">' + item.createtime + '</div>' +
                         '<div class="desc">' + mySubString(item.content) + '</div>' +
-                        '<div class="buttons">' +
-                        '<a href="blog_content.html?id=' + item.id + '" class="detail">查看全文</a>' +
-                        '<a href="blog_update.html?id=' + item.id + '" class="detail">修改文章</a>' +
-                        '<a class="detail" href="javascript:onDelete(' + item.id + ')">删除文章</a>' +//a 标签 onclick 有些浏览器不生效,所以跳转写在href中,javascript表示后面的是js代码
-                        '</div>'
+                          '<div class="buttons">' +
+                            '<a href="blog_content.html?id=' + item.id + '" class="detail">查看全文</a>' +
+                            '<a href="blog_update.html?id=' + item.id + '" class="detail">修改文章</a>' +
+                            '<a class="detail" href="javascript:onDelete(' + item.id + ')">删除文章</a>' +//a 标签 onclick 有些浏览器不生效,所以跳转写在href中,javascript表示后面的是js代码
+                          '</div>' + 
                         '</div>'//点击查看全文后跳转后应该是文章id而不是用户
                 });
                 jQuery("#articleList").html(html);    
