@@ -130,7 +130,8 @@ public class UserController{
             /**
              * 将图片存储到数据库中
              */
-            int res = userService.uploadAvatar(path,userInfo.getId()); // path 即是图片存储的路径
+            String url = "img/avatar/" + fileNameAndType; // 这里只需要用 img/avatar + fileNameAndType 为路径即可
+            int res = userService.uploadAvatar(url,userInfo.getId()); // path 即是图片存储的路径
             if(res == 1){
                 return AjaxResult.success(1,"插入成功!");
             }else {

@@ -42,7 +42,7 @@
             <!--左列表-->
             <div class="left-list">
                 <div class="photo" id="photo">
-                    <img src="img/default-image.png" class="avtar" alt="" :src="imageUrl" @click="chooseFile">
+                    <img class="avatar" alt="" :src="imageUrl" @click="chooseFile">
                     <input type="file" ref="fileInput" style="display:none;">
                 </div>
 
@@ -51,13 +51,13 @@
                     var app = new Vue({
 				    el: "#photo",
 				    data: {
-				    	imageUrl: "default.jpg", // 显示的图片
+				    	imageUrl: "img/avatar/default-image.png", // 显示的图片 
 				    	avatarFile : null // 上传头像的文件对象
 				    },
+
 				    methods: {
 				    	chooseFile: function() { // 选择文件函数,点击后选择本地文件
 				    		this.$refs.fileInput.click();
-
 				    	},
 				    	handleFileChange: function(event) { // 当选择本地文件时候，就会调用该函数
 				    		var file = event.target.files[0];
@@ -68,27 +68,41 @@
 				    				app.imageUrl = e.target.result; // 更新 imageUrl 的值
 				    			};
 				    			reader.readAsDataURL(file);
+                                this.uploadAvatar(); // 在选择文件后立即调用上传函数
 				    		}
-				    	}
+				    	},
+                        uploadAvatar : function() { // 将图片文件上传给后端
+                            if(this.avatarFile) {
+				    	  	   var formData = new FormData();
+				    	  	   formData.append("file",this.avatarFile);
+				    	  	   axios.post("/user/upload",formData)
+				    	  	   .then(function(response){
+				    	  	  	  // 处理上传成功的结果
+				    	  	  	  console.log(response);
+				    	  	   }).catch(function(error){
+				    	  	  	  // 处理上传失败的结果
+				    	  	  	  console.error(error);
+				    	  	   });
+				    	    }
+				        },
+                        initAvatar : function() { // 初始化当前用户头像
+                            var self = this; // 保存当前对象
+                            axios.post("/user/myinfo")
+                            .then(function(response){
+                                if(response.data.data.avatar_url != null){
+                                    self.imageUrl = response.data.data.avatar_url;
+                                }
+                            }).catch(function(error){
+                            
+                            });
+                        }
 				    },
+
 				    mounted: function() {
-				    	this.$refs.fileInput.addEventListener("change", this.handleFileChange);
+				    	  this.$refs.fileInput.addEventListener("change", this.handleFileChange);
+                          this.initAvatar(); // 加载页面的时候初始化头像
 				    },
-				    uploadAvatar : function() { // 将图片文件上传给后端
-                        if(this.avatarFile) {
-				    		var formData = new FormData();
-				    		formData.append("file",this.avatarFile);
-				    		axios.post("/upload",formData)
-				    		.then(function(response){
-				    			// 处理上传成功的结果
-				    			console.log(response);
-				    		}).catch(function(error){
-				    			// 处理上传失败的结果
-				    			console.error(error);
-				    		});
-				    	}
-				    }
-			    });
+			     });
                 </script>
 
 
