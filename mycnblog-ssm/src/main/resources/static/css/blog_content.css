@@ -24,54 +24,132 @@
 }
 
 
-/* 评论区部分,用来放置该文章评论 */
-.container-comment {
-    height: 100%;
-    width: 1000 px;
-    /* 如果内容溢出就自动加上滚动条 */
-    overflow: auto;
-    background-color: rgba(8, 8, 8, 0.8);
-    padding: 50px;
-    margin-top: 65px;/*设置上边距*/
+/* 评论区 */
+.comments {
+    margin-top: 50px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
 }
 
-/*评论框,用来显示评论和输入框*/
-.comment-list {
-    height: 100%;
-    width: 1100px;
-    /* 如果内容溢出就自动加上滚动条 */
-    overflow: auto;
+.comments h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
-/*输入框,用来输入评论*/
-.comment-box{
-    height: 40%;
+.comment-form {
+    margin-bottom: 20px;
+}
+
+.comment-form textarea {
     width: 100%;
+    height: 80px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
+
+.comment-form button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #008000;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.comment-form button:hover {
+    background-color: #006400;
+}
+
+.comment-list {
+    margin-top: 20px;
+}
+
+.comment {
+    margin-bottom: 20px;
     
 }
 
-/*每个评论块*/
-.comment-block{
-    height: 200px;
-    width: 100%;
-    border-radius: 5px;
-    /* 使用弹性布局 */
+.comment-author {
     display: flex;
-    justify-content: space-between;
-    background-color: aliceblue;
-    margin-top: 10px;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
-/*评论日期*/
-.comment-date{
-    float: left;
-}
-
-/*评论区用户头像*/
-.photo .avator{
-    height: 50px;
-    width: 50px;
+.comment-author img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
     border-radius: 50%;
+}
+    
+.comment-author span {
+    font-size: 14px;
+    font-weight: 700;
+    margin-right: 10px;
+}
+    
+.comment-date {
+    font-size: 12px;
+    color: #aaa;
+    margin-right: 10px;
+}
+    
+.comment-content {
+    font-size: 16px;
+    line-height: 1.5;
+    text-indent: 3em;
+}
+    
+.comment-reply {
+    margin-left: 40px;
+    font-size: 14px;
+    color: #008000;
+    text-decoration: underline;
+    cursor: pointer;
+}
+    
+.comment-reply:hover {
+    color: #006400;
+}
+    
+.reply-form {
+    margin-top: 20px;
+    margin-left: 40px;
+}
+    
+.reply-form textarea {
+    width: 100%;
+    height: 60px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
+    
+.reply-form button {
+    display: block;
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #008000;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+    
+.reply-form button:hover {
+    background-color: #006400;
 }
 
 

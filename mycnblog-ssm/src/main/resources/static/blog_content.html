@@ -33,6 +33,7 @@
         <a href="javascript:onExit()">注销</a>
         <!-- <a href="#">注销</a> -->
     </div>
+    
     <!-- 版心 -->
     <div class="container">
         <!-- 左侧个人信息 -->
@@ -40,7 +41,7 @@
             <div class="card">
                 <img src="img/default-image.png" class="avtar" alt="">
                 <h3 id = "username"></h3>
-                <a href="http:www.github.com">github 地址</a>
+                <a href="http:www.github.com">Github 地址</a>
                 <div class="counter">
                     <span>文章</span>
                     <span>分类</span>
@@ -51,6 +52,7 @@
                 </div>
             </div>
         </div>
+
         <!-- 右侧内容详情 -->
         <div class="container-right">
             <div class="blog-content">
@@ -60,21 +62,34 @@
                 <div class="date" id = "date"></div>
                 <!-- 博客正文 -->
                 <div id="editorDiv">
+
+                </div>
+                
+                <!-- 评论区 -->
+                <div class="comments">
+                    <h3>评论区</h3>
+                    <div class="comment-form">
+                        <textarea placeholder="请输入评论" id="comment-box"></textarea>
+                        <button onclick="submitComment()">提交</button>
+                    </div>
+                    <div class="comment-list" id="comment-list">
+
+                        <!-- <div class="comment">
+                            <div class="comment-author">
+                                <img src="img/avatar.png" alt="">
+                                <span>用户名</span>
+                            </div>
+                            <div class="comment-content">
+                                这是一条评论。
+                            </div>
+                        </div> -->
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!--评论区内容详情-->
-    <div class="container-comment" id ="comment">
-        <!--用户评论输入框-->
-        <textarea class="comment-box" id="comment-box" cols="30" rows="3" placeholder="在此处输入你的评论..."></textarea>
-        <button id="comment-submit" onclick="submitComment()">发表评论</button>
-        <!--显示所有用户的评论-->
-        <div class="comment-list" id="commentList">
-            
-        </div>
-    </div>
 
     <script type="text/javascript">
             var editormd;
@@ -139,21 +154,17 @@
                         var html = "";
                         if(result.code == 200 && result.data != null && result.data.length > 0){
                             result.data.forEach(function(item){
-                                html += '<div class="photo">' +
-                                           '<img src="img/default-image.png" class="avator" alt="" style="border: solid; border-color: rgb(31, 37, 31);"></img>' + 
-                                           '<p class="comment-username">' + item.username + '</p>' + 
-                                        '</div>' +
-            
-                                        '<div class="comment-block" style="border: solid; border-color: rgb(31, 37, 31);">' +
-                                          '<p class="comment-content">' + item.content + '</p>' +
-                                          '<div class="bottom">' +
-                                            '<div class="comment-date">' + item.createtime + '</div>' +
-                                          '</div>' + 
-                                        '</div>'      
+                                html += '<div class="comment">' +  
+                                           '<div class="comment-author">' +  
+                                              '<img src="img/avatar/default-image.png">' + 
+                                              '<span class="username">' + item.username + '<span>' +
+                                           '</div>' + 
+                                           '<div class="comment-content">' + item.content + '</div>' +
+                                        '</div>'  
                             });
-                            jQuery("#commentList").html(html);
+                            jQuery("#comment-list").html(html);
                         }else{//目前没有用户发表评论
-                            jQuery("#commentList").html("<h1>目前还没有用户评论</h1>");
+                            
                         }
                     }
                 });
