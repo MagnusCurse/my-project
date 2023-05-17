@@ -148,9 +148,9 @@ public class UserController{
      */
     @RequestMapping("/mycontentinfo")
     public Object myContentInfo(Integer id){
-        Integer uid = articleService.selectUid(id);//通过文章 id 查询 uid
+        Integer uid = articleService.selectUid(id);// 通过文章 id 查询 uid
         if(uid != null) {
-            UserInfo userInfo = userService.myContentInfo(uid);
+            UserInfo userInfo = userService.myContentInfo(uid); // 通过用户 id 获取用户对象
             if (userInfo != null) {
                 return AjaxResult.success(userInfo, "获取信息成功");
             }
@@ -181,7 +181,10 @@ public class UserController{
         UserInfo userInfo = SessionUnit.getLoginUser(request); //获取当前用户对象
         if(userInfo != null){
             if(StringUtils.hasLength(email) && EmailUnit.isEmail(email)){ //非空判断且邮件格式是否正确
-                return userService.bindEmail(email,userInfo.getId());
+                int res = userService.bindEmail(email,userInfo.getId());
+                UserInfo updateUserInfo = userService.myContentInfo(userInfo.getId());
+                SessionUnit.setLoginUser(request,updateUserInfo); // 更新 Session //
+                return res;
             }else {
                 return AjaxResult.fail(-1,"邮件格式错误");
             }
@@ -200,7 +203,10 @@ public class UserController{
         UserInfo userInfo = SessionUnit.getLoginUser(request); //获取当前用户对象
         if(userInfo != null){
             if(StringUtils.hasLength(nickname)){ //非空判断
-                return userService.editNickname(nickname,userInfo.getId());
+                int res  = userService.editNickname(nickname,userInfo.getId());
+                UserInfo updateUserInfo = userService.myContentInfo(userInfo.getId());
+                SessionUnit.setLoginUser(request,updateUserInfo); // 更新 Session //
+                return res;
             }
         }
         return 0;
@@ -214,10 +220,13 @@ public class UserController{
      */
     @RequestMapping("/introduction")
     public Object editIntroduction(HttpServletRequest request,String introduction){
-        UserInfo userInfo = SessionUnit.getLoginUser(request); //获取当前用户对象
+        UserInfo userInfo = SessionUnit.getLoginUser(request); // 获取当前用户对象
         if(userInfo != null){
-            if(StringUtils.hasLength(introduction)){ //非空判断
-                return userService.editIntroduction(introduction,userInfo.getId());
+            if(StringUtils.hasLength(introduction)){ // 非空判断
+                int res = userService.editIntroduction(introduction,userInfo.getId());
+                UserInfo updateUserInfo = userService.myContentInfo(userInfo.getId());
+                SessionUnit.setLoginUser(request,updateUserInfo); // 更新 Session //
+                return res;
             }
         }
         return 0;

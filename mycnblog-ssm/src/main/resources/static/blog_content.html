@@ -39,7 +39,8 @@
         <!-- 左侧个人信息 -->
         <div class="container-left">
             <div class="card">
-                <img src="img/default-image.png" class="avtar" alt="">
+                <img :src="imageUrl" class="avtar" alt="" id="photo">
+
                 <h3 id = "username"></h3>
                 <a href="http:www.github.com">Github 地址</a>
                 <div class="counter">
@@ -64,7 +65,6 @@
                 <div id="editorDiv">
 
                 </div>
-                
                 <!-- 评论区 -->
                 <div class="comments">
                     <h3>评论区</h3>
@@ -90,6 +90,10 @@
         </div>
     </div>
 
+    <!-- 引入 Vue 和 Axios -->
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/MyJavaScript/initAvatar(curArticle).js"></script>
 
     <script type="text/javascript">
             var editormd;
