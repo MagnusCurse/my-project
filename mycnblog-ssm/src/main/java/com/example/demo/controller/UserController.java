@@ -66,7 +66,7 @@ public class UserController{
         }else {
             //获取该用户当前数据库的密码
             String finalPassword = userInfo.getPassword();
-            if(SecurityUnit.decrypt(password,finalPassword)){//解密验证密码是否正确
+            if(SecurityUnit.decrypt(password,finalPassword)){ // 解密验证密码是否正确
                 //将登录信息保存到 session 中
                 SessionUnit.setLoginUser(request,userInfo);
                 return AjaxResult.success("1","登录成功");
