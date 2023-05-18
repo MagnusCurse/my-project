@@ -10,6 +10,7 @@ import com.example.demo.service.ArticleService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -156,6 +158,26 @@ public class UserController{
             }
         }
         return AjaxResult.fail("-1","获取信息失败");
+    }
+
+    /**
+     * 用于文章详情页更新头像功能用户对象获取
+     * @param request
+     * @return
+     */
+    @RequestMapping("/mycontentinfo2")
+    public Object myContentInfo2(@RequestBody Map<String, Integer> request){ // 这里前端传输过来的是一个 body ,要通过 body 来获取数据
+        Integer id = request.get("id");
+        if (id != null) {
+            Integer uid = articleService.selectUid(id);
+            if (uid != null) {
+                UserInfo userInfo = userService.myContentInfo(uid);
+                if (userInfo != null) {
+                    return AjaxResult.success(userInfo, "获取信息成功");
+                }
+            }
+        }
+        return AjaxResult.fail("-1", "获取信息失败");
     }
 
     /**
