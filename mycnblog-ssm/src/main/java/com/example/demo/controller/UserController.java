@@ -135,6 +135,8 @@ public class UserController{
             String url = "img/avatar/" + fileNameAndType; // 这里只需要用 img/avatar + fileNameAndType 为路径即可
             int res = userService.uploadAvatar(url,userInfo.getId()); // path 即是图片存储的路径
             if(res == 1){
+                UserInfo updateUserInfo = userService.myContentInfo(userInfo.getId());
+                SessionUnit.setLoginUser(request,updateUserInfo); // 更新 Session //
                 return AjaxResult.success(1,"插入成功!");
             }else {
                 return AjaxResult.fail(-1,"插入失败!");
