@@ -185,6 +185,8 @@ public class UserController{
                 UserInfo updateUserInfo = userService.myContentInfo(userInfo.getId());
                 SessionUnit.setLoginUser(request,updateUserInfo); // 更新 Session //
                 return res;
+
+
             }else {
                 return AjaxResult.fail(-1,"邮件格式错误");
             }
