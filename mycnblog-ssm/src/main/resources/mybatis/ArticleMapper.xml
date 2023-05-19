@@ -36,7 +36,7 @@
     </select>
 
     <select id="selectComment" resultType="com.example.demo.model.CommentInfo">
-        select * from commentinfo where aid = #{aid}
+        select * from commentinfo where articleID = #{aid}
     </select>
 
     <insert id="insertComment">

@@ -34,16 +34,20 @@ create table articleinfo(
     `state` int default 1
 )default charset 'utf8mb4';
 
---创建评论表
+-- 创建评论表
 drop table if exists commentinfo;
 create table commentinfo(
-   aid int,
-   content text not null,
-   createtime datetime default now(),
-   username varchar(100)
-)default charset 'utf8mb4';
+ commentID int primary key auto_increment,
+ parentCommentID int,
+ userID int,
+ content varchar(360),
+ create_time datetime default now(),
+ likes int,
+ articleID int,
+ foreign key (parentCommentID) references commentinfo(commentID)
+) default charset 'utf8mb4';
 
---创建草稿表
+-- 创建草稿表
 drop table if exists draftinfo;
 
 create table draftinfo(

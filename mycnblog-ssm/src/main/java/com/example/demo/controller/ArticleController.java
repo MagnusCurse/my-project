@@ -177,26 +177,4 @@ public class ArticleController{
       return articleService.totalPage(psize);
    }
 
-   /**
-    * 根据文章 ID 查询该文章评论
-    * @param aid
-    * @return
-    */
-   @RequestMapping("/comment")
-   public List<CommentInfo> selectComment(Integer aid){
-     return articleService.selectComment(aid);
-   }
-
-   /**
-    * 发表评论功能
-    * @param aid
-    * @param content
-    * @return
-    */
-   @RequestMapping("/submitcomment")
-   public Integer submitComment(Integer aid,String content,HttpServletRequest request){
-      UserInfo userInfo = SessionUnit.getLoginUser(request);//获取到当前用户对象
-      String username = userInfo.getUsername();//获取到当前用户名
-      return articleService.submitComment(aid,content,username);
-   }
 }

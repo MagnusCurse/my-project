@@ -70,19 +70,10 @@
                     <h3>评论区</h3>
                     <div class="comment-form">
                         <textarea placeholder="请输入评论" id="comment-box"></textarea>
-                        <button onclick="submitComment()">提交</button>
+                        <button id="submitCommentButton">提交</button>
                     </div>
                     <div class="comment-list" id="comment-list">
 
-                        <!-- <div class="comment">
-                            <div class="comment-author">
-                                <img src="img/avatar.png" alt="">
-                                <span>用户名</span>
-                            </div>
-                            <div class="comment-content">
-                                这是一条评论。
-                            </div>
-                        </div> -->
 
                     </div>
                 </div>
@@ -144,62 +135,212 @@
             }
             initDetail();//页面渲染后即立刻加载
 
-            //根据文章 ID 初始化评论列表
-            function initComment(){
-                //发送ajax给后端
-                jQuery.ajax({
-                    url: "/article/comment",
-                    type: "POST",
-                    data: {//获取 url 中的文章 id
-                       aid: getURLParam("id") 
-                    },
-                    success: function(result){
-                        <!--每一个评论包含评论用户,评论内容,以及评论日期-->
-                        var html = "";
-                        if(result.code == 200 && result.data != null && result.data.length > 0){
-                            result.data.forEach(function(item){
-                                html += '<div class="comment">' +  
-                                           '<div class="comment-author">' +  
-                                              '<img src="img/avatar/default-image.png">' + 
-                                              '<span class="username">' + item.username + '<span>' +
-                                           '</div>' + 
-                                           '<div class="comment-content">' + item.content + '</div>' +
-                                        '</div>'  
-                            });
-                            jQuery("#comment-list").html(html);
-                        }else{//目前没有用户发表评论
+            // //根据文章 ID 初始化评论列表
+            // function initComment(){
+            //     //发送ajax给后端
+            //     jQuery.ajax({
+            //         url: "/article/comment",
+            //         type: "POST",
+            //         data: {//获取 url 中的文章 id
+            //            aid: getURLParam("id") 
+            //         },
+            //         success: function(result){
+            //             <!--每一个评论包含评论用户,评论内容,以及评论日期-->
+            //             var html = "";
+            //             if(result.code == 200 && result.data != null && result.data.length > 0){
+            //                 result.data.forEach(function(item){
+            //                     html += '<div class="comment">' +  
+            //                                '<div class="comment-author">' +  
+            //                                   '<img src="img/avatar/default-image.png">' + 
+            //                                   '<span class="username">' + item.username + '<span>' +
+            //                                '</div>' + 
+            //                                '<div class="comment-content">' + item.content + '</div>' +
+            //                             '</div>'  
+            //                 });
+            //                 jQuery("#comment-list").html(html);
+            //             }else{//目前没有用户发表评论
                             
-                        }
-                    }
-                });
-            }
-            initComment();//页面渲染后立刻加载
+            //             }
+            //         }
+            //     });
+            // }
+            // initComment();//页面渲染后立刻加载
 
-             //发表评论功能
-             function submitComment(){
-                var content = jQuery("#comment-box");
-                if(content.val() == ""){
-                    alert("请先输入评论!");
-                }else{
-                   //发送ajxa给后端
-                   jQuery.ajax({
-                     url: "/article/submitcomment",
-                     type: "POST",
-                     data: {
-                        aid: getURLParam("id"),
-                        content: content.val(),
-                     },
-                     success: function(result){
-                        if(result.code == 200 && result.data == 1){
-                            //重新刷新一下页面
-                            location.reload(true);
-                        }else{
-                            alert("发表评论失败");
-                        }
-                     }
-                   });
+            //  //发表评论功能
+            //  function submitComment(){
+            //     var content = jQuery("#comment-box");
+            //     if(content.val() == ""){
+            //         alert("请先输入评论!");
+            //     }else{
+            //        //发送ajxa给后端
+            //        jQuery.ajax({
+            //          url: "/article/submitcomment",
+            //          type: "POST",
+            //          data: {
+            //             aid: getURLParam("id"),
+            //             content: content.val(),
+            //          },
+            //          success: function(result){
+            //             if(result.code == 200 && result.data == 1){
+            //                 //重新刷新一下页面
+            //                 location.reload(true);
+            //             }else{
+            //                 alert("发表评论失败");
+            //             }
+            //          }
+            //        });
+            //     }
+            // }
+
+
+    // 模拟从后端获取评论数据
+    function retrieveCommentsFromBackend() {
+      // 这里可以使用Ajax请求或其他方式从后端获取评论数据
+      // 这里简化为直接返回一个模拟的评论数据数组
+
+      var comments = []; // 需要返回的 comments 数组
+      // 发送 ajax 给后端
+      jQuery.ajax({
+         url : "/comment/search",
+         type : "POST",
+         data : {
+            aid : getURLParam("id")
+         },
+         success : function(result){
+            if(result != null && result.code == 200){ // 初始化 comments 数组
+                var item = result.data; // 获取 List 对象
+                for(var i = 0;i < item.length;i++){
+                var comment = {
+                    commentID : item[i].commentID,
+                    parentCommentID : item[i].parentCommentID,
+                    userID : item[i].userID,
+                    create_time : item[i].create_time,
+                    likes : item[i].likes,
+                    articleID : item[i].articleID
                 }
+                comments.push(comment);       
+              }
             }
+          },
+          error : function(result){
+              alert("Something wrong!");
+          }
+       });
+    //   return [
+    //     { id: 1, parentCommentID: null, user: 'User1', content: '这是根评论1', likes: 0 },
+    //     { id: 2, parentCommentID: null, user: 'User2', content: '这是根评论2', likes: 0 },
+    //     { id: 3, parentCommentID: 1, user: 'User3', content: '这是回复评论1.1', likes: 0 },
+    //     { id: 4, parentCommentID: 1, user: 'User4', content: '这是回复评论1.2', likes: 0 },
+    //     { id: 5, parentCommentID: 3, user: 'User5', content: '这是回复评论1.1.1', likes: 0 },
+    //   ];
+
+      return comments; 
+    }
+
+    // 创建评论元素
+    function createCommentElement(comment) {
+      const commentDiv = document.createElement('div');
+      commentDiv.className = 'comment';
+
+      const userSpan = document.createElement('span');
+      userSpan.innerText = comment.user + ': ';
+      commentDiv.appendChild(userSpan);
+
+      const contentSpan = document.createElement('span');
+      contentSpan.innerText = comment.content;
+      commentDiv.appendChild(contentSpan);
+
+      const replyButton = document.createElement('button');
+      replyButton.innerText = 'reply';
+      replyButton.addEventListener('click', function() {
+        const replyText = prompt('Please Input the content of reply:');
+        if (replyText) {
+          const replyComment = {
+            id: generateUniqueId(),
+            parentId: comment.id,
+            user: 'Current User',
+            content: replyText,
+            likes: 0,
+          };
+          const replyElement = createCommentElement(replyComment);
+          const replyContainer = document.createElement('div');
+          replyContainer.className = 'reply';
+          replyContainer.appendChild(replyElement);
+          commentDiv.appendChild(replyContainer);
+        }
+      });
+      commentDiv.appendChild(replyButton);
+
+      const likeButton = document.createElement('button');
+      likeButton.innerText = 'Like';
+      likeButton.addEventListener('click', function() {
+        comment.likes++;
+        likeButton.innerText = 'Like (' + comment.likes + ')';
+      });
+      commentDiv.appendChild(likeButton);
+
+      return commentDiv;
+    }
+
+    // 递归构建评论和回复的层次结构
+    function buildCommentTree(comments, parentCommentId, container) {
+      const childComments = comments.filter(comment => comment.parentCommentID === parentCommentId); // 
+
+      for (const comment of childComments) {
+        const commentElement = createCommentElement(comment);
+        container.appendChild(commentElement); 
+        const replyContainer = document.createElement('div');
+        replyContainer.className = 'reply';
+        buildCommentTree(comments, comment.id, replyContainer);
+        container.appendChild(replyContainer);
+      }
+    }
+
+    // 生成唯一ID（示例中使用简单的自增ID）
+    let commentIdCounter = 1;
+    function generateUniqueId() {
+      return commentIdCounter++;
+
+      // 这里需要将新评论加入数据库
+
+
+    }
+
+    // 初始化评论区
+    function initializeComments() {
+      const comments = retrieveCommentsFromBackend();
+
+      const commentContainer = document.getElementById('comment-list');
+      buildCommentTree(comments, null, commentContainer);
+    }
+
+    // 提交评论
+    function submitComment() {
+      const commentInput = document.getElementById('commentInput');
+      const commentText = commentInput.value.trim();
+      if (commentText) {
+        const newComment = {
+          id: generateUniqueId(),
+          parentId: null,
+          user: 'Current User',
+          content: commentText,
+          likes: 0,
+        };
+        const commentElement = createCommentElement(newComment);
+        const commentContainer = document.getElementById('comment-list');
+        commentContainer.appendChild(commentElement);
+        commentInput.value = '';
+      }
+
+      // 这里也需要调用数据库将新的评论加入数据库中
+    }
+
+    // 在页面加载完成后调用初始化评论区函数
+    window.addEventListener('DOMContentLoaded', initializeComments);
+
+    // 绑定提交评论按钮的点击事件
+    const submitCommentButton = document.getElementById('submitCommentButton');
+    submitCommentButton.addEventListener('click', submitComment);
     </script> 
 </body>
 </html>
