@@ -15,4 +15,8 @@ public class CommentService {
     public List<CommentInfo> selectAllByID(Integer articleID){
         return commentMapper.selectAllByID(articleID);
     }
+
+    public Integer insertComment(Integer userID,String username,String content,Integer articleID){
+        return commentMapper.insertComment(userID,username,content,articleID);
+    }
 }

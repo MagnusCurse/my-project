@@ -40,6 +40,7 @@ create table commentinfo(
  commentID int primary key auto_increment,
  parentCommentID int,
  userID int,
+ username varchar(360),
  content varchar(360),
  create_time datetime default now(),
  likes int,

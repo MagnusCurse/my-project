@@ -6,4 +6,7 @@
        select * from commentinfo where articleID = #{articleID}
    </select>
 
+    <insert id="insertComment">
+        insert into commentinfo(userID,username,content,articleID) values (#{userID},#{username},#{content},#{articleID});
+    </insert>
 </mapper>

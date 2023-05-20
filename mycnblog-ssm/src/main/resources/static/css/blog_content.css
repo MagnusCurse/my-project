@@ -153,4 +153,60 @@
 }
 
 
-
+/* 评论区评论内容 */
+.comment-container {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+  
+.comment {
+    margin-bottom: 30px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
+}
+  
+.comment.reply {
+    margin-left: 40px;
+}
+  
+.comment .user {
+    font-weight: bold;
+    color: #333;
+}
+  
+.comment .content {
+    margin-top: 5px;
+}
+  
+.comment .actions {
+    margin-top: 10px;
+}
+  
+.comment .actions button {
+    background-color: #ccc;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+  
+.comment .actions button:hover {
+    background-color: #555;
+}
+  
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+}
+  

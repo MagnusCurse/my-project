@@ -31,14 +31,15 @@ public class CommentController {
 
     /**
      * 发表评论功能
-     * @param aid
+     * @param articleID
      * @param content
      * @return
      */
-    @RequestMapping("/submitcomment")
-    public Integer submitComment(Integer aid, String content, HttpServletRequest request){
-        UserInfo userInfo = SessionUnit.getLoginUser(request);//获取到当前用户对象
-        String username = userInfo.getUsername();//获取到当前用户名
-        return 0; //
+    @RequestMapping("/submit")
+    public Integer submitComment(String content,Integer articleID,HttpServletRequest request){
+        UserInfo userInfo = SessionUnit.getLoginUser(request);// 获取到当前用户对象
+        String username = userInfo.getUsername();// 获取到当前用户名
+        Integer userID = userInfo.getId();
+        return commentService.insertComment(userID,username,content,articleID);
     }
 }

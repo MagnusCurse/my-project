@@ -135,64 +135,6 @@
             }
             initDetail();//页面渲染后即立刻加载
 
-            // //根据文章 ID 初始化评论列表
-            // function initComment(){
-            //     //发送ajax给后端
-            //     jQuery.ajax({
-            //         url: "/article/comment",
-            //         type: "POST",
-            //         data: {//获取 url 中的文章 id
-            //            aid: getURLParam("id") 
-            //         },
-            //         success: function(result){
-            //             <!--每一个评论包含评论用户,评论内容,以及评论日期-->
-            //             var html = "";
-            //             if(result.code == 200 && result.data != null && result.data.length > 0){
-            //                 result.data.forEach(function(item){
-            //                     html += '<div class="comment">' +  
-            //                                '<div class="comment-author">' +  
-            //                                   '<img src="img/avatar/default-image.png">' + 
-            //                                   '<span class="username">' + item.username + '<span>' +
-            //                                '</div>' + 
-            //                                '<div class="comment-content">' + item.content + '</div>' +
-            //                             '</div>'  
-            //                 });
-            //                 jQuery("#comment-list").html(html);
-            //             }else{//目前没有用户发表评论
-                            
-            //             }
-            //         }
-            //     });
-            // }
-            // initComment();//页面渲染后立刻加载
-
-            //  //发表评论功能
-            //  function submitComment(){
-            //     var content = jQuery("#comment-box");
-            //     if(content.val() == ""){
-            //         alert("请先输入评论!");
-            //     }else{
-            //        //发送ajxa给后端
-            //        jQuery.ajax({
-            //          url: "/article/submitcomment",
-            //          type: "POST",
-            //          data: {
-            //             aid: getURLParam("id"),
-            //             content: content.val(),
-            //          },
-            //          success: function(result){
-            //             if(result.code == 200 && result.data == 1){
-            //                 //重新刷新一下页面
-            //                 location.reload(true);
-            //             }else{
-            //                 alert("发表评论失败");
-            //             }
-            //          }
-            //        });
-            //     }
-            // }
-
-
     // 从后端获取评论数据数据
     function retrieveCommentsFromBackend() {
       // 发送 ajax 给后端
@@ -211,6 +153,7 @@
                     commentID : item[i].commentID,
                     parentCommentID : item[i].parentCommentID,
                     userID : item[i].userID,
+                    username : item[i].username,
                     content : item[i].content,
                     create_time : new Date(item[i].create_time),
                     likes : item[i].likes,
@@ -218,7 +161,8 @@
                 }
                 comments.push(comment);       
               }
-              initializeComments(comments);
+              initializeComments(comments); // 获取到 comments 后直接调用初始化函数
+              // 注意这里不能通过返回的方式获取到 comments
             }
           },
           error : function(result){
@@ -233,11 +177,11 @@
       commentDiv.className = 'comment';
 
       const userSpan = document.createElement('span');
-      userSpan.innerText = comment.userID + ': '; // 
+      userSpan.innerText = comment.username + ': '; // 初始化用户名
       commentDiv.appendChild(userSpan);
 
       const contentSpan = document.createElement('span');
-      contentSpan.innerText = comment.content;
+      contentSpan.innerText = comment.content; // 初始化评论内容
       commentDiv.appendChild(contentSpan);
 
       const replyButton = document.createElement('button');
@@ -274,14 +218,14 @@
 
     // 递归构建评论和回复的层次结构
     function buildCommentTree(comments, parentCommentId, container) {
-      const childComments = comments.filter(comment => comment.parentCommentID === parentCommentId); // 
+      const childComments = comments.filter(comment => comment.parentCommentID === parentCommentId);  
 
       for (const comment of childComments) {
         const commentElement = createCommentElement(comment);
         container.appendChild(commentElement); 
         const replyContainer = document.createElement('div');
         replyContainer.className = 'reply';
-        buildCommentTree(comments, comment.commentID, replyContainer); // 
+        buildCommentTree(comments, comment.commentID, replyContainer); 
         container.appendChild(replyContainer);
       }
     }
@@ -304,23 +248,28 @@
 
     // 提交评论
     function submitComment() {
-      const commentInput = document.getElementById('commentInput');
-      const commentText = commentInput.value.trim();
-      if (commentText) {
-        const newComment = {
-          id: generateUniqueId(),
-          parentId: null,
-          user: 'Current User',
-          content: commentText,
-          likes: 0,
-        };
-        const commentElement = createCommentElement(newComment);
-        const commentContainer = document.getElementById('comment-list');
-        commentContainer.appendChild(commentElement);
-        commentInput.value = '';
+      const commentInput = document.getElementById('comment-box'); // 获取到评论输入框的内容
+      const commentText = commentInput.value.trim(); // 去除掉前后的空格得到最终评论内容
+      if(commentText){ // 评论不为空
+        jQuery.ajax({
+          url : "/comment/submit",
+          type : "POST",
+          data : {
+            content : commentText,
+            articleID : getURLParam("id")
+          },
+          success : function(result){
+             if(result.code == 200 && result.data == 1){
+                alert("发表评论成功!");
+                location.reload(); // 刷新当前页面     
+             }else {
+                alert("发表评论失败,请重试!");
+             }
+           }
+        });
+      }else {
+        alert("请先输入评论内容!");
       }
-
-      // 这里也需要调用数据库将新的评论加入数据库中
     }
 
     // 在页面加载完成后调用获取评论数据函数
