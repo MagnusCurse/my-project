@@ -35,12 +35,4 @@
         select * from articleinfo
     </select>
 
-    <select id="selectComment" resultType="com.example.demo.model.CommentInfo">
-        select * from commentinfo where articleID = #{aid}
-    </select>
-
-    <insert id="insertComment">
-        insert into commentinfo(aid,content,username)
-        values(#{aid},#{content},#{username})
-    </insert>
 </mapper>

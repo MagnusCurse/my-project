@@ -193,48 +193,38 @@
             // }
 
 
-    // 模拟从后端获取评论数据
+    // 从后端获取评论数据数据
     function retrieveCommentsFromBackend() {
-      // 这里可以使用Ajax请求或其他方式从后端获取评论数据
-      // 这里简化为直接返回一个模拟的评论数据数组
-
-      var comments = []; // 需要返回的 comments 数组
       // 发送 ajax 给后端
       jQuery.ajax({
          url : "/comment/search",
          type : "POST",
          data : {
-            aid : getURLParam("id")
+            articleID : getURLParam("id")
          },
          success : function(result){
             if(result != null && result.code == 200){ // 初始化 comments 数组
+                var comments = []; // 需要返回的 comments 数组
                 var item = result.data; // 获取 List 对象
                 for(var i = 0;i < item.length;i++){
                 var comment = {
                     commentID : item[i].commentID,
                     parentCommentID : item[i].parentCommentID,
                     userID : item[i].userID,
-                    create_time : item[i].create_time,
+                    content : item[i].content,
+                    create_time : new Date(item[i].create_time),
                     likes : item[i].likes,
                     articleID : item[i].articleID
                 }
                 comments.push(comment);       
               }
+              initializeComments(comments);
             }
           },
           error : function(result){
-              alert("Something wrong!");
+              alert("Something wrong! Please try again!!");
           }
        });
-    //   return [
-    //     { id: 1, parentCommentID: null, user: 'User1', content: '这是根评论1', likes: 0 },
-    //     { id: 2, parentCommentID: null, user: 'User2', content: '这是根评论2', likes: 0 },
-    //     { id: 3, parentCommentID: 1, user: 'User3', content: '这是回复评论1.1', likes: 0 },
-    //     { id: 4, parentCommentID: 1, user: 'User4', content: '这是回复评论1.2', likes: 0 },
-    //     { id: 5, parentCommentID: 3, user: 'User5', content: '这是回复评论1.1.1', likes: 0 },
-    //   ];
-
-      return comments; 
     }
 
     // 创建评论元素
@@ -243,7 +233,7 @@
       commentDiv.className = 'comment';
 
       const userSpan = document.createElement('span');
-      userSpan.innerText = comment.user + ': ';
+      userSpan.innerText = comment.userID + ': '; // 
       commentDiv.appendChild(userSpan);
 
       const contentSpan = document.createElement('span');
@@ -255,7 +245,7 @@
       replyButton.addEventListener('click', function() {
         const replyText = prompt('Please Input the content of reply:');
         if (replyText) {
-          const replyComment = {
+          const replyComment = { // 
             id: generateUniqueId(),
             parentId: comment.id,
             user: 'Current User',
@@ -291,7 +281,7 @@
         container.appendChild(commentElement); 
         const replyContainer = document.createElement('div');
         replyContainer.className = 'reply';
-        buildCommentTree(comments, comment.id, replyContainer);
+        buildCommentTree(comments, comment.commentID, replyContainer); // 
         container.appendChild(replyContainer);
       }
     }
@@ -307,11 +297,9 @@
     }
 
     // 初始化评论区
-    function initializeComments() {
-      const comments = retrieveCommentsFromBackend();
-
+    function initializeComments(comments) {
       const commentContainer = document.getElementById('comment-list');
-      buildCommentTree(comments, null, commentContainer);
+      buildCommentTree(comments, null, commentContainer); // 
     }
 
     // 提交评论
@@ -335,9 +323,13 @@
       // 这里也需要调用数据库将新的评论加入数据库中
     }
 
+    // 在页面加载完成后调用获取评论数据函数
+    window.addEventListener('DOMContentLoaded', retrieveCommentsFromBackend);
+
     // 在页面加载完成后调用初始化评论区函数
     window.addEventListener('DOMContentLoaded', initializeComments);
 
+  
     // 绑定提交评论按钮的点击事件
     const submitCommentButton = document.getElementById('submitCommentButton');
     submitCommentButton.addEventListener('click', submitComment);

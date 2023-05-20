@@ -48,12 +48,4 @@ public class ArticleService {
         }
         return 0;
     }
-
-    public List<CommentInfo> selectComment(Integer aid){
-        return articleMapper.selectComment(aid);
-    }
-
-    public Integer submitComment(Integer aid,String content,String username){
-        return articleMapper.insertComment(aid,content,username);
-    }
 }

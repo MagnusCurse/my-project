@@ -46,15 +46,4 @@ public interface ArticleMapper {
      */
     public List<Articleinfo> selectAll();
 
-    /**
-     * 根据文章 ID 查询到该文章的评论
-     */
-    public List<CommentInfo> selectComment(@Param("aid") Integer aid);
-
-    /**
-     * 发表评论功能
-     */
-    public Integer insertComment(@Param("aid") Integer aid,
-                                 @Param("content") String content,
-                                 @Param("username") String username);
 }

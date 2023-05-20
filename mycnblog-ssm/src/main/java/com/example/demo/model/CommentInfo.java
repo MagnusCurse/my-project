@@ -7,8 +7,13 @@ import java.util.Date;
 
 @Data
 public class CommentInfo {
-    private Integer aid;
+
+    private Integer commentID;
+    private Integer parentCommentID;
+    private Integer userID;
     private String content;
     private String createtime;
-    private String username;
+    private Integer likes;
+    private Integer articleID;
+
 }
