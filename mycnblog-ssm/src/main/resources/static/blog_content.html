@@ -17,6 +17,8 @@
     <script src="js/jquery.min.js"></script>
     <!--引入自己写的js工具包-->
     <script src="js/tool.js"></script>
+    <!--fontawesome 配置文件-->
+    <script src="https://kit.fontawesome.com/f4b134f611.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -184,9 +186,17 @@
       contentSpan.innerText = comment.content; // 初始化评论内容
       commentDiv.appendChild(contentSpan);
 
-      const replyButton = document.createElement('button');
-      replyButton.innerText = 'reply';
-      replyButton.addEventListener('click', function() { // 回复评论点击事件
+      const buttonDiv = document.createElement('div'); // 用于存放按钮
+      buttonDiv.className = 'buttons';
+      commentDiv.appendChild(buttonDiv);
+      
+
+      const iconElement = document.createElement('i');
+      iconElement.className = 'fa-solid fa-reply fa-xl';
+      iconElement.style.color = '#71a3d6;';
+
+      // 添加点击事件监听器
+      iconElement.addEventListener('click', function(){
         const replyText = prompt('Please Input the content of reply:'); 
         if (replyText) { 
           // 发送 ajax 请求给后端
@@ -209,10 +219,7 @@
           });
         }
       });
-      const buttonDiv = document.createElement('div'); // 用于存放按钮
-      buttonDiv.className = 'buttons';
-      commentDiv.appendChild(buttonDiv);
-      buttonDiv.appendChild(replyButton);
+      buttonDiv.appendChild(iconElement);
 
       const likeButton = document.createElement('button');
       likeButton.innerText = 'Like';
