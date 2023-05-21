@@ -19,4 +19,8 @@ public class CommentService {
     public Integer insertComment(Integer userID,String username,String content,Integer articleID){
         return commentMapper.insertComment(userID,username,content,articleID);
     }
+
+    public Integer replyComment(Integer parentCommentID,String content,Integer articleID){
+        return commentMapper.replyComment(parentCommentID,content,articleID);
+    }
 }

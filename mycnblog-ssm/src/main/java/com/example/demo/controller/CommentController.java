@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.common.AjaxResult;
 import com.example.demo.common.SessionUnit;
 import com.example.demo.model.CommentInfo;
 import com.example.demo.model.UserInfo;
@@ -41,5 +42,15 @@ public class CommentController {
         String username = userInfo.getUsername();// 获取到当前用户名
         Integer userID = userInfo.getId();
         return commentService.insertComment(userID,username,content,articleID);
+    }
+
+    @RequestMapping("/reply")
+    public Object replyComment(Integer parentCommentID,String content,Integer articleID){
+        int res = commentService.replyComment(parentCommentID,content,articleID);
+        if(res == 1){
+            return res;
+        }else {
+            return AjaxResult.fail(-1,"插入失败!");
+        }
     }
 }

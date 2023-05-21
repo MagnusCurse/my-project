@@ -186,21 +186,33 @@
 
       const replyButton = document.createElement('button');
       replyButton.innerText = 'reply';
-      replyButton.addEventListener('click', function() {
-        const replyText = prompt('Please Input the content of reply:');
-        if (replyText) {
-          const replyComment = { // 
-            id: generateUniqueId(),
-            parentId: comment.id,
-            user: 'Current User',
-            content: replyText,
-            likes: 0,
-          };
+      replyButton.addEventListener('click', function() { // 回复评论点击事件
+        const replyText = prompt('Please Input the content of reply:'); 
+        if (replyText) { 
+          // 发送 ajax 请求给后端
+          jQuery.ajax({
+             url : "/comment/reply",
+             type : "POST",
+             data : {
+                parentCommentID : comment.commentID,
+                content : replyText,
+                articleID : getURLParam("id")
+             },
+             success : function(result){
+                if(result.code == 200 && result.data == 1){
+                   alert("回复评论成功!!");
+                }else{
+                   alert("回复评论失败,请重试!");
+                }
+             }
+          });
+
           const replyElement = createCommentElement(replyComment);
           const replyContainer = document.createElement('div');
           replyContainer.className = 'reply';
           replyContainer.appendChild(replyElement);
           commentDiv.appendChild(replyContainer);
+           
         }
       });
       commentDiv.appendChild(replyButton);
@@ -226,18 +238,8 @@
         const replyContainer = document.createElement('div');
         replyContainer.className = 'reply';
         buildCommentTree(comments, comment.commentID, replyContainer); 
-        container.appendChild(replyContainer);
+        commentElement.appendChild(replyContainer); // 注意这里是要放到 commentElement 里面
       }
-    }
-
-    // 生成唯一ID（示例中使用简单的自增ID）
-    let commentIdCounter = 1;
-    function generateUniqueId() {
-      return commentIdCounter++;
-
-      // 这里需要将新评论加入数据库
-
-
     }
 
     // 初始化评论区
@@ -285,3 +287,5 @@
     </script> 
 </body>
 </html>
+
+

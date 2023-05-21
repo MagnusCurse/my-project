@@ -14,4 +14,8 @@ public interface CommentMapper {
                                  @Param("username") String username,
                                  @Param("content") String content,
                                  @Param("articleID") Integer articleID);
+
+    public Integer replyComment(@Param("parentCommentID") Integer parentCommentID,
+                                @Param("content") String content,
+                                @Param("articleID") Integer articleID);
 }

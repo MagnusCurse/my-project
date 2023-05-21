@@ -7,6 +7,10 @@
    </select>
 
     <insert id="insertComment">
-        insert into commentinfo(userID,username,content,articleID) values (#{userID},#{username},#{content},#{articleID});
+        insert into commentinfo (userID,username,content,articleID) values (#{userID},#{username},#{content},#{articleID});
+    </insert>
+
+    <insert id="replyComment">
+        insert into commentinfo (parentCommentID,content,articleID) values (#{parentCommentID},#{content},#{articleID})
     </insert>
 </mapper>
