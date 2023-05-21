@@ -37,20 +37,27 @@ public class CommentController {
      * @return
      */
     @RequestMapping("/submit")
-    public Integer submitComment(String content,Integer articleID,HttpServletRequest request){
+    public Object submitComment(String content,Integer articleID,HttpServletRequest request){
         UserInfo userInfo = SessionUnit.getLoginUser(request);// 获取到当前用户对象
-        String username = userInfo.getUsername();// 获取到当前用户名
-        Integer userID = userInfo.getId();
-        return commentService.insertComment(userID,username,content,articleID);
+        if(userInfo != null){
+            String username = userInfo.getUsername();// 获取到当前用户名
+            Integer userID = userInfo.getId();
+            return commentService.insertComment(userID,username,content,articleID);
+        }
+        return AjaxResult.fail(-1,"获取不到当前用户对象");
     }
 
     @RequestMapping("/reply")
-    public Object replyComment(Integer parentCommentID,String content,Integer articleID){
-        int res = commentService.replyComment(parentCommentID,content,articleID);
-        if(res == 1){
-            return res;
-        }else {
-            return AjaxResult.fail(-1,"插入失败!");
+    public Object replyComment(HttpServletRequest request,Integer parentCommentID,String content,Integer articleID){
+        UserInfo userInfo = SessionUnit.getLoginUser(request);
+        if(userInfo != null){
+            int res = commentService.replyComment(parentCommentID,userInfo.getId(),userInfo.getUsername(),content,articleID);
+            if(res == 1){
+                return res;
+            }else {
+                return AjaxResult.fail(-1,"插入失败!");
+            }
         }
+        return AjaxResult.fail(-1,"获取不到当前用户对象");
     }
 }

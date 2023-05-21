@@ -176,11 +176,11 @@
       const commentDiv = document.createElement('div');
       commentDiv.className = 'comment';
 
-      const userSpan = document.createElement('span');
-      userSpan.innerText = comment.username + ': '; // 初始化用户名
+      const userSpan = document.createElement('div');
+      userSpan.innerText = comment.username; // 初始化用户名
       commentDiv.appendChild(userSpan);
 
-      const contentSpan = document.createElement('span');
+      const contentSpan = document.createElement('div');
       contentSpan.innerText = comment.content; // 初始化评论内容
       commentDiv.appendChild(contentSpan);
 
@@ -201,21 +201,18 @@
              success : function(result){
                 if(result.code == 200 && result.data == 1){
                    alert("回复评论成功!!");
+                   location.reload(); // 刷新当前页面
                 }else{
                    alert("回复评论失败,请重试!");
                 }
              }
           });
-
-          const replyElement = createCommentElement(replyComment);
-          const replyContainer = document.createElement('div');
-          replyContainer.className = 'reply';
-          replyContainer.appendChild(replyElement);
-          commentDiv.appendChild(replyContainer);
-           
         }
       });
-      commentDiv.appendChild(replyButton);
+      const buttonDiv = document.createElement('div'); // 用于存放按钮
+      buttonDiv.className = 'buttons';
+      commentDiv.appendChild(buttonDiv);
+      buttonDiv.appendChild(replyButton);
 
       const likeButton = document.createElement('button');
       likeButton.innerText = 'Like';
@@ -223,7 +220,7 @@
         comment.likes++;
         likeButton.innerText = 'Like (' + comment.likes + ')';
       });
-      commentDiv.appendChild(likeButton);
+      buttonDiv.appendChild(likeButton);
 
       return commentDiv;
     }

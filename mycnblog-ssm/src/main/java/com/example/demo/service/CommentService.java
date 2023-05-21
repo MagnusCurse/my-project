@@ -20,7 +20,7 @@ public class CommentService {
         return commentMapper.insertComment(userID,username,content,articleID);
     }
 
-    public Integer replyComment(Integer parentCommentID,String content,Integer articleID){
-        return commentMapper.replyComment(parentCommentID,content,articleID);
+    public Integer replyComment(Integer parentCommentID,Integer userID,String username,String content,Integer articleID){
+        return commentMapper.replyComment(parentCommentID,userID,username,content,articleID);
     }
 }

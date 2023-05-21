@@ -11,6 +11,6 @@
     </insert>
 
     <insert id="replyComment">
-        insert into commentinfo (parentCommentID,content,articleID) values (#{parentCommentID},#{content},#{articleID})
+        insert into commentinfo (parentCommentID,userID,username,content,articleID) values (#{parentCommentID},#{userID},#{username},#{content},#{articleID})
     </insert>
 </mapper>
