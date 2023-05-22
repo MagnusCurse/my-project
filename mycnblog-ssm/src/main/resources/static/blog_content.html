@@ -223,6 +223,23 @@
       });
       buttonDiv.appendChild(replyElement);
 
+      // 添加回复评论
+      const replyContainer = document.createElement('div');
+      replyContainer.className = 'reply';
+      commentDiv.appendChild(replyContainer);
+
+      const expandButton = document.createElement('button');
+      expandButton.innerText = '展开';
+      expandButton.className = 'expand-button';
+      expandButton.addEventListener('click', function () {
+        replyContainer.style.display = replyContainer.style.display === 'none' ? 'block' : 'none';
+        expandButton.innerText = replyContainer.style.display === 'none' ? '展开' : '隐藏';
+      });
+      commentDiv.appendChild(expandButton);
+
+      // 初始状态设置为隐藏
+      replyContainer.style.display = 'none';
+
       const likeElement = document.createElement('i');
       likeElement.className = 'fa-solid fa-heart fa-xl';
       initLikeColor(comment.commentID);
@@ -244,8 +261,6 @@
             }
           });
       }
-
-      // likeElement.style.color = '#3d66ae';
 
       likeElement.addEventListener('click', function() { // 点赞功能函数
         jQuery.ajax({
@@ -273,12 +288,16 @@
       buttonDiv.appendChild(likeElement);
 
       const countElement = document.createElement('span');
-      countElement.innerText = comment.likes; // 初始化点赞数量
-
+      if(comment.likes == 0){
+        countElement.innerText = null;
+      }else{
+        countElement.innerText = comment.likes; // 初始化点赞数量
+      }
+      
       buttonDiv.appendChild(countElement);
-
-      return commentDiv;
-    }
+        
+       return commentDiv;
+      }
 
     // 递归构建评论和回复的层次结构
     function buildCommentTree(comments, parentCommentId, container) {
@@ -287,10 +306,8 @@
       for (const comment of childComments) {
         const commentElement = createCommentElement(comment);
         container.appendChild(commentElement); 
-        const replyContainer = document.createElement('div');
-        replyContainer.className = 'reply';
+        const replyContainer = commentElement.querySelector('.reply');
         buildCommentTree(comments, comment.commentID, replyContainer); 
-        commentElement.appendChild(replyContainer); // 注意这里是要放到 commentElement 里面
       }
     }
 

@@ -79,71 +79,86 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
+}
   
-  .comment {
-    margin-bottom: 30px;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 0.5s ease-in-out;
-    position: relative; /* 添加相对定位 */
-  }
+.comment {
+  margin-bottom: 30px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+  position: relative; /* 添加相对定位 */
+}
 
-  .comment .comment-el {
-    margin: 5px;
-  }
-  
-  .comment.reply {
-    margin-left: 40px;
-  }
-  
-  .comment .user {
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .comment .content {
-    margin-top: 5px;
-  }
-  
-  .comment .actions {
-    margin-top: 10px;
-    position: absolute; /* 添加绝对定位 */
-    right: 10px; /* 调整按钮容器的右侧位置 */
-    display: flex;
-    align-items: center;
-  }
-  
-  .comment .actions button {
-    background-color: #ccc;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: 14px;
-    font-weight: bold;
-  }
-  
-  .comment .actions button:hover {
-    background-color: #555;
-  }
+.comment .comment-el {
+  margin: 5px;
+}
 
-  .buttons {
-    display: flex;
-    justify-content: flex-end;
-    margin: 15px;
+.comment.reply {
+  margin-left: 40px;
+}
+
+.comment .user {
+  font-weight: bold;
+  color: #333;
+}
+
+.comment .content {
+  margin-top: 5px;
+}
+
+.comment .actions {
+  margin-top: 10px;
+  position: absolute; /* 添加绝对定位 */
+  right: 10px; /* 调整按钮容器的右侧位置 */
+  display: flex;
+  align-items: center;
+}
+
+.comment .actions button {
+  background-color: #ccc;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.comment .actions button:hover {
+  background-color: #555;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin: 15px;
+}
+
+.expand-button {
+  background-color: rgba(102, 204, 153, 0.8);
+  color: #fff;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.expand-button :hover {
+  background-color: rgba(102, 204, 153, 1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+  to {
+    opacity: 1;
   }
-  
+}
