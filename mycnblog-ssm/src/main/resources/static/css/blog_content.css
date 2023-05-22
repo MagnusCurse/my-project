@@ -90,6 +90,10 @@
     animation: fadeIn 0.5s ease-in-out;
     position: relative; /* 添加相对定位 */
   }
+
+  .comment .comment-el {
+    margin: 5px;
+  }
   
   .comment.reply {
     margin-left: 40px;
@@ -131,6 +135,7 @@
   .buttons {
     display: flex;
     justify-content: flex-end;
+    margin: 15px;
   }
   
   @keyframes fadeIn {

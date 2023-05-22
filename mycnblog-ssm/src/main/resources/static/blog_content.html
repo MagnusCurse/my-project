@@ -179,10 +179,12 @@
       commentDiv.className = 'comment';
 
       const userSpan = document.createElement('div');
+      userSpan.className = 'comment-el';
       userSpan.innerText = comment.username; // 初始化用户名
       commentDiv.appendChild(userSpan);
 
       const contentSpan = document.createElement('div');
+      contentSpan.className = 'comment-el';
       contentSpan.innerText = comment.content; // 初始化评论内容
       commentDiv.appendChild(contentSpan);
 
@@ -191,12 +193,12 @@
       commentDiv.appendChild(buttonDiv);
       
 
-      const iconElement = document.createElement('i');
-      iconElement.className = 'fa-solid fa-reply fa-xl';
-      iconElement.style.color = '#71a3d6;';
+      const replyElement = document.createElement('i');
+      replyElement.className = 'fa-solid fa-reply fa-xl';
+      replyElement.style.color = '#71a3d6;';
 
       // 添加点击事件监听器
-      iconElement.addEventListener('click', function(){
+      replyElement.addEventListener('click', function(){ // 回复功能函数
         const replyText = prompt('Please Input the content of reply:'); 
         if (replyText) { 
           // 发送 ajax 请求给后端
@@ -215,19 +217,65 @@
                 }else{
                    alert("回复评论失败,请重试!");
                 }
-             }
+              }
           });
         }
       });
-      buttonDiv.appendChild(iconElement);
+      buttonDiv.appendChild(replyElement);
 
-      const likeButton = document.createElement('button');
-      likeButton.innerText = 'Like';
-      likeButton.addEventListener('click', function() {
-        comment.likes++;
-        likeButton.innerText = 'Like (' + comment.likes + ')';
+      const likeElement = document.createElement('i');
+      likeElement.className = 'fa-solid fa-heart fa-xl';
+      initLikeColor(comment.commentID);
+
+      // 初始化爱心颜色
+      function initLikeColor(commentID){
+          jQuery.ajax({
+            url : "/comment/color",
+            type : "POST",
+            data : {
+              commentID : commentID
+            },
+            success : function(result){
+              if(result.code == 200 && result.data == 1){
+                likeElement.style.color = '#da1072'; // 将爱心变成红色
+              }else {
+                likeElement.style.color = '#3d66ae'; // 将爱心变成蓝色
+              }
+            }
+          });
+      }
+
+      // likeElement.style.color = '#3d66ae';
+
+      likeElement.addEventListener('click', function() { // 点赞功能函数
+        jQuery.ajax({
+          url : "/comment/like",
+          type : "POST",
+          data : {
+            commentID : comment.commentID
+          },
+          success : function(result){
+            if(result.code == 200 && result.data == 1){
+              if(result.msg == '点赞成功'){
+                 likeElement.style.color = '#da1072'; // 将爱心变成红色
+                 location.reload();
+              }else{
+                 likeElement.style.color = '#3d66ae'; // 将爱心变成蓝色
+                 location.reload();
+              }
+            }else{
+              alert("点赞失败,请重试!");    
+            }
+          }
+        })
       });
-      buttonDiv.appendChild(likeButton);
+
+      buttonDiv.appendChild(likeElement);
+
+      const countElement = document.createElement('span');
+      countElement.innerText = comment.likes; // 初始化点赞数量
+
+      buttonDiv.appendChild(countElement);
 
       return commentDiv;
     }
@@ -246,10 +294,12 @@
       }
     }
 
+    
+
     // 初始化评论区
     function initializeComments(comments) {
       const commentContainer = document.getElementById('comment-list');
-      buildCommentTree(comments, null, commentContainer); // 
+      buildCommentTree(comments, null, commentContainer); 
     }
 
     // 提交评论

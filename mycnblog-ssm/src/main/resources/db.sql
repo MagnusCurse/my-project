@@ -48,6 +48,14 @@ create table commentinfo(
  foreign key (parentCommentID) references commentinfo(commentID)
 ) default charset 'utf8mb4';
 
+-- 创建点赞表
+drop table if exists likeinfo;
+create table likeinfo(
+  id int primary key auto_increment,
+  userID int,
+  commentID int
+) default charset 'utf8mb4';
+
 -- 创建草稿表
 drop table if exists draftinfo;
 

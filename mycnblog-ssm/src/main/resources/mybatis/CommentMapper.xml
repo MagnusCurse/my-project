@@ -6,6 +6,10 @@
        select * from commentinfo where articleID = #{articleID}
    </select>
 
+    <select id="selectLike" resultType="com.example.demo.model.Likeinfo">
+        select * from likeinfo where userID = #{userID} and commentID = #{commentID}
+    </select>
+
     <insert id="insertComment">
         insert into commentinfo (userID,username,content,articleID) values (#{userID},#{username},#{content},#{articleID});
     </insert>
@@ -13,4 +17,21 @@
     <insert id="replyComment">
         insert into commentinfo (parentCommentID,userID,username,content,articleID) values (#{parentCommentID},#{userID},#{username},#{content},#{articleID})
     </insert>
+
+    <update id="likeComment">
+       update commentinfo set likes = coalesce(likes, 0) + 1 where commentID = #{commentID}
+    </update>
+
+    <insert id="insertLike">
+        insert into likeinfo (userID,commentID) values (#{userID},#{commentID})
+    </insert>
+
+    <update id="unlikeComment">
+        update commentinfo set likes = (likes - 1) where commentID = #{commentID}
+    </update>
+
+    <delete id="deleteLike">
+        delete from likeinfo where commentID = #{commentID} and userID = #{userID}
+    </delete>
+
 </mapper>
