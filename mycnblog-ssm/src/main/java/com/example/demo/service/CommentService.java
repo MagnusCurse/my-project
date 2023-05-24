@@ -41,6 +41,9 @@ public class CommentService {
         return commentMapper.unlikeComment(commentID);
     }
 
+    public Integer deleteCommentByArticleID(Integer articleID){
+        return commentMapper.deleteCommentByArticleID(articleID);
+    }
     public Integer deleteLike(Integer commentID,Integer userID){
         return commentMapper.deleteLike(commentID,userID);
     }

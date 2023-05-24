@@ -47,6 +47,12 @@ public interface CommentMapper {
     public Integer unlikeComment(@Param("commentID") Integer commentID);
 
     /**
+     * 根据文章 ID 删除评论
+     * @param articleID
+     * @return
+     */
+    public Integer deleteCommentByArticleID(@Param("articleID") Integer articleID);
+    /**
      * 删除点赞表中的一条记录
      * @param commentID
      * @param userID

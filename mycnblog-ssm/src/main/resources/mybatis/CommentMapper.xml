@@ -30,6 +30,10 @@
         update commentinfo set likes = (likes - 1) where commentID = #{commentID}
     </update>
 
+    <delete id="deleteCommentByArticleID">
+        delete from commentinfo where articleID = #{articleID}
+    </delete>
+
     <delete id="deleteLike">
         delete from likeinfo where commentID = #{commentID} and userID = #{userID}
     </delete>

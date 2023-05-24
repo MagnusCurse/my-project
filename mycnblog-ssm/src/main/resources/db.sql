@@ -44,9 +44,10 @@ create table commentinfo(
  content varchar(360),
  create_time datetime default now(),
  likes int,
- articleID int,
- foreign key (parentCommentID) references commentinfo(commentID)
+ articleID int
 ) default charset 'utf8mb4';
+
+-- foreign key (parentCommentID) references commentinfo(commentID)
 
 -- 创建点赞表
 drop table if exists likeinfo;

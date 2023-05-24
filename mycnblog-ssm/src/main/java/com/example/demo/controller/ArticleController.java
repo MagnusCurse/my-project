@@ -7,6 +7,7 @@ import com.example.demo.model.CommentInfo;
 import com.example.demo.model.Constant;
 import com.example.demo.model.UserInfo;
 import com.example.demo.service.ArticleService;
+import com.example.demo.service.CommentService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -26,6 +27,8 @@ public class ArticleController{
    private ArticleService articleService;
    @Autowired
    private UserService userService;
+   @Autowired
+   private CommentService commentService;
 
    /**
     * 初始化列表功能
@@ -57,8 +60,14 @@ public class ArticleController{
     * @return
     */
    @RequestMapping("/delete")
-   public Integer myDelete(Integer id){
-      return articleService.myDelete(id);
+   public Object myDelete(Integer id){
+      int res = articleService.myDelete(id);
+      if(res == 1){
+         commentService.deleteCommentByArticleID(id); // 删除该文章的同时删除该文章评论
+         return res;
+      }else {
+         return AjaxResult.fail(-1,"删除文章失败!");
+      }
    }
 
    /**
