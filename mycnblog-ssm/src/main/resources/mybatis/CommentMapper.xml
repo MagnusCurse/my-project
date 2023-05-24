@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.CommentMapper">
-
    <select id="selectAllByID" resultType="com.example.demo.model.CommentInfo">
        select * from commentinfo where articleID = #{articleID}
    </select>
@@ -23,19 +22,22 @@
     </update>
 
     <insert id="insertLike">
-        insert into likeinfo (userID,commentID) values (#{userID},#{commentID})
+        insert into likeinfo (userID,commentID,articleID) values (#{userID},#{commentID},#{articleID})
     </insert>
 
     <update id="unlikeComment">
         update commentinfo set likes = (likes - 1) where commentID = #{commentID}
     </update>
 
-    <delete id="deleteCommentByArticleID">
-        delete from commentinfo where articleID = #{articleID}
-    </delete>
-
     <delete id="deleteLike">
         delete from likeinfo where commentID = #{commentID} and userID = #{userID}
     </delete>
 
+    <delete id="deleteCommentByArticleID">
+        delete from commentinfo where articleID = #{articleID}
+    </delete>
+
+    <delete id="deleteLikeByArticleID">
+        delete from likeinfo where articleID = #{articleID}
+    </delete>
 </mapper>

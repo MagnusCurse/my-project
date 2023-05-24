@@ -268,7 +268,8 @@
           url : "/comment/like",
           type : "POST",
           data : {
-            commentID : comment.commentID
+            commentID : comment.commentID,
+            articleID : getURLParam("id")
           },
           success : function(result){
             if(result.code == 200 && result.data == 1){

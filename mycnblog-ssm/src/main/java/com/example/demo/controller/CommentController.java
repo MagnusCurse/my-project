@@ -63,13 +63,13 @@ public class CommentController {
     }
 
     @RequestMapping("/like")
-    public Object likeComment(HttpServletRequest request,Integer commentID){
+    public Object likeComment(HttpServletRequest request,Integer commentID,Integer articleID){
        UserInfo userInfo = SessionUnit.getLoginUser(request);
         if(userInfo != null) {
             List<Likeinfo> resList = commentService.selectLike(userInfo.getId(),commentID);
             if(resList.size() == 0){ // 该用户没有给该评论点赞
                int res = commentService.likeComment(commentID);
-               commentService.insertLike(commentID, userInfo.getId());
+               commentService.insertLike(commentID, userInfo.getId(),articleID);
                return AjaxResult.success(res,"点赞成功");
             }else { // 该用户已经给该评论点赞了
                int res = commentService.unlikeComment(commentID);

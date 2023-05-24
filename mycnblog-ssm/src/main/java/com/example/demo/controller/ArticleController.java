@@ -64,6 +64,7 @@ public class ArticleController{
       int res = articleService.myDelete(id);
       if(res == 1){
          commentService.deleteCommentByArticleID(id); // 删除该文章的同时删除该文章评论
+         commentService.deleteLikeByArticleID(id); // 删除该文章对应的点赞信息
          return res;
       }else {
          return AjaxResult.fail(-1,"删除文章失败!");

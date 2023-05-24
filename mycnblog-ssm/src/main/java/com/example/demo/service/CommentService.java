@@ -33,8 +33,8 @@ public class CommentService {
         return commentMapper.likeComment(commentID);
     }
 
-    public Integer insertLike(Integer commentID,Integer userID){
-        return commentMapper.insertLike(commentID,userID);
+    public Integer insertLike(Integer commentID,Integer userID,Integer articleID){
+        return commentMapper.insertLike(commentID,userID,articleID);
     }
 
     public Integer unlikeComment(Integer commentID){
@@ -46,5 +46,9 @@ public class CommentService {
     }
     public Integer deleteLike(Integer commentID,Integer userID){
         return commentMapper.deleteLike(commentID,userID);
+    }
+
+    public Integer deleteLikeByArticleID(Integer articleID){
+        return commentMapper.deleteLikeByArticleID(articleID);
     }
 }
