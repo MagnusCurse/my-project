@@ -787,14 +787,15 @@ body.light-mode .video-bg:before {
   margin-right: 8px;
 }
 
-.apps-card {
+.blogs-card {
   display: flex;
-  align-items: center;
+  align-items: stretch; /* 将所有 .blog-card 的高度拉 */
+  /* align-items: center; 与上面 align-items: stretch; 冲突 */
   flex-wrap: wrap;
   width: calc(100% + 20px);
 }
 
-.app-card {
+.blog-card {
   display: flex;
   flex-direction: column;
   width: calc(33.3% - 20px);
@@ -806,24 +807,24 @@ body.light-mode .video-bg:before {
   cursor: pointer;
   transition: 0.3s ease;
 }
-.app-card:hover {
+.blog-card:hover {
   transform: scale(1.02);
   background-color: var(--theme-bg-color);
 }
-.app-card svg {
+.blog-card svg {
   width: 28px;
   border-radius: 6px;
   margin-right: 12px;
   flex-shrink: 0;
 }
-.app-card + .app-card {
+.blog-card + .blog-card {
   margin-left: 20px;
 }
-.app-card span {
+.blog-card span {
   display: flex;
   align-items: center;
 }
-.app-card__subtext {
+.blog-card__subtext {
   font-size: 14px;
   font-weight: 400;
   line-height: 1.6em;
@@ -831,11 +832,12 @@ body.light-mode .video-bg:before {
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 20px;
 }
-.app-card-buttons {
+.blog-card-buttons {
   display: flex;
   align-items: center;
   margin-left: auto;
   margin-top: 16px;
+  margin-top: auto; /* 将自动边距应用于顶部，使其位于最底部 */
 }
 @media screen and (max-width: 1110px) {
   .app-card {
@@ -854,6 +856,27 @@ body.light-mode .video-bg:before {
   .app-card + .app-card {
     margin-left: 0;
   }
+}
+
+/* 分页按钮  */
+.blog-pagnation-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.blog-pagnation-item{
+  background-color: #3a6df0;
+  border: none;
+  padding: 8px 26px;
+  margin: 5px;
+  color: #fff;
+  border-radius: 5px;
+  margin-top: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  white-space: nowrap;
 }
 
 ::-webkit-scrollbar {

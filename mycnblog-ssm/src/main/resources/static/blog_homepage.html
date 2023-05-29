@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/blog_homepage.css">
+    <script src="js/tool.js"></script>
+    <script src="js/jquery.min.js"></script>
 </head>
 <body>
     <div class="video-bg">
@@ -298,8 +300,10 @@
            </div>
            <div class="content-section">
             <div class="content-section-title">Apps in your plan</div>
-            <div class="apps-card">
-             <div class="app-card">
+            
+            <div class="blogs-card" id="blogs-list">
+
+             <div class="blog-card">
               <span>
                <svg viewBox="0 0 512 512" style="border: 1px solid #a059a9">
                 <path xmlns="http://www.w3.org/2000/svg" d="M480 0H32C14.368 0 0 14.368 0 32v448c0 17.664 14.368 32 32 32h448c17.664 0 32-14.336 32-32V32c0-17.632-14.336-32-32-32z" fill="#210027" data-original="#7b1fa2" />
@@ -309,13 +313,14 @@
                </svg>
                Premiere Pro
               </span>
-              <div class="app-card__subtext">Edit, master and create fully proffesional videos</div>
-              <div class="app-card-buttons">
+              <div class="blog-card__subtext">Edit, master and create fully proffesional videos</div>
+              <div class="blog-card-buttons">
                <button class="content-button status-button">Update</button>
                <div class="menu"></div>
               </div>
              </div>
-             <div class="app-card">
+
+             <!-- <div class="app-card">
               <span>
                <svg viewBox="0 0 52 52" style="border: 1px solid #c1316d">
                 <g xmlns="http://www.w3.org/2000/svg">
@@ -330,8 +335,9 @@
                <button class="content-button status-button">Update</button>
                <div class="menu"></div>
               </div>
-             </div>
-             <div class="app-card">
+             </div> -->
+
+             <!-- <div class="app-card">
               <span>
                <svg viewBox="0 0 52 52" style="border: 1px solid #C75DEB">
                 <g xmlns="http://www.w3.org/2000/svg">
@@ -346,9 +352,18 @@
                <button class="content-button status-button">Update</button>
                <div class="menu"></div>
               </div>
-             </div>
-            </div>
+             </div> -->
+
            </div>
+
+           </div>
+                <div class="blog-pagnation-wrapper">
+                  <button class="blog-pagnation-item" onclick="toHomePage()">首页</button> 
+                  <button class="blog-pagnation-item" onclick="toPrePage()">上一页</button>  
+                  <button class="blog-pagnation-item" onclick="toNextPage()">下一页</button>
+                  <button class="blog-pagnation-item" onclick="toLastPage()">末页</button>
+            </div>
+              
           </div>
          </div>
         </div>
@@ -356,79 +371,153 @@
        </div>
 
        <script>
+          // 一些 CSS 页面功能
           $(function () {
-            $(".menu-link").click(function () {
-            $(".menu-link").removeClass("is-active");
-            $(this).addClass("is-active");
-            });
+              $(".menu-link").click(function () {
+              $(".menu-link").removeClass("is-active");
+              $(this).addClass("is-active");
+              });
+              });
+
+              $(function () {
+              $(".main-header-link").click(function () {
+              $(".main-header-link").removeClass("is-active");
+              $(this).addClass("is-active");
+              });
+              });
+
+              const dropdowns = document.querySelectorAll(".dropdown");
+              dropdowns.forEach((dropdown) => {
+              dropdown.addEventListener("click", (e) => {
+              e.stopPropagation();
+              dropdowns.forEach((c) => c.classList.remove("is-active"));
+              dropdown.classList.add("is-active");
+              });
+              });
+
+              $(".search-bar input")
+              .focus(function () {
+              $(".header").addClass("wide");
+              })
+              .blur(function () {
+              $(".header").removeClass("wide");
+              });
+
+              $(document).click(function (e) {
+              var container = $(".status-button");
+              var dd = $(".dropdown");
+              if (!container.is(e.target) && container.has(e.target).length === 0) {
+              dd.removeClass("is-active");
+              }
+              });
+
+              $(function () {
+              $(".dropdown").on("click", function (e) {
+              $(".content-wrapper").addClass("overlay");
+              e.stopPropagation();
+              });
+              $(document).on("click", function (e) {
+              if ($(e.target).is(".dropdown") === false) {
+              $(".content-wrapper").removeClass("overlay");
+              }
+              });
+              });
+
+              $(function () {
+              $(".status-button:not(.open)").on("click", function (e) {
+              $(".overlay-app").addClass("is-active");
+              });
+              $(".pop-up .close").click(function () {
+              $(".overlay-app").removeClass("is-active");
+              });
+              });
+
+              $(".status-button:not(.open)").click(function () {
+              $(".pop-up").addClass("visible");
+              });
+
+              $(".pop-up .close").click(function () {
+              $(".pop-up").removeClass("visible");
+              });
+
+              const toggleButton = document.querySelector('.dark-light');
+
+              toggleButton.addEventListener('click', () => {
+              document.body.classList.toggle('light-mode');
             });
 
-            $(function () {
-            $(".main-header-link").click(function () {
-            $(".main-header-link").removeClass("is-active");
-            $(this).addClass("is-active");
-            });
-            });
 
-            const dropdowns = document.querySelectorAll(".dropdown");
-            dropdowns.forEach((dropdown) => {
-            dropdown.addEventListener("click", (e) => {
-            e.stopPropagation();
-            dropdowns.forEach((c) => c.classList.remove("is-active"));
-            dropdown.classList.add("is-active");
-            });
-            });
+            var pindex = 1;//页数
+            var psize = 3;//每页数量
 
-            $(".search-bar input")
-            .focus(function () {
-            $(".header").addClass("wide");
-            })
-            .blur(function () {
-            $(".header").removeClass("wide");
-            });
+              //分页功能:从 URL 中获取参数并初始化参数
+              function initParam(){
+                  var pi = getURLParam("pindex");
+                  if(pi != ""){
+                      pindex = pi;
+                  }
+                  var ps = getURLParam("psize");
+                  if(ps != ""){
+                      psize = ps;
+                  }
+              }
+              initParam();
 
-            $(document).click(function (e) {
-            var container = $(".status-button");
-            var dd = $(".dropdown");
-            if (!container.is(e.target) && container.has(e.target).length === 0) {
-            dd.removeClass("is-active");
-            }
-            });
+              //获取列表总页数
+              var totalPage = 0;
+              function getTotalPage(){
+                  jQuery.ajax({
+                    url: "/article/total",
+                    type: "POST",
+                    data: {
+                      psize: psize
+                    },
+                    success: function(result){
+                        if(result.code == 200 && result.data > 0){
+                          totalPage = result.data;
+                        }
+                    }
+                });
+              }
 
-            $(function () {
-            $(".dropdown").on("click", function (e) {
-            $(".content-wrapper").addClass("overlay");
-            e.stopPropagation();
-            });
-            $(document).on("click", function (e) {
-            if ($(e.target).is(".dropdown") === false) {
-            $(".content-wrapper").removeClass("overlay");
-            }
-            });
-            });
-
-            $(function () {
-            $(".status-button:not(.open)").on("click", function (e) {
-            $(".overlay-app").addClass("is-active");
-            });
-            $(".pop-up .close").click(function () {
-            $(".overlay-app").removeClass("is-active");
-            });
-            });
-
-            $(".status-button:not(.open)").click(function () {
-            $(".pop-up").addClass("visible");
-            });
-
-            $(".pop-up .close").click(function () {
-            $(".pop-up").removeClass("visible");
-            });
-
-            const toggleButton = document.querySelector('.dark-light');
-
-            toggleButton.addEventListener('click', () => {
-            document.body.classList.toggle('light-mode');
-            });
+              getTotalPage();
+              // 初始化博客列表页面
+              function initList() {
+                  jQuery.ajax({
+                    url: "/article/list",
+                    type: "POST",
+                    data: {
+                      pindex: pindex,
+                      psize: psize
+                    },
+                    success: function (result) {
+                      if (result.code == 200 && result.data != null && result.data.length > 0) {
+                        var finalHtml = "";
+                        for (var i = 0; i < result.data.length; i++) {
+                          var item = result.data[i];
+                          finalHtml += '<div class="blog-card">' +
+                            '<span>' +
+                            '<svg viewBox="0 0 52 52" style="border: 1px solid #c1316d">' +
+                            '<g xmlns="http://www.w3.org/2000/svg">' +
+                            '<path d="M40.824 52H11.176C5.003 52 0 46.997 0 40.824V11.176C0 5.003 5.003 0 11.176 0h29.649C46.997 0 52 5.003 52 11.176v29.649C52 46.997 46.997 52 40.824 52z" fill="#2f0015" data-original="#6f2b41" />' +
+                            '<path d="M18.08 39H15.2V13.72l-2.64-.08V11h5.52v28zM27.68 19.4c1.173-.507 2.593-.761 4.26-.761s3.073.374 4.22 1.12V11h2.88v28c-2.293.32-4.414.48-6.36.48-1.947 0-3.707-.4-5.28-1.2-2.08-1.066-3.12-2.92-3.12-5.561v-7.56c0-2.799 1.133-4.719 3.4-5.759zm8.48 3.12c-1.387-.746-2.907-1.119-4.56-1.119-1.574 0-2.714.406-3.42 1.22-.707.813-1.06 1.847-1.06 3.1v7.12c0 1.227.44 2.188 1.32 2.88.96.719 2.146 1.079 3.56 1.079 1.413 0 2.8-.106 4.16-.319V22.52z" fill="#e1c1cf" data-original="#ff70bd" />' +
+                            '</g>' +
+                            '</svg>' +
+                            item.title + // 文章标题
+                            '</span>' +
+                            '<div class="blog-card__subtext">' + mySubString(item.content) + '</div>' + // 文章正文部分
+                            '<div class="blog-card-buttons">' +
+                            '<button class="content-button status-button">Update</button>' +
+                            '<div class="menu"></div>' +
+                            '</div>' +
+                            '</div>';
+                        }
+                        jQuery("#blogs-list").html(finalHtml); // This code will replace the existing HTML
+                      }
+                    }
+                  });
+                }
+                initList();
        </script>
 </body>
 </html>
