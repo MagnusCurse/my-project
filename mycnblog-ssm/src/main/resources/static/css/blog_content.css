@@ -23,6 +23,12 @@
     padding: 10px 0;
 }
 
+/* 文章下方一些元素 */
+.unit-component{
+  display: flex;
+  justify-content: flex-end;
+}
+
 
 /* 评论区 */
 .comments {
