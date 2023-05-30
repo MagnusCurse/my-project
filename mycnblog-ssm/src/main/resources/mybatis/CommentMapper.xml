@@ -5,8 +5,8 @@
        select * from commentinfo where articleID = #{articleID}
    </select>
 
-    <select id="selectLike" resultType="com.example.demo.model.Likeinfo">
-        select * from likeinfo where userID = #{userID} and commentID = #{commentID}
+    <select id="selectLike" resultType="com.example.demo.model.CommentLikeInfo">
+        select * from commentlikeinfo where userID = #{userID} and commentID = #{commentID}
     </select>
 
     <insert id="insertComment">
@@ -22,7 +22,7 @@
     </update>
 
     <insert id="insertLike">
-        insert into likeinfo (userID,commentID,articleID) values (#{userID},#{commentID},#{articleID})
+        insert into commentlikeinfo (userID,commentID,articleID) values (#{userID},#{commentID},#{articleID})
     </insert>
 
     <update id="unlikeComment">
@@ -30,7 +30,7 @@
     </update>
 
     <delete id="deleteLike">
-        delete from likeinfo where commentID = #{commentID} and userID = #{userID}
+        delete from commentlikeinfo where commentID = #{commentID} and userID = #{userID}
     </delete>
 
     <delete id="deleteCommentByArticleID">
@@ -38,6 +38,6 @@
     </delete>
 
     <delete id="deleteLikeByArticleID">
-        delete from likeinfo where articleID = #{articleID}
+        delete from commentlikeinfo where articleID = #{articleID}
     </delete>
 </mapper>

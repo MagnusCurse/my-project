@@ -3,10 +3,10 @@ package com.example.demo.model;
 import lombok.Data;
 
 @Data
-public class Likeinfo {
+public class ArticleLikeInfo {
 
     private int id;
     private int userID;
-    private int commentID;
+    private int articleID;
 
 }

@@ -1,5 +1,6 @@
 package com.example.demo.mapper;
 
+import com.example.demo.model.ArticleLikeInfo;
 import com.example.demo.model.Articleinfo;
 import com.example.demo.model.CommentInfo;
 import org.apache.ibatis.annotations.Mapper;
@@ -45,5 +46,46 @@ public interface ArticleMapper {
      * @return
      */
     public List<Articleinfo> selectAll();
+
+    /**
+     *  点赞数量 + 1
+     * @return
+     */
+    public Integer likeArticle(@Param("articleID") Integer articleID);
+
+    /**
+     * 在点赞表中添加一条记录
+     * @param userID
+     * @return
+     */
+    public Integer insertLike(@Param("userID") Integer userID,@Param("articleID") Integer articleID);
+
+    /**
+     * 点赞数量 -1
+     * @return
+     */
+    public Integer unlikeArticle(@Param("articleID") Integer articleID);
+
+    /**
+     * 删除点赞表中的一条记录
+     * @param userID
+     * @return
+     */
+    public Integer deleteLike(@Param("userID") Integer userID,@Param("articleID") Integer articleID);
+
+    /**
+     * 查询一条点赞表的记录
+     * @param userID
+     * @param articleID
+     * @return
+     */
+    public List<ArticleLikeInfo> selectLike(@Param("userID") Integer userID, @Param("articleID") Integer articleID);
+
+    /**
+     * 增加文章浏览量
+     * @param id
+     * @return
+     */
+    public Integer view(@Param("id") Integer id);
 
 }

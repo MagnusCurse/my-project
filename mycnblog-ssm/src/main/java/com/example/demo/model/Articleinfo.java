@@ -14,4 +14,6 @@ public class Articleinfo {
     private int uid;
     private int rcount;
     private int state;
+    private int likes;
+    private int views;
 }

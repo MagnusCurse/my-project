@@ -1,7 +1,7 @@
 package com.example.demo.mapper;
 
 import com.example.demo.model.CommentInfo;
-import com.example.demo.model.Likeinfo;
+import com.example.demo.model.CommentLikeInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,7 +22,7 @@ public interface CommentMapper {
                                 @Param("content") String content,
                                 @Param("articleID") Integer articleID);
 
-    public List<Likeinfo> selectLike(@Param("userID") Integer userID,@Param("commentID") Integer commentID);
+    public List<CommentLikeInfo> selectLike(@Param("userID") Integer userID, @Param("commentID") Integer commentID);
 
     /**
      *  点赞数量 + 1

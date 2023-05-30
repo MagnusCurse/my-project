@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.common.AjaxResult;
 import com.example.demo.common.SessionUnit;
 import com.example.demo.model.CommentInfo;
-import com.example.demo.model.Likeinfo;
+import com.example.demo.model.CommentLikeInfo;
 import com.example.demo.model.UserInfo;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.CommentService;
@@ -66,7 +66,7 @@ public class CommentController {
     public Object likeComment(HttpServletRequest request,Integer commentID,Integer articleID){
        UserInfo userInfo = SessionUnit.getLoginUser(request);
         if(userInfo != null) {
-            List<Likeinfo> resList = commentService.selectLike(userInfo.getId(),commentID);
+            List<CommentLikeInfo> resList = commentService.selectLike(userInfo.getId(),commentID);
             if(resList.size() == 0){ // 该用户没有给该评论点赞
                int res = commentService.likeComment(commentID);
                commentService.insertLike(commentID, userInfo.getId(),articleID);
@@ -92,7 +92,7 @@ public class CommentController {
     public Object initColor(HttpServletRequest request,Integer commentID){
         UserInfo userInfo = SessionUnit.getLoginUser(request);
         if(userInfo != null){
-            List<Likeinfo> res = commentService.selectLike(userInfo.getId(),commentID);
+            List<CommentLikeInfo> res = commentService.selectLike(userInfo.getId(),commentID);
             if(res.size() == 0){
                 return 0;
             }else {

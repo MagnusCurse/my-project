@@ -35,4 +35,29 @@
         select * from articleinfo
     </select>
 
+    <!-- 点赞功能  -->
+    <update id="likeArticle">
+        update articleinfo set likes = coalesce(likes, 0) + 1 where id = #{articleID}
+    </update>
+
+    <insert id="insertLike">
+        insert into articlelikeinfo (userID,articleID) values (#{userID},#{articleID})
+    </insert>
+
+    <update id="unlikeArticle">
+        update articleinfo set likes = (likes - 1) where id = #{articleID}
+    </update>
+
+    <delete id="deleteLike">
+        delete from articlelikeinfo where userID = #{userID} and  articleID = #{articleID}
+    </delete>
+
+    <select id="selectLike" resultType="com.example.demo.model.ArticleLikeInfo">
+        select * from articlelikeinfo where userID = #{userID} and  articleID = #{articleID}
+    </select>
+
+    <!-- 浏览功能  -->
+    <update id="view">
+        update articleinfo set views = (views + 1) where id = #{id}
+    </update>
 </mapper>

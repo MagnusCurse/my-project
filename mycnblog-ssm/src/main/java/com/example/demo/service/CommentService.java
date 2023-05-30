@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.mapper.CommentMapper;
 import com.example.demo.model.CommentInfo;
-import com.example.demo.model.Likeinfo;
+import com.example.demo.model.CommentLikeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class CommentService {
         return commentMapper.selectAllByID(articleID);
     }
 
-    public List<Likeinfo> selectLike(Integer userID,Integer commentID){
+    public List<CommentLikeInfo> selectLike(Integer userID, Integer commentID){
         return commentMapper.selectLike(userID,commentID);
     }
 

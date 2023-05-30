@@ -2,13 +2,11 @@ package com.example.demo.controller;
 
 import com.example.demo.common.AjaxResult;
 import com.example.demo.common.SessionUnit;
-import com.example.demo.model.Articleinfo;
-import com.example.demo.model.CommentInfo;
-import com.example.demo.model.Constant;
-import com.example.demo.model.UserInfo;
+import com.example.demo.model.*;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.CommentService;
 import com.example.demo.service.UserService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -163,6 +161,64 @@ public class ArticleController{
    }
 
    /**
+    * 点赞功能
+    * @param request
+    * @param articleID
+    * @return
+    */
+   @RequestMapping("/like")
+   public Object likeArticle(HttpServletRequest request,Integer articleID){
+      UserInfo userInfo = SessionUnit.getLoginUser(request);
+      if(userInfo != null) {
+         List<ArticleLikeInfo> resList = articleService.selectLike(userInfo.getId(),articleID);
+         if(resList.size() == 0){ // 该用户没有给该评论点赞
+            int res = articleService.likeArticle(articleID);
+            articleService.insertLike(userInfo.getId(),articleID);
+            return AjaxResult.success(res,"点赞成功");
+         }else { // 该用户已经给该评论点赞了
+            int res = articleService.unlikeArticle(articleID);
+            articleService.deleteLike(userInfo.getId(),articleID);
+            return AjaxResult.success(res,"取消点赞成功");
+         }
+      }
+      return AjaxResult.fail(-1,"获取不到当前用户对象");
+   }
+
+   /**
+    * 初始化点赞图标
+    * @param request
+    * @param articleID
+    * @return
+    */
+   @RequestMapping("/state")
+   public Object initLikeState(HttpServletRequest request,Integer articleID){
+      UserInfo userInfo = SessionUnit.getLoginUser(request);
+      if(userInfo != null) {
+         List<ArticleLikeInfo> res = articleService.selectLike(userInfo.getId(),articleID);
+         if(res.size() == 0){
+            return 0;
+         }else {
+            return 1;
+         }
+      }
+      return AjaxResult.fail(-1,"获取不到当前用户对象");
+   }
+
+   /**
+    * 初始化文章点赞数
+    * @param id
+    * @return
+    */
+   @RequestMapping("/count")
+   public Object initLikeCount(Integer id){
+      Articleinfo articleinfo = articleService.myDetail(id);
+      if(articleinfo != null){
+         return articleinfo.getLikes();
+      }
+      return AjaxResult.fail(-1,"获取不到该文章对象");
+   }
+
+   /**
     * 分页功能
     * @param pindex
     * @param psize
@@ -178,6 +234,35 @@ public class ArticleController{
    }
 
    /**
+    * 增加浏览量功能
+    * @param id
+    * @return
+    */
+   @RequestMapping("/view")
+   public Object view(Integer id){
+      int res = articleService.view(id);
+      if(res == 1){
+         return res;
+      }else {
+         return AjaxResult.fail(-1,"浏览量修改失败,请重试");
+      }
+   }
+
+   /**
+    * 初始化浏览量
+    * @param id
+    * @return
+    */
+   @RequestMapping("/initview")
+   public Object initView(Integer id){
+      Articleinfo articleinfo = articleService.myDetail(id);
+      if(articleinfo != null){
+         return articleinfo.getViews();
+      }
+      return AjaxResult.fail(-1,"获取不到该文章对象");
+   }
+
+   /**
     * 获取列表的总页数
     * @param psize
     * @return
@@ -186,5 +271,4 @@ public class ArticleController{
    public Integer totalPage(Integer psize){
       return articleService.totalPage(psize);
    }
-
 }

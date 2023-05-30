@@ -51,14 +51,22 @@ create table commentinfo(
 
 -- foreign key (parentCommentID) references commentinfo(commentID)
 
--- 创建点赞表
-drop table if exists likeinfo;
-create table likeinfo(
+-- 创建评论点赞表
+drop table if exists commentlikeinfo;
+create table commentlikeinfo(
   id int primary key auto_increment,
   userID int,
   commentID int,
   articleID int
 ) default charset 'utf8mb4';
+
+-- 创建文章点赞表
+drop table if exists articlelikeinfo;
+create table articlelikeinfo(
+  id int primary key auto_increment,
+  userID int,
+  articleID int
+)default charset 'utf8mb4';
 
 -- 创建草稿表
 drop table if exists draftinfo;

@@ -72,10 +72,10 @@
                 <div class="unit-component">
                     <!-- 评论数量 -->
                     <i class="fa-regular fa-message fa-lg" style="color: #253b5f; margin-top: 11px; margin-right: 5px;"></i>
-                    <span style="margin-right: 5px;">0</span>
+                    <span id="comment-counter" style="margin-right: 5px;">0</span>
                     <!-- 浏览量 -->
                     <i class="fa-solid fa-eye fa-lg" style="color: #0f2d61; margin-top: 11px; margin-right: 5px;"></i>
-                    <span style="margin-right: 5px;">0</span>
+                    <span id="view-counter" style="margin-right: 5px;">0</span>
                     <!-- 点赞按钮 -->
                     <a href="#" class="like-button" style="margin-right: 5px;">
                       <?xml version="1.0" encoding="utf-8"?>
@@ -419,7 +419,6 @@
       }
     }
 
-
     function plusOrMinus() {
       return Math.random() < 0.5 ? -1 : 1;
     }
@@ -428,15 +427,121 @@
       return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
+    var viewCounter = document.getElementById('view-counter');
+
+    // 初始化浏览量功能
+    function initView(){
+      jQuery.ajax({
+        url : "/article/initview",
+        type : "POST",
+        data : {
+          id : getURLParam("id")
+        },
+        success : function(result){
+          if(result.code == 200){
+            viewCounter.textContent = result.data; // 初始化浏览量
+          }
+        },
+        error : function(result){
+          alert("Something wrong,Please try again!");
+        }
+      });
+    }
+    initView();
+
+    // 浏览功能
+    function view(){
+      jQuery.ajax({
+        url : "/article/view",
+        type : "POST",
+        data : {
+          id : getURLParam("id")
+        },
+        success : function(result){
+          
+        },
+        error : function(result){
+          alert("Something wrong,Please try again!");
+        }
+      });
+    }
+    view(); // 每次进入该页面加载,使得浏览量 + 1
+
     // 点赞功能
     var likeButton = document.querySelector('.like-button');
     var likeCounter = document.getElementById('like-counter');
     var count = 0;
+    var isLiked = false;
 
+    // 初始化点赞数量
+    function initLikeCount(){
+       jQuery.ajax({
+          url : "/article/count",
+          type : "POST",
+          data : {
+            id : getURLParam("id")
+          },
+          success : function(result){
+            if(result.code == 200){
+              count = result.data; 
+              likeCounter.textContent = count; // 将结果初始化给页面
+            }
+          }
+       });
+    }
+    initLikeCount();
+
+    // 初始化 isLiked 和点赞图标状态
+    function initLikeState(){
+      jQuery.ajax({
+          url : "/article/state",
+          type : "POST",
+          data : {
+            articleID : getURLParam("id")
+          },
+          success : function(result){
+            if(result.code == 200 && result.data == 1){ // 已经点赞过
+              isLiked = true;
+            }else{ // 没有点赞过
+              isLiked = false;
+            }
+          }
+      });
+    }
+    initLikeState();
+    
+
+    // 点赞功能函数
     likeButton.addEventListener('click', function() {
-      count++;
-      likeCounter.textContent = count;
-    });
+      if (isLiked) {
+        count--;
+        likeCounter.textContent = count;
+        isLiked = false;
+      } else {
+        count++;
+        likeCounter.textContent = count;
+        isLiked = true;
+      }
+
+      jQuery.ajax({
+         url : "/article/like",
+         type : "POST",
+         data : {
+           articleID : getURLParam("id")
+         },
+         success : function(result){
+            if(result.code == 200 && result.data == 1){
+              if(result.msg == "点赞成功"){
+                //  alert("点赞成功");
+              }else{
+                //  alert("取消点赞成功");
+              }
+            }else{
+              alert("操作失败,请重试!");
+            }
+         }
+      });
+});
     </script> 
 </body>
 </html>
