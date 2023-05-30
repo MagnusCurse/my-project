@@ -17,8 +17,8 @@ function getURLParam(key){
 
 //用于截取字符串
 function mySubString(content){
-    if(content.length > 100){
-        return content.substr(0,100);
+    if(content.length > 80){
+        return content.substr(0,80);
     }
     return content;
 }

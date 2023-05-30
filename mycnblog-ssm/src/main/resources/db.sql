@@ -31,7 +31,9 @@ create table articleinfo(
     updatetime datetime default now(),
     uid int not null,
     rcount int not null default 1,
-    `state` int default 1
+    `state` int default 1,
+    likes int default 0,
+    views int default 0
 )default charset 'utf8mb4';
 
 -- 创建评论表
