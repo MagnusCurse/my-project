@@ -55,7 +55,7 @@ public class ArticleService {
      *  点赞数量 + 1
      * @return
      */
-    public Integer likeArticle(@Param("articleID") Integer articleID){
+    public Integer likeArticle(Integer articleID){
         return articleMapper.likeArticle(articleID);
     }
 
@@ -64,7 +64,7 @@ public class ArticleService {
      * @param userID
      * @return
      */
-    public Integer insertLike(@Param("userID") Integer userID,@Param("articleID") Integer articleID){
+    public Integer insertLike(Integer userID,Integer articleID){
         return articleMapper.insertLike(userID,articleID);
     }
 
@@ -72,7 +72,7 @@ public class ArticleService {
      * 点赞数量 -1
      * @return
      */
-    public Integer unlikeArticle(@Param("articleID") Integer articleID){
+    public Integer unlikeArticle(Integer articleID){
         return articleMapper.unlikeArticle(articleID);
     }
 
@@ -81,7 +81,7 @@ public class ArticleService {
      * @param userID
      * @return
      */
-    public Integer deleteLike(@Param("userID") Integer userID,@Param("articleID") Integer articleID){
+    public Integer deleteLike(Integer userID,Integer articleID){
         return articleMapper.deleteLike(userID,articleID);
     }
 
@@ -91,7 +91,7 @@ public class ArticleService {
      * @param articleID
      * @return
      */
-    public List<ArticleLikeInfo> selectLike(@Param("userID") Integer userID, @Param("articleID") Integer articleID){
+    public List<ArticleLikeInfo> selectLike(Integer userID,Integer articleID){
         return articleMapper.selectLike(userID,articleID);
     }
 
@@ -100,7 +100,7 @@ public class ArticleService {
      * @param id
      * @return
      */
-    public Integer view(@Param("id") Integer id){
+    public Integer view(Integer id){
         return articleMapper.view(id);
     }
 }
