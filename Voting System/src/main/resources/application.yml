@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/comment_section?characterEncoding=utf8&useSSL=false
+    username: root
+    password: 137162 #如果要部署到云服务器这里密码要更改(没有密码则为空)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mybatis/**Mapper.xml
+
