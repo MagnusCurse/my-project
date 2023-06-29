@@ -108,54 +108,54 @@
     <script src="js/MyJavaScript/initAvatar(curArticle).js"></script>
     <script src="js/MyJavaScript/logout.js"></script>
 
-    <script type="text/javascript">
-            var editormd;
-            function initEdit(md){
-                editormd = editormd.markdownToHTML("editorDiv", {
-                markdown : md, // Also, you can dynamic set Markdown text
-                // htmlDecode : true,  // Enable / disable HTML tag encode.
-                // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
-                });
-            }
+<script type="text/javascript">
+    var editormd;
+    function initEdit(md){
+        editormd = editormd.markdownToHTML("editorDiv", {
+        markdown : md, // Also, you can dynamic set Markdown text
+        // htmlDecode : true,  // Enable / disable HTML tag encode.
+        // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+        });
+    }
 
-            //根据用户初始化左侧个人信息
-            function initMyInfo(){
-                //发送ajxa给后端
-                jQuery.ajax({
-                 url: "/user/mycontentinfo",
-                 type: "POST",
-                 data: {
-                    id: getURLParam("id")
-                 },
-                 success: function(result){
-                    if(result != null && result.data != null){
-                    jQuery("#username").text(result.data.username);
-                    }
-                 }
-                });
+    //根据用户初始化左侧个人信息
+    function initMyInfo(){
+        //发送ajxa给后端
+        jQuery.ajax({
+         url: "/user/mycontentinfo",
+         type: "POST",
+         data: {
+            id: getURLParam("id")
+         },
+         success: function(result){
+            if(result != null && result.data != null){
+            jQuery("#username").text(result.data.username);
             }
-            initMyInfo();//页面渲染后即立刻加载                
+         }
+        });
+    }
+    initMyInfo();//页面渲染后即立刻加载
 
-            //根据文章ID初始化当前博客详情页面
-            function initDetail(){
-               var artId = getURLParam("id");
-               //发送ajxa给后端
-               jQuery.ajax({
-                 url: "article/detail",
-                 type: "POST",
-                 data: {
-                    id: artId//前面key的名字要和后端相同,这里不要加.val()
-                },//通过该方法得到目前文章id发送给后端
-                 success: function(result){
-                    if(result != null && result.code == 200){
-                    jQuery("#title").text(result.data.title);
-                    jQuery("#date").text(result.data.date);
-                    jQuery("#editorDiv").html(initEdit(result.data.content));
-                    }
-                  }
-               });      
+    //根据文章ID初始化当前博客详情页面
+    function initDetail(){
+       var artId = getURLParam("id");
+       //发送ajxa给后端
+       jQuery.ajax({
+         url: "article/detail",
+         type: "POST",
+         data: {
+            id: artId//前面key的名字要和后端相同,这里不要加.val()
+        },//通过该方法得到目前文章id发送给后端
+         success: function(result){
+            if(result != null && result.code == 200){
+            jQuery("#title").text(result.data.title);
+            jQuery("#date").text(result.data.date);
+            jQuery("#editorDiv").html(initEdit(result.data.content));
             }
-            initDetail();//页面渲染后即立刻加载
+          }
+       });
+    }
+    initDetail();//页面渲染后即立刻加载
 
     // 从后端获取评论数据数据
     function retrieveCommentsFromBackend() {
@@ -541,8 +541,8 @@
             }
          }
       });
-});
-    </script> 
+    });
+</script>
 </body>
 </html>
 
