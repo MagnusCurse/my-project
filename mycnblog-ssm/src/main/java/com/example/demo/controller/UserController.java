@@ -109,6 +109,8 @@ public class UserController{
 
     /**
      * 上传用户头像
+     * @param file
+     * @param request
      * @return
      */
     @RequestMapping("/upload")
