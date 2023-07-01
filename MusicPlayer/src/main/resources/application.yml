@@ -1,24 +1,25 @@
 #本地配置文件
-#spring:
-#  #数据库配置
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/musicplayer?characterEncoding=utf8&useSSL=false
-#    username: root
-#    password: 137162 #如果要部署到云服务器这里密码要更改(没有密码则为空)
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#云服务器配置文件
-
 spring:
   #数据库配置
   datasource:
     url: jdbc:mysql://localhost:3306/musicplayer?characterEncoding=utf8&useSSL=false
     username: root
-    password: #如果要部署到云服务器这里密码要更改(没有密码则为空)
+    password: 137162 #如果要部署到云服务器这里密码要更改(没有密码则为空)
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+#云服务器配置文件
+#spring:
+#  #数据库配置
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/musicplayer?characterEncoding=utf8&useSSL=false
+#    username: root
+#    password: #如果要部署到云服务器这里密码要更改(没有密码则为空)
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+
   #mybatis配置
 mybatis:
   mapper-locations: classpath:mybatis/**Mapper.xml
 
   #配置项目端口号
 server:
-  port: 8084
+  port: 8080

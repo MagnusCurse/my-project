@@ -211,7 +211,6 @@
       const buttonDiv = document.createElement('div'); // 用于存放按钮
       buttonDiv.className = 'buttons';
       commentDiv.appendChild(buttonDiv);
-      
 
       const replyElement = document.createElement('i');
       replyElement.className = 'fa-solid fa-reply fa-xl';
@@ -309,30 +308,26 @@
       buttonDiv.appendChild(likeElement);
 
       const countElement = document.createElement('span');
-      if(comment.likes == 0){
-        countElement.innerText = null;
-      }else{
-        countElement.innerText = comment.likes; // 初始化点赞数量
-      }
-      
-      buttonDiv.appendChild(countElement);
-        
-       return commentDiv;
+          if(comment.likes == 0){
+            countElement.innerText = null;
+          }else{
+            countElement.innerText = comment.likes; // 初始化点赞数量
+          }
+          buttonDiv.appendChild(countElement);
+          return commentDiv;
       }
 
     // 递归构建评论和回复的层次结构
     function buildCommentTree(comments, parentCommentId, container) {
-      const childComments = comments.filter(comment => comment.parentCommentID === parentCommentId);  
+      const childComments = comments.filter(comment => comment.parentCommentID === parentCommentId);  // 过滤器
 
       for (const comment of childComments) {
         const commentElement = createCommentElement(comment);
         container.appendChild(commentElement); 
         const replyContainer = commentElement.querySelector('.reply');
-        buildCommentTree(comments, comment.commentID, replyContainer); 
+        buildCommentTree(comments, comment.commentID, replyContainer); // 递归构建
       }
     }
-
-    
 
     // 初始化评论区
     function initializeComments(comments) {
@@ -386,7 +381,6 @@
       this.classList.add("animated");
       generateClones(this);
     });
-
 
     function generateClones(button) {
       let clones = randomInt(2, 4);
