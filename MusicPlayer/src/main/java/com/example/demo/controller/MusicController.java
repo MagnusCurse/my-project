@@ -43,7 +43,7 @@ public class MusicController {
      */
     @RequestMapping("/upload")
     public Object upload(HttpServletRequest request, HttpServletResponse response,MultipartFile file, String singer) throws IOException {
-
+        // MutipartFile 主要实现以表单形式上传文件的内容
         /**
          * 将文件上传到指定路径
          */
@@ -54,13 +54,12 @@ public class MusicController {
          */
         int index = fileNameAndType.lastIndexOf('.');
         String title = fileNameAndType.substring(0,index); // 获取歌曲名 title
-        Music music = musicService.selectByTitleAndSinger(title,singer);
+        Music music = musicService.selectByTitleAndSinger(title,singer); // 检查数据库中是否已经有相同的歌名与歌手名
         //如果歌名和歌手名相同,证明是同一首音乐,不上传
         if(music != null){
             return ajaxResult.fail("Music has been uploaded!!",-1);
         }
 
-        System.out.println(fileNameAndType);
         String path = Constant.MUSIC_FILE_PATH + fileNameAndType; // 获得文件路径
         File dest = new File(path);
         if(!dest.exists()){
@@ -78,7 +77,7 @@ public class MusicController {
          */
         String type = fileNameAndType.substring(index + 1); // 获取类型,如.mp3
 
-        User user = sessionUtils.getLoginUser(request); // 会获取到空对象,目前还不知道啥问题
+        User user = sessionUtils.getLoginUser(request);
         int user_id = user.getId(); // 获取 user_id
 
         String url = "/music/get?path=" + title + "." + type; // 这个 url 用来在播放音乐函数中向 get 方法发送请求得到音乐文件字节数组
@@ -99,13 +98,13 @@ public class MusicController {
      */
     @RequestMapping("/get")
     public ResponseEntity<byte[]> get(String path){
-        System.out.println(path);
         File file = new File(Constant.MUSIC_FILE_PATH + path);
         try {
             byte[] arr = Files.readAllBytes(file.toPath()); // 获取当前路径下的音乐文件
             if(arr == null){ // 为空证明没有该音乐
                 return ResponseEntity.badRequest().build();
             }
+            // 无参数 ok 返回 ok 状态,有参数返回 body 和 ok 状态
             return ResponseEntity.ok(arr); // 成功返回音乐文件的字节数组
         } catch (IOException e) {
             e.printStackTrace();
@@ -222,7 +221,7 @@ public class MusicController {
      * 查询音乐
      * title不为空进行模糊查询
      * 为空默认查询所有元素
-     * @RequestParam(required = false):可以传递null参数
+     * @RequestParam(required = false):可以传递 null 参数
      * @param title
      * @return
      */

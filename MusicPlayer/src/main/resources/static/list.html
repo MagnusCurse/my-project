@@ -64,9 +64,9 @@
 
   <script>
     var pindex = 1; // 当前页数
-	var psize = 8; // 每页歌曲数量
+	var psize = 4; // 每页歌曲数量
     
-	//从 URL 中拿到pindex和pszie的值,并对其进行初始化
+	//从 URL 中拿到 pindex 和 pszie 的值,并对其进行初始化
 	function initPageParm(){
         var pi = getURLParam("pindex");
 		if(pi != ""){
@@ -170,58 +170,62 @@
 
 	//删除音乐函数
 	function deleteMusic(musicId){
-		//发送 ajax 给后端
-		jQuery.ajax({
-           url: "/music/delete",
-		   type: "POST",
-           data: {
+        if(confirm("Do you really want to remove this music from your list??")) {
+          //发送 ajax 给后端
+          jQuery.ajax({
+            url: "/music/delete",
+            type: "POST",
+            data: {
               id :musicId
-		   },
-		   success: function(result){
-             if(result.code == 200 && result.data == 1){
-				alert("Deletion successful!!");
-				location.href="list.html";
-			 }else{
-				alert("Deletion fails,please try it again!!");
-			 }
-		   },
-		   error: function(result){
-             alert("Something wrong,please try again!!");
-		   }
-		});
+            },
+            success: function(result){
+              if(result.code == 200 && result.data == 1){
+                alert("Deletion successful!!");
+                location.href="list.html";
+              }else{
+                alert("Deletion fails,please try it again!!");
+              }
+            },
+            error: function(result){
+              alert("Something wrong,please try again!!");
+            }
+          });
+        }
 	}
 
 	//删除选中音乐函数
 	function deleteSel(){
-        var ids = new Array(); // 创建一个数组存储要删除音乐的id
-		var index = 0; // 数组的下标
+        if(confirm("Do you really want to remove all of this from your list??")){
+          var ids = new Array(); // 创建一个数组存储要删除音乐的id
+          var index = 0; // 数组的下标
 
-		jQuery("input:checkbox").each(function(){ // 遍历所有 checkbox
-			if(jQuery(this).is(":checked")) { // 如果 checkbox 被选中
-				ids[index] = jQuery(this).attr("id"); // 将该 id 加入数组
-				index++;
-			}
-		});
+          jQuery("input:checkbox").each(function(){ // 遍历所有 checkbox
+            if(jQuery(this).is(":checked")) { // 如果 checkbox 被选中
+              ids[index] = jQuery(this).attr("id"); // 将该 id 加入数组
+              index++;
+            }
+          });
 
-		//发送 ajax 请求给后端
-		jQuery.ajax({
+          //发送 ajax 请求给后端
+          jQuery.ajax({
             url: "/music/deleteSel",
-			type: "POST",
-			data: {
-				ids: ids
-			},
-			success: function(result){
-               if(result.code == 200 && result.data == 1){
-				  alert("Deletion successful!!");
-				  location.href="list.html";
-			   }else{
-				  alert("fail to dlete,please try again!!"); 
-			   }
-			},
-			error: function(result){
-				alert("Somethings wrong,please try again!!");
-			}
-		});
+            type: "POST",
+            data: {
+              ids: ids
+            },
+            success: function(result){
+              if(result.code == 200 && result.data == 1){
+                alert("Deletion successful!!");
+                location.href="list.html";
+              }else{
+                alert("fail to dlete,please try again!!");
+              }
+            },
+            error: function(result){
+              alert("Somethings wrong,please try again!!");
+            }
+          });
+        }
 	}
 
 	//查询音乐函数
@@ -288,8 +292,8 @@
 
 	 //播放音乐函数
 	 function playMusic(url){ // 该 url 会向后端 get 方法发送请求获取到音乐文件的字节数组
+       // 例如:/music/get?path=Syd Matters - Obstacles.mp3
 		var name = url.substring(url.lastIndexOf("=") + 1);
-        console.log(name);
 		//url:播放歌曲的路径
 		//name:歌曲名
 		//0:播放的开始时间
