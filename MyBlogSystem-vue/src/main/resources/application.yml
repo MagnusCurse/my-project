@@ -5,6 +5,9 @@ spring:
     password: 137162 #如果要部署到云服务器这里密码要更改(没有密码则为空)
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+server:
+  port: 9090
+
 mybatis:
   mapper-locations: classpath:mybatis/**Mapper.xml
 
