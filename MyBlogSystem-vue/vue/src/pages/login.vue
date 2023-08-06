@@ -1,24 +1,27 @@
 <script>
+
 import axios from "axios";
-import router from "@/router";
+
 export default {
   name: "Login",
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
     }
   },
   methods: {
     login(){
       if(this.username === ""){
         alert("请先输入账户!!");
+        return;
       }
       if(this.password === ""){
         alert("请先输入密码!!");
+        return;
       }
       // 发送请求给后端
-      axios.post("/user/login").then(
+      axios.post("http://localhost:9090/user/login").then(
           response => {
             if(response.code == 200 && response.data == 1){
               alert("登录成功,即将跳转到主页!!");
@@ -47,15 +50,15 @@ export default {
       <div class="user-box">
         <input type="password" name="" required="" v-model="password">
         <label>Password</label>
-        <router-link class="list-group-item" to="/reg" active-class="active">
+        <a @click="login">
           <span></span>
           <span></span>
           <span></span>
           <span></span>
           Submit
-        </router-link>
+        </a>
       </div>
-      <router-link class="list-group-item" to="/reg" active-class="active" style="float: right" @click="login">
+      <router-link class="list-group-item" to="/reg" active-class="active" style="float: right">
         Register
       </router-link>
     </form>
@@ -63,7 +66,6 @@ export default {
 </template>
 
 <style scoped>
-
 .login-box {
   position: absolute;
   top: 50%;
@@ -129,7 +131,6 @@ export default {
   overflow: hidden;
   transition: .5s;
   margin-top: 40px;
-
 }
 
 .login-box a:hover {
@@ -221,5 +222,4 @@ export default {
     bottom: 100%;
   }
 }
-
 </style>

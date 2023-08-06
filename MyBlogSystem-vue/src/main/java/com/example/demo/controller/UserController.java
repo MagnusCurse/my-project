@@ -19,10 +19,13 @@ public class UserController {
     private UserService service;
     @RequestMapping("/login")
     public Object login(HttpServletRequest request,String username, String password){
+       // 进行非空判断
        if(!StringUtils.hasLength(username) || !StringUtils.hasLength(password)) {
            return AjaxResult.fail(-1,"用户名或者密码为空");
        }
+       // 获取到当前用户对象
        User user = service.login(username);
+       // 对该用户对象进行非空判断
        if(user == null) {
            return AjaxResult.fail(-1,"找不到该用户对象");
        }else {
@@ -38,6 +41,12 @@ public class UserController {
 
     @RequestMapping("/reg")
     public Object reg(String username,String password) {
-
+        // 进行非空判断
+        if(!StringUtils.hasLength(username) || !StringUtils.hasLength(password)){
+            return AjaxResult.fail(-1,"用户名或者密码为空");
+        }
+        // 进行数据库添加操作
+        int res = service.reg(username,SecurityUnit.encrypt(password));
+        return AjaxResult.success(res,"注册成功");
     }
 }

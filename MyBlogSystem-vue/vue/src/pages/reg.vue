@@ -14,16 +14,19 @@ export default {
   methods: {
     reg() {
       if(this.username === "") {
-        alert("请先输入用户名!!")
+        alert("请先输入用户名!!");
+        return;
       }
       if(this.password === "") {
         alert("请先输入密码!!");
+        return;
       }
       if(this.confirm_password === "") {
         alert("请先输入确认密码!!");
+        return;
       }
       // 发送 ajax 请求给后端
-      axios.post("/user/reg").then(
+      axios.post("http://localhost:9090/user/reg").then(
           response => {
             if(response.code == 200 && response.data == 1) {
               alert("注册成功,即将跳转到登录页面!!");
@@ -54,13 +57,13 @@ export default {
       <div class="user-box">
         <input type="password" name="" required="" v-model="confirm_password">
         <label>Confirm Password</label>
-        <router-link class="list-group-item" to="/reg" active-class="active">
+        <a @click="reg">
           <span></span>
           <span></span>
           <span></span>
           <span></span>
           Submit
-        </router-link>
+        </a>
       </div>
 
     </form>
