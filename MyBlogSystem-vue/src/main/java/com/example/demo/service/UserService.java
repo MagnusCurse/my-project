@@ -18,4 +18,14 @@ public class UserService {
     public User login(String username) {
         return mapper.login(username);
     }
+
+    /**
+     * 注册功能
+     * @param username
+     * @param password
+     * @return
+     */
+    public int reg(String username,String password) {
+        return mapper.reg(username,password);
+    }
 }

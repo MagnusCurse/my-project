@@ -5,33 +5,33 @@ export default {
   name: "Login",
   data() {
     return {
-       username: "",
-       password: ""
+      username: "",
+      password: ""
     }
   },
   methods: {
-     login(){
-        if(this.username === ""){
-            alert("请先输入账户!!");
-        }
-        if(this.password === ""){
-            alert("请先输入密码!!");
-        }
-        // 发送请求给后端
-        axios.post("/user/login").then(
-            response => {
-               if(response.code == 200 && response.data == 1){
-                 alert("登录成功,即将跳转到主页!!");
-                 router.push("/home");
-               } else {
-                 alert("用户名或者密码错误,请重试!!");
-               }
-            },
-            error => {
-               alert("出错了,请稍后重试!!");
+    login(){
+      if(this.username === ""){
+        alert("请先输入账户!!");
+      }
+      if(this.password === ""){
+        alert("请先输入密码!!");
+      }
+      // 发送请求给后端
+      axios.post("/user/login").then(
+          response => {
+            if(response.code == 200 && response.data == 1){
+              alert("登录成功,即将跳转到主页!!");
+              router.push("/home");
+            } else {
+              alert("用户名或者密码错误,请重试!!");
             }
-        )
-     }
+          },
+          error => {
+            alert("出错了,请稍后重试!!");
+          }
+      )
+    }
   }
 }
 </script>

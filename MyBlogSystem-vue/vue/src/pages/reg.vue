@@ -1,7 +1,41 @@
 <script>
 
+import axios from "axios";
+
 export default {
-  name: "Register"
+  name: "Register",
+  data() {
+    return {
+      username: "",
+      password: "",
+      confirm_password: "",
+    }
+  },
+  methods: {
+    reg() {
+      if(this.username === "") {
+        alert("请先输入用户名!!")
+      }
+      if(this.password === "") {
+        alert("请先输入密码!!");
+      }
+      if(this.confirm_password === "") {
+        alert("请先输入确认密码!!");
+      }
+      // 发送 ajax 请求给后端
+      axios.post("/user/reg").then(
+          response => {
+            if(response.code == 200 && response.data == 1) {
+              alert("注册成功,即将跳转到登录页面!!");
+              router.push("/login");
+            }
+          },
+          error => {
+            alert("出错了,请稍后重试!!");
+          }
+      )
+    }
+  }
 }
 </script>
 
@@ -10,15 +44,15 @@ export default {
     <h2>Register</h2>
     <form>
       <div class="user-box">
-        <input type="text" name="" required="">
+        <input type="text" name="" required="" v-model="username">
         <label>Username</label>
       </div>
       <div class="user-box">
-        <input type="password" name="" required="">
+        <input type="password" name="" required="" v-model="password">
         <label>Password</label>
       </div>
       <div class="user-box">
-        <input type="password" name="" required="">
+        <input type="password" name="" required="" v-model="confirm_password">
         <label>Confirm Password</label>
         <router-link class="list-group-item" to="/reg" active-class="active">
           <span></span>

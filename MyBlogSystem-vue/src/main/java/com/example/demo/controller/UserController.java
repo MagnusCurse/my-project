@@ -35,4 +35,9 @@ public class UserController {
            }
        }
     }
+
+    @RequestMapping("/reg")
+    public Object reg(String username,String password) {
+
+    }
 }
