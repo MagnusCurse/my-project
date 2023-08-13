@@ -1,6 +1,7 @@
 <script>
 
 import axios from "axios";
+import router from "@/router";
 
 export default {
   name: "Register",
@@ -13,19 +14,19 @@ export default {
   },
   methods: {
     reg() {
-      if(this.username === "") {
+      if (this.username === "") {
         alert("请先输入用户名!!");
         return;
       }
-      if(this.password === "") {
+      if (this.password === "") {
         alert("请先输入密码!!");
         return;
       }
-      if(this.confirm_password === "") {
+      if (this.confirm_password === "") {
         alert("请先输入确认密码!!");
         return;
       }
-      if(this.password !== this.confirm_password) {
+      if (this.password !== this.confirm_password) {
         alert("两次密码输入必须相同!!");
       }
 
@@ -33,24 +34,22 @@ export default {
       axios({
         url: "http://localhost:9090/user/reg",
         method: "post",
-        // contentType: "application/json",
         params: {
-          username:this.username,
-          password:this.password
+          username: this.username,
+          password: this.password
         }
-        }).then(
-          response => {
-            if(response.code == 200 && response.data == 1) {
+      }).then(
+          function (response) {
+            if (response.data.code == 200 && response.data.val == 1) {
               alert("注册成功,即将跳转到登录页面!!");
               router.push("/login");
             } else {
               alert("注册失败,请重试!!");
             }
           },
-          error => {
-            alert("出错了,请稍后重试!!");
-          }
-      )
+      ).catch(function (error) {
+        alert("出错了,请重试!!");
+      })
     }
   }
 }
@@ -92,9 +91,9 @@ export default {
   width: 400px;
   padding: 40px;
   transform: translate(-50%, -50%);
-  background: rgba(0,0,0,.5);
+  background: rgba(0, 0, 0, .5);
   box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
   border-radius: 10px;
 }
 
@@ -120,9 +119,10 @@ export default {
   outline: none;
   background: transparent;
 }
+
 .login-box .user-box label {
   position: absolute;
-  top:0;
+  top: 0;
   left: 0;
   padding: 10px 0;
   font-size: 16px;
@@ -180,7 +180,7 @@ export default {
   0% {
     left: -100%;
   }
-  50%,100% {
+  50%, 100% {
     left: 100%;
   }
 }
@@ -199,7 +199,7 @@ export default {
   0% {
     top: -100%;
   }
-  50%,100% {
+  50%, 100% {
     top: 100%;
   }
 }
@@ -218,7 +218,7 @@ export default {
   0% {
     right: -100%;
   }
-  50%,100% {
+  50%, 100% {
     right: 100%;
   }
 }
@@ -237,7 +237,7 @@ export default {
   0% {
     bottom: -100%;
   }
-  50%,100% {
+  50%, 100% {
     bottom: 100%;
   }
 }

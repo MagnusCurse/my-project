@@ -9,11 +9,11 @@ public class AjaxResult {
     /**
      * 业务执行成功时
      */
-    public static HashMap<String,Object> success(Object data,Object msg){
+    public static HashMap<String,Object> success(Object val,Object msg){
         HashMap<String,Object> res = new HashMap<>();
         res.put("code",200);
         res.put("msg",msg);
-        res.put("data",data);
+        res.put("val",val);
         return res;
     }
 
@@ -24,7 +24,7 @@ public class AjaxResult {
         HashMap<String,Object> res = new HashMap<>();
         res.put("code",code);
         res.put("msg",msg);
-        res.put("data","");
+        res.put("val","");
         return res;
     }
 }
