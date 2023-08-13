@@ -7,10 +7,11 @@ import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.Registration;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -40,6 +41,7 @@ public class UserController {
     }
 
     @RequestMapping("/reg")
+    @ResponseBody
     public Object reg(String username,String password) {
         // 进行非空判断
         if(!StringUtils.hasLength(username) || !StringUtils.hasLength(password)){

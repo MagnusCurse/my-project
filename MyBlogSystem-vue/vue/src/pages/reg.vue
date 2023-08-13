@@ -25,12 +25,26 @@ export default {
         alert("请先输入确认密码!!");
         return;
       }
+      if(this.password !== this.confirm_password) {
+        alert("两次密码输入必须相同!!");
+      }
+
       // 发送 ajax 请求给后端
-      axios.post("http://localhost:9090/user/reg").then(
+      axios({
+        url: "http://localhost:9090/user/reg",
+        method: "post",
+        // contentType: "application/json",
+        params: {
+          username:this.username,
+          password:this.password
+        }
+        }).then(
           response => {
             if(response.code == 200 && response.data == 1) {
               alert("注册成功,即将跳转到登录页面!!");
               router.push("/login");
+            } else {
+              alert("注册失败,请重试!!");
             }
           },
           error => {
