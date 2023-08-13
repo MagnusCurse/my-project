@@ -3,7 +3,7 @@
 <mapper namespace="com.example.demo.mapper.UserMapper">
 
     <select id="login" resultType="com.example.demo.model.User">
-        select * from user_info where username == #{username}
+        select * from user_info where username = #{username}
     </select>
 
     <insert id="reg">

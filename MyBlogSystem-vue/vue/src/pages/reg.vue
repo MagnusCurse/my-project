@@ -1,7 +1,7 @@
 <script>
 
 import axios from "axios";
-import router from "@/router";
+
 
 export default {
   name: "Register",
@@ -30,6 +30,7 @@ export default {
         alert("两次密码输入必须相同!!");
       }
 
+      const originThis = this; // 缓存 this
       // 发送 ajax 请求给后端
       axios({
         url: "http://localhost:9090/user/reg",
@@ -42,13 +43,14 @@ export default {
           function (response) {
             if (response.data.code == 200 && response.data.val == 1) {
               alert("注册成功,即将跳转到登录页面!!");
-              router.push("/login");
+              originThis.$router.push("/login");
             } else {
               alert("注册失败,请重试!!");
             }
           },
       ).catch(function (error) {
-        alert("出错了,请重试!!");
+        console.log(error);
+        alert("出现异常,详情见控制台");
       })
     }
   }

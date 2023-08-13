@@ -2,6 +2,7 @@
 
 import axios from "axios";
 
+
 export default {
   name: "Login",
   data() {
@@ -11,29 +12,38 @@ export default {
     }
   },
   methods: {
-    login(){
-      if(this.username === ""){
+    login() {
+      if (this.username === "") {
         alert("请先输入账户!!");
         return;
       }
-      if(this.password === ""){
+      if (this.password === "") {
         alert("请先输入密码!!");
         return;
       }
+
+      const originThis = this; // 缓存 this
       // 发送请求给后端
-      axios.post("http://localhost:9090/user/login").then(
-          response => {
-            if(response.code == 200 && response.data == 1){
+      axios({
+        url: "http://localhost:9090/user/login",
+        method: "post",
+        params: {
+          username: this.username,
+          password: this.password
+        }
+      }).then(
+          function (response) {
+            if (response.data.code == 200 && response.data.val == 1) {
               alert("登录成功,即将跳转到主页!!");
-              router.push("/home");
+              originThis.$router.push('/home');
             } else {
               alert("用户名或者密码错误,请重试!!");
             }
-          },
-          error => {
-            alert("出错了,请稍后重试!!");
           }
-      )
+      ).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
     }
   }
 }
@@ -73,9 +83,9 @@ export default {
   width: 400px;
   padding: 40px;
   transform: translate(-50%, -50%);
-  background: rgba(0,0,0,.5);
+  background: rgba(0, 0, 0, .5);
   box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
   border-radius: 10px;
 }
 
@@ -101,9 +111,10 @@ export default {
   outline: none;
   background: transparent;
 }
+
 .login-box .user-box label {
   position: absolute;
-  top:0;
+  top: 0;
   left: 0;
   padding: 10px 0;
   font-size: 16px;
@@ -161,7 +172,7 @@ export default {
   0% {
     left: -100%;
   }
-  50%,100% {
+  50%, 100% {
     left: 100%;
   }
 }
@@ -180,7 +191,7 @@ export default {
   0% {
     top: -100%;
   }
-  50%,100% {
+  50%, 100% {
     top: 100%;
   }
 }
@@ -199,7 +210,7 @@ export default {
   0% {
     right: -100%;
   }
-  50%,100% {
+  50%, 100% {
     right: 100%;
   }
 }
@@ -218,7 +229,7 @@ export default {
   0% {
     bottom: -100%;
   }
-  50%,100% {
+  50%, 100% {
     bottom: 100%;
   }
 }
