@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import Login  from "@/pages/login.vue";
-import Reg from "@/pages/reg.vue";
-import Home from "@/pages/home.vue";
+import Login  from "@/pages/Login/Login.vue";
+import Reg from "@/pages/Reg/Reg.vue";
+import Home from "@/pages/Home/Home.vue";
 
 export default {
    name: 'app',

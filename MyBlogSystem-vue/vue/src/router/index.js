@@ -1,9 +1,9 @@
 // 这个文件用来创建整个应用的路由器
 import VueRouter from 'vue-router'
 
-import Login from "@/pages/login.vue";
-import Reg from "@/pages/reg.vue";
-import Home from "@/pages/home.vue";
+import Login from "@/pages/Login/Login.vue";
+import Reg from "@/pages/Reg/Reg.vue";
+import Home from "@/pages/Home/Home.vue";
 
 // 创建一个路由器
 export default new VueRouter({

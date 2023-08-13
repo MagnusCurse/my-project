@@ -60,7 +60,7 @@ export default {
       <div class="user-box">
         <input type="password" name="" required="" v-model="password">
         <label>Password</label>
-        <a @click="login">
+        <a @click="Login">
           <span></span>
           <span></span>
           <span></span>

@@ -2,7 +2,6 @@
 
 import axios from "axios";
 
-
 export default {
   name: "Register",
   data() {
@@ -72,7 +71,7 @@ export default {
       <div class="user-box">
         <input type="password" name="" required="" v-model="confirm_password">
         <label>Confirm Password</label>
-        <a @click="reg">
+        <a @click="Reg">
           <span></span>
           <span></span>
           <span></span>
