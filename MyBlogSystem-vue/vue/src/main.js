@@ -8,6 +8,8 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 // 引入路由器
 import router from './router/index'
+// 引入 font-awesome
+import '@fortawesome/fontawesome-free/css/all.css';
 
 Vue.config.productionTip = false;
 

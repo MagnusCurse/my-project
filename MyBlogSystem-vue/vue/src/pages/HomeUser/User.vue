@@ -144,17 +144,10 @@ export default {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  max-height: 430px;
-  width: 100%;
+  max-height: 300px;
+  width: 50%;
 }
-.card .title {
-  font-size: 16px;
-  font-weight: 500;
-}
-.card .subtitle {
-  font-size: 13px;
-  line-height: 1.6em;
-}
+
 .card + .card {
   margin-left: 20px;
 }

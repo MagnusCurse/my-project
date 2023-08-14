@@ -26,6 +26,7 @@ export default {
         <div class="user-box first-box">
           <!--   用户区域      -->
           <User/>
+          <!--   文章内容区域       -->
           <Content/>
         </div>
       </div>
@@ -69,27 +70,20 @@ body {
   flex-grow: 1;
   padding: 25px;
   overflow: auto;
-  padding-left: 0;
 }
 
 .user-box {
-  margin-top: 25px;
   display: flex;
+  height: 100%;
 }
-.user-box + .user-box {
-  margin-top: 20px;
-}
+
 
 .user-box .cards-header svg,
 .user-box .cards-view svg {
   width: 24px;
 }
 
-.user-box .cards-header .title,
-.user-box .cards-view .title {
-  margin: 0 16px;
-  font-size: 15px;
-}
+
 .user-box .cards-header-date svg,
 .user-box .cards-view-date svg {
   width: 30px;
@@ -101,10 +95,6 @@ body {
   margin: 0 2px 0 0;
 }
 
-.user-box .cards-header .date-wrapper .title,
-.user-box .cards-view .date-wrapper .title {
-  margin: 0 16px;
-}
 
 .cards-view > svg {
   margin-right: 12px;
