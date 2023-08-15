@@ -18,10 +18,11 @@ export default {
       <div class="account-name">Mike J Morgan</div>
       <div class="account-title">Taxi Driver</div>
     </div>
+    <!-- 用户信息卡  -->
     <div class="account card">
-      <div class="account-cash">$ 5637.04</div>
-      <div class="account-income">Total Income</div>
-      <div class="account-iban">**** **** **** 3060</div>
+      <div class="account-cash"></div>
+
+
     </div>
   </div>
 </template>
@@ -106,9 +107,11 @@ export default {
 }
 .account-name {
   margin: 20px 0 10px;
+  color: #9b9ca7;
 }
 .account-title {
   font-size: 14px;
+  color: #9b9ca7;
 }
 .account-cash {
   font-size: 22px;
