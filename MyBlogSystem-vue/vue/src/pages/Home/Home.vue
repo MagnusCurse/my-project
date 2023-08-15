@@ -6,6 +6,17 @@ import User from "@/pages/HomeUser/User.vue";
 
 export default {
   name: "Home",
+  computed: {
+     isHomePage() {
+       return this.$route.path === "/home/"
+     }
+  },
+  methods: {
+    // 这个方法暂时用来测试一些东西
+    show() {
+      console.log(this.$route.path);
+    }
+  },
   components: {
     Header,
     Content,
@@ -26,8 +37,9 @@ export default {
         <div class="user-box first-box">
           <!--   用户区域      -->
           <User/>
-          <!--   文章内容区域       -->
-          <Content/>
+          <!--    内容区域 / 默认显示主页内容     -->
+          <Content v-if="isHomePage"/>
+          <router-view></router-view>
         </div>
       </div>
     </div>
