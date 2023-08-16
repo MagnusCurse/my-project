@@ -28,7 +28,7 @@ create table article_info(
     content text not null,
     create_time datetime default now(),
     update_time datetime default now(),
-    uid int not null,
+    user_id int not null,
     likes int default 0,
     views int default 0
 )default charset 'utf8mb4';
