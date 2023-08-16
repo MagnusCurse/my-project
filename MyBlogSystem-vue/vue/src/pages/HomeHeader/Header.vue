@@ -10,18 +10,18 @@ export default{
   <div class="header">
     <div class="logo">Rent
       <span class=logo-det>Cr</span></div>
-    <a class="header-link active" href="#">
+    <router-link to="/home" active-class="active" exact class="header-link" href="#">
       <i class="fa-solid fa-house-chimney" style="color: #ffffff; margin-right: 5px"></i>
       主页
-    </a>
+    </router-link>
     <a class="header-link" href="#">
       <i class="fa-solid fa-user" style="color: #ffffff; margin-right: 5px"></i>
       个人中心
     </a>
-    <a class="header-link" href="#">
+    <router-link to="/home/create" active-class="active" class="header-link" href="#">
       <i class="fa-solid fa-feather" style="color: #ffffff; margin-right: 5px"></i>
       创作
-    </a>
+    </router-link>
     <a class="header-link" href="#">
       <i class="fa-solid fa-right-from-bracket" style="color: #ffffff; margin-right: 5px;"></i>
       注销
@@ -76,6 +76,7 @@ export default{
   width: 20px;
   margin-right: 14px;
 }
+
 .header-link.active, .header-link:hover {
   background: #11132c;
   border-bottom: 3px solid #4255d4;

@@ -8,7 +8,7 @@ export default {
   name: "Home",
   computed: {
      isHomePage() {
-       return this.$route.path === "/home/"
+       return this.$route.path === "/home"
      }
   },
   methods: {
