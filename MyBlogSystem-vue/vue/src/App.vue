@@ -1,32 +1,29 @@
 <template>
-    <div id="app">
+    <div class="app">
       <router-view></router-view> <!-- 组件呈现的位置  -->
     </div>
 </template>
 
 <script>
-import Login  from "@/pages/Login/Login.vue";
-import Reg from "@/pages/Reg/Reg.vue";
-import Home from "@/pages/Home/Home.vue";
 
 export default {
    name: 'app',
    components: {
-      Login,
-      Reg,
-      Home
+
    }
 }
 
 </script>
 
 <style>
-  html {
+  .app {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
-  }
-  body {
-    margin:0;
-    padding:0;
+    padding: 0;
+    margin: 0;
     font-family: sans-serif;
     background: linear-gradient(#141e30, #243b55);
   }

@@ -60,7 +60,7 @@ export default {
       <div class="user-box">
         <input type="password" name="" required="" v-model="password">
         <label>Password</label>
-        <a @click="Login">
+        <a @click="login">
           <span></span>
           <span></span>
           <span></span>
@@ -76,6 +76,7 @@ export default {
 </template>
 
 <style scoped>
+
 .login-box {
   position: absolute;
   top: 50%;
@@ -94,6 +95,8 @@ export default {
   padding: 0;
   color: #fff;
   text-align: center;
+  font-size: 22px;
+  font-weight: bold;
 }
 
 .login-box .user-box {

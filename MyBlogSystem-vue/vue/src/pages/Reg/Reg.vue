@@ -103,6 +103,8 @@ export default {
   padding: 0;
   color: #fff;
   text-align: center;
+  font-size: 22px;
+  font-weight: bold;
 }
 
 .login-box .user-box {

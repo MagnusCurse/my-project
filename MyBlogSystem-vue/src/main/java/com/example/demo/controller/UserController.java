@@ -19,6 +19,7 @@ public class UserController {
     @Autowired
     private UserService service;
     @RequestMapping("/login")
+    @ResponseBody
     public Object login(HttpServletRequest request,String username, String password){
        // 进行非空判断
        if(!StringUtils.hasLength(username) || !StringUtils.hasLength(password)) {
