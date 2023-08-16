@@ -6,10 +6,27 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 // 使用 VueRouter
 Vue.use(VueRouter)
+
 // 引入路由器
 import router from './router/index'
 // 引入 font-awesome
 import '@fortawesome/fontawesome-free/css/all.css';
+// 引入 ElementTipTap 富文本编译器
+import { ElementTiptapPlugin } from 'element-tiptap';
+// 引入 ElementTipTap 样式
+import 'element-tiptap/lib/index.css';
+// 引入 Buefy 组件库
+import Buefy from 'buefy'
+import 'buefy/dist/buefy.css'
+
+// 使用 Buefy 组件库
+Vue.use(Buefy)
+// 安装 ElementTipTap 插件
+Vue.use(ElementTiptapPlugin, {
+    /* 插件配置项 */
+    lang: "en", // see i18n
+    spellcheck: true, // can be overwritten by editor prop
+});
 
 Vue.config.productionTip = false;
 
