@@ -18,7 +18,7 @@ public class SessionUnit {
      * @param user
      */
     public static void setLoginUser(HttpServletRequest request,User user){
-        //将登录信息保存到 session 中
+        // 将登录信息保存到 session 中
         HttpSession session = request.getSession();
         session.setAttribute(Constant.SESSION_USERINFO_KEY,user);
     }

@@ -37,6 +37,8 @@ import {
   FontSize,
 } from 'element-tiptap';
 
+import axios from "axios";
+
 export default {
   name: "Create",
   data () {
@@ -74,12 +76,48 @@ export default {
         new SelectAll(),
         new Preview()
       ],
-      // 编辑器的内容
+      // 编辑器的内容 / 文章的内容
       content: `
         <h1>Heading</h1>
         <p>Write something you like!!</p>
-      `
+      `,
+      // 文章的标题
+      title: ""
     };
+  },
+  methods: {
+    publish() {
+      if(this.title === "") {
+        alert("文章标题不能为空");
+        return;
+      }
+      if(this.content === "") {
+        alert("文章内容不能为空");
+        return;
+      }
+      const originThis = this; // 缓存 this
+      // 发送请求给后端
+      axios({
+        url: "http://localhost:9090/article/publish",
+        method: "post",
+        params: {
+          title: this.title,
+          content: this.content
+        }
+      }).then(
+          function (response) {
+            if(response.data.code == 200 && response.data.val == 1) {
+              alert("发布文章成功!!");
+              originThis.$router.push("/home");
+            } else {
+              alert("发布文章失败,请重试");
+            }
+          }
+      ).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
+    }
   }
 }
 </script>
@@ -87,8 +125,8 @@ export default {
 <template>
   <div class="activity card" style="--delay: .2s">
     <div class="input-field">
-        <b-input v-model="name" class="title"></b-input>
-        <b-button type="is-warning">发布文章</b-button>
+        <b-input v-model="title" class="title"></b-input>
+        <b-button type="is-warning" @click="publish">发布文章</b-button>
         <b-button type="is-warning">保存草稿</b-button>
     </div>
     <el-tiptap v-model="content" :extensions="extensions" placeholder="Write something …"/>

@@ -21,7 +21,7 @@ public class ArticleController {
     @RequestMapping("/publish")
     @ResponseBody
     public Object publish(String title, String content, HttpServletRequest request){
-        if(StringUtils.hasLength(content) || StringUtils.hasLength(title)){
+        if(!StringUtils.hasLength(content) || !StringUtils.hasLength(title)){
             return AjaxResult.fail(-1,"文章内容或者标题为空");
         }
         // 得到当前用户对象

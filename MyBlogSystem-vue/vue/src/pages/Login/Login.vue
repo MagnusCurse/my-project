@@ -35,7 +35,7 @@ export default {
           function (response) {
             if (response.data.code == 200 && response.data.val == 1) {
               alert("登录成功,即将跳转到主页!!");
-              originThis.$router.push('/home');
+              originThis.$router.push("/home");
             } else {
               alert("用户名或者密码错误,请重试!!");
             }

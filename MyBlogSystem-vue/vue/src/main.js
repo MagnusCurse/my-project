@@ -11,6 +11,10 @@ Vue.use(VueRouter)
 import router from './router/index'
 // 引入 font-awesome
 import '@fortawesome/fontawesome-free/css/all.css';
+// 引入 ElementUI
+import ElementUI from 'element-ui';
+// 引入 ElementUI 样式
+import 'element-ui/lib/theme-chalk/index.css';
 // 引入 ElementTipTap 富文本编译器
 import { ElementTiptapPlugin } from 'element-tiptap';
 // 引入 ElementTipTap 样式
@@ -19,6 +23,8 @@ import 'element-tiptap/lib/index.css';
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 
+// 安装 ElementUI 插件
+Vue.use(ElementUI);
 // 使用 Buefy 组件库
 Vue.use(Buefy)
 // 安装 ElementTipTap 插件
