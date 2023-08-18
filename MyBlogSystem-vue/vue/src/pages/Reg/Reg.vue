@@ -33,7 +33,7 @@ export default {
       // 发送 ajax 请求给后端
       axios({
         url: "http://localhost:9090/user/reg",
-        method: "post",
+        method: "get",
         params: {
           username: this.username,
           password: this.password

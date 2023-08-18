@@ -100,7 +100,7 @@ export default {
       axios({
         url: "http://localhost:9090/article/publish",
         method: "post",
-        params: {
+        data: {
           title: this.title,
           content: this.content
         }

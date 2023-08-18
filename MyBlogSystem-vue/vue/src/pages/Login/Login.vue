@@ -26,7 +26,7 @@ export default {
       // 发送请求给后端
       axios({
         url: "http://localhost:9090/user/login",
-        method: "post",
+        method: "get",
         params: {
           username: this.username,
           password: this.password

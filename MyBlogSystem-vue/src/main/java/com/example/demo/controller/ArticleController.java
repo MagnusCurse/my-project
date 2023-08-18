@@ -6,11 +6,13 @@ import com.example.demo.model.User;
 import com.example.demo.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/article")
@@ -20,7 +22,9 @@ public class ArticleController {
 
     @RequestMapping("/publish")
     @ResponseBody
-    public Object publish(String title, String content, HttpServletRequest request){
+    public Object publish(@RequestBody Map<String,String> body, HttpServletRequest request){
+        String content = body.get("content");
+        String title = body.get("title");
         if(!StringUtils.hasLength(content) || !StringUtils.hasLength(title)){
             return AjaxResult.fail(-1,"文章内容或者标题为空");
         }
