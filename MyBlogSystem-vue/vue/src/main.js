@@ -22,6 +22,7 @@ import 'element-tiptap/lib/index.css';
 // 引入 Buefy 组件库
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
+import axios from "axios";
 
 // 安装 ElementUI 插件
 Vue.use(ElementUI);
@@ -33,6 +34,9 @@ Vue.use(ElementTiptapPlugin, {
     lang: "en", // see i18n
     spellcheck: true, // can be overwritten by editor prop
 });
+
+// 前端解决跨域导致的 Session 丢失问题
+axios.defaults.withCredentials = true;
 
 Vue.config.productionTip = false;
 

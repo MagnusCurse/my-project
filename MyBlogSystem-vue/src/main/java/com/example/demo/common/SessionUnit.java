@@ -30,6 +30,7 @@ public class SessionUnit {
      */
     public static User getLoginUser(HttpServletRequest request){
         HttpSession session = request.getSession(false);
+
         if(session != null && session.getAttribute(Constant.SESSION_USERINFO_KEY) != null) {
            return (User) session.getAttribute(Constant.SESSION_USERINFO_KEY);
         }
