@@ -80,7 +80,6 @@ export default {
       content: `
         <h1>Heading</h1>
         <p>Write something you like!!</p>
-        <img src="" alt="">
       `,
       // 文章的标题
       title: ""
