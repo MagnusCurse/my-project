@@ -21,7 +21,9 @@ import { ElementTiptapPlugin } from 'element-tiptap';
 import 'element-tiptap/lib/index.css';
 // 引入 Buefy 组件库
 import Buefy from 'buefy'
+// 引入 Buefy css
 import 'buefy/dist/buefy.css'
+// 引入 Axios
 import axios from "axios";
 
 // 安装 ElementUI 插件

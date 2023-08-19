@@ -47,7 +47,7 @@ export default {
 .destination {
   display: flex;
   align-items: center;
-  margin-top: auto;
+
 }
 .destination-card {
   background: #1a1d3a;

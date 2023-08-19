@@ -10,15 +10,41 @@ export default {
 
 <template>
   <div class="activity card" style="--delay: .2s">
-    <div class="title">User Activities</div>
-    <div class="subtitle">Hoo - is an adaptive Online Courses Application with a wide range of course directions. The students will have a great possibility to study.</div>
+    <b-field  style="width: 50%; margin: 5px auto">
+      <b-input placeholder="Search..."
+               type="search"
+               icon-pack="fas"
+               icon="search">
+      </b-input>
+    </b-field>
+
+    <el-card class="box-card" style="margin: 16px">
+      <div slot="header" class="clearfix">
+        <el-dropdown size="small" split-button type="primary">
+          Option
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>查看博客</el-dropdown-item>
+            <el-dropdown-item>修改博客</el-dropdown-item>
+            <el-dropdown-item>删除博客</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
+      <div class="text item">
+          <span>Title: The Rise of Robotic Companions</span>
+          <br>
+          <span>
+            In a world shaped by ever-advancing technology, robots have emerged as not just tools of industry, but as companions and collaborators in our daily lives. These remarkable machines, once confined to assembly lines and research labs, have evolved into sophisticated beings that bridge the gap between fiction and reality.
+            From the moment we wake up, robots are there to assist us. Our personalized robot assistants, with their sleek designs and empathetic programming, greet us with a warm smile and a cup of perfectly brewed coffee. They effortlessly navigate our homes, adjusting lighting and temperature to match our preferences. These robots have become more than just automatons; they have become members of our households, catering to our needs and adapting to our routines.
+          </span>
+      </div>
+    </el-card>
+
     <div class="activity-links">
       <div class="activity-link active">Current User</div>
       <div class="activity-link notify">User Request</div>
     </div>
     <!--  推荐用户区域  -->
     <Recommend/>
-
   </div>
 </template>
 
@@ -33,8 +59,8 @@ export default {
 .activity-links {
   display: flex;
   align-items: center;
-  margin-top: auto;
   font-size: 15px;
+  margin: auto;
 }
 .activity-link {
   padding-bottom: 10px;
@@ -82,6 +108,8 @@ export default {
   bottom: 0;
 }
 
+
+
 .card {
   background: #1a2049;
   background: radial-gradient(circle, #1a2049 0%, #13162f 100%);
@@ -90,7 +118,6 @@ export default {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  height: 100%;
   width: 100%;
 }
 .card .title {
@@ -104,6 +131,5 @@ export default {
 .card + .card {
   margin-left: 20px;
 }
-
 
 </style>
