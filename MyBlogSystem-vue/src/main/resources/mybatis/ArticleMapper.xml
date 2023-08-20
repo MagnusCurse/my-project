@@ -8,4 +8,8 @@
     <select id="initBlogs" resultType="com.example.demo.model.Article">
         select * from article_info
     </select>
+
+    <select id="initBlog" resultType="com.example.demo.model.Article">
+        select * from article_info where id = #{id}
+    </select>
 </mapper>

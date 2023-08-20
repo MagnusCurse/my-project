@@ -15,11 +15,12 @@ export default {
   },
   methods: {
     // 初始化博客列表
-    initBlog() {
+    initBlogs() {
       const originThis = this; // 缓存 this
+
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/article/initBlogs",
+        url: "http://localhost:9090/article/init-blogs",
         method: "get",
       }).then(function (response) {
         if(response.data.code == 200) {
@@ -29,10 +30,15 @@ export default {
         console.log(error);
         alert("出现异常,详情见控制台");
       })
+    },
+    // 初始化博客详情
+    initBlog(id) {
+      this.$bus.$emit('initBlog',id); // 绑定事件并将 blog 的 id 传给
+      this.$router.push("/home/detail");
     }
   },
   mounted() {
-    this.initBlog();
+    this.initBlogs(); // 调用初始化博客列表方法
   }
 }
 </script>
@@ -52,12 +58,12 @@ export default {
           <!-- Header部分  -->
           <div slot="header" class="clearfix">
             <!--  DropDown部分    -->
-            <el-dropdown size="small" split-button type="primary">
+            <el-dropdown size="small" split-button type="primary" @command="handlerCommand">
               Option
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>查看博客</el-dropdown-item>
-                <el-dropdown-item>修改博客</el-dropdown-item>
-                <el-dropdown-item>删除博客</el-dropdown-item>
+                <el-button  icon="el-icon-reading" size="medium" circle @click="initBlog(blog.id)"></el-button>
+                <el-button  icon="el-icon-edit" size="medium" circle></el-button>
+                <el-button  icon="el-icon-delete" size="medium" circle></el-button>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -66,7 +72,7 @@ export default {
             <h3> {{ blog.title }} </h3>
             <br>
             <span>
-            {{ blog.content }}
+            to be continued
           </span>
           </div>
         </el-card>

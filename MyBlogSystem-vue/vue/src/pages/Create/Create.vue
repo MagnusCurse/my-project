@@ -130,7 +130,7 @@ export default {
         <b-button type="is-warning" @click="publish">发布文章</b-button>
         <b-button type="is-warning">保存草稿</b-button>
     </div>
-    <el-tiptap v-model="content" :extensions="extensions" placeholder="Write something …" :readonly="true"/>
+    <el-tiptap v-model="content" :extensions="extensions" placeholder="Write something …"/>
   </div>
 </template>
 

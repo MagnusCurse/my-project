@@ -5,7 +5,8 @@ import Login from "@/pages/Login/Login.vue";
 import Reg from "@/pages/Reg/Reg.vue";
 import Home from "@/pages/Home/Home.vue";
 import Create from "@/pages/Create/Create.vue";
-import Content from "@/pages/HomeContent/Content.vue";
+import Detail from "@/pages/Detail/Detail.vue";
+
 
 // 创建一个路由器
 export default new VueRouter({
@@ -15,8 +16,8 @@ export default new VueRouter({
           component: Home,  // 组件名
             children: [
                 {
-                  path: "content",
-                  component: Content
+                    path: "detail",
+                    component: Detail
                 },
                 {
                     path: "create",

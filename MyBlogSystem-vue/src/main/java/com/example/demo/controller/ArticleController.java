@@ -43,10 +43,20 @@ public class ArticleController {
         return AjaxResult.success(res,"发布文章成功");
     }
 
-    @RequestMapping("/initBlogs")
+    @RequestMapping("/init-blogs")
     @ResponseBody
     public Object initBlogs() {
         List<Article> res = service.initBlogs();
         return res;
+    }
+
+    @RequestMapping("/init-blog")
+    @ResponseBody
+    public Object intiBlog(Integer id) {
+       Article res = service.initBlog(id);
+       if(res == null) {
+           return AjaxResult.fail(-1,"找不到该 Blog");
+       }
+       return AjaxResult.success(res,"初始化博客内容详情成功");
     }
 }

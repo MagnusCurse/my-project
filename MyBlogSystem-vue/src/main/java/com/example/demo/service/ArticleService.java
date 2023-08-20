@@ -30,4 +30,13 @@ public class ArticleService {
     public List<Article> initBlogs(){
         return mapper.initBlogs();
     }
+
+    /**
+     * 初始化博客内容详情
+     * @param id
+     * @return
+     */
+    public Article initBlog(Integer id) {
+        return mapper.initBlog(id);
+    }
 }
