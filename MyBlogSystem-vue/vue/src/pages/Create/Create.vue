@@ -49,6 +49,7 @@ export default {
         new Doc(),
         new Text(),
         new Paragraph(),
+
         new Heading({ level: 5 }),
         new Bold({ bubble: true }), // 在气泡菜单中渲染菜单按钮
         new Underline({ bubble: true, menubar: false }), // 在气泡菜单而不在菜单栏中渲染菜单按钮
@@ -129,7 +130,7 @@ export default {
         <b-button type="is-warning" @click="publish">发布文章</b-button>
         <b-button type="is-warning">保存草稿</b-button>
     </div>
-    <el-tiptap v-model="content" :extensions="extensions" placeholder="Write something …"/>
+    <el-tiptap v-model="content" :extensions="extensions" placeholder="Write something …" :readonly="true"/>
   </div>
 </template>
 

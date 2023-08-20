@@ -1,54 +1,91 @@
 <script>
 import Recommend from "@/pages/Recommend/Recommend.vue";
+import axios from "axios";
 export default {
   name: "Content",
   components: {
     Recommend
+  },
+  data() {
+    return {
+      blogs: {
+
+      }
+    }
+  },
+  methods: {
+    // 初始化博客列表
+    initBlog() {
+      const originThis = this; // 缓存 this
+      // 发送请求给后端
+      axios({
+        url: "http://localhost:9090/article/initBlogs",
+        method: "get",
+      }).then(function (response) {
+        if(response.data.code == 200) {
+           originThis.blogs = response.data.val;
+        }
+      }).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
+    }
+  },
+  mounted() {
+    this.initBlog();
   }
 }
 </script>
 
 <template>
-  <div class="activity card" style="--delay: .2s">
-    <b-field  style="width: 50%; margin: 5px auto">
+  <div class="content">
+    <b-field  style="width: 50%; margin: 18px auto">
       <b-input placeholder="Search..."
                type="search"
                icon-pack="fas"
                icon="search">
       </b-input>
     </b-field>
-
-    <el-card class="box-card" style="margin: 16px">
-      <div slot="header" class="clearfix">
-        <el-dropdown size="small" split-button type="primary">
-          Option
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>查看博客</el-dropdown-item>
-            <el-dropdown-item>修改博客</el-dropdown-item>
-            <el-dropdown-item>删除博客</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
-      <div class="text item">
-          <span>Title: The Rise of Robotic Companions</span>
-          <br>
-          <span>
-            In a world shaped by ever-advancing technology, robots have emerged as not just tools of industry, but as companions and collaborators in our daily lives. These remarkable machines, once confined to assembly lines and research labs, have evolved into sophisticated beings that bridge the gap between fiction and reality.
-            From the moment we wake up, robots are there to assist us. Our personalized robot assistants, with their sleek designs and empathetic programming, greet us with a warm smile and a cup of perfectly brewed coffee. They effortlessly navigate our homes, adjusting lighting and temperature to match our preferences. These robots have become more than just automatons; they have become members of our households, catering to our needs and adapting to our routines.
+    <div class="activity card" style="--delay: .2s">
+      <div class="blogs">
+        <el-card class="blog" style="margin: 16px" v-for="blog in blogs" :key="blog.id">
+          <!-- Header部分  -->
+          <div slot="header" class="clearfix">
+            <!--  DropDown部分    -->
+            <el-dropdown size="small" split-button type="primary">
+              Option
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>查看博客</el-dropdown-item>
+                <el-dropdown-item>修改博客</el-dropdown-item>
+                <el-dropdown-item>删除博客</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+          <!--   内容部分   -->
+          <div class="text item" style="margin-bottom: 10px">
+            <h3> {{ blog.title }} </h3>
+            <br>
+            <span>
+            {{ blog.content }}
           </span>
+          </div>
+        </el-card>
       </div>
-    </el-card>
-
-    <div class="activity-links">
-      <div class="activity-link active">Current User</div>
-      <div class="activity-link notify">User Request</div>
+      <div class="activity-links">
+        <div class="activity-link active">Current User</div>
+        <div class="activity-link notify">User Request</div>
+      </div>
+      <!--  推荐用户区域  -->
+      <Recommend/>
     </div>
-    <!--  推荐用户区域  -->
-    <Recommend/>
   </div>
+
 </template>
 
 <style scoped>
+.content {
+  width: 100%;
+}
 
 .activity {
   margin: 5px;
@@ -131,5 +168,6 @@ export default {
 .card + .card {
   margin-left: 20px;
 }
+
 
 </style>

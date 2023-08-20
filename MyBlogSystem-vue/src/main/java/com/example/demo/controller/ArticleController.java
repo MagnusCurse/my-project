@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.common.AjaxResult;
 import com.example.demo.common.SessionUnit;
+import com.example.demo.model.Article;
 import com.example.demo.model.User;
 import com.example.demo.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -39,5 +41,12 @@ public class ArticleController {
             return AjaxResult.fail(-1,"数据库插入文章失败");
         }
         return AjaxResult.success(res,"发布文章成功");
+    }
+
+    @RequestMapping("/initBlogs")
+    @ResponseBody
+    public Object initBlogs() {
+        List<Article> res = service.initBlogs();
+        return res;
     }
 }

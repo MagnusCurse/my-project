@@ -4,4 +4,8 @@
     <insert id="publish">
            insert into article_info (title,content,user_id) values (#{title},#{content},#{user_id})
     </insert>
+
+    <select id="initBlogs" resultType="com.example.demo.model.Article">
+        select * from article_info
+    </select>
 </mapper>

@@ -1,8 +1,11 @@
 package com.example.demo.service;
 
 import com.example.demo.mapper.ArticleMapper;
+import com.example.demo.model.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ArticleService {
@@ -18,5 +21,13 @@ public class ArticleService {
      */
     public int publish(String title,String content,Integer user_id) {
         return mapper.publish(title,content,user_id);
+    }
+
+    /**
+     * 初始化博客列表
+     * @return
+     */
+    public List<Article> initBlogs(){
+        return mapper.initBlogs();
     }
 }
