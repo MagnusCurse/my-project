@@ -71,7 +71,7 @@ export default {
       <div class="user-box">
         <input type="password" name="" required="" v-model="confirm_password">
         <label>Confirm Password</label>
-        <a @click="Reg">
+        <a @click="reg">
           <span></span>
           <span></span>
           <span></span>

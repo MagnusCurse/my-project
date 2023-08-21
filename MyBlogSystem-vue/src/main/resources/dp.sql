@@ -20,9 +20,10 @@ create table user_info(
      avatar_url varchar(200) default ''
 ) default charset 'utf8mb4';
 
--- 创建文章表
-drop table if exists article_info;
-create table article_info(
+-- 创建博客表
+
+drop table if exists blog_info;
+create table blog_info(
     id int primary key auto_increment,
     title varchar(100) not null,
     content text not null,

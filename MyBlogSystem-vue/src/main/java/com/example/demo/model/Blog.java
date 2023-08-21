@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Article {
+public class Blog {
     private Integer id;
     private String title;
     private String content;

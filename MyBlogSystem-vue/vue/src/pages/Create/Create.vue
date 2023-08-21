@@ -99,7 +99,7 @@ export default {
       const originThis = this; // 缓存 this
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/article/publish",
+        url: "http://localhost:9090/blog/publish",
         method: "post",
         data: {
           title: this.title,
