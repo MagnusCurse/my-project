@@ -52,7 +52,7 @@ export default {
           <!-- Header部分  -->
           <div slot="header" class="clearfix">
             <!--  DropDown部分    -->
-            <el-dropdown size="small" split-button type="primary" @command="handlerCommand">
+            <el-dropdown size="small" split-button type="primary">
               Option
               <el-dropdown-menu slot="dropdown">
                 <router-link :to="{
@@ -64,6 +64,7 @@ export default {
                 }">
                   <el-button  icon="el-icon-reading" size="medium" circle></el-button>
                 </router-link>
+
                 <router-link to="/">
                   <el-button  icon="el-icon-edit" size="medium" circle></el-button>
                 </router-link>

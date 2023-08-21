@@ -76,7 +76,10 @@ public class BlogController {
         if(blog.getUser_id() != curUser.getId()) {
             return AjaxResult.fail(-2,"你没有权限修改该博客");
         }
-
-        return 0;
+        int res = service.modify(id,title,content);
+        if(res != 1) {
+            return AjaxResult.fail(-1,"修改数据库失败");
+        }
+        return AjaxResult.success(res,"修改博客成功");
     }
 }

@@ -1,6 +1,4 @@
 <script>
-
-
 export default {
   name: "User"
 }
@@ -54,10 +52,9 @@ export default {
   border-radius: 50%;
 }
 .account-wrapper {
-  max-width: 310px;
   width: 100%;
+  height: 30%;
   display: flex;
-  flex-direction: column;
   margin-left: 20px;
   align-items: center;
 }
@@ -65,6 +62,7 @@ export default {
   margin: auto;
   position: relative;
   text-align: center;
+  width: 20%;
 
 }
 .account-profile img {
@@ -140,15 +138,15 @@ export default {
 }
 
 .card {
+
   background: #1a2049;
   background: radial-gradient(circle, #1a2049 0%, #13162f 100%);
   padding: 40px 30px;
   border-radius: 6px;
+  width: 70%;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  max-height: 460px;
-  width: 90%;
 }
 
 .card + .card {

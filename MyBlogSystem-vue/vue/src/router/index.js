@@ -6,6 +6,7 @@ import Reg from "@/pages/Reg/Reg.vue";
 import Home from "@/pages/Home/Home.vue";
 import Create from "@/pages/Create/Create.vue";
 import Detail from "@/pages/Detail/Detail.vue";
+import Center from "@/pages/Center/Center.vue";
 
 
 // 创建一个路由器
@@ -28,6 +29,10 @@ export default new VueRouter({
                     component: Create
                 }
             ]
+        },
+        {
+            path: '/center',
+            component: Center
         },
         {
             path: '/login',

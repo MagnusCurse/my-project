@@ -46,8 +46,8 @@ public class BlogService {
      * @param content
      * @return
      */
-    public int modify(Integer id,String content) {
-        return mapper.modify(id,content);
+    public int modify(Integer id,String title,String content) {
+        return mapper.modify(id,title,content);
     }
 
     /**

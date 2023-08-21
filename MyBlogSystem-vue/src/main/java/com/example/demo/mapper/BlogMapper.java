@@ -16,6 +16,6 @@ public interface BlogMapper {
 
     public Blog getBlog(@Param("id") Integer id);
 
-    public int modify(@Param("id") Integer id,@Param("content") String content);
+    public int modify(@Param("id") Integer id,@Param("title") String title,@Param("content") String content);
 
 }
