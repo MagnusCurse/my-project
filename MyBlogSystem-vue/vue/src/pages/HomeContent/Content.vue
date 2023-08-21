@@ -17,7 +17,6 @@ export default {
     // 初始化博客列表
     initBlogs() {
       const originThis = this; // 缓存 this
-
       // 发送请求给后端
       axios({
         url: "http://localhost:9090/article/init-blogs",
@@ -30,11 +29,6 @@ export default {
         console.log(error);
         alert("出现异常,详情见控制台");
       })
-    },
-    // 初始化博客详情
-    initBlog(id) {
-      this.$bus.$emit('initBlog',id); // 绑定事件并将 blog 的 id 传给
-      this.$router.push("/home/detail");
     }
   },
   mounted() {
@@ -61,9 +55,21 @@ export default {
             <el-dropdown size="small" split-button type="primary" @command="handlerCommand">
               Option
               <el-dropdown-menu slot="dropdown">
-                <el-button  icon="el-icon-reading" size="medium" circle @click="initBlog(blog.id)"></el-button>
-                <el-button  icon="el-icon-edit" size="medium" circle></el-button>
-                <el-button  icon="el-icon-delete" size="medium" circle></el-button>
+                <router-link :to="{
+                  path: '/home/detail',
+                  // 将博客 ID 传递到 Detail 组件去
+                  query: {
+                    id: blog.id
+                  }
+                }">
+                  <el-button  icon="el-icon-reading" size="medium" circle></el-button>
+                </router-link>
+                <router-link to="/">
+                  <el-button  icon="el-icon-edit" size="medium" circle></el-button>
+                </router-link>
+                <router-link to="/">
+                  <el-button  icon="el-icon-delete" size="medium" circle></el-button>
+                </router-link>
               </el-dropdown-menu>
             </el-dropdown>
           </div>

@@ -54,11 +54,10 @@ export default {
       content: `
         <h1>Heading</h1>
         <p>Write something you like!!</p>
-      `,
-      // 当前博客内容的 ID
-      blogID: 0
+      `
     }
   },
+  props: ["id"],
   methods: {
     // 初始化博客内容详情
     init() {
@@ -68,7 +67,7 @@ export default {
         url: "http://localhost:9090/article/init-blog",
         method: "get",
         params: {
-          id: originThis.blogID
+          id: originThis.id
         }
       }).then(
         function (response) {

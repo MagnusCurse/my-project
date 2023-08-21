@@ -17,7 +17,11 @@ export default new VueRouter({
             children: [
                 {
                     path: "detail",
-                    component: Detail
+                    component: Detail,
+                    // props 传递参数
+                    props($route) {
+                        return {id: $route.query.id }
+                    }
                 },
                 {
                     path: "create",
