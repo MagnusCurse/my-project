@@ -83,10 +83,12 @@ export default {
         <p>Write something you like!!</p>
       `,
       // 文章的标题
-      title: ""
+      title: "",
     };
   },
+  props: ["user_id","edit_title","edit_content","isEdit"],
   methods: {
+    // 发布博客函数
     publish() {
       if(this.title === "") {
         alert("文章标题不能为空");
@@ -118,7 +120,52 @@ export default {
         console.log(error);
         alert("出现异常,详情见控制台");
       })
+    },
+    // 编辑博客函数
+    edit() {
+      if(this.title === "") {
+        alert("文章标题不能为空");
+        return;
+      }
+      if(this.content === "") {
+        alert("文章内容不能为空");
+        return;
+      }
+      const originThis = this; // 缓存 this
+      // 发送请求给后端
+      axios({
+        url: "http://localhost:9090/blog/modify",
+        method: "post",
+        data: {
+          title: this.title,
+          content: this.content,
+          user_id: this.user_id
+        }
+      }).then(
+          function (response) {
+            if(response.data.code == 200 && response.data.val == 1) {
+              alert("修改博客成功!!");
+              originThis.$router.push("/home");
+            } else {
+              alert("修改博客失败,请重试");
+            }
+          }
+      ).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
+    },
+    // 初始化标题和博客内容 (编辑)
+    initEdit() {
+      // 处于编辑状态才初始化
+      if(this.isEdit) {
+        this.title = this.edit_title;
+        this.content = this.edit_content;
+      }
     }
+  },
+  mounted() {
+     this.initEdit();
   }
 }
 </script>
@@ -127,6 +174,7 @@ export default {
   <div class="activity card" style="--delay: .2s">
     <div class="input-field">
         <b-input v-model="title" class="title"></b-input>
+        <!--  当 isEdit 为 true 调用编辑函数,否则调用 发布博客函数   -->
         <b-button type="is-warning" @click="publish">发布文章</b-button>
         <b-button type="is-warning">保存草稿</b-button>
     </div>

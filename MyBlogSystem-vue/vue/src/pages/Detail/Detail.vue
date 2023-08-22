@@ -84,9 +84,6 @@ export default {
     }
   },
   mounted() {
-    this.$bus.$on("initBlog",function (data) { // 触发全局事件总线 intiBlog 事件
-      this.blogID = data;
-    })
     this.init();
   }
 }

@@ -26,7 +26,16 @@ export default new VueRouter({
                 },
                 {
                     path: "create",
-                    component: Create
+                    component: Create,
+                    // props 传递参数
+                    props($route) {
+                        return {
+                                user_id: $route.query.user_id,
+                                edit_title: $route.query.edit_title,
+                                edit_content: $route.query.edit_content,
+                                isEdit: $route.query.isEdit
+                        }
+                    }
                 }
             ]
         },

@@ -64,13 +64,6 @@ export default {
                 }">
                   <el-button  icon="el-icon-reading" size="medium" circle></el-button>
                 </router-link>
-
-                <router-link to="/">
-                  <el-button  icon="el-icon-edit" size="medium" circle></el-button>
-                </router-link>
-                <router-link to="/">
-                  <el-button  icon="el-icon-delete" size="medium" circle></el-button>
-                </router-link>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
