@@ -1,6 +1,16 @@
 <script>
 export default {
-  name: "User"
+  name: "User",
+  data() {
+    return {
+      nickname: "未填写",
+      email: "未填写",
+      introduction: "未填写"
+    }
+  },
+  methods: {
+
+  }
 }
 </script>
 
@@ -19,8 +29,15 @@ export default {
     <!-- 用户信息卡  -->
     <div class="account card">
       <div class="account-cash"></div>
-
-
+      <div class="account-info">
+         <div style="display: flex">
+           <div class="nickname">昵称: {{ nickname }}</div>
+           |
+           <div class="email">邮箱: {{ email }}</div>
+         </div>
+         <div class="introduction">简介: {{ introduction }}</div>
+         <el-button style="float: right" type="info" icon="el-icon-edit-outline" size="small" circle></el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -119,7 +136,7 @@ export default {
   position: relative;
 }
 .account-cash:before {
-  content: "";
+
   position: absolute;
   width: 5px;
   height: 5px;
@@ -129,16 +146,23 @@ export default {
   box-shadow: -10px 0 0 0 #9b9ca7, 10px 0 0 0 #9b9ca7;
   top: 24px;
 }
-.account-income {
-  font-size: 14px;
+
+.account-info {
+  background: radial-gradient(circle, #1a2049 0%, #13162f 100%);
+  border-radius: 5px;
+  height: 100%;
+  color: white;
 }
-.account-iban {
-  margin-top: auto;
-  font-weight: 500;
+.nickname {
+  margin-right: 10px;
+}
+
+.email {
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .card {
-
   background: #1a2049;
   background: radial-gradient(circle, #1a2049 0%, #13162f 100%);
   padding: 40px 30px;

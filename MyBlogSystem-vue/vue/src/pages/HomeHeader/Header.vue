@@ -14,10 +14,10 @@ export default{
       <i class="fa-solid fa-house-chimney" style="color: #ffffff; margin-right: 5px"></i>
       主页
     </router-link>
-    <a class="header-link" href="#">
+    <router-link to="/center" active-class="active" class="header-link" href="#">
       <i class="fa-solid fa-user" style="color: #ffffff; margin-right: 5px"></i>
       个人中心
-    </a>
+    </router-link>
     <router-link to="/home/create" active-class="active" class="header-link" href="#">
       <i class="fa-solid fa-feather" style="color: #ffffff; margin-right: 5px"></i>
       创作
