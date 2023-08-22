@@ -2,12 +2,14 @@
 import Header from "@/pages/HomeHeader/Header.vue";
 import LeftSide from "@/pages/HomeLeftSide/LeftSide.vue";
 import User from "@/pages/CenterUser/User.vue";
+import Blogs from "@/pages/CenterBlogs/Blogs.vue";
 
 export default {
   name: "Center",
   components: {
     Header,
     LeftSide,
+    Blogs,
     User
   }
 }
@@ -25,6 +27,7 @@ export default {
           <!-- 用户区域 -->
           <User/>
         </div>
+        <Blogs/>
       </div>
     </div>
   </div>
@@ -70,7 +73,8 @@ body {
 
 .user-box {
   display: flex;
-  height: 100%;
+  height: 30%;
+  margin-top: 16px;
 }
 
 

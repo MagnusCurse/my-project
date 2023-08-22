@@ -1,11 +1,10 @@
 <script>
-import Recommend from "@/pages/Recommend/Recommend.vue";
+
+
 import axios from "axios";
+
 export default {
-  name: "Content",
-  components: {
-    Recommend
-  },
+  name: "Blogs",
   data() {
     return {
       blogs: {
@@ -19,11 +18,13 @@ export default {
       const originThis = this; // 缓存 this
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/blog/init-blogs",
+        url: "http://localhost:9090/blog/init-user-blogs",
         method: "get",
       }).then(function (response) {
-        if(response.data.code == 200) {
-           originThis.blogs = response.data.val;
+        if(response.data.code == 200 && response.data.val != null) {
+          originThis.blogs = response.data.val;
+        } else { // 如果查询到当前列表为空,替换成空页面
+
         }
       }).catch(function (error) {
         console.log(error);
@@ -32,13 +33,13 @@ export default {
     }
   },
   mounted() {
-    this.initBlogs(); // 调用初始化博客列表方法
+    this.initBlogs();
   }
 }
 </script>
 
 <template>
-  <div class="content">
+  <div class="blogs-list">
     <div class="activity card" style="--delay: .2s">
       <b-field  style="width: 50%; margin: 18px auto">
         <b-input placeholder="Search..."
@@ -84,19 +85,13 @@ export default {
           </div>
         </el-card>
       </div>
-      <div class="activity-links">
-        <div class="activity-link active">Current User</div>
-        <div class="activity-link notify">User Request</div>
-      </div>
-      <!--  推荐用户区域  -->
-      <Recommend/>
     </div>
   </div>
-
 </template>
 
 <style scoped>
-.content {
+.blogs-list {
+  height: 100%;
   width: 100%;
   margin-top: 16px;
 }
@@ -104,62 +99,6 @@ export default {
 .activity {
   margin: 5px;
 }
-.activity .title {
-  margin-bottom: 20px;
-}
-.activity-links {
-  display: flex;
-  align-items: center;
-  font-size: 15px;
-  margin: auto;
-}
-.activity-link {
-  padding-bottom: 10px;
-  position: relative;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.activity-link + .activity-link {
-  margin-left: 25px;
-}
-.activity-link + .activity-link:before {
-  content: "";
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  background-color: #ef415c;
-  top: -2px;
-  right: -8px;
-  border-radius: 50%;
-}
-.activity-link + .activity-link:hover:after {
-  content: "";
-  position: absolute;
-  width: 22px;
-  height: 2px;
-  background: #4255d4;
-  left: 0;
-  bottom: 0;
-}
-.activity-link + .activity-link:hover {
-  color: #bebec4;
-  -webkit-text-stroke: 0.3px;
-}
-.activity-link.active {
-  color: #bebec4;
-  font-weight: 500;
-}
-.activity-link.active:before {
-  content: "";
-  position: absolute;
-  width: 22px;
-  height: 2px;
-  background: #4255d4;
-  left: 0;
-  bottom: 0;
-}
-
-
 
 .card {
   background: #1a2049;
@@ -182,6 +121,5 @@ export default {
 .card + .card {
   margin-left: 20px;
 }
-
 
 </style>

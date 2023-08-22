@@ -32,6 +32,15 @@ public class BlogService {
     }
 
     /**
+     * 初始化个人中心博客列表
+     * @param user_id
+     * @return
+     */
+    public List<Blog> initUserBlogs(Integer user_id) {
+        return mapper.initUserBlogs(user_id);
+    }
+
+    /**
      * 初始化博客内容详情
      * @param id
      * @return

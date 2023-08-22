@@ -136,7 +136,6 @@ export default {
   position: relative;
 }
 .account-cash:before {
-
   position: absolute;
   width: 5px;
   height: 5px;

@@ -12,6 +12,8 @@ public interface BlogMapper {
 
     public List<Blog> initBlogs();
 
+    public List<Blog> initUserBlogs(@Param("user_id") Integer user_id);
+
     public Blog initBlog(@Param("id") Integer id);
 
     public Blog getBlog(@Param("id") Integer id);

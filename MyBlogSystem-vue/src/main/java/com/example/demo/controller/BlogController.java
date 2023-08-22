@@ -47,6 +47,21 @@ public class BlogController {
         return res;
     }
 
+    @RequestMapping("/init-user-blogs")
+    @ResponseBody
+    public Object initUserBlogs(HttpServletRequest request) {
+        // 得到当前用户对象
+        User curUser = SessionUnit.getLoginUser(request);
+        if(curUser == null) {
+            return AjaxResult.fail(-1,"当前用户对象为空");
+        }
+        Integer user_id = curUser.getId();
+        if(user_id == null) {
+            return AjaxResult.fail(-1,"用户 id 为空");
+        }
+        return service.initUserBlogs(user_id);
+    }
+
     @RequestMapping("/init-blog")
     @ResponseBody
     public Object intiBlog(Integer id) {
