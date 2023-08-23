@@ -37,6 +37,28 @@ export default {
         console.log(error);
         alert("出现异常,详情见控制台");
       })
+    },
+    // 删除博客函数
+    deleteBlog(id) {
+      const originThis = this; // 缓存 this
+      // 发送请求给后端
+      axios({
+        url: "http://localhost:9090/blog/delete",
+        method: "get",
+        params: {
+          id: id
+        }
+      }).then(function (response) {
+        if(response.data.code == 200 && response.data.val == 1) {
+          alert("删除博客成功");
+          window.location.reload(); // 刷新当前页面
+        } else {
+          alert("删除博客失败,请重试");
+        }
+      }).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
     }
   },
   mounted() {
@@ -86,9 +108,7 @@ export default {
                   <el-button  icon="el-icon-edit" size="medium" circle></el-button>
                 </router-link>
                 <!--     删除博客按钮        -->
-                <router-link to="/">
-                  <el-button  icon="el-icon-delete" size="medium" circle></el-button>
-                </router-link>
+                  <el-button  icon="el-icon-delete" size="medium" @click="deleteBlog(blog.id)" circle></el-button>
               </el-dropdown-menu>
             </el-dropdown>
           </div>

@@ -24,4 +24,8 @@
     <update id="modify">
         update blog_info set title = #{title},content = #{content} where id = #{id}
     </update>
+
+    <delete id="deleteBlog">
+        delete from blog_info where id = #{id}
+    </delete>
 </mapper>

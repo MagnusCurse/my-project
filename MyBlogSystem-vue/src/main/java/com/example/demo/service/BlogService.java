@@ -60,6 +60,15 @@ public class BlogService {
     }
 
     /**
+     * 删除一篇博客
+     * @param id
+     * @return
+     */
+    public int deleteBlog(Integer id) {
+        return mapper.deleteBlog(id);
+    }
+
+    /**
      * 根据 id 获取一篇博客
      * @param id
      * @return

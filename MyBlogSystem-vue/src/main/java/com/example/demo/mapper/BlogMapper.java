@@ -20,4 +20,6 @@ public interface BlogMapper {
 
     public int modify(@Param("id") Integer id,@Param("title") String title,@Param("content") String content);
 
+    public int deleteBlog(@Param("id") Integer id);
+
 }

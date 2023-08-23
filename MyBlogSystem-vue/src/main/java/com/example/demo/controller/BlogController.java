@@ -116,4 +116,17 @@ public class BlogController {
         }
         return AjaxResult.success(res,"修改博客成功");
     }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public Object deleteBlog(Integer id) {
+        if(id == null) {
+            return AjaxResult.fail(-1,"博客 id 为空");
+        }
+        int res = service.deleteBlog(id);
+        if(res != 1) {
+            return AjaxResult.fail(-1,"数据库删除博客失败");
+        }
+        return AjaxResult.success(res,"删除博客成功");
+    }
 }
