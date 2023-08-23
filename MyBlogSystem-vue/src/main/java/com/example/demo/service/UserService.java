@@ -28,4 +28,14 @@ public class UserService {
     public int reg(String username,String password) {
         return mapper.reg(username,password);
     }
+
+    /**
+     * 上传头像
+     * @param avatar_url
+     * @param id
+     * @return
+     */
+    public int uploadAvatar(String avatar_url,Integer id) {
+        return mapper.uploadAvatar(avatar_url,id);
+    }
 }

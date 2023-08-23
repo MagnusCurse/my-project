@@ -1,4 +1,6 @@
 <script>
+import axios from "axios";
+
 export default {
   name: "User",
   data() {
@@ -9,7 +11,50 @@ export default {
     }
   },
   methods: {
+    chooseFile() {
+      if(confirm("是否更换当前头像")) {
+        this.$refs.fileInput.click();
+      }
+    },
+    handleFileChange(event) {
+      // event.target 表示触发事件的 DOM 元素
+      // files 属性包含了用户选择的文件列表
+      // files[0] 表示选择的第一个文件
+      const file = event.target.files[0];
+      if(file) { // 已选择文件
+        this.avatarFile = file; // 将上传的文件保存
+        // 创建 FileReader 对象,用于读取文件内容
+        const reader = new FileReader();
+        // 这是一个回调函数，它会在文件读取完成后被调用。在这个函数内部，可以处理读取到的文件内容
+        reader.onload = function (response) {
+          // response.target.result 包含了读取到的文件内容，通常是一个 Data URL，表示文件的 Base64 编码字符串
+          this.imageUrl = response.target.result; // 更新 imageUrl 的值
+        }
+        // 读取文件并将其编码为 Data URL
+        reader.readAsDataURL(file);
+        this.upLoadAvatar(); // 调用上传头像函数
+      }
+    },
+    // 上传头像函数
+    upLoadAvatar() {
+      if(this.avatarFile) {
+        const formData = new FormData();
+        formData.append("file",this.avatarFile);
+        // 发送请求给后端
+        axios({
+          url: "http://localhost:9090/user/upload-avatar",
+          method: "post",
+          data: {
+            file: formData
+          }
+        }).then(function (response) {
 
+        })
+      }
+    }
+  },
+  mounted() {
+    this.$refs.fileInput.addEventListener("change",this.handleFileChange);
   }
 }
 </script>
@@ -17,7 +62,7 @@ export default {
 <template>
   <div class="account-wrapper" style="--delay: .8s">
     <div class="account-profile">
-      <img src="https://images.unsplash.com/photo-1550314124-301ca0b773ae?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2215&q=80" alt="">
+      <img @click="chooseFile" src="https://images.unsplash.com/photo-1550314124-301ca0b773ae?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2215&q=80" alt="">
       <div class="blob-wrap">
         <div class="blob"></div>
         <div class="blob"></div>
