@@ -26,7 +26,7 @@ export default {
       // 发送请求给后端
       axios({
         url: "http://localhost:9090/blog/init-user-blogs",
-        method: "get",
+        method: "get"
       }).then(function (response) {
         if(response.data.code == 200 && response.data.val != null && response.data.val.length != 0) {
           originThis.blogs = response.data.val;
@@ -78,10 +78,9 @@ export default {
                   path: '/home/create',
                   // 将博客标题 和内容还有博客用户 id 传输给 Create 组件
                   query: {
+                    id: blog.id, // 传入文章 id
                     user_id: blog.user_id,
-                    edit_title: blog.title,
-                    edit_content: blog.content,
-                    isEdit: true // 传入 isEdit 为 true
+                    flag: true // 传入 flag 为 true
                   }
                 }">
                   <el-button  icon="el-icon-edit" size="medium" circle></el-button>

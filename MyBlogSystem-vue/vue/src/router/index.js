@@ -30,10 +30,9 @@ export default new VueRouter({
                     // props 传递参数
                     props($route) {
                         return {
+                                id: $route.query.id,
                                 user_id: $route.query.user_id,
-                                edit_title: $route.query.edit_title,
-                                edit_content: $route.query.edit_content,
-                                isEdit: $route.query.isEdit
+                                flag: $route.query.flag
                         }
                     }
                 }

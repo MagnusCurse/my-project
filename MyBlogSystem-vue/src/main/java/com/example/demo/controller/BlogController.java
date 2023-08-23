@@ -72,6 +72,21 @@ public class BlogController {
        return AjaxResult.success(res,"初始化博客内容详情成功");
     }
 
+    /**
+     * 初始化编辑页面博客内容
+     * @param id
+     * @return
+     */
+    @RequestMapping("/init-edit-blog")
+    @ResponseBody
+    public Object initEditBlog(Integer id) {
+        Blog blog = service.getBlog(id);
+        if(blog == null) {
+            return AjaxResult.fail(-1,"没有找到id为" + id + "的博客");
+        }
+        return AjaxResult.success(blog,"初始化编辑页面成功");
+    }
+
     @RequestMapping("/modify")
     @ResponseBody
     public Object modify(HttpServletRequest request,@RequestParam Integer id,@RequestParam String content,@RequestParam String title) {

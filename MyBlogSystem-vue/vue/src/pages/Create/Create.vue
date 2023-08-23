@@ -39,6 +39,7 @@ import {
 
 import axios from "axios";
 
+
 export default {
   name: "Create",
   data () {
@@ -84,9 +85,11 @@ export default {
       `,
       // 文章的标题
       title: "",
+      // 判断当前是否为编辑状态
+      isEdit: false
     };
   },
-  props: ["user_id","edit_title","edit_content","isEdit"],
+  props: ["id","user_id","flag"],
   methods: {
     // 发布博客函数
     publish() {
@@ -155,17 +158,47 @@ export default {
         alert("出现异常,详情见控制台");
       })
     },
-    // 初始化标题和博客内容 (编辑)
+    // 初始化博客标题和博客内容 (编辑)
     initEdit() {
       // 处于编辑状态才初始化
-      if(this.isEdit) {
-        this.title = this.edit_title;
-        this.content = this.edit_content;
+      if(this.flag) {
+        this.isEdit = this.flag;
+        const originThis = this; // 缓存 this
+        // 发送请求给后端
+        axios({
+          url: "http://localhost:9090/blog/init-edit-blog",
+          method: "get",
+          params: {
+            id: originThis.getURLParam("id") // 获取当前文章 id
+          }
+        }).then(function (response) {
+          if(response.data.code == 200 && response.data.val != null) {
+            const blog = response.data.val;
+            // 初始化博客标题和内容
+            originThis.title = blog.title;
+            originThis.content = blog.content;
+          }
+        })
       }
+    },
+    // 得到当前名为 "xxx" 的 query 参数
+    getURLParam(key) {
+      let hash = location.hash;
+      if (hash.indexOf("?") >= 0) {
+        hash = hash.substring(hash.indexOf("?") + 1);
+        let paramArr = hash.split('&');
+        for (let i = 0; i < paramArr.length; i++) {
+          let nameValuePair = paramArr[i].split("=");
+          if (nameValuePair.length === 2 && decodeURIComponent(nameValuePair[0]) === key) {
+            return decodeURIComponent(nameValuePair[1]);
+          }
+        }
+      }
+      return "";
     }
   },
   mounted() {
-     this.initEdit();
+    this.initEdit();
   }
 }
 </script>
@@ -175,7 +208,7 @@ export default {
     <div class="input-field">
         <b-input v-model="title" class="title"></b-input>
         <!--  当 isEdit 为 true 调用编辑函数,否则调用 发布博客函数   -->
-        <b-button type="is-warning" @click="publish">发布文章</b-button>
+        <b-button type="is-warning" @click="isEdit ? edit : publish">发布文章</b-button>
         <b-button type="is-warning">保存草稿</b-button>
     </div>
     <el-tiptap v-model="content" :extensions="extensions" placeholder="Write something …"/>
