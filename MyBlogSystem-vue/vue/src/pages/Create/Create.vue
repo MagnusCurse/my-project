@@ -125,7 +125,7 @@ export default {
       })
     },
     // 编辑博客函数
-    edit() {
+    modify() {
       if(this.title === "") {
         alert("文章标题不能为空");
         return;
@@ -139,10 +139,13 @@ export default {
       axios({
         url: "http://localhost:9090/blog/modify",
         method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
         data: {
           title: this.title,
           content: this.content,
-          user_id: this.user_id
+          id: this.id
         }
       }).then(
           function (response) {
@@ -181,6 +184,14 @@ export default {
         })
       }
     },
+    // 用于决定是发布博客还是修改博客
+    publishOrModify() {
+      if (this.isEdit) {
+        this.modify();
+      } else {
+        this.publish();
+      }
+    },
     // 得到当前名为 "xxx" 的 query 参数
     getURLParam(key) {
       let hash = location.hash;
@@ -208,7 +219,7 @@ export default {
     <div class="input-field">
         <b-input v-model="title" class="title"></b-input>
         <!--  当 isEdit 为 true 调用编辑函数,否则调用 发布博客函数   -->
-        <b-button type="is-warning" @click="isEdit ? edit : publish">发布文章</b-button>
+        <b-button type="is-warning" @click="publishOrModify">发布文章</b-button>
         <b-button type="is-warning">保存草稿</b-button>
     </div>
     <el-tiptap v-model="content" :extensions="extensions" placeholder="Write something …"/>

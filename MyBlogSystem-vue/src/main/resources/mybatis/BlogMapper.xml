@@ -22,6 +22,6 @@
     </select>
 
     <update id="modify">
-        update blog_info set title = #{title} and content = #{content} where id = #{id}
+        update blog_info set title = #{title},content = #{content} where id = #{id}
     </update>
 </mapper>

@@ -89,8 +89,12 @@ public class BlogController {
 
     @RequestMapping("/modify")
     @ResponseBody
-    public Object modify(HttpServletRequest request,@RequestParam Integer id,@RequestParam String content,@RequestParam String title) {
-        if(StringUtils.hasLength(content) || StringUtils.hasLength(title)){
+    public Object modify(@RequestBody Map<String,String> body,HttpServletRequest request) {
+        String title =  body.get("title");
+        String content =  body.get("content");
+        Integer id = Integer.valueOf(body.get("id"));
+
+        if(!StringUtils.hasLength(content) || !StringUtils.hasLength(title)){
             return AjaxResult.fail(-1,"博客内容或者标题为空");
         }
         // 获取当前用户对象
