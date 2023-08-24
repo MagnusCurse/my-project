@@ -1,10 +1,13 @@
-<script>
+<script xmlns:v-bind="http://www.w3.org/1999/xhtml">
 import axios from "axios";
 
 export default {
   name: "User",
   data() {
     return {
+      fileInput: {},
+      imageUrl: "", // 当前用户头像的 url
+      avatarFile: null, // 头像的文件对象
       nickname: "未填写",
       email: "未填写",
       introduction: "未填写"
@@ -26,7 +29,7 @@ export default {
         // 创建 FileReader 对象,用于读取文件内容
         const reader = new FileReader();
         // 这是一个回调函数，它会在文件读取完成后被调用。在这个函数内部，可以处理读取到的文件内容
-        reader.onload = function (response) {
+        reader.onload = (response) => {
           // response.target.result 包含了读取到的文件内容，通常是一个 Data URL，表示文件的 Base64 编码字符串
           this.imageUrl = response.target.result; // 更新 imageUrl 的值
         }
@@ -38,31 +41,42 @@ export default {
     // 上传头像函数
     upLoadAvatar() {
       if(this.avatarFile) {
+        // this.avatarFile 应该是一个文件对象，而不是直接传递给后端的数据。正确的方式是使用 FormData 来处理文件上传
         const formData = new FormData();
-        formData.append("file",this.avatarFile);
-        // 发送请求给后端
-        axios({
-          url: "http://localhost:9090/user/upload-avatar",
-          method: "post",
-          data: {
-            file: formData
-          }
-        }).then(function (response) {
+        formData.append("file", this.avatarFile);
 
+        // 发送请求给后端
+        // 直接将 formData 传递给后端即可,不需要使用 data: {}
+        axios.post("http://localhost:9090/user/upload-avatar",formData).
+        then(function (response) {
+           if(response.data.code == 200 && response.data.val == 1) {
+             alert("更新头像成功");
+           } else {
+             alert("修改头像失败,请重试");
+           }
+        }).catch(function (error) {
+          console.log(error);
+          alert("出现异常,详情见控制台");
         })
       }
     }
   },
   mounted() {
-    this.$refs.fileInput.addEventListener("change",this.handleFileChange);
+
+
   }
 }
 </script>
 
 <template>
+  
   <div class="account-wrapper" style="--delay: .8s">
     <div class="account-profile">
-      <img @click="chooseFile" src="https://images.unsplash.com/photo-1550314124-301ca0b773ae?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2215&q=80" alt="">
+      <div class="avatar">
+        <!--  input 框用来存储文件对象     -->
+        <input type="file" ref="fileInput" @change="handleFileChange" style="display:none;" >
+        <img :src="imageUrl" @click="chooseFile" alt="">
+      </div>
       <div class="blob-wrap">
         <div class="blob"></div>
         <div class="blob"></div>

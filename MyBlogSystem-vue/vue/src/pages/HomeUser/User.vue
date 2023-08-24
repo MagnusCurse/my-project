@@ -5,10 +5,6 @@ import axios from "axios";
 
 export default {
   name: "User",
-  data: {
-    imageUrl: "", // 当前用户头像的 url
-    avatarFile: null // 头像的文件对象
-  },
   methods: {
 
   },

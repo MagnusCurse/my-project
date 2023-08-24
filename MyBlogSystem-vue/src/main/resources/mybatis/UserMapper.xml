@@ -11,8 +11,9 @@
         values (#{username},#{password})
     </insert>
 
-    <insert id="uploadAvatar">
-        insert into user_info (avatar_url)
-        values (#{avatar_url}) where id = #{id}
-    </insert>
+    <update id="uploadAvatar">
+        update user_info
+        set avatar_url = #{avatar_url}
+        where id = #{id};
+    </update>
 </mapper>

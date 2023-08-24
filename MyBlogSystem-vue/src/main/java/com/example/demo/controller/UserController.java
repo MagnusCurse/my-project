@@ -60,8 +60,7 @@ public class UserController {
 
     @RequestMapping("/upload-avatar")
     @ResponseBody
-    public Object uploadAvatar(@RequestBody Map<String,MultipartFile> body,HttpServletRequest request) {
-        MultipartFile file = body.get("file");
+    public Object uploadAvatar(MultipartFile file,HttpServletRequest request) {
         User curUser = SessionUnit.getLoginUser(request);
         if(curUser == null) {
             return AjaxResult.fail(-1,"当前用户对象为空");
@@ -82,6 +81,11 @@ public class UserController {
         }
 
         // 将图片 url 存储到数据库中
-
+        String url = "@/img/avatar" + fileNameAndType;
+        int res = service.uploadAvatar(url, curUser.getId());
+        if(res != 1) {
+            return AjaxResult.fail(-1,"数据库插入失败");
+        }
+        return AjaxResult.success(res,"更新头像成功");
     }
 }
