@@ -81,11 +81,41 @@ public class UserController {
         }
 
         // 将图片 url 存储到数据库中
-        String url = "@/img/avatar" + fileNameAndType;
+        String url = fileNameAndType;
+
+
         int res = service.uploadAvatar(url, curUser.getId());
         if(res != 1) {
             return AjaxResult.fail(-1,"数据库插入失败");
         }
         return AjaxResult.success(res,"更新头像成功");
+    }
+
+    @RequestMapping("/init-avatar")
+    @ResponseBody
+    public Object initAvatar(HttpServletRequest request) {
+        User curUser = SessionUnit.getLoginUser(request);
+        if(curUser == null) {
+            return AjaxResult.fail(-1,"当前用户对象为空");
+        }
+        String res = service.initAvatar(curUser.getId());
+        if(res == null) {
+            return AjaxResult.fail(-1,"数据库查询结果为空");
+        }
+        return AjaxResult.success(res,"初始化用户头像成功");
+    }
+
+    @RequestMapping("inti-user-info")
+    @ResponseBody
+    public Object initUserInfo(HttpServletRequest request) {
+        User curUser = SessionUnit.getLoginUser(request);
+        if(curUser == null) {
+            return AjaxResult.fail(-1,"当前用户对象为空");
+        }
+        User res = service.initUserInfo(curUser.getId());
+        if(res == null) {
+            return AjaxResult.fail(-1,"数据库查询结果为空");
+        }
+        return AjaxResult.success(res,"初始化用户信息为空");
     }
 }

@@ -38,4 +38,22 @@ public class UserService {
     public int uploadAvatar(String avatar_url,Integer id) {
         return mapper.uploadAvatar(avatar_url,id);
     }
+
+    /**
+     * 初始化用户头像
+     * @param id
+     * @return
+     */
+    public String initAvatar(Integer id) {
+        return mapper.initAvatar(id);
+    }
+
+    /**
+     * 初始化用户信息
+     * @param id
+     * @return
+     */
+    public User initUserInfo(Integer id) {
+        return mapper.initUserInfo(id);
+    }
 }

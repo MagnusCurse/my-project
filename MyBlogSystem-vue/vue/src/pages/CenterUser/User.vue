@@ -14,13 +14,18 @@ export default {
     }
   },
   methods: {
+    // 选择文件函数
     chooseFile() {
       if(confirm("是否更换当前头像")) {
+        // 触发 fileInput 输入框的点击事件并将图片文件内容放入输入框
+        // .click()：这是 JavaScript 中 DOM 元素的一个方法，可以模拟用户点击操作。
+        // 通过调用 click() 方法，就会触发 <input type="file"> 元素的点击事件，从而打开文件选择对话框。
         this.$refs.fileInput.click();
       }
     },
+    // 第一次更换头像,获取图片的 url 并且赋值给 imageUrl
     handleFileChange(event) {
-      // event.target 表示触发事件的 DOM 元素
+      // event.target 表示触发事件的 DOM 元素 (<input type="file" ref="fileInput" @change="handleFileChange" style="display:none;" >)
       // files 属性包含了用户选择的文件列表
       // files[0] 表示选择的第一个文件
       const file = event.target.files[0];
@@ -41,7 +46,7 @@ export default {
     // 上传头像函数
     upLoadAvatar() {
       if(this.avatarFile) {
-        // this.avatarFile 应该是一个文件对象，而不是直接传递给后端的数据。正确的方式是使用 FormData 来处理文件上传
+        // this.avatarFile 是一个文件对象，而不是直接传递给后端的数据。正确的方式是使用 FormData 来处理文件上传
         const formData = new FormData();
         formData.append("file", this.avatarFile);
 
@@ -59,11 +64,29 @@ export default {
           alert("出现异常,详情见控制台");
         })
       }
+    },
+
+    // 初始化用户头像
+    initAvatar() {
+      const originThis = this; // 缓存 this
+      // 发送请求给后端
+      axios({
+        url: "http://localhost:9090/user/init-avatar",
+        method: "get"
+      }).then(function (response) {
+        if(response.data.code == 200 && response.data.val != null) {
+          originThis.imageUrl = require("@/img/avatar/" + response.data.val);
+        } else {
+          alert("初始化头像失败,请重试");
+        }
+      }).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
     }
   },
   mounted() {
-
-
+    this.initAvatar();
   }
 }
 </script>
@@ -74,6 +97,7 @@ export default {
     <div class="account-profile">
       <div class="avatar">
         <!--  input 框用来存储文件对象     -->
+        <!--  @change 作用是当 input 框的值改变的时候调用 handleFileChange 函数      -->
         <input type="file" ref="fileInput" @change="handleFileChange" style="display:none;" >
         <img :src="imageUrl" @click="chooseFile" alt="">
       </div>

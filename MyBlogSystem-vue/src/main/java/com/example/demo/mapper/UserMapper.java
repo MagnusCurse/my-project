@@ -11,4 +11,8 @@ public interface UserMapper {
     public int reg(@Param("username") String username,@Param("password") String password);
 
     public int uploadAvatar(@Param("avatar_url")String avatar_url,@Param("id") Integer id);
+
+    public String initAvatar(@Param("id") Integer id);
+
+    public User initUserInfo(@Param("id") Integer id);
 }
