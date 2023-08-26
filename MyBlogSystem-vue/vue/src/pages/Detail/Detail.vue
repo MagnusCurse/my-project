@@ -38,9 +38,13 @@ import {
 } from 'element-tiptap';
 
 import axios from "axios";
+import Comments from "@/pages/Comments/Comments.vue";
 
 export default {
   name: "Detail",
+  components: {
+    Comments
+  },
   data () {
     // 编辑器的 extensions
     // 它们将会按照你声明的顺序被添加到菜单栏和气泡菜单中
@@ -117,7 +121,10 @@ export default {
 
 <template>
   <div class="activity card" style="--delay: .2s">
+    <!-- 文章详情内容   -->
     <el-tiptap v-model="content" :extensions="extensions" placeholder="Write something …" :readonly="true"/>
+    <!--  评论区内容  -->
+    <Comments/>
   </div>
 </template>
 
