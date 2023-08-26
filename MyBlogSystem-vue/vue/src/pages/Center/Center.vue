@@ -11,6 +11,11 @@ export default {
     LeftSide,
     Blogs,
     User
+  },
+  computed: {
+    isCenterPage() {
+      return this.$route.path === "/center"
+    }
   }
 }
 </script>
@@ -27,7 +32,9 @@ export default {
           <!-- 用户区域 -->
           <User/>
         </div>
-        <Blogs/>
+        <!--  个人中心内容区域,默认显示个人中心博客列表    -->
+        <Blogs v-if="isCenterPage"/>
+        <router-view></router-view>
       </div>
     </div>
   </div>

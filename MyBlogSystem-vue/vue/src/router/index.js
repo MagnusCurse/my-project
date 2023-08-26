@@ -7,6 +7,7 @@ import Home from "@/pages/Home/Home.vue";
 import Create from "@/pages/Create/Create.vue";
 import Detail from "@/pages/Detail/Detail.vue";
 import Center from "@/pages/Center/Center.vue";
+import Edit from "@/pages/CenterEdit/Edit.vue";
 
 
 // 创建一个路由器
@@ -40,7 +41,13 @@ export default new VueRouter({
         },
         {
             path: '/center',
-            component: Center
+            component: Center,
+            children: [
+                {
+                    path: "edit",
+                    component: Edit
+                }
+            ]
         },
         {
             path: '/login',

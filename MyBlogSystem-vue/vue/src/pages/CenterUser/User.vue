@@ -1,6 +1,8 @@
 <script xmlns:v-bind="http://www.w3.org/1999/xhtml">
 import axios from "axios";
 
+
+
 export default {
   name: "User",
   data() {
@@ -10,7 +12,7 @@ export default {
       avatarFile: null, // 头像的文件对象
       nickname: "未填写",
       email: "未填写",
-      introduction: "未填写"
+      introduction: "未填写",
     }
   },
   methods: {
@@ -65,7 +67,6 @@ export default {
         })
       }
     },
-
     // 初始化用户头像
     initAvatar() {
       const originThis = this; // 缓存 this
@@ -83,6 +84,31 @@ export default {
         console.log(error);
         alert("出现异常,详情见控制台");
       })
+    },
+    // 初始化用户信息
+    initUserInfo() {
+      const originThis = this; // 缓存 this
+      // 发送请求给后端
+      axios({
+        url: "http://localhost:9090/user/init-user-info",
+        method: "get"
+      }).then(function (response) {
+        if(response.data.code == 200 && response.data.val != null) {
+          const user = response.data.val;
+          originThis.nickname = user.nickname;
+          originThis.email = user.email;
+          originThis.introduction = user.introduction;
+        } else {
+          alert("初始化用户信息,请重试");
+        }
+      }).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
+    },
+    // 进入到编辑页面
+    editUserInfo() {
+      this.$router.push("/center/edit");
     }
   },
   mounted() {
@@ -119,7 +145,7 @@ export default {
            <div class="email">邮箱: {{ email }}</div>
          </div>
          <div class="introduction">简介: {{ introduction }}</div>
-         <el-button style="float: right" type="info" icon="el-icon-edit-outline" size="small" circle></el-button>
+         <el-button @click="editUserInfo" style="float: right" type="info" icon="el-icon-edit-outline" size="small" circle></el-button>
       </div>
     </div>
   </div>
