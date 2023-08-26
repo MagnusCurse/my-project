@@ -24,4 +24,12 @@
     <select id="initUserInfo" resultType="com.example.demo.model.User">
         select * from user_info where id = #{id}
     </select>
+
+    <update id="changeNickname">
+        update user_info set nickname = #{nickname} where id = #{id}
+    </update>
+
+    <update id="changeIntroduction">
+        update user_info set introduction = #{introduction} where id = #{id}
+    </update>
 </mapper>

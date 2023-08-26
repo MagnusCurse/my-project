@@ -118,4 +118,32 @@ public class UserController {
         }
         return AjaxResult.success(res,"初始化用户信息为空");
     }
+
+    @RequestMapping("change-nickname")
+    @ResponseBody
+    public Object changeNickname(HttpServletRequest request,String nickname) {
+        User curUser = SessionUnit.getLoginUser(request);
+        if(curUser == null) {
+            return AjaxResult.fail(-1,"当前用户对象为空");
+        }
+        int res = service.changeNickname(curUser.getId(),nickname);
+        if(res != 1) {
+            return AjaxResult.fail(-1,"数据库查询结果为空");
+        }
+        return AjaxResult.success(res,"更改昵称成功");
+    }
+
+    @RequestMapping("change-introduction")
+    @ResponseBody
+    public Object changeIntroduction(HttpServletRequest request,String introduction) {
+        User curUser = SessionUnit.getLoginUser(request);
+        if(curUser == null) {
+            return AjaxResult.fail(-1,"当前用户对象为空");
+        }
+        int res = service.changeIntroduction(curUser.getId(),introduction);
+        if(res != 1) {
+            return AjaxResult.fail(-1,"数据库查询结果为空");
+        }
+        return AjaxResult.success(res,"更改简介成功");
+    }
 }

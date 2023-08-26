@@ -90,16 +90,22 @@ export default {
       const originThis = this; // 缓存 this
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/user/init-user-info",
+        url: "http://localhost:9090/user/inti-user-info",
         method: "get"
       }).then(function (response) {
         if(response.data.code == 200 && response.data.val != null) {
           const user = response.data.val;
-          originThis.nickname = user.nickname;
-          originThis.email = user.email;
-          originThis.introduction = user.introduction;
+          if(user.nickname != null){
+            originThis.nickname = user.nickname;
+          }
+          if(user.email != null) {
+            originThis.email = user.email;
+          }
+          if(user.introduction != null) {
+            originThis.introduction = user.introduction;
+          }
         } else {
-          alert("初始化用户信息,请重试");
+          alert("初始化用户信息失败,请重试");
         }
       }).catch(function (error) {
         console.log(error);
@@ -113,6 +119,7 @@ export default {
   },
   mounted() {
     this.initAvatar();
+    this.initUserInfo();
   }
 }
 </script>

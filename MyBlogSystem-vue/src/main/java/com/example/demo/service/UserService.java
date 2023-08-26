@@ -56,4 +56,22 @@ public class UserService {
     public User initUserInfo(Integer id) {
         return mapper.initUserInfo(id);
     }
+
+    /**
+     * 修改昵称
+     * @param id
+     * @return
+     */
+    public int changeNickname(Integer id,String nickname) {
+        return mapper.changeNickname(id,nickname);
+    }
+
+    /**
+     * 修改简介
+     * @param id
+     * @return
+     */
+    public int changeIntroduction(Integer id,String introduction) {
+        return mapper.changeIntroduction(id,introduction);
+    }
 }
