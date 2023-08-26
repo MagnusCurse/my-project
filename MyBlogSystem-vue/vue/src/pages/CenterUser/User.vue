@@ -1,8 +1,6 @@
 <script xmlns:v-bind="http://www.w3.org/1999/xhtml">
 import axios from "axios";
 
-
-
 export default {
   name: "User",
   data() {

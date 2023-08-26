@@ -29,6 +29,7 @@ public class SessionUnit {
      * @return
      */
     public static User getLoginUser(HttpServletRequest request){
+        // false 表示如果当前没有 session 不会自行创建一个 session
         HttpSession session = request.getSession(false);
 
         if(session != null && session.getAttribute(Constant.SESSION_USERINFO_KEY) != null) {

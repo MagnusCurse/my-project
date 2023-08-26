@@ -1,8 +1,34 @@
 <script>
 
 
+import axios from "axios";
+
 export default{
-  name: "Header"
+  name: "Header",
+  methods: {
+    // 注销功能
+    logout() {
+      const originThis = this; // 缓存 this
+      // 发送请求给后端
+      axios({
+        url: "http://localhost:9090/user/logout",
+        method: "get"
+      }).then(
+          function (response) {
+            if (response.data.code == 200 && response.data.val == 1) {
+              alert("注销成功,即将跳转到登录页面");
+              originThis.$router.push("/login");
+            } else {
+              alert("当前没有用户登录,请登录");
+              originThis.$router.push("/login");
+            }
+          }
+      ).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
+    }
+  }
 }
 </script>
 
@@ -22,7 +48,7 @@ export default{
       <i class="fa-solid fa-feather" style="color: #ffffff; margin-right: 5px"></i>
       创作
     </router-link>
-    <a class="header-link" href="#">
+    <a @click="logout" class="header-link" href="#">
       <i class="fa-solid fa-right-from-bracket" style="color: #ffffff; margin-right: 5px;"></i>
       注销
     </a>

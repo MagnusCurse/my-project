@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -44,6 +45,16 @@ public class UserController {
                return AjaxResult.fail(-2,"登录失败,密码错误");
            }
        }
+    }
+
+    @RequestMapping("/logout")
+    public Object logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if(session != null && session.getAttribute(Constant.SESSION_USERINFO_KEY) != null){
+            session.removeAttribute(Constant.SESSION_USERINFO_KEY);
+            return AjaxResult.success(1,"退出登录成功");
+        }
+        return AjaxResult.fail(-1,"退出登录失败");
     }
 
     @RequestMapping("/reg")
@@ -92,7 +103,6 @@ public class UserController {
     }
 
     @RequestMapping("/init-avatar")
-    @ResponseBody
     public Object initAvatar(HttpServletRequest request) {
         User curUser = SessionUnit.getLoginUser(request);
         if(curUser == null) {
@@ -106,7 +116,6 @@ public class UserController {
     }
 
     @RequestMapping("inti-user-info")
-    @ResponseBody
     public Object initUserInfo(HttpServletRequest request) {
         User curUser = SessionUnit.getLoginUser(request);
         if(curUser == null) {
