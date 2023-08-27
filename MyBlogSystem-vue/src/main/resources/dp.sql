@@ -34,6 +34,19 @@ create table blog_info(
     views int default 0
 )default charset 'utf8mb4';
 
+-- 创建评论表
+drop table if exists comment_info;
+create table comment_info(
+    id int primary key auto_increment,
+    parent_id int,
+    user_id int,
+    blog_id int,
+    username varchar(100),
+    comment varchar(360),
+    create_time datetime default now(),
+    like_count int
+)
+
 
 
 

@@ -14,11 +14,71 @@ export default {
              placeholder="Comment here!!">
     </b-input>
   </b-field>
-  <button class="custom-btn btn-12"><span>Click!</span><span>Read More</span></button>
+  <button class="custom-btn btn-12"><span>Click!</span><span>Comment!!</span></button>
+  <div class="comment-list">
+    <div class="user">
+      <img src="@/img/avatar/scenery.jpg" alt="">
+      <br>
+      <div style="margin-left: 12px; font-weight: bold"> username </div>
+    </div>
+    <div class="comment">
+      <span> 评论内容................................................................................. </span>
+      <div class="icon">
+        <el-dropdown trigger="click">
+            <span class="el-dropdown-link">
+             ...
+            </span>
+          <el-dropdown-menu slot="dropdown">
+            <i class="fa-regular fa-thumbs-up fa-xl" style="margin: 2px"></i>
+            <i class="fa-solid fa-comment-dots fa-xl" style="margin: 2px"></i>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <i class="fa-solid fa-caret-down" style="margin-left: 10px"></i>
+      </div>
+    </div>
+  </div>
 </div>
 </template>
 
 <style scoped>
+.comment-list {
+  background: white;
+  margin: 6px;
+  border-radius: 5px;
+}
+
+.comment-list img {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: left;
+  border: 3px solid #4255d3;
+  padding: 5px;
+  margin: 6px;
+}
+
+.comment {
+  position: relative; /* 添加 relative 定位 */
+  margin: 16px;
+}
+
+.icon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409EFF;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
+}
+
+
+/* Button style */
 h1 {
   position: relative;
   text-align: center;
@@ -26,7 +86,6 @@ h1 {
   font-size: 50px;
   font-family: "Cormorant Garamond", serif;
 }
-
 p {
   font-family: 'Lato', sans-serif;
   font-weight: 300;
@@ -34,7 +93,6 @@ p {
   font-size: 18px;
   color: #676767;
 }
-
 button {
   margin: 2px;
 }
