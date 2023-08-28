@@ -21,6 +21,10 @@
         select avatar_url from user_info where id = #{id}
     </select>
 
+    <select id="initCommentAvatar" resultType="java.lang.String">
+        select avatar_url from user_info where id = #{id}
+    </select>
+
     <select id="initUserInfo" resultType="com.example.demo.model.User">
         select * from user_info where id = #{id}
     </select>

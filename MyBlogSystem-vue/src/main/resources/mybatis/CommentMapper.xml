@@ -11,4 +11,12 @@
         insert into comment_info (parent_id,user_id,blog_id,username,comment)
         values (#{parent_id},#{user_id},#{blog_id},#{username},#{comment})
     </insert>
+
+    <select id="initParentComment" resultType="com.example.demo.model.Comment">
+        select * from comment_info where parent_id is null
+    </select>
+
+    <select id="initChildComment" resultType="com.example.demo.model.Comment">
+        select * from comment_info where parent_id = #{parent_id}
+    </select>
 </mapper>

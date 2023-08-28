@@ -44,7 +44,8 @@ create table comment_info(
     username varchar(100),
     comment varchar(360),
     create_time datetime default now(),
-    like_count int
+    like_count int,
+    replied_id int
 )
 
 

@@ -8,7 +8,15 @@ export default {
     return {
       dialogVisible: false,
       comment: "",
-      replyComment: ""
+      replyComment: "",
+      imageUrl: "",
+      parent_id: "",
+      parentComments: {
+
+      },
+      childCommentsMap: {
+
+      }
     }
   },
   methods: {
@@ -33,6 +41,11 @@ export default {
         }
       }
       return "";
+    },
+    // 修改 parent_id
+    sendParentId(parent_id){
+      this.parent_id = parent_id;
+      this.dialogVisible = true;
     },
     // 发表评论函数
     post() {
@@ -65,6 +78,7 @@ export default {
     },
     // 回复评论函数
     reply() {
+      this.dialogVisible = false
       const originThis = this; // 缓存 this
       if(this.replyComment == "") {
         alert("请先输入评论");
@@ -76,7 +90,8 @@ export default {
         method: "post",
         data: {
           blog_id: this.getURLParam("id"),
-          comment: this.comment
+          parent_id: this.parent_id,
+          comment: this.replyComment
         }
       }).then(
           function (response) {
@@ -91,15 +106,109 @@ export default {
         console.log(error);
         alert("出现异常,详情见控制台");
       })
-    }
+    },
+    // 初始化父评论函数
+    initParentComment() {
+      const originThis = this; // 缓存 this
+      // 发送请求给后端
+      axios({
+        url: "http://localhost:9090/comment/init-parent-comment",
+        method: "get"
+      }).then(
+          function (response) {
+            if(response.data.code == 200) {
+               originThis.parentComments = response.data.val;
 
+               // 初始化子评论映射表
+               originThis.parentComments.forEach(parentComment => {
+                 originThis.initChildComment(parentComment.id);
+               })
+            } else {
+               alert("初始化父评论失败,请重试");
+            }
+          }
+      ).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
+    },
+    // 初始化子评论函数
+    initChildComment(parent_id) {
+      const originThis = this; // 缓存 this
+      // 发送请求给后端
+      axios({
+        url: "http://localhost:9090/comment/init-child-comment",
+        method: "get",
+        params: {
+          parent_id: parent_id
+        }
+      }).then(
+          function (response) {
+            if(response.data.code == 200) {
+              console.log(response.data.val);
+              originThis.$set(originThis.childCommentsMap,parent_id,response.data.val);
+            } else {
+              alert("初始化子评论失败,请重试");
+            }
+          }
+      ).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
+    },
+    // 初始化评论头像
+    // 初始化子评论函数
+    // async initChildComment(parent_id) {
+    //   const originThis = this;
+    //   try {
+    //     const response = await axios.get("http://localhost:9090/comment/init-child-comment", {
+    //       params: {
+    //         parent_id: parent_id
+    //       }
+    //     });
+    //     if (response.data.code === 200 && response.data.val != null) {
+    //       const childComments = response.data.val;
+    //       console.log(childComments);
+    //       // 返回子评论数组
+    //       return childComments;
+    //     } else {
+    //       alert("初始化子评论失败，请重试");
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //     alert("出现异常，详情见控制台");
+    //   }
+    // },
+    initCommentAvatar(user_id) {
+      const originThis = this; // 缓存 this
+      // 发送请求给后端
+      axios({
+        url: "http://localhost:9090/user/init-comment-avatar",
+        method: "get",
+        params: {
+          user_id: user_id
+        }
+      }).then(function (response) {
+        if(response.data.code == 200 && response.data.val != null) {
+          originThis.imageUrl = require("@/img/avatar/" + response.data.val);
+        } else {
+          alert("初始化评论头像失败,请重试");
+        }
+      }).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
+    }
+  },
+  mounted() {
+    this.initParentComment();
   }
 }
 </script>
 
 <template>
-<!-- 回复评论弹出框区域 -->
 <div class="comments">
+  <!-- 回复评论弹出框区域 -->
   <el-dialog
       title="请输入评论"
       :visible.sync="dialogVisible"
@@ -115,10 +224,11 @@ export default {
     </b-field>
     <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="info" @click="dialogVisible = false">确 定</el-button>
+    <el-button type="info" @click="reply">确 定</el-button>
   </span>
   </el-dialog>
 
+  <!-- 评论区域  -->
   <b-field style="margin-top: 10px">
     <b-input type="textarea"
              minlength="1"
@@ -128,18 +238,22 @@ export default {
     </b-input>
   </b-field>
   <button @click="post" class="custom-btn btn-12"><span>Click!</span><span>Comment!!</span></button>
-  <div class="comment-list">
 
+  <!-- 评论列表区域 -->
+  <div class="comment-list">
     <!--  评论模块  -->
-    <div class="comment">
+    <div class="comment" v-for="parentComment in parentComments" :key="parentComment.id">
       <!-- 评论用户模块   -->
       <div class="user">
-        <img src="@/img/avatar/scenery.jpg" alt="">
+        <!--   调用初始化头像函数初始化评论头像     -->
+        {{ initCommentAvatar(parentComment.user_id) }}
+        <img :src="imageUrl" alt="">
+
         <br>
-        <div style="font-weight: bold"> username </div>
+        <div style="font-weight: bold"> {{ parentComment.username }} </div>
       </div>
       <!--  评论内容    -->
-      <span> 评论内容................................................................................. </span>
+      <span> {{ parentComment.comment }} </span>
      <!--  评论功能模块:回复/点赞    -->
       <div class="icon">
         <el-dropdown trigger="click">
@@ -148,11 +262,39 @@ export default {
             </span>
           <el-dropdown-menu slot="dropdown">
             <i class="fa-regular fa-thumbs-up fa-xl" style="margin: 2px"></i>
-            <i @click="dialogVisible = true" class="fa-solid fa-comment-dots fa-xl" style="margin: 2px"></i>
+            <i @click="sendParentId(parentComment.id)" class="fa-solid fa-comment-dots fa-xl" style="margin: 2px"></i>
           </el-dropdown-menu>
         </el-dropdown>
         <i class="fa-solid fa-caret-down" style="margin-left: 10px"></i>
       </div>
+
+     <!--  父评论子评论区域    -->
+     <div class="child-comment-list">
+
+       <div class="child-comment" v-for="childComment in childCommentsMap[parentComment.id]" :key="childComment.id">
+         <!-- 评论用户模块   -->
+         <div class="user">
+           <img src="@/img/avatar/scenery.jpg" alt="">
+           <br>
+           <div style="font-weight: bold"> {{ childComment.username }} </div>
+         </div>
+         <!--  评论内容    -->
+         <span> {{ childComment.comment }} </span>
+         <!--  评论功能模块:回复/点赞    -->
+         <div class="icon">
+           <el-dropdown trigger="click">
+            <span class="el-dropdown-link">
+             ...
+            </span>
+             <el-dropdown-menu slot="dropdown">
+               <i class="fa-regular fa-thumbs-up fa-xl" style="margin: 2px"></i>
+               <i @click="dialogVisible = true" class="fa-solid fa-comment-dots fa-xl" style="margin: 2px"></i>
+             </el-dropdown-menu>
+           </el-dropdown>
+           <i class="fa-solid fa-caret-down" style="margin-left: 10px"></i>
+         </div>
+       </div>
+     </div>
     </div>
 
   </div>
@@ -166,6 +308,10 @@ export default {
   border-radius: 5px;
 }
 
+.child-comment-list {
+  margin-left: 26px;
+}
+
 .comment-list img {
   width: 84px;
   height: 84px;
@@ -177,15 +323,23 @@ export default {
   margin-top: 6px;
 }
 
+.child-comment-list img{
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: left;
+  border: 3px solid #4255d3;
+  padding: 5px;
+  margin-top: 6px;
+}
+
 .comment {
-  position: relative; /* 添加 relative 定位 */
   margin: 16px;
 }
 
 .icon {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
+  float: right;
 }
 
 .el-dropdown-link {

@@ -14,6 +14,8 @@ public interface UserMapper {
 
     public String initAvatar(@Param("id") Integer id);
 
+    public String initCommentAvatar(@Param("id") Integer id);
+
     public User initUserInfo(@Param("id") Integer id);
 
     public int changeNickname(@Param("id") Integer id,@Param("nickname") String nickname);

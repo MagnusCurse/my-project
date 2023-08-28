@@ -49,6 +49,15 @@ public class UserService {
     }
 
     /**
+     * 初始化用户评论头像
+     * @param id
+     * @return
+     */
+    public String initCommentAvatar(Integer id) {
+        return mapper.initCommentAvatar(id);
+    }
+
+    /**
      * 初始化用户信息
      * @param id
      * @return

@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.common.AjaxResult;
 import com.example.demo.common.SessionUnit;
+import com.example.demo.model.Comment;
 import com.example.demo.model.User;
 import com.example.demo.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -60,5 +62,17 @@ public class CommentController {
             return AjaxResult.fail(-1,"插入数据库失败");
         }
         return AjaxResult.success(res,"回复评论成功");
+    }
+
+    @RequestMapping("/init-parent-comment")
+    @ResponseBody
+    public Object initParentComment() {
+      return AjaxResult.success(service.initParentComment(),"初始化父评论成功");
+    }
+
+    @RequestMapping("/init-child-comment")
+    @ResponseBody
+    public Object initChildComment(Integer parent_id) {
+        return AjaxResult.success(service.initChildComment(parent_id),"初始化子评论成功");
     }
 }

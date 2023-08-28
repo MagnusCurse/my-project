@@ -115,6 +115,15 @@ public class UserController {
         return AjaxResult.success(res,"初始化用户头像成功");
     }
 
+    @RequestMapping("/init-comment-avatar")
+    public Object initCommentAvatar(Integer user_id) {
+        String res = service.initCommentAvatar(user_id);
+        if(res == null) {
+            return AjaxResult.fail(-1,"数据库查询结果为空");
+        }
+        return AjaxResult.success(res,"初始化评论用户头像成功");
+    }
+
     @RequestMapping("inti-user-info")
     public Object initUserInfo(HttpServletRequest request) {
         User curUser = SessionUnit.getLoginUser(request);
