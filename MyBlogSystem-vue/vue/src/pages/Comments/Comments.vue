@@ -9,12 +9,21 @@ export default {
       dialogVisible: false,
       comment: "",
       replyComment: "",
-      imageUrl: "",
       parent_id: "",
+      // 父评论集合
       parentComments: {
 
       },
+      // 子评论集合与 parent_id 的映射关系
       childCommentsMap: {
+
+      },
+      // 图片 url 与评论 id 的映射关系
+      imageUrlsMap: {
+
+      },
+      // showReply 与 parent_id 的映射关系
+      showReplyMap: {
 
       }
     }
@@ -46,6 +55,10 @@ export default {
     sendParentId(parent_id){
       this.parent_id = parent_id;
       this.dialogVisible = true;
+    },
+    // 展开父评论回复函数
+    showReply(parent_id) {
+      this.showReplyMap[parent_id] = !this.showReplyMap[parent_id];
     },
     // 发表评论函数
     post() {
@@ -118,10 +131,13 @@ export default {
           function (response) {
             if(response.data.code == 200) {
                originThis.parentComments = response.data.val;
-
-               // 初始化子评论映射表
                originThis.parentComments.forEach(parentComment => {
+                 // 初始化子评论映射表
                  originThis.initChildComment(parentComment.id);
+                 // 初始化图片 url 映射表
+                 originThis.initCommentAvatar(parentComment.user_id,parentComment.id);
+                 // 建立 parent_id 与 showReply 的映射表
+                 originThis.$set(originThis.showReplyMap,parentComment.id,false);
                })
             } else {
                alert("初始化父评论失败,请重试");
@@ -145,8 +161,12 @@ export default {
       }).then(
           function (response) {
             if(response.data.code == 200) {
-              console.log(response.data.val);
               originThis.$set(originThis.childCommentsMap,parent_id,response.data.val);
+
+              response.data.val.forEach(childComment => {
+                // 初始化图片 url 映射表
+                originThis.initCommentAvatar(childComment.user_id,childComment.id);
+              })
             } else {
               alert("初始化子评论失败,请重试");
             }
@@ -157,29 +177,7 @@ export default {
       })
     },
     // 初始化评论头像
-    // 初始化子评论函数
-    // async initChildComment(parent_id) {
-    //   const originThis = this;
-    //   try {
-    //     const response = await axios.get("http://localhost:9090/comment/init-child-comment", {
-    //       params: {
-    //         parent_id: parent_id
-    //       }
-    //     });
-    //     if (response.data.code === 200 && response.data.val != null) {
-    //       const childComments = response.data.val;
-    //       console.log(childComments);
-    //       // 返回子评论数组
-    //       return childComments;
-    //     } else {
-    //       alert("初始化子评论失败，请重试");
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //     alert("出现异常，详情见控制台");
-    //   }
-    // },
-    initCommentAvatar(user_id) {
+    initCommentAvatar(user_id,comment_id) {
       const originThis = this; // 缓存 this
       // 发送请求给后端
       axios({
@@ -190,7 +188,9 @@ export default {
         }
       }).then(function (response) {
         if(response.data.code == 200 && response.data.val != null) {
-          originThis.imageUrl = require("@/img/avatar/" + response.data.val);
+          // originThis.imageUrlsMap = require("@/img/avatar/" + response.data.val);
+          // 通过评论 id 与每一个 url 建立映射关系
+          originThis.$set(originThis.imageUrlsMap,comment_id,require("@/img/avatar/" + response.data.val));
         } else {
           alert("初始化评论头像失败,请重试");
         }
@@ -246,8 +246,7 @@ export default {
       <!-- 评论用户模块   -->
       <div class="user">
         <!--   调用初始化头像函数初始化评论头像     -->
-        {{ initCommentAvatar(parentComment.user_id) }}
-        <img :src="imageUrl" alt="">
+        <img :src="imageUrlsMap[parentComment.id]" alt="">
 
         <br>
         <div style="font-weight: bold"> {{ parentComment.username }} </div>
@@ -265,16 +264,15 @@ export default {
             <i @click="sendParentId(parentComment.id)" class="fa-solid fa-comment-dots fa-xl" style="margin: 2px"></i>
           </el-dropdown-menu>
         </el-dropdown>
-        <i class="fa-solid fa-caret-down" style="margin-left: 10px"></i>
+        <i @click="showReply(parentComment.id)" class="fa-solid fa-caret-down" style="margin-left: 10px"></i>
       </div>
 
      <!--  父评论子评论区域    -->
      <div class="child-comment-list">
-
-       <div class="child-comment" v-for="childComment in childCommentsMap[parentComment.id]" :key="childComment.id">
+       <div v-if="showReplyMap[childComment.parent_id]" class="child-comment" v-for="childComment in childCommentsMap[parentComment.id]" :key="childComment.id">
          <!-- 评论用户模块   -->
          <div class="user">
-           <img src="@/img/avatar/scenery.jpg" alt="">
+           <img :src="imageUrlsMap[childComment.id]" alt="">
            <br>
            <div style="font-weight: bold"> {{ childComment.username }} </div>
          </div>
@@ -288,10 +286,9 @@ export default {
             </span>
              <el-dropdown-menu slot="dropdown">
                <i class="fa-regular fa-thumbs-up fa-xl" style="margin: 2px"></i>
-               <i @click="dialogVisible = true" class="fa-solid fa-comment-dots fa-xl" style="margin: 2px"></i>
+               <i @click="reply" class="fa-solid fa-comment-dots fa-xl" style="margin: 2px"></i>
              </el-dropdown-menu>
            </el-dropdown>
-           <i class="fa-solid fa-caret-down" style="margin-left: 10px"></i>
          </div>
        </div>
      </div>
