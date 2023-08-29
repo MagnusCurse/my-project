@@ -2,14 +2,21 @@
 
 
 import axios from "axios";
+import {mixin} from "@/mixin";
 
 export default {
   name: "User",
+  data() {
+    return {
+      imageUrl: ""
+    }
+  },
   methods: {
 
   },
+  mixins: [mixin],
   mounted() {
-
+    this.initAvatar();
   }
 }
 </script>
@@ -17,7 +24,7 @@ export default {
 <template>
   <div class="account-wrapper" style="--delay: .8s">
     <div class="account-profile">
-      <img src="https://images.unsplash.com/photo-1550314124-301ca0b773ae?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2215&q=80" alt="">
+      <img :src="imageUrl" alt="">
       <div class="blob-wrap">
         <div class="blob"></div>
         <div class="blob"></div>
