@@ -38,6 +38,20 @@ public class CommentService {
     }
 
     /**
+     * 回复子评论功能
+     * @param parent_id
+     * @param user_id
+     * @param blog_id
+     * @param username
+     * @param comment
+     * @param replied_username
+     * @return
+     */
+    public int replyChildComment(Integer parent_id,Integer user_id,Integer blog_id,String username,String comment,String replied_username) {
+        return mapper.replyChildComment(parent_id,user_id,blog_id,username,comment,replied_username);
+    }
+
+    /**
      * 初始化父评论元素
      * @return
      */

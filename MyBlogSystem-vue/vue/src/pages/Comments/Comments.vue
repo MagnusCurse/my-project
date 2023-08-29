@@ -10,6 +10,7 @@ export default {
       comment: "",
       replyComment: "",
       parent_id: "",
+      replied_username: "",
       // 父评论集合
       parentComments: {
 
@@ -29,12 +30,18 @@ export default {
     }
   },
   methods: {
+    // 弹出框关闭前操作
     handleClose(done) {
       this.$confirm('确认关闭？')
           .then(_ => {
             done();
           })
           .catch(_ => {});
+    },
+    // 关闭弹出框函数
+    cancel(){
+      this.dialogVisible = false;
+      this.replied_username = "";
     },
     // 得到当前名为 "xxx" 的 query 参数
     getURLParam(key) {
@@ -54,6 +61,12 @@ export default {
     // 修改 parent_id
     sendParentId(parent_id){
       this.parent_id = parent_id;
+      this.dialogVisible = true;
+    },
+    // 修改 replied_username 和 parent_id
+    sendRepliedUsername(replied_username,parent_id) {
+      this.replied_username = replied_username;
+      this.sendParentId(parent_id);
       this.dialogVisible = true;
     },
     // 展开父评论回复函数
@@ -91,6 +104,11 @@ export default {
     },
     // 回复评论函数
     reply() {
+      // 如果当前 replied_username 不为空,调用该函数
+      if(this.replied_username != "") {
+        this.replyChildComment();
+        return;
+      }
       this.dialogVisible = false
       const originThis = this; // 缓存 this
       if(this.replyComment == "") {
@@ -119,6 +137,38 @@ export default {
         console.log(error);
         alert("出现异常,详情见控制台");
       })
+    },
+    // 回复子评论函数
+    replyChildComment() {
+      this.dialogVisible = false;
+      if(this.replyComment == "") {
+        alert("请先输入评论");
+        return;
+      }
+      // 发送 ajax 请求给后端
+      axios({
+        url: "http://localhost:9090/comment/reply-child-comment",
+        method: "post",
+        data: {
+          blog_id: this.getURLParam("id"),
+          parent_id: this.parent_id,
+          comment: this.replyComment,
+          replied_username: this.replied_username
+        }
+      }).then(
+          function (response) {
+            if(response.data.code == 200 && response.data.val == 1) {
+              alert("回复评论成功");
+              window.location.reload(); // 刷新当前页面
+            } else {
+              alert("回复评论失败,请重试");
+            }
+          }
+      ).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
+      this.replied_username = ""; // 调用后重新赋值为空
     },
     // 初始化父评论函数
     initParentComment() {
@@ -213,6 +263,7 @@ export default {
       title="请输入评论"
       :visible.sync="dialogVisible"
       width="50%"
+      append-to-body="true"
       :before-close="handleClose">
     <b-field style="margin-top: 10px">
       <b-input type="textarea"
@@ -223,7 +274,8 @@ export default {
       </b-input>
     </b-field>
     <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button @click="cancel">取 消</el-button>
+    <!--   点击确认后调用 reply 函数   -->
     <el-button type="info" @click="reply">确 定</el-button>
   </span>
   </el-dialog>
@@ -261,6 +313,7 @@ export default {
             </span>
           <el-dropdown-menu slot="dropdown">
             <i class="fa-regular fa-thumbs-up fa-xl" style="margin: 2px"></i>
+            <!--    这里调用该函数修改 parent_id , 并显示弹出框, 在弹出框中调用了 reply 函数        -->
             <i @click="sendParentId(parentComment.id)" class="fa-solid fa-comment-dots fa-xl" style="margin: 2px"></i>
           </el-dropdown-menu>
         </el-dropdown>
@@ -277,7 +330,7 @@ export default {
            <div style="font-weight: bold"> {{ childComment.username }} </div>
          </div>
          <!--  评论内容    -->
-         <span> {{ childComment.comment }} </span>
+         <span> <span v-if="childComment.replied_username">回复: {{ childComment.replied_username }}</span> {{ childComment.comment }} </span>
          <!--  评论功能模块:回复/点赞    -->
          <div class="icon">
            <el-dropdown trigger="click">
@@ -286,7 +339,7 @@ export default {
             </span>
              <el-dropdown-menu slot="dropdown">
                <i class="fa-regular fa-thumbs-up fa-xl" style="margin: 2px"></i>
-               <i @click="reply" class="fa-solid fa-comment-dots fa-xl" style="margin: 2px"></i>
+               <i @click="sendRepliedUsername(childComment.username,childComment.parent_id)" class="fa-solid fa-comment-dots fa-xl" style="margin: 2px"></i>
              </el-dropdown-menu>
            </el-dropdown>
          </div>

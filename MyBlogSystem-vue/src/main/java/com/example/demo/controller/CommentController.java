@@ -64,6 +64,29 @@ public class CommentController {
         return AjaxResult.success(res,"回复评论成功");
     }
 
+    @RequestMapping("/reply-child-comment")
+    @ResponseBody
+    public Object replyChildComment(HttpServletRequest request, @RequestBody Map<String,String> body) {
+        String comment = body.get("comment");
+        String replied_username = body.get("replied_username");
+        Integer parent_id = Integer.valueOf(body.get("parent_id"));
+        Integer blog_id = Integer.valueOf(body.get("blog_id"));
+
+        if(!StringUtils.hasLength(comment) || !StringUtils.hasLength(replied_username)) {
+            return AjaxResult.fail(-1,"评论或者被回复用户名为空");
+        }
+        // 获取当前用户对象
+        User curUser = SessionUnit.getLoginUser(request);
+        if(curUser == null) {
+            return AjaxResult.fail(-1,"当前用户对象为空");
+        }
+        int res = service.replyChildComment(parent_id,curUser.getId(),blog_id,curUser.getUsername(),comment,replied_username);
+        if(res != 1) {
+            return AjaxResult.fail(-1,"插入数据库失败");
+        }
+        return AjaxResult.success(res,"回复子评论成功");
+    }
+
     @RequestMapping("/init-parent-comment")
     @ResponseBody
     public Object initParentComment() {

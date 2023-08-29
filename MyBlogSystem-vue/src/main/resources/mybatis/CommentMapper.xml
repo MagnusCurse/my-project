@@ -12,6 +12,11 @@
         values (#{parent_id},#{user_id},#{blog_id},#{username},#{comment})
     </insert>
 
+    <insert id="replyChildComment">
+        insert into comment_info (parent_id,user_id,blog_id,username,comment,replied_username)
+        values (#{parent_id},#{user_id},#{blog_id},#{username},#{comment},#{replied_username})
+    </insert>
+
     <select id="initParentComment" resultType="com.example.demo.model.Comment">
         select * from comment_info where parent_id is null
     </select>

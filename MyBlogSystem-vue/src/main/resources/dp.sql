@@ -35,6 +35,7 @@ create table blog_info(
 )default charset 'utf8mb4';
 
 -- 创建评论表
+
 drop table if exists comment_info;
 create table comment_info(
     id int primary key auto_increment,
@@ -45,7 +46,7 @@ create table comment_info(
     comment varchar(360),
     create_time datetime default now(),
     like_count int,
-    replied_id int
+    replied_username varchar(100)
 )
 
 

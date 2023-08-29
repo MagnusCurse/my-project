@@ -12,7 +12,7 @@ public class Comment {
     private Integer blog_id;
     private String username;
     private String comment;
+    private String replied_username;
     private Date create_time;
     private int like_count;
-    private Integer replied_id;
 }
