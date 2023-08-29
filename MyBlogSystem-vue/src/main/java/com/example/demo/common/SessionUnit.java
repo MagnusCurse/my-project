@@ -3,9 +3,11 @@ package com.example.demo.common;
 
 import com.example.demo.model.Constant;
 import com.example.demo.model.User;
+import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.Serializable;
 
 /**
  * 操作一些与 session 相关的功能
