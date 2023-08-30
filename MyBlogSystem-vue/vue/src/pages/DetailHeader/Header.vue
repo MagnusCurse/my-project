@@ -1,5 +1,8 @@
 <script>
 
+import axios from "axios";
+import {mixin} from "@/mixin";
+
 export default {
   name: "Header",
   data() {
@@ -7,8 +10,23 @@ export default {
       activeName: 'second'
     };
   },
+  mixins: [mixin],
   methods: {
+    likeBlog() {
+      // 发送请求给后端
+      axios({
+        url: "http://localhost:9090/blog-liked/like",
+        method: "get",
+        params: {
+          likedBlogId: this.getURLParam("id")
+        }
+      }).then(function (response) {
 
+      }).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
+    }
   }
 }
 </script>
@@ -16,7 +34,7 @@ export default {
 <template>
 <div class="header">
     <div class="buttons">
-      <button class="button is-primary">
+      <button @click="likeBlog" class="button is-primary">
         <i class="fa-regular fa-heart fa-lg" style="color: #eca1df;"></i>
         <strong style="margin-left: 6px"> Like </strong>
         <span style="margin-left: 12px"> 6k </span>
@@ -31,8 +49,11 @@ export default {
 </template>
 
 <style scoped>
+.header {
+  margin-bottom: 6px;
+}
 .buttons {
-  margin-bottom: 0px;
+  float: right;
 }
 hr {
   height: 1px; /* 设置分割线的高度 */

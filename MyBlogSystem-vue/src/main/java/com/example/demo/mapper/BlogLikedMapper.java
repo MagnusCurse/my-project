@@ -25,7 +25,7 @@ public interface BlogLikedMapper {
     Page<BlogLike> getLikedListByLikedUserId(String likedBlogId, Pageable pageable);
 
     /**
-     * 根据点赞用户的 id 查询点赞列表 (即查询这个人豆豆给谁点赞过)
+     * 根据点赞用户的 id 查询点赞列表 (即查询这个人都给谁点赞过)
      * @param likedPostId
      * @param pageable
      * @return
