@@ -39,11 +39,13 @@ import {
 
 import axios from "axios";
 import Comments from "@/pages/Comments/Comments.vue";
+import Header from "@/pages/DetailHeader/Header.vue";
 
 export default {
   name: "Detail",
   components: {
-    Comments
+    Comments,
+    Header
   },
   data () {
     // 编辑器的 extensions
@@ -121,6 +123,7 @@ export default {
 
 <template>
   <div class="activity card" style="--delay: .2s">
+    <Header/>
     <!-- 文章详情内容   -->
     <el-tiptap v-model="content" :extensions="extensions" placeholder="Write something …" :readonly="true"/>
     <!--  评论区内容  -->
