@@ -30,8 +30,8 @@ create table blog_info(
     create_time datetime default now(),
     update_time datetime default now(),
     user_id int not null,
-    likes int default 0,
-    views int default 0
+    like_count int default 0,
+    view_count int default 0
 )default charset 'utf8mb4';
 
 -- 创建评论表
@@ -47,6 +47,21 @@ create table comment_info(
     create_time datetime default now(),
     like_count int,
     replied_username varchar(100)
+)
+
+--创建用户点赞表
+
+drop table if exists blog_like;
+create table blog_like(
+    id int primary key auto_increment,
+--     被点赞博客的 id
+    liked_blog_id int not null
+--     点赞该博客用户的 id
+    liked_post_id int not null
+--     点赞状态,0 取消/ 1 点赞
+    status tinyint(1) default '1'
+    create_time datetime default now(),
+    update_time datetime default now()
 )
 
 
