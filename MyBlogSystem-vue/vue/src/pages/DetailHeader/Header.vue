@@ -21,7 +21,15 @@ export default {
           likedBlogId: this.getURLParam("id")
         }
       }).then(function (response) {
-
+         if(response.data.code == 200) {
+           if(response.data.val == 1) {
+             console.log("点赞成功");
+           } else {
+             console.log("取消点赞成功");
+           }
+         } else {
+           alert("点赞/取消点赞失败,请重试");
+         }
       }).catch(function (error) {
         console.log(error);
         alert("出现异常,详情见控制台");

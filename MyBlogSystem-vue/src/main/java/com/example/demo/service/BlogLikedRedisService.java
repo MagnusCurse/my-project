@@ -31,15 +31,25 @@ public class BlogLikedRedisService {
     }
 
     /**
+     * 查询当前用户点赞状态
+     * @param likedBlogId
+     * @param likedPostId
+     * @return
+     */
+    public String getStatusFromRedis(String likedBlogId, String likedPostId) {
+        String key = RedisKeyUtils.getLikedKey(likedBlogId,likedPostId);
+        return (String) redisTemplate.opsForHash().get(RedisKeyUtils.MAP_KEY_USER_LIKED,key);
+    }
+
+    /**
      * 取消点赞。将状态改变为 0
      * @param likedBlogId
      * @param likedPostId
      */
     public void unlikeFromRedis(String likedBlogId, String likedPostId) {
         String key = RedisKeyUtils.getLikedKey(likedBlogId,likedPostId);
-        redisTemplate.opsForHash().put(RedisKeyUtils.MAP_KEY_USER_LIKED,key,LikedStatusEnum.UNLIKE.getCode());
+        redisTemplate.opsForHash().put(RedisKeyUtils.MAP_KEY_USER_LIKED,key,String.valueOf(LikedStatusEnum.UNLIKE.getCode()));
     }
-
 
     /**
      * 从 Redis 中删除一条点赞数据
