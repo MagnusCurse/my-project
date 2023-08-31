@@ -89,13 +89,13 @@ public class CommentController {
 
     @RequestMapping("/init-parent-comment")
     @ResponseBody
-    public Object initParentComment() {
-      return AjaxResult.success(service.initParentComment(),"初始化父评论成功");
+    public Object initParentComment(Integer blog_id) {
+      return AjaxResult.success(service.initParentComment(blog_id),"初始化父评论成功");
     }
 
     @RequestMapping("/init-child-comment")
     @ResponseBody
-    public Object initChildComment(Integer parent_id) {
-        return AjaxResult.success(service.initChildComment(parent_id),"初始化子评论成功");
+    public Object initChildComment(Integer parent_id,Integer blog_id) {
+        return AjaxResult.success(service.initChildComment(parent_id,blog_id),"初始化子评论成功");
     }
 }

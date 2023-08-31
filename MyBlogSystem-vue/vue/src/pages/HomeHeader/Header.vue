@@ -8,25 +8,27 @@ export default{
   methods: {
     // 注销功能
     logout() {
-      const originThis = this; // 缓存 this
-      // 发送请求给后端
-      axios({
-        url: "http://localhost:9090/user/logout",
-        method: "get"
-      }).then(
-          function (response) {
-            if (response.data.code == 200 && response.data.val == 1) {
-              alert("注销成功,即将跳转到登录页面");
-              originThis.$router.push("/login");
-            } else {
-              alert("当前没有用户登录,请登录");
-              originThis.$router.push("/login");
+      if(confirm("是否注销??")){
+        const originThis = this; // 缓存 this
+        // 发送请求给后端
+        axios({
+          url: "http://localhost:9090/user/logout",
+          method: "get"
+        }).then(
+            function (response) {
+              if (response.data.code == 200 && response.data.val == 1) {
+                alert("注销成功,即将跳转到登录页面");
+                originThis.$router.push("/login");
+              } else {
+                alert("当前没有用户登录,请登录");
+                originThis.$router.push("/login");
+              }
             }
-          }
-      ).catch(function (error) {
-        console.log(error);
-        alert("出现异常,详情见控制台");
-      })
+        ).catch(function (error) {
+          console.log(error);
+          alert("出现异常,详情见控制台");
+        })
+      }
     }
   }
 }

@@ -10,8 +10,10 @@ export const mixin = {
                 url: "http://localhost:9090/user/init-avatar",
                 method: "get"
             }).then(function (response) {
-                if(response.data.code == 200 && response.data.val != null) {
+                if(response.data.code == 200 && response.data.val != "") {
                     originThis.imageUrl = require("@/img/avatar/" + response.data.val);
+                } else if(response.data.val == ""){
+                    originThis.imageUrl = require("@/img/avatar/Default.png");
                 } else {
                     alert("初始化头像失败,请重试");
                 }

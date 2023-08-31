@@ -55,8 +55,8 @@ public class CommentService {
      * 初始化父评论元素
      * @return
      */
-    public List<Comment> initParentComment() {
-        return mapper.initParentComment();
+    public List<Comment> initParentComment(Integer blog_id) {
+        return mapper.initParentComment(blog_id);
     }
 
     /**
@@ -64,7 +64,7 @@ public class CommentService {
      * @param parent_id
      * @return
      */
-    public List<Comment> initChildComment(Integer parent_id) {
-        return mapper.initChildComment(parent_id);
+    public List<Comment> initChildComment(Integer parent_id,Integer blog_id) {
+        return mapper.initChildComment(parent_id,blog_id);
     }
 }

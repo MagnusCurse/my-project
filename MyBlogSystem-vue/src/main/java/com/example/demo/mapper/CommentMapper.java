@@ -27,7 +27,7 @@ public interface CommentMapper {
                                  @Param("replied_username") String replied_username);
 
 
-    public List<Comment> initParentComment();
+    public List<Comment> initParentComment(@Param("blog_id") Integer blog_id);
 
-    public List<Comment> initChildComment(@Param("parent_id") Integer parent_id);
+    public List<Comment> initChildComment(@Param("parent_id") Integer parent_id,@Param("blog_id") Integer blog_id);
 }

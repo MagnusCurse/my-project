@@ -176,7 +176,10 @@ export default {
       // 发送请求给后端
       axios({
         url: "http://localhost:9090/comment/init-parent-comment",
-        method: "get"
+        method: "get",
+        params: {
+          blog_id: this.getURLParam("id")
+        }
       }).then(
           function (response) {
             if(response.data.code == 200) {
@@ -206,7 +209,8 @@ export default {
         url: "http://localhost:9090/comment/init-child-comment",
         method: "get",
         params: {
-          parent_id: parent_id
+          parent_id: parent_id,
+          blog_id: this.getURLParam("id")
         }
       }).then(
           function (response) {

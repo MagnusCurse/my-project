@@ -51,6 +51,8 @@ export default {
       }).then(function (response) {
         if(response.data.code == 200 && response.data.val != null) {
            originThis.likeCount = response.data.val;
+        } else if(response.data.val == null) {
+           originThis.likeCount = 0;
         } else {
            alert("初始化点赞数失败");
         }

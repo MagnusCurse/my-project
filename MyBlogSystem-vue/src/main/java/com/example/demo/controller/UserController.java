@@ -108,10 +108,8 @@ public class UserController {
         if(curUser == null) {
             return AjaxResult.fail(-1,"当前用户对象为空");
         }
+        // 这里如果用户没有保存头像,返回值为 "",前端设置为默认头像
         String res = service.initAvatar(curUser.getId());
-        if(res == null) {
-            return AjaxResult.fail(-1,"数据库查询结果为空");
-        }
         return AjaxResult.success(res,"初始化用户头像成功");
     }
 
