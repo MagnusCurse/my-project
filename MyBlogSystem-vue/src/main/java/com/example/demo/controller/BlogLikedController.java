@@ -4,6 +4,7 @@ import com.example.demo.common.AjaxResult;
 import com.example.demo.common.SessionUnit;
 import com.example.demo.model.User;
 import com.example.demo.service.BlogLikedRedisService;
+import com.example.demo.service.BlogLikedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 public class BlogLikedController {
     @Autowired
     private BlogLikedRedisService redisService;
+    @Autowired
+    private BlogLikedService service;
 
     /**
      * 没有点赞过,点赞成功数量 + 1,返回 1
@@ -63,4 +66,5 @@ public class BlogLikedController {
        }
        return AjaxResult.success(Integer.valueOf(count),"初始化点赞数量成功");
     }
+
 }

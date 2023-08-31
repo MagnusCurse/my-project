@@ -6,7 +6,6 @@ import com.example.demo.common.RedisKeyUtils;
 import com.example.demo.model.BlogLike;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.Cursor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -104,14 +103,13 @@ public class BlogLikedRedisService {
             String[] split = key.split("::");
             String likedBlogId = split[0];
             String likedPostId = split[1];
-            Integer value = (Integer) entry.getValue();
+            // 这里拿到的是 Object , 要先转成 String 再变成 Integer
+            Integer value = Integer.valueOf((String) entry.getValue());
 
             // 组装成 BlogLike 对象
             BlogLike blogLike = new BlogLike(likedBlogId, likedPostId, value);
             res.add(blogLike);
 
-            // 从 Redis 中删除这条记录
-            redisTemplate.opsForHash().delete(RedisKeyUtils.MAP_KEY_USER_LIKED,key);
         }
         return res;
     }
@@ -128,11 +126,8 @@ public class BlogLikedRedisService {
             String key = (String) entry.getKey();
 
             // 组装成 BlogLike 对象
-            BlogLikedCount count = new BlogLikedCount(key, (Integer) entry.getValue());
+            BlogLikedCount count = new BlogLikedCount(key, Integer.valueOf((String) entry.getValue()));
             res.add(count);
-
-            // 从 Redis 中删除这条记录
-            redisTemplate.opsForHash().delete(RedisKeyUtils.MAP_KEY_BLOG_LIKED_COUNT, key);
         }
         return res;
     }

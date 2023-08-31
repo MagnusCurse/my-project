@@ -19,7 +19,26 @@ public interface BlogLikedMapper {
      */
     int saveLike(@Param("liked_blog_id") String liked_blog_id,
                  @Param("liked_post_id") String liked_post_id,
-    @Param("status") String status);
+                 @Param("status") String status);
+
+    /**
+     * 更新点赞记录
+     * @param liked_blog_id
+     * @param liked_post_id
+     * @param status
+     * @return
+     */
+    int updateLike(@Param("liked_blog_id") String liked_blog_id,
+                   @Param("liked_post_id") String liked_post_id,
+                   @Param("status") String status);
+
+    /**
+     * 得到一条点赞记录
+     * @param liked_blog_id
+     * @param liked_post_id
+     * @return
+     */
+    BlogLike getLike(@Param("liked_blog_id") String liked_blog_id, @Param("liked_post_id") String liked_post_id);
 
     /**
      * 根据博客 id 保存点赞数
