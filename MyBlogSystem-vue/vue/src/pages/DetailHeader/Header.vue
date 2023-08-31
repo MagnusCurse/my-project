@@ -7,12 +7,14 @@ export default {
   name: "Header",
   data() {
     return {
-      activeName: 'second'
+      likeCount: 0,
     };
   },
   mixins: [mixin],
   methods: {
+    // 点赞 / 取消点赞该博客
     likeBlog() {
+      const originThis = this; // 缓存 this
       // 发送请求给后端
       axios({
         url: "http://localhost:9090/blog-liked/like",
@@ -27,6 +29,7 @@ export default {
            } else {
              console.log("取消点赞成功");
            }
+           originThis.initLikeCount();
          } else {
            alert("点赞/取消点赞失败,请重试");
          }
@@ -34,7 +37,31 @@ export default {
         console.log(error);
         alert("出现异常,详情见控制台");
       })
+    },
+    // 初始化该博客点赞数量
+    initLikeCount() {
+      // 发送请求给后端
+      const originThis = this; // 缓存 this
+      axios({
+        url: "http://localhost:9090/blog-liked/init-like-count",
+        method: "get",
+        params: {
+          likedBlogId: this.getURLParam("id")
+        }
+      }).then(function (response) {
+        if(response.data.code == 200 && response.data.val != null) {
+           originThis.likeCount = response.data.val;
+        } else {
+           alert("初始化点赞数失败");
+        }
+      }).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
     }
+  },
+  mounted() {
+    this.initLikeCount();
   }
 }
 </script>
@@ -45,7 +72,7 @@ export default {
       <button @click="likeBlog" class="button is-primary">
         <i class="fa-regular fa-heart fa-lg" style="color: #eca1df;"></i>
         <strong style="margin-left: 6px"> Like </strong>
-        <span style="margin-left: 12px"> 6k </span>
+        <span  style="margin-left: 12px"> {{ likeCount }} </span>
       </button>
       <button class="button is-light">
         <i class="fa-regular fa-eye fa-lg" style="color: #b7c1d1;"></i>

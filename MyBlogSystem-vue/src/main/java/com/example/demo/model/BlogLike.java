@@ -9,7 +9,7 @@ import java.io.Serializable;
  * 用户点赞信息
  */
 @Data
-public class BlogLike implements Serializable {
+public class BlogLike {
     private Integer id;
     private String likedBlogId;
     private String likedPostId;

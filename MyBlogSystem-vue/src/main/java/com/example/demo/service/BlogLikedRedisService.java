@@ -78,6 +78,15 @@ public class BlogLikedRedisService {
     }
 
     /**
+     * 获得该博客的点赞数量
+     * @param likedBlogId
+     * @return
+     */
+    public String getLikeCountFromRedis(String likedBlogId) {
+        return (String) redisTemplate.opsForHash().get(RedisKeyUtils.MAP_KEY_BLOG_LIKED_COUNT,likedBlogId);
+    }
+
+    /**
      * 获取 Redis 中所有的点赞数据
      * @return
      */
