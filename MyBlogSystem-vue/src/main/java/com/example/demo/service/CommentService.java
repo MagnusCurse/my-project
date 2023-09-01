@@ -67,4 +67,22 @@ public class CommentService {
     public List<Comment> initChildComment(Integer parent_id,Integer blog_id) {
         return mapper.initChildComment(parent_id,blog_id);
     }
+
+    /**
+     * 根据 id 删除一条评论
+     * @param id
+     * @return
+     */
+    public int deleteComment(Integer id) {
+        return mapper.deleteComment(id);
+    }
+
+    /**
+     * 删除父评论下的子评论
+     * @param id
+     * @return
+     */
+    public int deleteChildComment(Integer id) {
+        return mapper.deleteChildComment(id);
+    }
 }

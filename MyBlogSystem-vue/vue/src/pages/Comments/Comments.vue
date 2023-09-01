@@ -1,6 +1,7 @@
 <script>
 
 import axios from "axios";
+import {mixin} from "@/mixin";
 
 export default {
   name: "Comments",
@@ -42,21 +43,6 @@ export default {
     cancel(){
       this.dialogVisible = false;
       this.replied_username = "";
-    },
-    // 得到当前名为 "xxx" 的 query 参数
-    getURLParam(key) {
-      let hash = location.hash;
-      if (hash.indexOf("?") >= 0) {
-        hash = hash.substring(hash.indexOf("?") + 1);
-        let paramArr = hash.split('&');
-        for (let i = 0; i < paramArr.length; i++) {
-          let nameValuePair = paramArr[i].split("=");
-          if (nameValuePair.length === 2 && decodeURIComponent(nameValuePair[0]) === key) {
-            return decodeURIComponent(nameValuePair[1]);
-          }
-        }
-      }
-      return "";
     },
     // 修改 parent_id
     sendParentId(parent_id){
@@ -252,8 +238,61 @@ export default {
         console.log(error);
         alert("出现异常,详情见控制台");
       })
+    },
+    // 删除父评论
+    deleteParentComment(id,user_id) {
+      if(confirm("是否删除该评论??")) {
+        // 发送请求给后端
+        axios({
+          url: "http://localhost:9090/comment/delete-parent-comment",
+          method: "get",
+          params: {
+            id: id,
+            user_id: user_id
+          }
+        }).then(function (response) {
+          if(response.data.code == 200 && response.data.val > 0) {
+            alert("删除评论成功");
+            window.location.reload();
+          } else if (response.data.code == -2){
+            alert("你没有权力删除该评论");
+          } else {
+            alert("删除评论失败,请重试");
+          }
+        }).catch(function (error) {
+          console.log(error);
+          alert("出现异常,详情见控制台");
+        })
+      }
+    },
+    // 删除子评论
+    deleteChildComment(id,user_id) {
+      if(confirm("是否删除该评论??")) {
+        // 发送请求给后端
+        axios({
+          url: "http://localhost:9090/comment/delete-child-comment",
+          method: "get",
+          params: {
+            id: id,
+            user_id: user_id
+          }
+        }).then(function (response) {
+          if(response.data.code == 200 && response.data.val > 0) {
+            alert("删除评论成功");
+            window.location.reload();
+          } else if (response.data.code == -2) {
+            alert("你没有权力删除该评论");
+          } else {
+            alert("删除评论失败,请重试");
+          }
+        }).catch(function (error) {
+          console.log(error);
+          alert("出现异常,详情见控制台");
+        })
+      }
     }
   },
+  mixins: [mixin],
   mounted() {
     this.initParentComment();
   }
@@ -305,10 +344,10 @@ export default {
         <img :src="imageUrlsMap[parentComment.id]" alt="">
 
         <br>
-        <div style="font-weight: bold"> {{ parentComment.username }} </div>
+        <div style="font-weight: bold; margin-left: 16px"> {{ parentComment.username }} </div>
       </div>
       <!--  评论内容    -->
-      <span> {{ parentComment.comment }} </span>
+      <span style="margin-left: 16px"> {{ parentComment.comment }} </span>
      <!--  评论功能模块:回复/点赞    -->
       <div class="icon">
         <el-dropdown trigger="click">
@@ -319,6 +358,7 @@ export default {
             <i class="fa-regular fa-thumbs-up fa-xl" style="margin: 2px"></i>
             <!--    这里调用该函数修改 parent_id , 并显示弹出框, 在弹出框中调用了 reply 函数        -->
             <i @click="sendParentId(parentComment.id)" class="fa-solid fa-comment-dots fa-xl" style="margin: 2px"></i>
+            <i @click="deleteParentComment(parentComment.id,parentComment.user_id)" class="fa-solid fa-trash-can fa-xl" style="margin: 2px"></i>
           </el-dropdown-menu>
         </el-dropdown>
         <i @click="showReply(parentComment.id)" class="fa-solid fa-caret-down" style="margin-left: 10px"></i>
@@ -331,10 +371,10 @@ export default {
          <div class="user">
            <img :src="imageUrlsMap[childComment.id]" alt="">
            <br>
-           <div style="font-weight: bold"> {{ childComment.username }} </div>
+           <div style="font-weight: bold; margin-left: 12px"> {{ childComment.username }} </div>
          </div>
          <!--  评论内容    -->
-         <span> <span v-if="childComment.replied_username">回复: {{ childComment.replied_username }}</span> {{ childComment.comment }} </span>
+         <span> <span v-if="childComment.replied_username">回复 {{ childComment.replied_username }} :</span> {{ childComment.comment }} </span>
          <!--  评论功能模块:回复/点赞    -->
          <div class="icon">
            <el-dropdown trigger="click">
@@ -344,6 +384,7 @@ export default {
              <el-dropdown-menu slot="dropdown">
                <i class="fa-regular fa-thumbs-up fa-xl" style="margin: 2px"></i>
                <i @click="sendRepliedUsername(childComment.username,childComment.parent_id)" class="fa-solid fa-comment-dots fa-xl" style="margin: 2px"></i>
+               <i @click="deleteChildComment(childComment.id,childComment.user_id)" class="fa-solid fa-trash-can fa-xl" style="margin: 2px"></i>
              </el-dropdown-menu>
            </el-dropdown>
          </div>

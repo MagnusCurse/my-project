@@ -30,4 +30,8 @@ public interface CommentMapper {
     public List<Comment> initParentComment(@Param("blog_id") Integer blog_id);
 
     public List<Comment> initChildComment(@Param("parent_id") Integer parent_id,@Param("blog_id") Integer blog_id);
+
+    public int deleteComment(@Param("id") Integer id);
+
+    public int deleteChildComment(@Param("id") Integer id);
 }

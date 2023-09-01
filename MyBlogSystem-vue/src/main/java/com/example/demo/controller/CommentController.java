@@ -98,4 +98,44 @@ public class CommentController {
     public Object initChildComment(Integer parent_id,Integer blog_id) {
         return AjaxResult.success(service.initChildComment(parent_id,blog_id),"初始化子评论成功");
     }
+
+    @RequestMapping("/delete-parent-comment")
+    public Object deleteParentComment(HttpServletRequest request,Integer id,Integer user_id) {
+        // 获取当前用户对象
+        User curUser = SessionUnit.getLoginUser(request);
+        if(curUser == null) {
+            return AjaxResult.fail(-1,"当前用户对象为空");
+        }
+        if(!curUser.getId().equals(user_id)) {
+            return AjaxResult.fail(-2,"当前用户没有权力删除该评论");
+        }
+        // 删除该父评论
+        int res1 = service.deleteComment(id);
+        // 删除该父评论下面的子评论
+        int res2 = service.deleteChildComment(id);
+        if(res1 <= 0) {
+            return AjaxResult.fail(-1,"数据库删除父评论失败");
+        }
+        if(res2 < 0) {
+            return AjaxResult.fail(-1,"数据库删除子评论失败");
+        }
+        return AjaxResult.success(res1 + res2,"删除父评论成功");
+    }
+
+    @RequestMapping("/delete-child-comment")
+    public Object deleteChildComment(HttpServletRequest request,Integer id,Integer user_id) {
+        // 获取当前用户对象
+        User curUser = SessionUnit.getLoginUser(request);
+        if(curUser == null) {
+            return AjaxResult.fail(-1,"当前用户对象为空");
+        }
+        if(!curUser.getId().equals(user_id)) {
+            return AjaxResult.fail(-2,"当前用户没有权力删除该评论");
+        }
+        int res = service.deleteComment(id);
+        if(res <= 0) {
+            return AjaxResult.fail(-1,"数据库删除评论失败");
+        }
+        return AjaxResult.success(res,"删除子评论成功");
+    }
 }
