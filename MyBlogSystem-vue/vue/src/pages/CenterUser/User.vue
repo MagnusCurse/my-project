@@ -95,6 +95,9 @@ export default {
     },
     // 进入到编辑页面
     editUserInfo() {
+      if(this.$route.path === "/center/edit") {
+        return;
+      }
       this.$router.push("/center/edit");
     }
   },

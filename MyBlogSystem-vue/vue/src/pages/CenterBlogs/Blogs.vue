@@ -114,10 +114,10 @@ export default {
           </div>
           <!--   博客内容部分   -->
           <div class="text item" style="margin-bottom: 10px">
-            <h3> {{ blog.title }} </h3>
+            <span style="font-weight: bold"> {{ blog.title }} </span>
             <br>
             <span>
-            to be continued
+            <!-- 这边后面填写博客简介: to be continued -->
           </span>
           </div>
         </el-card>

@@ -28,6 +28,7 @@ export default {
       }).then(function (response) {
         if(response.data.code == 200 && response.data.val == 1) {
           alert("修改昵称成功");
+          window.location.reload();
         } else {
           alert("修改失败,请稍后重试");
         }
@@ -47,6 +48,7 @@ export default {
       }).then(function (response) {
         if(response.data.code == 200 && response.data.val == 1) {
           alert("修改简介成功");
+          window.location.reload();
         } else {
           alert("修改失败,请稍后重试");
         }

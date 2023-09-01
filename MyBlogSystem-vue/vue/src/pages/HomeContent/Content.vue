@@ -72,17 +72,17 @@ export default {
             <h3> {{ blog.title }} </h3>
             <br>
             <span>
-            to be continued
+            <!--这里后面填写博客简介: to be continued-->
           </span>
           </div>
         </el-card>
       </div>
-      <div class="activity-links">
-        <div class="activity-link active">Current User</div>
-        <div class="activity-link notify">User Request</div>
-      </div>
+<!--      <div class="activity-links">-->
+<!--        <div class="activity-link active">Current User</div>-->
+<!--        <div class="activity-link notify">User Request</div>-->
+<!--      </div>-->
       <!--  推荐用户区域  -->
-      <Recommend/>
+      <!-- <Recommend/>  -->
     </div>
   </div>
 

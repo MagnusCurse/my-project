@@ -220,7 +220,7 @@ export default {
         <b-input v-model="title" class="title"></b-input>
         <!--  当 isEdit 为 true 调用编辑函数,否则调用 发布博客函数   -->
         <b-button type="is-warning" @click="publishOrModify">发布文章</b-button>
-        <b-button type="is-warning">保存草稿</b-button>
+        <!-- <b-button type="is-warning">保存草稿</b-button> -->
     </div>
     <el-tiptap v-model="content" :extensions="extensions" placeholder="Write something …"/>
   </div>
