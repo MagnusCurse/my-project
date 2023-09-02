@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.*;
@@ -11,6 +12,7 @@ import java.io.IOException;
 
 @Configuration
 public class CorsConfig implements WebMvcConfigurer,Filter {
+
     // 解决前端跨域无法给后端发送请求问题
     @Override
     public void addCorsMappings(CorsRegistry registry) {
