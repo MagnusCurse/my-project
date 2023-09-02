@@ -55,6 +55,7 @@ export default {
         new Doc(),
         new Text(),
         new Paragraph(),
+
         new Heading({ level: 5 }),
         new Bold({ bubble: true }), // 在气泡菜单中渲染菜单按钮
         new Underline({ bubble: true, menubar: false }), // 在气泡菜单而不在菜单栏中渲染菜单按钮
@@ -75,11 +76,7 @@ export default {
         new FontType(),
         new HorizontalRule(),
         new History(),
-        new FormatClear(),
-        new Image(),
-        new Iframe(),
         new Fullscreen(),
-        new SelectAll(),
         new Preview()
       ],
       // 编辑器的内容 / 文章的内容

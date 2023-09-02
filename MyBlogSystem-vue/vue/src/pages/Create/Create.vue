@@ -72,11 +72,7 @@ export default {
         new FontType(),
         new HorizontalRule(),
         new History(),
-        new FormatClear(),
-        new Image(),
-        new Iframe(),
         new Fullscreen(),
-        new SelectAll(),
         new Preview()
       ],
       // 编辑器的内容 / 文章的内容
