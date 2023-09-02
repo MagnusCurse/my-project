@@ -36,6 +36,9 @@ Vue.use(ElementTiptapPlugin, {
     lang: "en", // see i18n
     spellcheck: true, // can be overwritten by editor prop
 });
+// 配置 axios 的默认路径
+Vue.use(axios)
+axios.defaults.baseURL = "http://localhost:9090"
 
 // 前端解决跨域导致的 Session 丢失问题
 axios.defaults.withCredentials = true;

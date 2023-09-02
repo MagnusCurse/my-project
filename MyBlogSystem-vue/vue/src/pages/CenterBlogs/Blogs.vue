@@ -27,7 +27,7 @@ export default {
       const originThis = this; // 缓存 this
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/blog/init-user-blogs",
+        url: "blog/init-user-blogs",
         method: "get"
       }).then(function (response) {
         if(response.data.code == 200 && response.data.val != null && response.data.val.length != 0) {
