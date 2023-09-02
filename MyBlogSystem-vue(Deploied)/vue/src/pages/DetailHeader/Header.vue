@@ -16,7 +16,7 @@ export default {
       const originThis = this; // 缓存 this
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/blog-liked/like",
+        url: "blog-liked/like",
         method: "get",
         params: {
           likedBlogId: this.getURLParam("id")
@@ -42,7 +42,7 @@ export default {
       // 发送请求给后端
       const originThis = this; // 缓存 this
       axios({
-        url: "http://localhost:9090/blog-liked/init-like-count",
+        url: "blog-liked/init-like-count",
         method: "get",
         params: {
           likedBlogId: this.getURLParam("id")

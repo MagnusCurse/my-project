@@ -54,7 +54,7 @@ export default {
 
         // 发送请求给后端
         // 直接将 formData 传递给后端即可,不需要使用 data: {}
-        axios.post("http://localhost:9090/user/upload-avatar",formData).
+        axios.post("user/upload-avatar",formData).
         then(function (response) {
            if(response.data.code == 200 && response.data.val == 1) {
              alert("更新头像成功");
@@ -72,7 +72,7 @@ export default {
       const originThis = this; // 缓存 this
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/user/inti-user-info",
+        url: "user/inti-user-info",
         method: "get"
       }).then(function (response) {
         if(response.data.code == 200 && response.data.val != null) {

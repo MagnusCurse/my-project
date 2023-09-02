@@ -20,7 +20,7 @@ export default {
       }
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/user/change-nickname",
+        url: "user/change-nickname",
         method: "get",
         params: {
           nickname: this.nickname
@@ -40,7 +40,7 @@ export default {
     changeIntroduction() {
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/user/change-introduction",
+        url: "user/change-introduction",
         method: "get",
         params: {
           introduction: this.introduction

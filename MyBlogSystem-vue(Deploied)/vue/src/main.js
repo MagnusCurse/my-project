@@ -36,6 +36,9 @@ Vue.use(ElementTiptapPlugin, {
     lang: "en", // see i18n
     spellcheck: true, // can be overwritten by editor prop
 });
+// aixos 接口配置
+Vue.use(axios)
+axios.defaults.baseURL="http://43.139.61.124:9090"
 
 // 前端解决跨域导致的 Session 丢失问题
 axios.defaults.withCredentials = true;

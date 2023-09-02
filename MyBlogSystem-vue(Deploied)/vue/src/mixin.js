@@ -64,7 +64,7 @@ export const userMixin = {
             const originThis = this; // 缓存 this
             // 发送请求给后端
             axios({
-                url: "http://localhost:9090/user/init-avatar",
+                url: "user/init-avatar",
                 method: "get"
             }).then(function (response) {
                 if(response.data.code == 200 && response.data.val != "") {
@@ -84,7 +84,7 @@ export const userMixin = {
             const originThis = this; // 缓存 this
             // 发送请求给后端
             axios({
-                url: "http://localhost:9090/user/inti-user-info",
+                url: "user/inti-user-info",
                 method: "get"
             }).then(function (response) {
                 if(response.data.code == 200 && response.data.val != "") {

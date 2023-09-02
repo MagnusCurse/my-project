@@ -68,7 +68,7 @@ export default {
        }
        // 发送 ajax 请求给后端
        axios({
-         url: "http://localhost:9090/comment/post",
+         url: "comment/post",
          method: "post",
          data: {
            blog_id: this.getURLParam("id"),
@@ -103,7 +103,7 @@ export default {
       }
       // 发送 ajax 请求给后端
       axios({
-        url: "http://localhost:9090/comment/reply",
+        url: "comment/reply",
         method: "post",
         data: {
           blog_id: this.getURLParam("id"),
@@ -133,7 +133,7 @@ export default {
       }
       // 发送 ajax 请求给后端
       axios({
-        url: "http://localhost:9090/comment/reply-child-comment",
+        url: "comment/reply-child-comment",
         method: "post",
         data: {
           blog_id: this.getURLParam("id"),
@@ -161,7 +161,7 @@ export default {
       const originThis = this; // 缓存 this
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/comment/init-parent-comment",
+        url: "comment/init-parent-comment",
         method: "get",
         params: {
           blog_id: this.getURLParam("id")
@@ -192,7 +192,7 @@ export default {
       const originThis = this; // 缓存 this
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/comment/init-child-comment",
+        url: "comment/init-child-comment",
         method: "get",
         params: {
           parent_id: parent_id,
@@ -221,7 +221,7 @@ export default {
       const originThis = this; // 缓存 this
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/user/init-comment-avatar",
+        url: "user/init-comment-avatar",
         method: "get",
         params: {
           user_id: user_id
@@ -244,7 +244,7 @@ export default {
       if(confirm("是否删除该评论??")) {
         // 发送请求给后端
         axios({
-          url: "http://localhost:9090/comment/delete-parent-comment",
+          url: "comment/delete-parent-comment",
           method: "get",
           params: {
             id: id,
@@ -270,7 +270,7 @@ export default {
       if(confirm("是否删除该评论??")) {
         // 发送请求给后端
         axios({
-          url: "http://localhost:9090/comment/delete-child-comment",
+          url: "comment/delete-child-comment",
           method: "get",
           params: {
             id: id,
