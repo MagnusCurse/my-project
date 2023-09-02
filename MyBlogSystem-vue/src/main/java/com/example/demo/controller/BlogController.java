@@ -40,6 +40,16 @@ public class BlogController {
         return AjaxResult.success(res,"发布博客成功");
     }
 
+    @RequestMapping("/search")
+    @ResponseBody
+    public Object search(String title) {
+        if(!StringUtils.hasLength(title)) {
+            return AjaxResult.fail(-1,"标题为空");
+        }
+        List<Blog> res = service.search(title);
+        return res;
+    }
+
     @RequestMapping("/init-blogs")
     @ResponseBody
     public Object initBlogs() {

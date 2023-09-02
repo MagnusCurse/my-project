@@ -10,6 +10,8 @@ import java.util.List;
 public interface BlogMapper {
     public int publish(@Param("title") String title,@Param("content") String content,@Param("user_id") Integer user_id);
 
+    public List<Blog> search(@Param("title") String title);
+
     public List<Blog> initBlogs();
 
     public List<Blog> initUserBlogs(@Param("user_id") Integer user_id);

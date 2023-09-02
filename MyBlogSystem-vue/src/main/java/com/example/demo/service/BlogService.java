@@ -24,6 +24,15 @@ public class BlogService {
     }
 
     /**
+     * 根据标题查询博客 / 模糊查询
+     * @param title
+     * @return
+     */
+    public List<Blog> search(String title){
+        return mapper.search(title);
+    }
+
+    /**
      * 初始化博客列表
      * @return
      */
