@@ -1,7 +1,7 @@
 <script>
 
 import axios from "axios";
-import {mixin} from "@/mixin";
+import {commonMixin, mixin} from "@/mixin";
 
 export default {
   name: "Comments",
@@ -292,7 +292,7 @@ export default {
       }
     }
   },
-  mixins: [mixin],
+  mixins: [commonMixin],
   mounted() {
     this.initParentComment();
   }

@@ -3,6 +3,7 @@
 
 import axios from "axios";
 import content from "@/pages/HomeContent/Content.vue";
+import {blogMixin, mixin} from "@/mixin";
 
 export default {
   name: "Blogs",
@@ -16,6 +17,7 @@ export default {
       blogs: {
 
       },
+      title: "",
       isEmpty: false
     }
   },
@@ -61,6 +63,7 @@ export default {
       })
     }
   },
+  mixins: [blogMixin],
   mounted() {
     this.initBlogs();
   }
@@ -74,7 +77,9 @@ export default {
         <b-input placeholder="Search..."
                  type="search"
                  icon-pack="fas"
-                 icon="search">
+                 icon="search"
+                 v-model="title"
+                 @keyup.enter.native="search">
         </b-input>
       </b-field>
       <div class="blogs">

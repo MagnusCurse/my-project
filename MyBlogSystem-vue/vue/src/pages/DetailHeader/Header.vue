@@ -1,7 +1,7 @@
 <script>
 
 import axios from "axios";
-import {mixin} from "@/mixin";
+import {commonMixin, mixin} from "@/mixin";
 
 export default {
   name: "Header",
@@ -10,7 +10,6 @@ export default {
       likeCount: 0,
     };
   },
-  mixins: [mixin],
   methods: {
     // 点赞 / 取消点赞该博客
     likeBlog() {
@@ -62,6 +61,7 @@ export default {
       })
     }
   },
+  mixins: [commonMixin],
   mounted() {
     this.initLikeCount();
   }

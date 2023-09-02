@@ -38,6 +38,7 @@ import {
 } from 'element-tiptap';
 
 import axios from "axios";
+import {commonMixin} from "@/mixin";
 
 
 export default {
@@ -191,23 +192,9 @@ export default {
       } else {
         this.publish();
       }
-    },
-    // 得到当前名为 "xxx" 的 query 参数
-    getURLParam(key) {
-      let hash = location.hash;
-      if (hash.indexOf("?") >= 0) {
-        hash = hash.substring(hash.indexOf("?") + 1);
-        let paramArr = hash.split('&');
-        for (let i = 0; i < paramArr.length; i++) {
-          let nameValuePair = paramArr[i].split("=");
-          if (nameValuePair.length === 2 && decodeURIComponent(nameValuePair[0]) === key) {
-            return decodeURIComponent(nameValuePair[1]);
-          }
-        }
-      }
-      return "";
     }
   },
+  mixins: [commonMixin],
   mounted() {
     this.initEdit();
   }

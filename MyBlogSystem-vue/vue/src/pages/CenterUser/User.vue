@@ -1,6 +1,6 @@
 <script xmlns:v-bind="http://www.w3.org/1999/xhtml">
 import axios from "axios";
-import {mixin} from "@/mixin";
+import {mixin, userMixin} from "@/mixin";
 
 export default {
   name: "User",
@@ -9,6 +9,7 @@ export default {
       fileInput: {},
       imageUrl: "", // 当前用户头像的 url
       avatarFile: null, // 头像的文件对象
+      username: "",
       nickname: "未填写",
       email: "未填写",
       introduction: "未填写",
@@ -76,6 +77,9 @@ export default {
       }).then(function (response) {
         if(response.data.code == 200 && response.data.val != null) {
           const user = response.data.val;
+          if(user.username != null) {
+            originThis.username = user.username;
+          }
           if(user.nickname != null){
             originThis.nickname = user.nickname;
           }
@@ -101,10 +105,11 @@ export default {
       this.$router.push("/center/edit");
     }
   },
-  mixins: [mixin],
+  mixins: [userMixin],
   mounted() {
     // 初始化用户头像
     this.initAvatar();
+    // 初始化用户信息
     this.initUserInfo();
   }
 }
@@ -125,8 +130,8 @@ export default {
         <div class="blob"></div>
         <div class="blob"></div>
       </div>
-      <div class="account-name">Mike J Morgan</div>
-      <div class="account-title">Taxi Driver</div>
+      <div class="account-name">{{ username }}</div>
+      <div class="account-title"></div>
     </div>
     <!-- 用户信息卡  -->
     <div class="account card">

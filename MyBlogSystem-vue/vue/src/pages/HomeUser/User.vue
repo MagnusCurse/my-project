@@ -2,21 +2,23 @@
 
 
 import axios from "axios";
-import {mixin} from "@/mixin";
+import {mixin, userMixin} from "@/mixin";
 
 export default {
   name: "User",
   data() {
     return {
-      imageUrl: ""
+      imageUrl: "",
+      username: "",
     }
   },
   methods: {
 
   },
-  mixins: [mixin],
+  mixins: [userMixin],
   mounted() {
     this.initAvatar();
+    this.initUserInfo();
   }
 }
 </script>
@@ -30,8 +32,8 @@ export default {
         <div class="blob"></div>
         <div class="blob"></div>
       </div>
-      <div class="account-name">Mike J Morgan</div>
-      <div class="account-title">Taxi Driver</div>
+      <div class="account-name"> {{ username }} </div>
+      <div class="account-title"> </div>
     </div>
     <!-- 用户信息卡  -->
     <div class="account card">

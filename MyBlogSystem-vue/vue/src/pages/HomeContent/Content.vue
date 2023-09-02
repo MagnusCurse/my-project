@@ -1,6 +1,7 @@
 <script>
 import Recommend from "@/pages/Recommend/Recommend.vue";
 import axios from "axios";
+import {blogMixin, mixin} from "@/mixin";
 export default {
   name: "Content",
   components: {
@@ -30,31 +31,9 @@ export default {
         console.log(error);
         alert("出现异常,详情见控制台");
       })
-    },
-    // 模糊查询博客列表
-    search() {
-      const originThis = this; // 缓存 this
-      if(this.title == "") {
-         this.initBlogs();
-         return;
-      }
-      // 发送请求给后端
-      axios({
-        url: "http://localhost:9090/blog/search",
-        method: "get",
-        params: {
-          title: this.title
-        }
-      }).then(function (response) {
-        if(response.data.code == 200) {
-          originThis.blogs = response.data.val;
-        }
-      }).catch(function (error) {
-        console.log(error);
-        alert("出现异常,详情见控制台");
-      })
     }
   },
+  mixins: [blogMixin],
   mounted() {
     this.initBlogs(); // 调用初始化博客列表方法
   }
