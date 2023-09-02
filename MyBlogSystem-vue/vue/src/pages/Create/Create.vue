@@ -153,6 +153,8 @@ export default {
             if(response.data.code == 200 && response.data.val == 1) {
               alert("修改博客成功!!");
               originThis.$router.push("/home");
+            } else if(response.data.code == -2) {
+              alert("你没有权限修改该博客");
             } else {
               alert("修改博客失败,请重试");
             }
