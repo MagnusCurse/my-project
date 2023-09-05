@@ -22,5 +22,4 @@ public interface UserMapper {
 
     public int changeIntroduction(@Param("id") Integer id,@Param("introduction") String introduction);
 
-    public int changeEmail(@Param("id") Integer id,@Param("email") String email);
 }
