@@ -18,7 +18,7 @@ spring:
         smtp:
           socketFactoryClass: javax.net.ssl.SSLSocketFactory # 配饰 SSL 加密工厂
     from: 3501597019@qq.com
-    # 发送方邮件,配在yml中可方便更改,一定要用授权的邮箱,不然会报异常
+    # 发送方邮件,配在 yml 中可方便更改,一定要用授权的邮箱,不然会报异常
 
 mybatis:
   mapper-locations: classpath:mybatis/**Mapper.xml

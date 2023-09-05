@@ -36,4 +36,8 @@
     <update id="changeIntroduction">
         update user_info set introduction = #{introduction} where id = #{id}
     </update>
+
+    <update id="changeEmail">
+        update user_info set email = #{email} where id = #{id}
+    </update>
 </mapper>
