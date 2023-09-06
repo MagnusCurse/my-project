@@ -5,7 +5,6 @@ import com.example.demo.common.SessionUnit;
 import com.example.demo.model.User;
 import com.example.demo.service.MailRedisService;
 import com.example.demo.service.MailService;
-import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
