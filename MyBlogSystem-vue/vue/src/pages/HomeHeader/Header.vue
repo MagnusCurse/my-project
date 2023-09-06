@@ -5,6 +5,11 @@ import axios from "axios";
 
 export default{
   name: "Header",
+  data() {
+    return {
+      time: ""
+    }
+  },
   methods: {
     // 注销功能
     logout() {
@@ -29,7 +34,13 @@ export default{
           alert("出现异常,详情见控制台");
         })
       }
+    },
+    updateTime() {
+      this.time = new Date().toLocaleTimeString()
     }
+  },
+  mounted() {
+    setInterval(this.updateTime, 1000);
   }
 }
 </script>
@@ -57,7 +68,7 @@ export default{
 
     <div class="user-info">
       <div id="clock">
-        <p class="time">buefy</p>
+        <p class="time">{{ time }}</p>
       </div>
     </div>
   </div>
@@ -139,5 +150,16 @@ export default{
 .button svg {
   margin-left: 10px;
   width: 16px;
+}
+
+/* 计时器样式 */
+#clock {
+  color: #daf6ff;
+  text-shadow: 0 0 20px #0aafe6, 0 0 20px rgba(10, 175, 230, 0);
+}
+#clock .time {
+  letter-spacing: 0.05em;
+  font-size: 16px;
+  padding: 5px 0;
 }
 </style>
