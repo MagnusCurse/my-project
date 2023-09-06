@@ -83,8 +83,8 @@ export default {
           if(user.nickname != null){
             originThis.nickname = user.nickname;
           }
-          if(user.email != null) {
-            originThis.email = user.email;
+          if(user.mail != null) {
+            originThis.email = user.mail;
           }
           if(user.introduction != null) {
             originThis.introduction = user.introduction;

@@ -8,6 +8,7 @@ import Create from "@/pages/Create/Create.vue";
 import Detail from "@/pages/Detail/Detail.vue";
 import Center from "@/pages/Center/Center.vue";
 import Edit from "@/pages/CenterEdit/Edit.vue";
+import Bind from "@/pages/CenterBind/Bind.vue";
 
 
 // 创建一个路由器
@@ -46,6 +47,10 @@ export default new VueRouter({
                 {
                     path: "edit",
                     component: Edit
+                },
+                {
+                    path: "bind",
+                    component: Bind
                 }
             ]
         },

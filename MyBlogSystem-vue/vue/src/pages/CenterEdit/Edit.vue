@@ -7,12 +7,11 @@ export default {
   data() {
     return {
       nickname: "",
-      email: "",
+      mail: "",
       introduction: ""
     }
   },
   methods: {
-
     changeNickname() {
       if(this.nickname.length >= 16) {
         alert("昵称长度要小于 16 个字符");
@@ -56,6 +55,35 @@ export default {
         console.log(error);
         alert("出现异常,详情见控制台");
       })
+    },
+    bindEmail() {
+      if(this.email == "") {
+        alert("请先输入要绑定的邮箱");
+        return;
+      }
+      if(this.email.length > 256) {
+        alert("邮箱长度过长");
+        return;
+      }
+      const originThis = this; // 缓存 this
+      // 发送请求给后端
+      axios({
+        url: "http://localhost:9090/mail/send",
+        method: "get",
+        params: {
+          mail: this.mail
+        }
+      }).then(function (response) {
+        if(response.data.code == 200 && response.data.val == 1) {
+          alert("已经将验证码发送至您的邮箱");
+          originThis.$router.push("/center/bind"); // 跳转到输入验证码页面
+        } else {
+          alert("邮件格式不正确,请重新输入");
+        }
+      }).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
     }
   }
 }
@@ -72,13 +100,13 @@ export default {
     </div>
     <div class="form-item">邮箱
       <b-field class="editInput">
-        <b-input v-model="email" placeholder="Email"
+        <b-input v-model="mail" placeholder="Email"
                  type="email"
                  icon-pack="fas"
                  icon="envelope">
         </b-input>
       </b-field>
-      <b-button class="editButton" size="is-small" type="is-warning">Edit</b-button>
+      <b-button @click="bindEmail" class="editButton" size="is-small" type="is-warning">Edit</b-button>
     </div>
   </div>
   <div class="form-item" style="width: 40%">简介

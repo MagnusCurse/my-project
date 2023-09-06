@@ -13,7 +13,7 @@ public class User implements Serializable {
     private String photo;
     private Date create_time;
     private Date update_time;
-    private String email;
+    private String mail;
     private String nickname;
     private String introduction;
     private String avatar_url;

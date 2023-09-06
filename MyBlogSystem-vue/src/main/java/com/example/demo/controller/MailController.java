@@ -23,7 +23,8 @@ public class MailController {
 
 
     @RequestMapping("/send")
-    public Object sendCode(HttpServletRequest request,String mail) {
+    public Object sendCode(String mail) {
+        System.out.println(mail);
         if(!service.isMail(mail)) {
             return AjaxResult.fail(-1,"当前输入邮件格式不符合要求");
         }
@@ -35,7 +36,7 @@ public class MailController {
     @RequestMapping("/bind")
     public Object bindMail(HttpServletRequest request,String code) {
         if(!service.bindMail(code)) {
-            return AjaxResult.fail(-1,"验证码错误或者已经过期");
+            return AjaxResult.fail(-2,"验证码错误或者已经过期");
         }
         User curUser = SessionUnit.getLoginUser(request);
         if(curUser == null) {
@@ -43,7 +44,7 @@ public class MailController {
         }
         String mail = redisService.getMail(); // 获取到当前待验证邮箱
         if(mail == null) {
-            return AjaxResult.fail(-1,"待验证邮箱已经过期");
+            return AjaxResult.fail(-2,"待验证邮箱已经过期");
         }
         int res = service.changeEmail(curUser.getId(), mail);
         if(res != 1) {
