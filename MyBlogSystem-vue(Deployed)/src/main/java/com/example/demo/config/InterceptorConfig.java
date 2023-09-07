@@ -26,7 +26,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
             "/blog/search", // 主页查询博客接口
             "/blog/init-blogs", // 主页初始化博客列表接口
             "/mail/retrieve-send",
-            "/mail/retrieve" // 放开找回密码两个接口
+            "/mail/retrieve" // 放开找回密码两个接口npm
 
     );
 

@@ -61,7 +61,7 @@ export default {
         alert("请先输入要绑定的邮箱");
         return;
       }
-      if(this.email.length > 256) {
+      if(this.mail.length > 256) {
         alert("邮箱长度过长");
         return;
       }

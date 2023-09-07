@@ -17,7 +17,7 @@ create table user_info(
      photo varchar(500) default '',
      create_time datetime default now(),
      update_time datetime default now(),
-     email varchar(100) unique,
+     mail varchar(100) unique,
      nickname varchar(100) unique,
      introduction varchar(500),
      avatar_url varchar(200) default ''
