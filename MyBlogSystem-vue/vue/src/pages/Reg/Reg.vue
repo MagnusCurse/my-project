@@ -79,7 +79,9 @@ export default {
           Submit
         </a>
       </div>
-
+      <router-link class="list-group-item" to="/login" active-class="active" style="float: right">
+        Login
+      </router-link>
     </form>
   </div>
 </template>

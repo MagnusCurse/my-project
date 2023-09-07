@@ -9,6 +9,7 @@ import Detail from "@/pages/Detail/Detail.vue";
 import Center from "@/pages/Center/Center.vue";
 import Edit from "@/pages/CenterEdit/Edit.vue";
 import Bind from "@/pages/CenterBind/Bind.vue";
+import Retrieve from "@/pages/Retrieve/Retrieve.vue";
 
 
 // 创建一个路由器
@@ -61,6 +62,10 @@ export default new VueRouter({
         {
             path: '/reg',
             component: Reg
+        },
+        {
+            path: '/retrieve',
+            component: Retrieve
         }
     ]
 })

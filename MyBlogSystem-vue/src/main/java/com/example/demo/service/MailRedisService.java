@@ -35,6 +35,17 @@ public class MailRedisService {
     }
 
     /**
+     * 将用户名存储到 Redis 中
+     * @param username
+     */
+    public void saveUsername(String username) {
+        String key = RedisKeyUtils.MAP_KEY_USERNAME_MAIL;
+        redisTemplate.opsForValue().set(key,username);
+        // 给该 key 设置为 3 分钟后过期
+        redisTemplate.expire(key,180, TimeUnit.SECONDS);
+    }
+
+    /**
      * 从 Redis 中获取验证码
      */
     public String getCode() {
@@ -47,6 +58,15 @@ public class MailRedisService {
      */
     public String getMail() {
         String key = RedisKeyUtils.MAP_KEY_VERIFICATION_MAIL;
+        return redisTemplate.opsForValue().get(key);
+    }
+
+    /**
+     * 从 Redis 中获取用户名
+     * @return
+     */
+    public String getUsername() {
+        String key = RedisKeyUtils.MAP_KEY_USERNAME_MAIL;
         return redisTemplate.opsForValue().get(key);
     }
 }

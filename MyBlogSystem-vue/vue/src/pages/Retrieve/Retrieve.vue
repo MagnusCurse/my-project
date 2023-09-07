@@ -2,42 +2,74 @@
 
 import axios from "axios";
 
-
 export default {
-  name: "Login",
+  name: "Retrieve",
   data() {
     return {
-      username: "",
-      password: "",
+       username: "",
+       newPassword: "",
+       code: ""
     }
   },
   methods: {
-    login() {
-      if (this.username === "") {
-        alert("请先输入账户!!");
+    // 发送验证码给该用户邮箱
+    sendCode() {
+      if(this.username == "") {
+        alert("请先输入用户名");
         return;
       }
-      if (this.password === "") {
-        alert("请先输入密码!!");
-        return;
-      }
-
-      const originThis = this; // 缓存 this
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/user/login",
+        url: "http://localhost:9090/mail/retrieve-send",
         method: "get",
         params: {
           username: this.username,
-          password: this.password
         }
       }).then(
           function (response) {
             if (response.data.code == 200 && response.data.val == 1) {
-              alert("登录成功,即将跳转到主页!!");
-              originThis.$router.push("/home");
+              alert("验证码发送成功");
+            } else if(response.data.val == -2) {
+              alert("当前用户没有绑定邮箱");
             } else {
-              alert("用户名或者密码错误,请重试!!");
+              alert("发送验证码失败,请重试");
+            }
+          }
+      ).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
+    },
+    // 通过验证码修改密码
+    modifyPassword() {
+      if(this.newPassword == "") {
+        alert("请先输入新密码");
+        return;
+      }
+      if(this.code == "") {
+        alert("请先输入验证码");
+        return;
+      }
+      const originThis = this; // 缓存 this
+      // 发送请求给后端
+      axios({
+        url: "http://localhost:9090/mail/retrieve",
+        method: "get",
+        params: {
+          newPassword: this.newPassword,
+          code: this.code
+        }
+      }).then(
+          function (response) {
+            if (response.data.code == 200 && response.data.val == 1) {
+              alert("修改密码成功,即将跳转到登录页面");
+              originThis.$router.push("/login");
+            } else if(response.data.val == -2) {
+              alert("验证码已经过期");
+            } else if(response.data.val == -3) {
+              alert("验证码输入不正确");
+            } else {
+              alert("修改密码失败,请重试");
             }
           }
       ).catch(function (error) {
@@ -51,16 +83,27 @@ export default {
 
 <template>
   <div class="login-box">
-    <h2>Login</h2>
+    <h2>Forget</h2>
     <form>
       <div class="user-box">
-        <input type="text" name="" required="" v-model="username">
+        <input v-model="username" type="text" name="" required="">
         <label>Username</label>
+        <a style="margin-bottom: 16px" @click="sendCode">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          Click to send the code
+        </a>
       </div>
       <div class="user-box">
-        <input type="password" name="" required="" v-model="password">
-        <label>Password</label>
-        <a @click="login">
+        <input v-model="newPassword" type="password" name="" required="">
+        <label>New Password</label>
+      </div>
+      <div class="user-box">
+        <input v-model="code" type="text" name="" required="">
+        <label>Verification Code</label>
+        <a @click="modifyPassword">
           <span></span>
           <span></span>
           <span></span>
@@ -68,16 +111,10 @@ export default {
           Submit
         </a>
       </div>
-      <div class="right-link">
-        <router-link class="list-group-item" to="/reg" active-class="active" style="float: right">
-          Register
-        </router-link>
-        <router-link class="list-group-item" to="/retrieve" active-class="active" style="float: right">
-          Forget Password
-        </router-link>
-      </div>
+      <router-link class="list-group-item" to="/login" active-class="active" style="float: right">
+        Login
+      </router-link>
     </form>
-
   </div>
 </template>
 
@@ -241,11 +278,5 @@ export default {
   50%, 100% {
     bottom: 100%;
   }
-}
-
-.right-link {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
 }
 </style>
