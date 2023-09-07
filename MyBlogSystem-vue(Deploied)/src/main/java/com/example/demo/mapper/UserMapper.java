@@ -21,4 +21,5 @@ public interface UserMapper {
     public int changeNickname(@Param("id") Integer id,@Param("nickname") String nickname);
 
     public int changeIntroduction(@Param("id") Integer id,@Param("introduction") String introduction);
+
 }

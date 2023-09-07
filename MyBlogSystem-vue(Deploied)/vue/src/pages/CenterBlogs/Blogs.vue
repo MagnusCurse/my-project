@@ -3,7 +3,7 @@
 
 import axios from "axios";
 import content from "@/pages/HomeContent/Content.vue";
-import {blogMixin} from "@/mixin";
+import {blogMixin, mixin} from "@/mixin";
 
 export default {
   name: "Blogs",

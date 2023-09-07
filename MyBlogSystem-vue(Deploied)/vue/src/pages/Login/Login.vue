@@ -25,7 +25,7 @@ export default {
       const originThis = this; // 缓存 this
       // 发送请求给后端
       axios({
-        url: "user/login",
+        url: "http://localhost:9090/user/login",
         method: "get",
         params: {
           username: this.username,
@@ -68,10 +68,16 @@ export default {
           Submit
         </a>
       </div>
-      <router-link class="list-group-item" to="/reg" active-class="active" style="float: right">
-        Register
-      </router-link>
+      <div class="right-link">
+        <router-link class="list-group-item" to="/reg" active-class="active" style="float: right">
+          Register
+        </router-link>
+        <router-link class="list-group-item" to="/retrieve" active-class="active" style="float: right">
+          Forget Password
+        </router-link>
+      </div>
     </form>
+
   </div>
 </template>
 
@@ -235,5 +241,11 @@ export default {
   50%, 100% {
     bottom: 100%;
   }
+}
+
+.right-link {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 </style>

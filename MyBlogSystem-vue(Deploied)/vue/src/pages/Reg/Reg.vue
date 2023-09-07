@@ -32,7 +32,7 @@ export default {
       const originThis = this; // 缓存 this
       // 发送 ajax 请求给后端
       axios({
-        url: "user/reg",
+        url: "http://localhost:9090/user/reg",
         method: "get",
         params: {
           username: this.username,
@@ -79,7 +79,9 @@ export default {
           Submit
         </a>
       </div>
-
+      <router-link class="list-group-item" to="/login" active-class="active" style="float: right">
+        Login
+      </router-link>
     </form>
   </div>
 </template>

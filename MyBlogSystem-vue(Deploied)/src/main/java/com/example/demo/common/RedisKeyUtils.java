@@ -19,4 +19,14 @@ public class RedisKeyUtils {
         builder.append(likedPostId);
         return builder.toString();
     }
+
+    // 保存验证码的 key
+    public static final String MAP_KEY_VERIFICATION_CODE = "map_verification_code";
+
+    // 需要验证的邮箱的 key
+    public static final String MAP_KEY_VERIFICATION_MAIL = "map_verification_mail";
+
+    // 找回密码功能用来获取邮箱的用户名的 key
+    public static final String MAP_KEY_USERNAME_MAIL = "map_key_username_mail";
+
 }

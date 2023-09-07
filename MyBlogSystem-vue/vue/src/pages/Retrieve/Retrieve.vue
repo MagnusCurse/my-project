@@ -20,7 +20,7 @@ export default {
       }
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/mail/retrieve-send",
+        url: "mail/retrieve-send",
         method: "get",
         params: {
           username: this.username,
@@ -53,7 +53,7 @@ export default {
       const originThis = this; // 缓存 this
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/mail/retrieve",
+        url: "mail/retrieve",
         method: "get",
         params: {
           newPassword: this.newPassword,

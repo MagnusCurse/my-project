@@ -306,7 +306,7 @@ export default {
       title="请输入评论"
       :visible.sync="dialogVisible"
       width="50%"
-      append-to-body="true"
+      :append-to-body=true
       :before-close="handleClose">
     <b-field style="margin-top: 10px">
       <b-input type="textarea"

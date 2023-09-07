@@ -24,7 +24,9 @@ public class InterceptorConfig implements WebMvcConfigurer {
             "/user/reg", // 放行登录和注册接口
             "/user/logout",// 放行注销接口
             "/blog/search", // 主页查询博客接口
-            "/blog/init-blogs" // 主页初始化博客列表接口
+            "/blog/init-blogs", // 主页初始化博客列表接口
+            "/mail/retrieve-send",
+            "/mail/retrieve" // 放开找回密码两个接口
 
     );
 

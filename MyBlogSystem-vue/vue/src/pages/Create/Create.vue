@@ -101,7 +101,7 @@ export default {
       const originThis = this; // 缓存 this
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/blog/publish",
+        url: "blog/publish",
         method: "post",
         data: {
           title: this.title,
@@ -134,7 +134,7 @@ export default {
       const originThis = this; // 缓存 this
       // 发送请求给后端
       axios({
-        url: "http://localhost:9090/blog/modify",
+        url: "blog/modify",
         method: "post",
         headers: {
           "Content-Type": "application/json"
@@ -168,7 +168,7 @@ export default {
         const originThis = this; // 缓存 this
         // 发送请求给后端
         axios({
-          url: "http://localhost:9090/blog/init-edit-blog",
+          url: "blog/init-edit-blog",
           method: "get",
           params: {
             id: originThis.getURLParam("id") // 获取当前文章 id
