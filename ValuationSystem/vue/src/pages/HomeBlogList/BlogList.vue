@@ -7,6 +7,12 @@ export default {
     return {
       blogs: [], // 播客列表
       current: 1,// blog的页码
+      imageUrlsMap: { // 建立 blog.id 和 url 的映射关系
+
+      },
+      iconUrlsMap: { // 建立 blog.id 和 icon url 的映射关系
+
+      }
     }
   },
   methods: {
@@ -27,13 +33,18 @@ export default {
     queryHotBlogsScroll() {
       axios.get("/blog/hot?current=" + this.current)
           .then(({data}) => {
-            console.log(data);
-            //
-            data.data.forEach(b => b.img = b.images.split(",")[0]);
-            this.blogs = this.blogs.concat(data);
+            data.data.forEach(b => {
+              b.img = b.images.split(",")[0];
+              // 建立 id 与 url 的映射关系
+              this.$set(this.imageUrlsMap,b.id,require("@/assets" + b.img));
+              // 建立 id 与 icon url 的映射关系
+              this.$set(this.iconUrlsMap,b.id,require("@/assets" + b.icon));
+            });
+            // 初始化 blogs
+            this.blogs = this.blogs.concat(data.data);
           })
           .catch(err => {
-            this.$message.error(err)
+            this.$message.error(err);
           })
     },
     toBlogDetail(b) {
@@ -69,10 +80,12 @@ export default {
 <template>
   <div class="blog-list" @scroll="onScroll">
     <div class="blog-box" v-for="b in blogs" :key="b.id">
-      <div class="blog-img" @click="toBlogDetail(b)"><img :src="b.img" alt=""></div>
+      <div class="blog-img" @click="toBlogDetail(b)"><img :src="imageUrlsMap[b.id]" alt=""></div>
       <div class="blog-title">{{b.title}}</div>
       <div class="blog-foot">
-        <div class="blog-user-icon"><img :src="b.icon || '/imgs/icons/default-icon.png'" alt=""></div>
+        <div class="blog-user-icon">
+          <img :src="iconUrlsMap[b.id] || require('@/assets/imgs/icons/default-icon.png')" alt="">
+        </div>
         <div class="blog-user-name">{{b.name}}</div>
         <div class="blog-liked" @click="addLike(b)">
           <svg t="1646634642977" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2187" width="14" height="14">
