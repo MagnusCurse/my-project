@@ -1,7 +1,65 @@
 <script>
+import axios from "axios";
 
 export default {
-  name: "BlogList"
+  name: "BlogList",
+  data() {
+    return {
+      blogs: [], // 播客列表
+    }
+  },
+  methods: {
+    onScroll(e) {
+      let scrollTop = e.target.scrollTop;
+      let offsetHeight = e.target.offsetHeight;
+      let scrollHeight = e.target.scrollHeight;
+      if (scrollTop + offsetHeight > scrollHeight && !this.isReachBottom) {
+        this.isReachBottom = true
+
+        // 再次查询下一页数据
+        this.current++;
+        this.queryHotBlogsScroll();
+      } else {
+        this.isReachBottom = false
+      }
+    },
+    queryHotBlogsScroll() {
+      axios.get("/blog/hot?current=" + this.current)
+          .then(({data}) => {
+            data.forEach(b => b.img = b.images.split(",")[0]);
+            this.blogs = this.blogs.concat(data);
+          })
+          .catch(err => {
+            this.$message.error(err)
+          })
+    },
+    toBlogDetail(b) {
+      location.href = "/blog-detail.html?id=" + b.id
+    },
+    addLike(b) {
+      axios.put("/blog/like/" +b.id)
+          .then(({data}) => {
+            this.queryBlogById(b)
+          })
+          .catch(err => {
+            this.$message.error(err)
+          })
+    },
+    queryBlogById(b) {
+      axios.get("/blog/" + b.id)
+          .then(({data}) => {
+            b.liked = data.liked;
+            b.isLike = data.isLike;
+          })
+          .catch(() => {
+            this.$message.error
+            b.liked ++;
+          })
+    },
+  },
+  mounted() {
+    this.queryHotBlogsScroll();
+  }
 }
 </script>
 

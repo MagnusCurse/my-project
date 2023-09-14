@@ -8,11 +8,13 @@
       </div>
     </div>
     <BlogList/>
-
+    <Footer/>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 import Search from "@/pages/HomeSearch/Search.vue";
 import BlogList from "@/pages/HomeBlogList/BlogList.vue";
 import Footer from "@/pages/HomeFooter/Footer.vue";
@@ -23,6 +25,32 @@ export default {
     Search,
     BlogList,
     Footer
+  },
+  data() {
+    return {
+      isReachBottom: false,
+      types: [], // 类型列
+      current: 1,// blog的页码
+    }
+  },
+  methods: {
+    queryTypes() {
+      axios.get("/shop-type/list")
+          .then(({data}) => {
+            this.types = data;
+          })
+          .catch(err => {
+            this.$message.error(err)
+          })
+    },
+    toShopList(id, name) {
+      location.href = "/shop-list.html?type=" + id + "&name=" + name
+    },
+  },
+  mounted() {
+    // 查询类型
+    this.queryTypes();
+
   }
 }
 </script>

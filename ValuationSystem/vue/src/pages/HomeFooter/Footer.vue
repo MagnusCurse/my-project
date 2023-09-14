@@ -1,7 +1,19 @@
 <script>
 
 export default {
-  name: "Footer"
+  name: "Footer",
+  methods: {
+    toPage(i) {
+      if (i === 0) {
+        location.href = "/blog-edit.html"
+      } else if (i === 4) {
+        location.href = "/info.html"
+      } else if (i === 1){
+        location.href = "/"
+      }
+    }
+  },
+  props: ['activeBtn'],
 }
 </script>
 
