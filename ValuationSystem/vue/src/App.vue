@@ -3,7 +3,10 @@
     <Search/>
     <div class="type-list">
       <div class="type-box" v-for="t in types" :key="t.id" @click="toShopList(t.id, t.name)">
-        <div class="type-view"><img :src="'/imgs/' + t.icon" alt=""></div>
+        <div class="type-view">
+          <!--   这个初始化还比较麻烦,要利用到映射      -->
+          <img :src="'' + t.icon" alt="">
+        </div>
         <div class="type-text">{{t.name}}</div>
       </div>
     </div>
@@ -38,6 +41,7 @@ export default {
       axios.get("/shop-type/list")
           .then(({data}) => {
             this.types = data;
+            console.log("调用了 queryTypes");
           })
           .catch(err => {
             this.$message.error(err)
