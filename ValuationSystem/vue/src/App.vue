@@ -4,8 +4,8 @@
     <div class="type-list">
       <div class="type-box" v-for="t in types" :key="t.id" @click="toShopList(t.id, t.name)">
         <div class="type-view">
-          <!--   这个初始化还比较麻烦,要利用到映射      -->
-          <img :src="'' + t.icon" alt="">
+          <!--   利用 id 和 url 的映射关系      -->
+          <img :src=imageUrlsMap[t.id] alt="">
         </div>
         <div class="type-text">{{t.name}}</div>
       </div>
@@ -33,7 +33,9 @@ export default {
     return {
       isReachBottom: false,
       types: [], // 类型列
-      current: 1,// blog的页码
+      imageUrlsMap: {
+
+      }
     }
   },
   methods: {
@@ -41,6 +43,10 @@ export default {
       axios.get("/shop-type/list")
           .then(({data}) => {
             this.types = data;
+            // 对 type 的 id 和 url 建立映射关系
+            this.types.data.forEach(type => {
+              this.$set(this.imageUrlsMap,type.id,require("@/assets/imgs" + type.icon))
+            })
             console.log("调用了 queryTypes");
           })
           .catch(err => {
@@ -54,7 +60,6 @@ export default {
   mounted() {
     // 查询类型
     this.queryTypes();
-
   }
 }
 </script>

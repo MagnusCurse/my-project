@@ -6,6 +6,7 @@ export default {
   data() {
     return {
       blogs: [], // 播客列表
+      current: 1,// blog的页码
     }
   },
   methods: {
@@ -26,7 +27,9 @@ export default {
     queryHotBlogsScroll() {
       axios.get("/blog/hot?current=" + this.current)
           .then(({data}) => {
-            data.forEach(b => b.img = b.images.split(",")[0]);
+            console.log(data);
+            //
+            data.data.forEach(b => b.img = b.images.split(",")[0]);
             this.blogs = this.blogs.concat(data);
           })
           .catch(err => {
