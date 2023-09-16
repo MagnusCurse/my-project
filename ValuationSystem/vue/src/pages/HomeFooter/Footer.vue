@@ -7,7 +7,7 @@ export default {
       if (i === 0) {
         location.href = "/blog-edit.html"
       } else if (i === 4) {
-        location.href = "/info.html"
+        this.$router.push("/login")
       } else if (i === 1){
         location.href = "/"
       }
@@ -53,6 +53,7 @@ export default {
   position: absolute;
   bottom: 0;
 }
+
 .foot .add-btn {
   width: 38px;
   height: 38px;

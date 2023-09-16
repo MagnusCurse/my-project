@@ -1,6 +1,7 @@
 package com.hmdp.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hmdp.dto.LoginFormDTO;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -55,7 +57,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public Result phoneLogin(LoginFormDTO loginForm, HttpSession session) {
         // TODO 校验手机号
         String phone = loginForm.getPhone();
-        if(!RegexUtils.isPhoneInvalid(phone)) {
+        if(RegexUtils.isPhoneInvalid(phone)) {
             return Result.fail("手机号码格式错误");
         }
         // TODO 校验验证码
@@ -72,14 +74,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             // 用户不存在, 创建一个新用户, 这里相当于注册
             user = createNewUser(phone);
         }
-        // TODO 将用户信息保存到 Redis 中
-        // 随机生成 token, 作为登录令牌
+        // TODO 将用户信息保存到 Redis 中,TODO 随机生成 token, 作为登录令牌
         String token = UUID.randomUUID().toString();
         // 将 User 对象转换为 HashMap 进行存储
         // BeanUtil.copyProperties(user, UserDTO.class) : 将 User 对象转换为一个 UserDTO 的对象
         UserDTO dto = BeanUtil.copyProperties(user, UserDTO.class);
         // 将 UserDto 转换为哈希表, 属性字段作为 key, 属性值作为 value
-        Map<String, Object> userMap = BeanUtil.beanToMap(dto);
+        // 将字段的所有值都转换为 String 才能存入 StringRedisTemplate 中
+        Map<String, Object> userMap = BeanUtil.beanToMap(dto, new HashMap<>(),
+                CopyOptions.create().setIgnoreNullValue(true)
+                        .setFieldValueEditor((fieldName, fieldValue) -> fieldValue.toString()));
+
         // TODO 将 token 存储到 Redis 中, 值为用户信息的哈希表
         String tokenKey = RedisConstants.LOGIN_USER_KEY + token;
         stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);

@@ -1,31 +1,13 @@
 <template>
   <div id="app">
-    <Search/>
-    <Type/>
-    <BlogList/>
-    <Footer/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Search from "@/pages/HomeSearch/Search.vue";
-import BlogList from "@/pages/HomeBlogList/BlogList.vue";
-import Footer from "@/pages/HomeFooter/Footer.vue";
-import Type from "@/pages/HomeType/Type.vue";
 
 export default {
-  name: 'App',
-  components: {
-    Search,
-    Type,
-    BlogList,
-    Footer
-  },
-  data() {
-    return {
-      isReachBottom: false,
-    }
-  }
+  name: 'App'
 }
 </script>
 
@@ -41,8 +23,15 @@ html,body,#app{
   height: 100%;
 }
 
-/* 达人探店列表 */
+#app {
+  font-size: 12px;
+  width: 100%;
+  margin: 0;
+  height: 100%;
+}
 
+
+/* 达人探店列表 */
 .blog-img img{
   width: 100%;
   border-radius: 3px;
