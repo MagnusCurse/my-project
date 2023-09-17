@@ -18,8 +18,8 @@ public class CorsConfig implements WebMvcConfigurer,Filter {
        registry.addMapping("/**") // 所有接口
                .allowCredentials(true) // 是否发送 Cookie
                .allowedOrigins("*") // 支持域
-               .allowedMethods(new String[]{"GET","POST","PUT","DELETE"})
-               .allowedHeaders("*")
+               .allowedMethods("*") // 允许所有方法
+               .allowedHeaders("*") // 允许所有请求头
                .exposedHeaders("*");
     }
 

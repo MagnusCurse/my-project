@@ -21,6 +21,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // TODO 获取到请求头中的 token
         String token = request.getHeader(SystemConstants.USER_LOGIN_TOKEN);
+        System.out.println("token" + token);
         if(StrUtil.isBlank(token)) {
             // token 不存在, 证明该用户没有登录, 进行拦截
             response.setStatus(401);

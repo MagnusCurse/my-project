@@ -16,9 +16,26 @@ import router from "@/router";
 Vue.use(ElementUI);
 
 // 配置 axios 的默认路径
-axios.defaults.baseURL = "http://localhost:8081"
+axios.defaults.baseURL = "/api"
+
 // 前端解决跨域导致的 Session 丢失问题
 axios.defaults.withCredentials = true;
+
+// 添加请求拦截器
+axios.interceptors.request.use(
+    (config) => {
+      const token = sessionStorage.getItem('token'); // 从 sessionStorage 中获取 token
+      if (token) {
+          console.log(token);
+        config.headers['authorization'] = token; //给请求头新增一个字段 authorization, 添加 token 到请求头中
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+);
+
 
 
 Vue.config.productionTip = false

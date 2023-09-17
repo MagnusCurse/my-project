@@ -25,9 +25,10 @@ export default {
           .then(({data}) => {
             if(data){
               // 保存用户信息到 session
-              sessionStorage.setItem("token",data);
+              sessionStorage.setItem("token",data.data);
+              console.log("login:" + sessionStorage.getItem("token"));
             }
-            // 跳转到首页
+            // 跳转到个人中心页面
             this.$router.push("/center")
           })
           .catch(err => this.$message.error(err))

@@ -55,6 +55,7 @@ export default {
       // 查询用户信息
       axios.get("/user/me")
           .then(({data}) => {
+            console.log("调用了 me")
             // 保存用户
             this.user = data;
             // 查询用户详情
@@ -63,7 +64,8 @@ export default {
             this.queryBlogs();
           })
           .catch(err => {
-            this.$router.push("/login")
+            console.log(err);
+            // this.$router.push("/login")
           })
     },
     goBack() {
@@ -140,7 +142,7 @@ export default {
   },
   mounted() {
     // 查询用户信息
-    // this.queryUser();
+    this.queryUser();
   },
 }
 </script>
