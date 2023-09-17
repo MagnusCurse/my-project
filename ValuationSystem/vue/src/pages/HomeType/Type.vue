@@ -27,7 +27,14 @@ export default {
           })
     },
     toShopList(id, name) {
-      location.href = "/shop-list.html?type=" + id + "&name=" + name
+      // location.href = "/shop-list.html?type=" + id + "&name=" + name
+      this.$router.push({
+        path: '/shop',
+        query: {
+          type: id,
+          name: name
+        }
+      })
     }
   },
   mounted() {

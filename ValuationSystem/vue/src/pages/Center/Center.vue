@@ -26,31 +26,33 @@ export default {
     load() {
       this.count += 2;
     },
+    // 查询自己的博客
     queryBlogs() {
       axios.get("/blog/of/me")
           .then(({data}) => this.blogs = data)
           .catch(this.$message.error)
     },
-    queryBlogsOfFollow(clear) {
-      if (clear) {
-        this.params.offset = 0;
-        this.params.minTime = new Date().getTime() + 1;
-      }
-      let {minTime, offset: os} = this.params;
-      axios.get("/blog/of/follow", {
-        params: {offset: os, lastId: minTime || new Date().getTime() + 1}
-      })
-          .then(({data}) => {
-            if (!data) {
-              return;
-            }
-            let {list, ...params} = data;
-            list.forEach(b => b.img = b.images.split(",")[0])
-            this.blogs2 = clear ? list : this.blogs2.concat(list);
-            this.params = params;
-          })
-          .catch(e => console.log(e))
-    },
+    // 查询关注人的博客
+    // queryBlogsOfFollow(clear) {
+    //   if (clear) {
+    //     this.params.offset = 0;
+    //     this.params.minTime = new Date().getTime() + 1;
+    //   }
+    //   let {minTime, offset: os} = this.params;
+    //   axios.get("/blog/of/follow", {
+    //     params: {offset: os, lastId: minTime || new Date().getTime() + 1}
+    //   })
+    //       .then(({data}) => {
+    //         if (!data) {
+    //           return;
+    //         }
+    //         let {list, ...params} = data;
+    //         list.forEach(b => b.img = b.images.split(",")[0])
+    //         this.blogs2 = clear ? list : this.blogs2.concat(list);
+    //         this.params = params;
+    //       })
+    //       .catch(e => console.log(e))
+    // },
     queryUser() {
       // 查询用户信息
       axios.get("/user/me")
@@ -151,11 +153,13 @@ export default {
   <div class="center">
     <div class="header">
       <div class="header-back-btn" @click="goBack"><i class="el-icon-arrow-left"></i></div>
-      <div class="header-title">个人主页&nbsp;&nbsp;&nbsp;</div>
+      <div class="header-title">
+        <span></span>
+      </div>
     </div>
     <div class="basic">
       <div class="basic-icon">
-        <img :src="user.icon || '/imgs/icons/default-icon.png'" alt="">
+        <img :src="user.icon || require('@/assets/imgs/icons/default-icon.png')" alt="">
       </div>
       <div class="basic-info">
         <div class="name">{{user.nickName}}</div>
@@ -165,7 +169,7 @@ export default {
         </div>
       </div>
       <div class="logout-btn" @click="logout">
-        退出登录
+        <span> 注销 </span>
       </div>
     </div>
     <div class="introduce">
@@ -185,8 +189,8 @@ export default {
           </div>
         </el-tab-pane>
         <el-tab-pane label="评价" name="2">评价</el-tab-pane>
-        <el-tab-pane label="粉丝(0)" name="3">粉丝(0)</el-tab-pane>
-        <el-tab-pane label="关注(0)" name="4">
+        <el-tab-pane label="粉丝" name="3">粉丝</el-tab-pane>
+        <el-tab-pane label="关注" name="4">
           <div class="blog-list" @scroll="onScroll">
             <div class="blog-box" v-for="b in blogs2" :key="b.id">
               <div class="blog-img2" @click="toBlogDetail(b)"><img :src="b.img" alt=""></div>
@@ -289,6 +293,8 @@ export default {
   border-radius: 3px;
   background-color: #f63;
   box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.04);
+  display: flex;
+  justify-content: center;
 }
 
 .introduce{
@@ -296,6 +302,8 @@ export default {
 }
 .content {
   height: 61%;
+  display: flex;
+  justify-content: center;
 }
 
 .info-btn div {
