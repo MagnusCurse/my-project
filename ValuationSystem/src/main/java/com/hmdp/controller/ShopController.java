@@ -27,13 +27,13 @@ public class ShopController {
     public IShopService shopService;
 
     /**
-     * 根据id查询商铺信息
+     * 根据 id 查询商铺信息
      * @param id 商铺id
      * @return 商铺详情数据
      */
     @GetMapping("/{id}")
     public Result queryShopById(@PathVariable("id") Long id) {
-        return Result.ok(shopService.getById(id));
+        return Result.ok(shopService.queryById(id));
     }
 
     /**

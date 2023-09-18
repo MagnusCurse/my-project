@@ -1,9 +1,12 @@
 <script>
 import axios  from "axios";
+import {commonMixin} from "@/mixin";
+
 
 export default {
   name: "Detail",
   props: ['id'],
+  mixins: [commonMixin],
   data() {
     return {
       shop: {},
@@ -18,8 +21,8 @@ export default {
     queryShopById() {
       axios.get("/shop/" + this.shopId)
           .then(({data}) => {
-             data.data.images = data.data.images.split(",")
-             this.shop = data.data
+             this.shop = data.data.data;
+             this.shop.images = this.shop.images.split(",");
           })
           .catch(this.$message.error)
     },
@@ -150,7 +153,10 @@ export default {
       <div class="voucher-left">
         <div class="voucher-title">{{v.title}}</div>
         <div class="voucher-subtitle">{{v.subTitle}}</div>
-        <div class="voucher-price"><div>￥ {{util.formatPrice(v.payValue)}}</div>  <span>{{(v.payValue*10)/v.actualValue}}折</span></div>
+        <div class="voucher-price">
+          <div>￥ {{formatPrice(v.payValue)}}</div>
+          <span>{{(v.payValue*10)/v.actualValue}}折</span>
+        </div>
       </div>
       <div class="voucher-right">
         <div v-if="v.type" class="seckill-box">

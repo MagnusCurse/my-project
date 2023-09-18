@@ -1,4 +1,4 @@
-let commonURL = "/api";
+const commonURL = "/api";
 
 const util = {
     commonURL,
