@@ -63,7 +63,12 @@ export default {
       history.back();
     },
     toDetail(id) {
-      location.href = "/shop-detail.html?id="+id
+      this.$router.push({
+        path: '/detail',
+        query: {
+          id: id
+        }
+      })
     },
     onScroll(e) {
       let scrollTop = e.target.scrollTop;
