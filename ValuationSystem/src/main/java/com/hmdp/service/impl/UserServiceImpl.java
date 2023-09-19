@@ -55,6 +55,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public Result phoneLogin(LoginFormDTO loginForm, HttpSession session) {
+        System.out.println("phoneLogin 被调用了");
         // TODO 校验手机号
         String phone = loginForm.getPhone();
         if(RegexUtils.isPhoneInvalid(phone)) {

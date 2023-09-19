@@ -55,15 +55,8 @@ export default {
       // console.log(new Date(v.endTime).getTime() < new Date().getTime());
       return new Date(v.endTime).getTime() < new Date().getTime();
     },
+    // 抢购秒杀券
     seckill(v){
-      if(!token){
-        this.$message.error("请先登录")
-        // 未登录，跳转
-        setTimeout(() => {
-          location.href = "/login.html"
-        }, 200);
-        return;
-      }
       if(this.isNotBegin(v)){
         this.$message.error("优惠券抢购尚未开始！")
         return;
@@ -81,7 +74,7 @@ export default {
       axios.post("/voucher-order/seckill/" + id)
           .then(({data}) => {
             // 抢购成功，这里输出订单id，支付功能TODO
-            this.$message.success("抢购成功，订单id：" + data)
+            this.$message.success("抢购成功，订单 id:" + data.data)
           })
           .catch(this.$message.error)
     }
@@ -94,7 +87,6 @@ export default {
     // 查询优惠券信息
     this.queryVoucher();
   },
-
 }
 </script>
 

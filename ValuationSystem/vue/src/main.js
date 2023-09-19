@@ -26,8 +26,10 @@ axios.interceptors.request.use(
     (config) => {
       const token = sessionStorage.getItem('token'); // 从 sessionStorage 中获取 token
       if (token) {
-          console.log(token);
-        config.headers['authorization'] = token; //给请求头新增一个字段 authorization, 添加 token 到请求头中
+        config.headers['authorization'] = token; // 给请求头新增一个字段 authorization, 添加 token 到请求头中
+      } else {
+          //
+          alert("当前用户未登录!");
       }
       return config;
     },

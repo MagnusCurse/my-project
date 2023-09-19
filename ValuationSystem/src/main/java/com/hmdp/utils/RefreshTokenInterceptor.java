@@ -22,7 +22,9 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // TODO 获取到请求头中的 token
         String token = request.getHeader(SystemConstants.USER_LOGIN_TOKEN);
-        System.out.println("token" + token);
+
+        System.out.println("RefreshToken:" + token); //
+
         if(StrUtil.isBlank(token)) {
            return true; // 直接放行
         }
