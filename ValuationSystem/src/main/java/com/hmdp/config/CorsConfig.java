@@ -26,7 +26,7 @@ public class CorsConfig implements WebMvcConfigurer,Filter {
     // 解决跨域 Session 丢失问题
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("CorsFilter doFilter...");
+        // System.out.println("CorsFilter doFilter...");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         // 允许请求携带认证信息(cookie)
