@@ -48,7 +48,11 @@ export default {
     isNotBegin(v){
       return new Date(v.beginTime).getTime() > new Date().getTime();
     },
+    // 如果优惠券的结束时间小于当前时间, 返回 true
     isEnd(v){
+      // console.log(new Date(v.endTime).getTime());
+      // console.log(new Date().getTime());
+      // console.log(new Date(v.endTime).getTime() < new Date().getTime());
       return new Date(v.endTime).getTime() < new Date().getTime();
     },
     seckill(v){
@@ -144,6 +148,7 @@ export default {
       <span class="voucher-icon">券</span>
       <span style="font-weight: bold;">代金券</span>
     </div>
+    <!--  只显示优惠券的结束时间大于当前时间的优惠券  -->
     <div class="voucher-box" v-for="v in vouchers" :key="v.id" v-if="!isEnd(v)">
       <div class="voucher-circle">
         <div class="voucher-b"></div>
@@ -154,8 +159,8 @@ export default {
         <div class="voucher-title">{{v.title}}</div>
         <div class="voucher-subtitle">{{v.subTitle}}</div>
         <div class="voucher-price">
-          <div>￥ {{formatPrice(v.payValue)}}</div>
-          <span>{{(v.payValue*10)/v.actualValue}}折</span>
+          <div>￥ {{ formatPrice(v.payValue) }} </div>
+          <span>{{( v.payValue * 10) / v.actualValue }}折</span>
         </div>
       </div>
       <div class="voucher-right">
