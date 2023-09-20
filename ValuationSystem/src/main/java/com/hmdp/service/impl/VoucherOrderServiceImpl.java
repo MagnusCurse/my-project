@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hmdp.utils.RedisConstants;
 import com.hmdp.utils.RedisWorker;
 import com.hmdp.utils.UserHolder;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +32,7 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
      * @param voucherId
      * @return
      */
-    @Transactional
+
     @Override
     public Result seckillVoucher(Long voucherId) {
         // TODO 查询优惠券信息
@@ -46,6 +47,35 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
             // 秒杀已经结束
             return Result.fail("秒杀已经结束");
         }
+        // TODO 判断库存是否足够用
+        if(voucher.getStock() < 1) {
+            return Result.fail("当前优惠券库存不足");
+        }
+
+        // TODO 给每个用户 ID 进行加锁, 只有相同用户才会阻塞
+        // NOTE intern() 保证是安装字符串的值来进行加锁的, 去字符串线程池查找有没有相同值的字符串
+        Long userId = UserHolder.getUser().getId(); // 获取当前用户 id
+        synchronized (userId.toString().intern()) {
+            // NOTE 这里存在事务失效的问题, 需要用到代理对象调用该方法
+            IVoucherOrderService proxy = (IVoucherOrderService) AopContext.currentProxy();
+            // TODO 返回订单 id
+            return proxy.createVoucherOrder(voucherId);
+        }
+    }
+
+    //NOTE 创建订单
+    @Transactional
+    public Result createVoucherOrder(Long voucherId) {
+        // TODO 实现一人一单功能, 即每个用户只能抢购一次
+        Long userId = UserHolder.getUser().getId(); // 获取当前用户 id
+        System.out.println(voucherId);
+        System.out.println(userId);
+        int count = query().eq("voucher_id",voucherId).eq("user_id",userId).count();
+        System.out.println(count);
+        if(count >= 1) {
+            return Result.fail("当前用户已经抢购过了"); // 当前用户已经购买过了
+        }
+
         // TODO 扣减库存
         boolean success = seckillVoucherService.update()
                 .setSql("stock = stock - 1")
@@ -62,7 +92,6 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
         long orderId = redisWorker.generateId("order");
         voucherOrder.setId(orderId);
         // 获取用户 id
-        long userId = UserHolder.getUser().getId();
         voucherOrder.setUserId(userId);
         // 代金券 id
         voucherOrder.setVoucherId(voucherId);
