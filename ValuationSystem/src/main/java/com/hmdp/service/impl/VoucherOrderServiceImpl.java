@@ -9,8 +9,10 @@ import com.hmdp.service.IVoucherOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hmdp.utils.RedisConstants;
 import com.hmdp.utils.RedisWorker;
+import com.hmdp.utils.SimpleRedisLock;
 import com.hmdp.utils.UserHolder;
 import org.springframework.aop.framework.AopContext;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +25,8 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
 
     @Resource
     private ISeckillVoucherService seckillVoucherService;
-
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
     @Resource
     private RedisWorker redisWorker;
 
@@ -51,15 +54,34 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
         if(voucher.getStock() < 1) {
             return Result.fail("当前优惠券库存不足");
         }
-
-        // TODO 给每个用户 ID 进行加锁, 只有相同用户才会阻塞
-        // NOTE intern() 保证是安装字符串的值来进行加锁的, 去字符串线程池查找有没有相同值的字符串
         Long userId = UserHolder.getUser().getId(); // 获取当前用户 id
-        synchronized (userId.toString().intern()) {
+
+        // TODO 创建锁对象
+        SimpleRedisLock redisLock = new SimpleRedisLock("order:" + userId,stringRedisTemplate);
+        // TODO  尝试获取锁
+        boolean lock = redisLock.tryLock(1200);
+        if(!lock) { // 获取锁失败, 直接返回错误信息
+            return Result.fail("不允许重复抢购优惠券");
+        }
+        // ERR This locking method does not work in distributed or clustered environment
+
+//        // TODO 给每个用户 ID 进行加锁, 只有相同用户才会阻塞
+//        // NOTE intern() 保证是安装字符串的值来进行加锁的, 去字符串线程池查找有没有相同值的字符串
+//        synchronized (userId.toString().intern()) {
+//            // NOTE 这里存在事务失效的问题, 需要用到代理对象调用该方法
+//            IVoucherOrderService proxy = (IVoucherOrderService) AopContext.currentProxy();
+//            // TODO 返回订单 id
+//            return proxy.createVoucherOrder(voucherId);
+//        }
+
+        try {
             // NOTE 这里存在事务失效的问题, 需要用到代理对象调用该方法
             IVoucherOrderService proxy = (IVoucherOrderService) AopContext.currentProxy();
             // TODO 返回订单 id
             return proxy.createVoucherOrder(voucherId);
+        } finally {
+            // TODO 释放锁
+            redisLock.unLock();
         }
     }
 
