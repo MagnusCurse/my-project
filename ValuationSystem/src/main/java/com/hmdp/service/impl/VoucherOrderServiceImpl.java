@@ -7,7 +7,6 @@ import com.hmdp.mapper.VoucherOrderMapper;
 import com.hmdp.service.ISeckillVoucherService;
 import com.hmdp.service.IVoucherOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.hmdp.utils.RedisConstants;
 import com.hmdp.utils.RedisWorker;
 import com.hmdp.utils.SimpleRedisLock;
 import com.hmdp.utils.UserHolder;
@@ -15,7 +14,6 @@ import org.springframework.aop.framework.AopContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
@@ -58,7 +56,7 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
 
         // TODO 创建锁对象
         SimpleRedisLock redisLock = new SimpleRedisLock("order:" + userId,stringRedisTemplate);
-        // TODO  尝试获取锁
+        // TODO 尝试获取锁
         boolean lock = redisLock.tryLock(1200);
         if(!lock) { // 获取锁失败, 直接返回错误信息
             return Result.fail("不允许重复抢购优惠券");
@@ -90,10 +88,7 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
     public Result createVoucherOrder(Long voucherId) {
         // TODO 实现一人一单功能, 即每个用户只能抢购一次
         Long userId = UserHolder.getUser().getId(); // 获取当前用户 id
-        System.out.println(voucherId);
-        System.out.println(userId);
         int count = query().eq("voucher_id",voucherId).eq("user_id",userId).count();
-        System.out.println(count);
         if(count >= 1) {
             return Result.fail("当前用户已经抢购过了"); // 当前用户已经购买过了
         }
