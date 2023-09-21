@@ -9,12 +9,15 @@ import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 自己模拟实现 Redis 锁, 有一些缺陷, 所以后面用 Redisson 代替
+ */
 public class SimpleRedisLock implements ILock{
     StringRedisTemplate stringRedisTemplate;
     private String name;
     private static final String KEY_PREFIX = "lock:";
     private static final String ID_PREFIX = UUID.randomUUID() + "-";
-    // NOTE
+    // NOTE 创建并初始化 lua 脚本
     private static final DefaultRedisScript<Long> UNLOCK_SCRIPT;
     // 用静态代码块来初始化 DefaultRedisScript<Long>
     static {
@@ -26,7 +29,6 @@ public class SimpleRedisLock implements ILock{
         this.name = name;
         this.stringRedisTemplate = stringRedisTemplate;
     }
-
     @Override
     public boolean tryLock(long timeOutSec) {
         // NOTE 使用线程 id 加 UUID 作为线程标识, 防止锁的误删
@@ -35,7 +37,6 @@ public class SimpleRedisLock implements ILock{
         // NOTE BooleanUtil.isTrue() 防止拆箱导致返回空值问题
         return BooleanUtil.isTrue(success);
     }
-
     @Override
     public void unLock() {
         // NOTE 调用 lua 脚本,相当于执行下面的一些代码,操作是原子的
