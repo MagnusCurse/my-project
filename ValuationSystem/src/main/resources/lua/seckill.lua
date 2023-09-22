@@ -3,6 +3,8 @@
 local voucherId = ARGV[1]
 -- 1.2 用户 id
 local userId = ARGV[1]
+-- 1.3 订单 id
+local orderId = ARGV[1]
 
 -- 2. 数据 key
 -- 2.1 库存 key (lua 脚本连接字符串 ..)
@@ -24,5 +26,8 @@ end
 -- 3.4 扣减库存
 redis.call('incrby', stockKey, -1)
 -- 3.5 下单 (保存用户)
-redis.call('sadd', orderKey, userId)
+redis.call('sadd', orderKey, userId, orderId)
+-- 3.6 将消息发送到消息队列中, XADD stream.orders * k1 v1 k2 v2 ......
+-- 注意这里要写 id , 因为最后是要存入数据库的, 数据库表字段是 id
+redis.call('xadd','stream.orders','*','userId',userId,'voucherId',voucherId,'id',orderId)
 return 0
