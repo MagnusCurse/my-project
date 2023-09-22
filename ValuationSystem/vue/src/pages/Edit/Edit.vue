@@ -7,7 +7,7 @@ export default {
   data() {
     return {
       util,
-      fileList: [], // 文件列表
+      fileList: [], // 图片文件列表
       params: {},
       showDialog: false, //
       shops: [], // 商户信息
@@ -44,10 +44,13 @@ export default {
       const config = {
         headers: {"Content-Type": "multipart/form-data;boundary=" + new Date().getTime()}
       };
+      // 调用上传图片功能
       axios
           .post("/upload/blog", formData, config)
-          .then(({data}) => this.fileList.push('/imgs' + data))
-          .catch(this.$message.error);
+          .then(({data}) => this.fileList.push(data.data))
+          // .catch(
+          //     // console.log(this.$message.error)
+          // )
     },
     deletePic(i) {
       axios.get("/upload/blog/delete?name=" + this.fileList[i])
@@ -100,7 +103,7 @@ export default {
     </div>
     <div class="pic-list">
       <div class="pic-box" v-for="(f,i) in fileList" :key="i">
-        <img :src="f" alt="">
+        <img :src="require('@/assets/imgs' + f)" alt="">
         <i class="el-icon-close" @click="deletePic(i)"></i>
       </div>
     </div>
