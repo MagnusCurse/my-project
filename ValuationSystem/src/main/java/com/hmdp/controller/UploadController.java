@@ -27,7 +27,7 @@ public class UploadController {
             // 保存文件
             image.transferTo(new File(SystemConstants.IMAGE_UPLOAD_DIR, fileName));
             // 返回结果
-            log.debug("文件上传成功，{}", fileName);
+            log.debug("文件上传成功, {}", fileName);
             return Result.ok(fileName);
         } catch (IOException e) {
             throw new RuntimeException("文件上传失败", e);
@@ -36,6 +36,7 @@ public class UploadController {
 
     @GetMapping("/blog/delete")
     public Result deleteBlogImg(@RequestParam("name") String filename) {
+        System.out.println("filename:" +filename);
         File file = new File(SystemConstants.IMAGE_UPLOAD_DIR, filename);
         if (file.isDirectory()) {
             return Result.fail("错误的文件名称");
@@ -44,6 +45,11 @@ public class UploadController {
         return Result.ok();
     }
 
+    /**
+     * 通过原文件名生成新的文件名存放到对应目录中去
+     * @param originalFilename
+     * @return
+     */
     private String createNewFileName(String originalFilename) {
         // 获取后缀
         String suffix = StrUtil.subAfter(originalFilename, ".", true);
@@ -54,6 +60,8 @@ public class UploadController {
         int d2 = (hash >> 4) & 0xF;
         // 判断目录是否存在
         File dir = new File(SystemConstants.IMAGE_UPLOAD_DIR, StrUtil.format("/blogs/{}/{}", d1, d2));
+        System.out.println("file dir:" + dir);
+        // 目录不存在则创建目录
         if (!dir.exists()) {
             dir.mkdirs();
         }

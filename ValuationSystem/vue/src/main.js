@@ -29,7 +29,7 @@ axios.interceptors.request.use(
         config.headers['authorization'] = token; // 给请求头新增一个字段 authorization, 添加 token 到请求头中
       } else {
           //
-          alert("当前用户未登录!");
+
       }
       return config;
     },

@@ -4,6 +4,7 @@ import Login from "@/pages/Login/Login.vue";
 import Center from "@/pages/Center/Center.vue";
 import Shop from "@/pages/Shop/Shop.vue";
 import Detail from "@/pages/ShopDetail/Detail.vue";
+import Edit from "@/pages/Edit/Edit.vue";
 
 
 export default new VueRouter({
@@ -28,6 +29,10 @@ export default new VueRouter({
                     type: $route.query.type,name: $route.query.name
                 }
             }
+        },
+        {
+          path: "/edit",
+          component: Edit
         },
         {
             path: "/detail",

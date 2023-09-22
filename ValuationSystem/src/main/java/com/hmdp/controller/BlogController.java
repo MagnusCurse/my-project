@@ -39,7 +39,7 @@ public class BlogController {
         blog.setUserId(user.getId());
         // 保存探店博文
         blogService.save(blog);
-        // 返回id
+        // 返回 id
         return Result.ok(blog.getId());
     }
 

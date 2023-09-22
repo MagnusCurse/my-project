@@ -25,6 +25,7 @@ export default {
       this.selectedShop = s;
       this.showDialog = false;
     },
+    // 发布博客功能
     submitBlog() {
       let {...data} = this.params;
       data.images = this.fileList.join(",");
@@ -54,17 +55,17 @@ export default {
           .catch(this.$message.error)
     },
     checkLogin() {
-      // 获取token
+      // 获取 token
       let token = sessionStorage.getItem("token");
       if (!token) {
-        location.href = "login.html"
+        this.$router.push("/login")
       }
       // 查询用户信息
       axios.get("/user/me")
           .then()
           .catch(err => {
             this.$message.error(err);
-            setTimeout(() => location.href = "login.html", 200)
+            setTimeout(() => this.$router.push("/login"), 200)
           })
     },
     goBack() {
@@ -76,8 +77,8 @@ export default {
   },
   mounted() {
     // 检测当前用户是否登录
-    // this.checkLogin();
-    // this.queryShops();
+    this.checkLogin();
+    this.queryShops();
   }
 }
 </script>
