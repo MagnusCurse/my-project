@@ -16,12 +16,6 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * <p>
- * 前端控制器
- * </p>
- *
- * @author 虎哥
- * @since 2021-12-22
  */
 @RestController
 @RequestMapping("/blog")
@@ -68,7 +62,7 @@ public class BlogController {
         // 根据用户查询
         Page<Blog> page = blogService.query()
                 .orderByDesc("liked")
-                .page(new Page<>(current, SystemConstants.MAX_PAGE_SIZE));
+                .page(new Page<>(current, SystemConstants.MAX_PAGE_SIZE)); //
         // 获取当前页数据
         List<Blog> records = page.getRecords();
         // 查询用户
@@ -78,6 +72,7 @@ public class BlogController {
             blog.setName(user.getNickName());
             blog.setIcon(user.getIcon());
         });
+        System.out.println("records size:" + records.size());
         return Result.ok(records);
     }
 }

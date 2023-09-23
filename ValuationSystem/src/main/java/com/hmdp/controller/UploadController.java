@@ -36,7 +36,6 @@ public class UploadController {
 
     @GetMapping("/blog/delete")
     public Result deleteBlogImg(@RequestParam("name") String filename) {
-        System.out.println("filename:" +filename);
         File file = new File(SystemConstants.IMAGE_UPLOAD_DIR, filename);
         if (file.isDirectory()) {
             return Result.fail("错误的文件名称");

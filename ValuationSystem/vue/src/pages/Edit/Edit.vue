@@ -1,12 +1,11 @@
 <script>
 import axios from "axios";
-import util from "@/utils/common"
+
 
 export default {
   name: "Center",
   data() {
     return {
-      util,
       fileList: [], // 图片文件列表
       params: {},
       showDialog: false, //
@@ -18,7 +17,7 @@ export default {
   methods: {
     queryShops() {
       axios.get("/shop/of/name?name=" + this.shopName)
-          .then(({data}) => this.shops = data)
+          .then(({data}) => this.shops = data.data)
           .catch(this.$message.error)
     },
     selectShop(s) {
@@ -28,10 +27,10 @@ export default {
     // 发布博客功能
     submitBlog() {
       let {...data} = this.params;
-      data.images = this.fileList.join(",");
+      data.images = '/imgs' + this.fileList.join(",");
       data.shopId = this.selectedShop.id;
       axios.post("/blog", data)
-          .then(resp => location.href = "/info.html")
+          .then(resp => this.$router.push("/home"))
           .catch(this.$message.error)
     },
     openFileDialog() {
@@ -54,6 +53,7 @@ export default {
     },
     deletePic(i) {
       axios.get("/upload/blog/delete?name=" + this.fileList[i])
+          // 将图片路径从 fileList 中删除即可
           .then(() => this.fileList.splice(i, 1))
           .catch(this.$message.error)
     },
@@ -103,7 +103,7 @@ export default {
     </div>
     <div class="pic-list">
       <div class="pic-box" v-for="(f,i) in fileList" :key="i">
-        <img :src="require('@/assets/imgs' + f)" alt="">
+        <img :src="'/imgs' + f" alt="">
         <i class="el-icon-close" @click="deletePic(i)"></i>
       </div>
     </div>

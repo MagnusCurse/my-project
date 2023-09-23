@@ -6,7 +6,7 @@ export default {
   data() {
     return {
       blogs: [], // 播客列表
-      current: 1,// blog的页码
+      current: 1,// blog 的页码
       imageUrlsMap: { // 建立 blog.id 和 url 的映射关系
 
       },
@@ -30,21 +30,22 @@ export default {
         this.isReachBottom = false
       }
     },
+    //
     queryHotBlogsScroll() {
       axios.get("/blog/hot?current=" + this.current)
           .then(({data}) => {
             data.data.forEach(b => {
               b.img = b.images.split(",")[0];
               // 建立 id 与 url 的映射关系
-              this.$set(this.imageUrlsMap,b.id,require("@/assets" + b.img));
+              this.$set(this.imageUrlsMap,b.id,b.img);
               // 建立 id 与 icon url 的映射关系
-              this.$set(this.iconUrlsMap,b.id,require("@/assets" + b.icon));
+              this.$set(this.iconUrlsMap,b.id,b.icon);
             });
             // 初始化 blogs
             this.blogs = this.blogs.concat(data.data);
           })
           .catch(err => {
-            this.$message.error(err);
+            console.log(err)
           })
     },
     toBlogDetail(b) {
@@ -80,7 +81,9 @@ export default {
 <template>
   <div class="blog-list" @scroll="onScroll">
     <div class="blog-box" v-for="b in blogs" :key="b.id">
-      <div class="blog-img" @click="toBlogDetail(b)"><img :src="imageUrlsMap[b.id]" alt=""></div>
+      <div class="blog-img" @click="toBlogDetail(b)">
+        <img :src="imageUrlsMap[b.id]" alt="">
+      </div>
       <div class="blog-title">{{b.title}}</div>
       <div class="blog-foot">
         <div class="blog-user-icon">
