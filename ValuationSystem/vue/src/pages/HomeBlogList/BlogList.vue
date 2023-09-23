@@ -49,7 +49,12 @@ export default {
           })
     },
     toBlogDetail(b) {
-      location.href = "/blog-detail.html?id=" + b.id
+      this.$router.push({
+        path: '/blog-detail',
+        query: {
+          id: b.id
+        }
+      })
     },
     addLike(b) {
       axios.put("/blog/like/" +b.id)

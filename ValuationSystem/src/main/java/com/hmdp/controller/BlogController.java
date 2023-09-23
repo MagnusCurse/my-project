@@ -75,4 +75,9 @@ public class BlogController {
         System.out.println("records size:" + records.size());
         return Result.ok(records);
     }
+
+    @RequestMapping("/{id}")
+    public Result queryBlogById(@PathVariable("id") Long id) {
+        return blogService.queryBlogById(id);
+    }
 }

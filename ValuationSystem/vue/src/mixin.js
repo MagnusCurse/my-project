@@ -59,6 +59,6 @@ export const commonMixin = {
                     return num.substring(0, i - 2) + "." + num.substring(i - 2)
                 }
             }
-        }
+        },
     }
 }
