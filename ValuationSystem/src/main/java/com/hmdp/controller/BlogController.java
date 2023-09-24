@@ -30,6 +30,7 @@ public class BlogController {
     public Result saveBlog(@RequestBody Blog blog) {
         // 获取登录用户
         UserDTO user = UserHolder.getUser();
+        //
         blog.setUserId(user.getId());
         // 保存探店博文
         blogService.save(blog);
@@ -86,12 +87,6 @@ public class BlogController {
      */
     @RequestMapping("/{id}")
     public Result queryBlogById(@PathVariable("id") Long id) {
-        Result res = blogService.queryBlogById(id);
-        Blog blog = (Blog) res.getData();
-        // TODO 获取用户 id,通过用户 id 获取发布博客用户昵称
-        Long userId = blog.getUserId();
-        User user = userService.getById(userId);
-        blog.setName(user.getNickName());
-        return Result.ok(blog);
+          return blogService.queryBlogById(id);
     }
 }

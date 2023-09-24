@@ -48,9 +48,14 @@ export default {
     },
     toOtherInfo(){
       if(this.blog.userId === this.user.id){
-        location.href = "/info.html"
+        this.$router.push("/center");
       }else{
-        location.href = "/other-info.html?id=" + this.blog.userId
+        this.$router.push({
+          path: '/other-center',
+          query: {
+            id: this.blog.id
+          }
+        })
       }
     },
     queryBlogById() {
@@ -103,7 +108,7 @@ export default {
           .catch(this.$message.error)
     },
     follow(){
-      axios.put("/follow/" + this.blog.userId + "/" + !this.followed)
+      axios.put("/follow/" + this.blog.userId + "/" + this.followed)
           .then(() => {
             this.$message.success(this.followed ? "已取消关注" : "已关注")
             this.followed = !this.followed

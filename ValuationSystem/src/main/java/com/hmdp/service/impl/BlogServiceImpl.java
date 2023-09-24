@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 /**
  */
 @Service
-public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogService {
+public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements IBlogService {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
     @Resource
@@ -41,7 +41,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
      */
     private void queryUserById(Blog blog) {
         // TODO 根据 id 在数据库中查询到用户
-        User user = userService.getById(blog.getId());
+        User user = userService.getById(blog.getUserId());
         blog.setName(user.getNickName());
         blog.setIcon(user.getIcon());
     }
@@ -73,6 +73,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
         if(blog == null) {
             return Result.fail("查询博客为空");
         }
+        System.out.println("blog_username:" + blog.getName());
         // TODO 查询博客相关用户信息
         queryUserById(blog);
         // TODO 判断博客是否被点赞过, 即对 isLiked 进行初始化

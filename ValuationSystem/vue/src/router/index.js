@@ -2,6 +2,7 @@ import VueRouter from "vue-router";
 import Home from "@/pages/Home/Home.vue";
 import Login from "@/pages/Login/Login.vue";
 import Center from "@/pages/Center/Center.vue";
+import OtherCenter from "@/pages/OtherCenter/Center.vue"
 import Shop from "@/pages/Shop/Shop.vue";
 import ShopDetail from "@/pages/ShopDetail/Detail.vue";
 import BlogDetail from "@/pages/BlogDetail/Detail.vue"
@@ -17,6 +18,15 @@ export default new VueRouter({
         {
             path: "/center",
             component: Center
+        },
+        {
+            path: "/other-center",
+            component: OtherCenter,
+            props($route) {
+                return {
+                    id: $route.query.id
+                }
+            }
         },
         {
             path: "/login",

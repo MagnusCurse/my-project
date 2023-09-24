@@ -41,21 +41,20 @@ public class Blog implements Serializable {
      */
     private Long userId;
     /**
-     * 用户图标
-     */
-    @TableField(exist = false)
-    private String icon;
-    /**
      * 用户姓名
      */
     @TableField(exist = false)
     private String name;
     /**
+     * 用户图标
+     */
+    @TableField(exist = false)
+    private String icon;
+    /**
      * 是否点赞过了
      */
     @TableField(exist = false)
     private Boolean isLike;
-
     /**
      * 标题
      */
