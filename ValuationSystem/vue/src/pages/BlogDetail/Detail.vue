@@ -75,22 +75,26 @@ export default {
     },
     queryLikeList(id){
       axios.get("/blog/likes/" + id)
-          .then(({data}) => this.likes = data.data)
+          .then(({data}) =>{
+            console.log(data)
+            console.log(data.data)
+            this.likes = data.data
+          })
           .catch(this.$message.error)
     },
     addLike(){
-      axios.put("/blog/like/" +this.blog.id)
+      axios.put("/blog/like/" + this.blog.id)
           .then(({data}) => {
             axios.get("/blog/" + this.blog.id)
                 .then(({data}) => {
-                  data.images = data.images.split(",")
-                  this.blog = data;
+                  data.data.images = data.data.images.split(",")
+                  this.blog = data.data;
                   this.queryLikeList(this.blog.id);
                 })
                 .catch(this.$message.error)
           })
           .catch(err => {
-            this.$message.error(err)
+            console.log(err)
           })
     },
     isFollowed(){

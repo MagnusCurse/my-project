@@ -56,6 +56,7 @@ export default {
         }
       })
     },
+
     addLike(b) {
       axios.put("/blog/like/" +b.id)
           .then(({data}) => {
@@ -68,8 +69,8 @@ export default {
     queryBlogById(b) {
       axios.get("/blog/" + b.id)
           .then(({data}) => {
-            b.liked = data.liked;
-            b.isLike = data.isLike;
+            b.liked = data.data.liked;
+            b.isLike = data.data.isLike;
           })
           .catch(() => {
             this.$message.error
