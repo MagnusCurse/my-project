@@ -79,8 +79,19 @@ public class BlogController {
         return blogService.queryBlogLikes(id);
     }
 
+    /**
+     * 根据 id 查询博客
+     * @param id
+     * @return
+     */
     @RequestMapping("/{id}")
     public Result queryBlogById(@PathVariable("id") Long id) {
-        return blogService.queryBlogById(id);
+        Result res = blogService.queryBlogById(id);
+        Blog blog = (Blog) res.getData();
+        // TODO 获取用户 id,通过用户 id 获取发布博客用户昵称
+        Long userId = blog.getUserId();
+        User user = userService.getById(userId);
+        blog.setName(user.getNickName());
+        return Result.ok(blog);
     }
 }

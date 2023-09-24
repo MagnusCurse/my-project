@@ -29,37 +29,37 @@ export default {
     // 查询自己的博客
     queryBlogs() {
       axios.get("/blog/of/me")
-          .then(({data}) => this.blogs = data)
+          .then(({data}) => this.blogs = data.data)
           .catch(this.$message.error)
     },
     // 查询关注人的博客
-    // queryBlogsOfFollow(clear) {
-    //   if (clear) {
-    //     this.params.offset = 0;
-    //     this.params.minTime = new Date().getTime() + 1;
-    //   }
-    //   let {minTime, offset: os} = this.params;
-    //   axios.get("/blog/of/follow", {
-    //     params: {offset: os, lastId: minTime || new Date().getTime() + 1}
-    //   })
-    //       .then(({data}) => {
-    //         if (!data) {
-    //           return;
-    //         }
-    //         let {list, ...params} = data;
-    //         list.forEach(b => b.img = b.images.split(",")[0])
-    //         this.blogs2 = clear ? list : this.blogs2.concat(list);
-    //         this.params = params;
-    //       })
-    //       .catch(e => console.log(e))
-    // },
+    queryBlogsOfFollow(clear) {
+      if (clear) {
+        this.params.offset = 0;
+        this.params.minTime = new Date().getTime() + 1;
+      }
+      let {minTime, offset: os} = this.params;
+      axios.get("/blog/of/follow", {
+        params: {offset: os, lastId: minTime || new Date().getTime() + 1}
+      })
+          .then(({data}) => {
+            if (!data) {
+              return;
+            }
+            let {list, ...params} = data.data;
+            list.forEach(b => b.img = b.images.split(",")[0])
+            this.blogs2 = clear ? list : this.blogs2.concat(list);
+            this.params = params;
+          })
+          .catch(e => console.log(e))
+    },
     queryUser() {
       // 查询用户信息
       axios.get("/user/me")
           .then(({data}) => {
             console.log("调用了 me")
             // 保存用户
-            this.user = data;
+            this.user = data.data;
             // 查询用户详情
             this.queryUserInfo();
             // 查询用户笔记
@@ -80,9 +80,9 @@ export default {
               return
             }
             // 保存用户详情
-            this.info = data;
+            this.info = data.data;
             // 保存到本地
-            sessionStorage.setItem("userInfo", JSON.stringify(data))
+            sessionStorage.setItem("userInfo", JSON.stringify(data.data))
           })
           .catch(err => {
             this.$message.error(err);
@@ -118,8 +118,8 @@ export default {
     queryBlogById(b) {
       axios.get("/blog/" + b.id)
           .then(({data}) => {
-            b.liked = data.liked;
-            b.isLike = data.isLike;
+            b.liked = data.data.liked;
+            b.isLike = data.data.isLike;
           })
           .catch(() => {
             this.$message.error

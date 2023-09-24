@@ -53,31 +53,31 @@ export default {
         location.href = "/other-info.html?id=" + this.blog.userId
       }
     },
-    queryBlogById(id) {
-      axios.get("/blog/" + id)
+    queryBlogById() {
+      axios.get("/blog/" + this.id)
           .then(({data}) => {
             data.data.images = data.data.images.split(",")
             this.blog = data.data;
             this.$nextTick(this.init);
             this.queryShopById(data.data.shopId)
-            this.queryLikeList(id);
+            this.queryLikeList();
             this.queryLoginUser();
           })
           .catch(this.$message.error)
     },
+    // 查询笔记推荐商户信息
     queryShopById(shopId) {
       axios.get("/shop/" + shopId)
           .then(({data}) => {
-            data.image = data.images.split(",")[0]
-            this.shop = data
+            // 这里需要三次调用 .data .....
+             data.data.data.image = data.data.data.images.split(",")[0]
+             this.shop = data.data.data
           })
           .catch(this.$message.error)
     },
-    queryLikeList(id){
-      axios.get("/blog/likes/" + id)
+    queryLikeList(){
+      axios.get("/blog/likes/" + this.id)
           .then(({data}) =>{
-            console.log(data)
-            console.log(data.data)
             this.likes = data.data
           })
           .catch(this.$message.error)
@@ -99,7 +99,7 @@ export default {
     },
     isFollowed(){
       axios.get("/follow/or/not/" + this.blog.userId)
-          .then(({data}) => this.followed = data)
+          .then(({data}) => this.followed = data.data)
           .catch(this.$message.error)
     },
     follow(){
@@ -122,7 +122,7 @@ export default {
       axios.get("/user/me")
           .then(({ data }) => {
             // 保存用户
-            this.user = data;
+            this.user = data.data;
             if(this.user.id !== this.blog.userId){
               this.isFollowed();
             }
@@ -258,8 +258,8 @@ export default {
         <img :src="blog.icon || '/imgs/icons/default-icon.png'" alt="">
       </div>
       <div class="basic-info">
-        <div class="name">{{blog.name}}</div>
-        <span class="time">{{formatTime(new Date(blog.createTime))}}</span>
+        <div class="name">{{ blog.name }}</div>
+        <span class="time">{{ formatTime(new Date(blog.createTime)) }}</span>
       </div>
       <div style="width: 20%">
         <div class="logout-btn" @click="follow" v-show="!user || user.id !== blog.userId ">

@@ -7,7 +7,7 @@ export default {
       if (i === 0) {
         this.$router.push("/edit")
       } else if (i === 4) {
-        this.$router.push("/login")
+        this.$router.push("/center")
       } else if (i === 1){
         this.$router.push("/home")
       }
