@@ -9,7 +9,7 @@ create table user
 id int primary key auto_increment,
 username varchar(50) not null,
 password varchar(255) not null
-);
+);d
 
 drop table if exists music;
 create table music

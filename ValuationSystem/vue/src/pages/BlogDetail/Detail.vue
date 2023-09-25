@@ -46,6 +46,7 @@ export default {
     goBack() {
       history.back();
     },
+    // 点击后跳转到用户个人中心详情页面
     toOtherInfo(){
       if(this.blog.userId === this.user.id){
         this.$router.push("/center");
@@ -53,7 +54,7 @@ export default {
         this.$router.push({
           path: '/other-center',
           query: {
-            id: this.blog.id
+            id: this.blog.userId
           }
         })
       }

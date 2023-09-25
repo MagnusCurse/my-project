@@ -1,8 +1,11 @@
 package com.hmdp.controller;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import com.hmdp.dto.LoginFormDTO;
 import com.hmdp.dto.Result;
+import com.hmdp.dto.UserDTO;
+import com.hmdp.entity.User;
 import com.hmdp.entity.UserInfo;
 import com.hmdp.service.IUserInfoService;
 import com.hmdp.service.IUserService;
@@ -63,12 +66,28 @@ public class UserController {
         return Result.ok(UserHolder.getUser());
     }
 
+    /**
+     * 根据 id 查询用户信息
+     * @param id
+     */
+    @GetMapping("/{id}")
+    public Result queryUserById(@PathVariable("id") Long id) {
+        // TODO 从数据库中获取用户信息
+        User user = userService.getById(id);
+        if(user == null) {
+            return Result.fail("查询结果为空");
+        }
+        // TODO 包装成 UserDTO 类型返回
+        UserDTO userDTO = BeanUtil.copyProperties(user, UserDTO.class);
+        return Result.ok(userDTO);
+    }
+
     @GetMapping("/info/{id}")
     public Result info(@PathVariable("id") Long userId){
         // 查询详情
         UserInfo info = userInfoService.getById(userId);
         if (info == null) {
-            // 没有详情，应该是第一次查看详情
+            // 没有详情,应该是第一次查看详情
             return Result.ok();
         }
         info.setCreateTime(null);
@@ -76,4 +95,6 @@ public class UserController {
         // 返回
         return Result.ok(info);
     }
+
+
 }

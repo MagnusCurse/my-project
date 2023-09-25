@@ -22,7 +22,9 @@ export default {
   methods: {
     queryBlogs() {
       axios.get("/blog/of/user", {
-        params: {id: this.user.id, current: 1}
+        params: {
+          id: this.user.id, current: 1
+        }
       })
           .then(({data}) => this.blogs = data.data)
           .catch(this.$message.error)
@@ -55,7 +57,7 @@ export default {
     goBack() {
       history.back();
     },
-    queryUserInfo(id) {
+    queryUserInfo() {
       axios.get("/user/info/" + this.user.id)
           .then(({data}) => {
             if (!data) {
@@ -124,15 +126,20 @@ export default {
       {{followed ? "取消关注" : "关注"}}
     </div>
   </div>
+
   <div class="introduce">
-    <span v-if="info.introduce"></span>
+    <!-- 目前还没有用户信息,用 info 即可,info.introduce 会报错  -->
+    <span v-if="info"></span>
     <span v-else>这个人很懒，什么都没有留下</span>
   </div>
+
   <div class="content">
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="笔记" name="1">
         <div v-for="b in blogs" :key="b.id" class="blog-item">
-          <div class="blog-img"><img :src="b.images.split(',')[0]" alt=""></div>
+          <div class="blog-img">
+            <img :src="b.images.split(',')[0]" alt="">
+          </div>
           <div class="blog-info">
             <div class="blog-title" v-html="b.title"></div>
             <div class="blog-liked"><img src="/imgs/thumbup.png" alt=""> {{b.liked}}</div>
