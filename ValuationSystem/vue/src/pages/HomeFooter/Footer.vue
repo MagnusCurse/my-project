@@ -52,7 +52,6 @@ export default {
   justify-content: center;
   align-items: center;
   box-shadow: 0 -1px 2px 1px rgba(0, 0, 0, 0.1);
-  position: absolute;
   bottom: 0;
 }
 

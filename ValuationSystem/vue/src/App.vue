@@ -30,7 +30,6 @@ html,body,#app{
   height: 100%;
 }
 
-
 /* 达人探店列表 */
 .blog-img img{
   width: 100%;

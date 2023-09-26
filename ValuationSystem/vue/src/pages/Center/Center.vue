@@ -10,10 +10,11 @@ export default {
       activeName: "1",
       info: {},
       blogs: [],
-      blogs2: [], // 关注的人的播客
+      blogFollow: [], // 关注的人的播客
+      // 滚动分页查询参数
       params: {
         minTime: 0, // 上一次拉取到的时间戳
-        offset: 0, // 偏移量
+        offset: 0, // 偏移量 (初始值设置为 0)
       },
       count: 5,
       isReachBottom: false,
@@ -48,7 +49,7 @@ export default {
             }
             let {list, ...params} = data.data;
             list.forEach(b => b.img = b.images.split(",")[0])
-            this.blogs2 = clear ? list : this.blogs2.concat(list);
+            this.blogFollow = clear ? list : this.blogFollow.concat(list);
             this.params = params;
           })
           .catch(e => console.log(e))
@@ -57,7 +58,6 @@ export default {
       // 查询用户信息
       axios.get("/user/me")
           .then(({data}) => {
-            console.log("调用了 me")
             // 保存用户
             this.user = data.data;
             // 查询用户详情
@@ -118,6 +118,7 @@ export default {
     queryBlogById(b) {
       axios.get("/blog/" + b.id)
           .then(({data}) => {
+
             b.liked = data.data.liked;
             b.isLike = data.data.isLike;
           })
@@ -126,6 +127,7 @@ export default {
             b.liked++;
           })
     },
+    // 滑动触发滚动查询
     onScroll(e) {
       let scrollTop = e.target.scrollTop;
       let offsetHeight = e.target.offsetHeight;
@@ -140,6 +142,15 @@ export default {
       } else {
         this.isReachBottom = false
       }
+    },
+    // 根据 id 去往博客详情页
+    toBlogDetail(b) {
+      this.$router.push({
+        path: '/blog-detail',
+        query: {
+          id: b.id
+        }
+      })
     }
   },
   mounted() {
@@ -147,6 +158,7 @@ export default {
     this.queryUser();
   },
 }
+
 </script>
 
 <template>
@@ -173,11 +185,11 @@ export default {
       </div>
     </div>
     <div class="introduce">
-      <span v-if="info.introduce"></span>
+      <span v-if="info"></span>
       <span v-else>添加个人简介，让大家更好的认识你 <i class="el-icon-edit"></i></span>
     </div>
     <div class="content">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tabs v-model="activeName" @tab-click="handleClick" style="width: 90%; ">
         <el-tab-pane label="笔记" name="1">
           <div v-for="b in blogs" :key="b.id" class="blog-item">
             <div class="blog-img"><img :src="b.images.split(',')[0]" alt=""></div>
@@ -188,11 +200,14 @@ export default {
             </div>
           </div>
         </el-tab-pane>
+
         <el-tab-pane label="评价" name="2">评价</el-tab-pane>
+
         <el-tab-pane label="粉丝" name="3">粉丝</el-tab-pane>
+
         <el-tab-pane label="关注" name="4">
           <div class="blog-list" @scroll="onScroll">
-            <div class="blog-box" v-for="b in blogs2" :key="b.id">
+            <div class="blog-box" v-for="b in blogFollow" :key="b.id">
               <div class="blog-img2" @click="toBlogDetail(b)"><img :src="b.img" alt=""></div>
               <div class="blog-title">{{b.title}}</div>
               <div class="blog-foot">
@@ -218,6 +233,11 @@ export default {
 </template>
 
 <style scoped>
+.center {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* 设置最小高度为视窗高度，以确保页脚位于页面底部 */
+}
 .header{
   width: 100%;
   line-height: 40px;
@@ -301,9 +321,12 @@ export default {
   padding: 0 15px;
 }
 .content {
-  height: 61%;
+  width: 100%;
   display: flex;
   justify-content: center;
+  margin-bottom: 15px;
+  flex-grow: 1; /* 填充可用空间，推动页脚到底部 */
+  overflow-y: auto; /* 允许内容滚动，如果内容超出屏幕高度 */
 }
 
 .info-btn div {
@@ -348,7 +371,7 @@ export default {
 
 /*达人探店列表*/
 .blog-list {
-  height: 100%;
+  height: 550px;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
