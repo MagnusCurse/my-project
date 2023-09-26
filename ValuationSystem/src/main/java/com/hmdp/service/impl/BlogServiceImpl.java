@@ -1,5 +1,4 @@
 package com.hmdp.service.impl;
-
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
@@ -18,11 +17,9 @@ import com.hmdp.service.IUserService;
 import com.hmdp.utils.RedisConstants;
 import com.hmdp.utils.SystemConstants;
 import com.hmdp.utils.UserHolder;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
@@ -122,7 +119,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements IBl
         // 将 id 用逗号分割并转换为一个字符串
         String idStr = StrUtil.join(",",ids);
         // TODO 根据用户 id 查询用户
-        // NOTE 这里不能用原来的 listByIds 去查询,因为结果不是顺序的
+        // NOTE 这里不能用原来的 listByIds 去查询, listByIds 不是按顺序查询的, 需要自己实现 SQL 语句
         List<UserDTO> users = userService.query().in("id",ids)
                 .last("ORDER BY FIELD(id," + idStr + ")").list()
                 // .map(user -> BeanUtil.copyProperties(user, UserDTO.class)): 这是一个流操作，它将每个用户对象转换为 UserDTO 对象。
@@ -236,6 +233,5 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements IBl
        }
         return Result.ok();
     }
-
 
 }
