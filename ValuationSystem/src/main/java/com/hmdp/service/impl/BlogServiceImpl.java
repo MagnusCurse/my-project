@@ -233,5 +233,4 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements IBl
        }
         return Result.ok();
     }
-
 }

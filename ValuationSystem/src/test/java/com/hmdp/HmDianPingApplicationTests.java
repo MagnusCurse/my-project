@@ -46,11 +46,11 @@ class HmDianPingApplicationTests {
             // 写入 Redis,将内容写入迭代器 : GEOADD Key 经度 纬度 member
             for (Shop shop : shops) {
                locations.add(new RedisGeoCommands.GeoLocation<>(
-                       shop.getId().toString(),
-                       new Point(shop.getX(), shop.getY())
+                       shop.getId().toString(), // shopId
+                       new Point(shop.getX(), shop.getY()) // 坐标点
                ));
             }
-            // 将内容直接写入 Redis
+            // 将迭代器内容直接写入 Redis
             stringRedisTemplate.opsForGeo().add(key,locations);
         }
     }

@@ -70,6 +70,7 @@ export default {
         }
       })
     },
+    // 滚动查询
     onScroll(e) {
       let scrollTop = e.target.scrollTop;
       let offsetHeight = e.target.offsetHeight;
@@ -208,7 +209,7 @@ export default {
   font-size: 12px;
 }
 .shop-list{
-  height: 87%;
+  height: 600px;
   background-color: #f1f1f1;
   overflow-y: auto;
 }
