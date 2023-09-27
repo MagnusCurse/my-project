@@ -10,10 +10,7 @@ import com.hmdp.dto.UserDTO;
 import com.hmdp.entity.User;
 import com.hmdp.mapper.UserMapper;
 import com.hmdp.service.IUserService;
-import com.hmdp.utils.RedisConstants;
-import com.hmdp.utils.RedisData;
-import com.hmdp.utils.RegexUtils;
-import com.hmdp.utils.SystemConstants;
+import com.hmdp.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -21,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -33,6 +32,16 @@ import java.util.concurrent.TimeUnit;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    // 用于创建新用户
+    private User createNewUser(String phone) {
+        User user = new User();
+        user.setPhone(phone);
+        user.setNickName(SystemConstants.USER_NICK_NAME_PREFIX + RandomUtil.randomString(10));
+        // 将该用户信息保存到数据库中
+        save(user);
+        return user;
+    }
 
     @Override
     public Result sendCode(String phone, HttpSession session) {
@@ -95,13 +104,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         return Result.ok(token);
     }
 
-    // 用于创建新用户
-    private User createNewUser(String phone) {
-        User user = new User();
-        user.setPhone(phone);
-        user.setNickName(SystemConstants.USER_NICK_NAME_PREFIX + RandomUtil.randomString(10));
-        // 将该用户信息保存到数据库中
-        save(user);
-        return user;
+    @Override
+    public Result sign() {
+        // TODO 获取当前登录用户
+        Long userId = UserHolder.getUser().getId();
+        // TODO 获取当前日期
+        LocalDateTime now = LocalDateTime.now();
+        // TODO 拼接 key : 年/月
+        String keySuffix = now.format(DateTimeFormatter.ofPattern(":yyyyMM"));
+        String key = RedisConstants.USER_SIGN_KEY + userId + keySuffix;
+        // TODO 获取当天是本月的第几天
+        int dayOfMonth = now.getDayOfMonth();
+        // TODO 写入 Redis select key offset 1
+        stringRedisTemplate.opsForValue().setBit(key,dayOfMonth - 1, true);
+        return Result.ok();
     }
 }

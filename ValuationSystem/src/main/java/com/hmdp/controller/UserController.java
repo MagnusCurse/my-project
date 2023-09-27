@@ -95,5 +95,12 @@ public class UserController {
         return Result.ok(info);
     }
 
-
+    /**
+     * 签到功能
+     * @return
+     */
+    @GetMapping("/sign")
+    public Result sign() {
+       return userService.sign();
+    }
 }
