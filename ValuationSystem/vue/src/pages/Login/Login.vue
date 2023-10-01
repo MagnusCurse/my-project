@@ -89,6 +89,7 @@ export default {
         <div style="text-align: right; color:#333333; margin: 5px 0"><a href="/login2.html">密码登录</a></div>
       </div>
 
+<!-- note 确认协议功能 -->
 <!--      <div class="login-radio">-->
 <!--        <div>-->
 <!--          <input type="radio" name="readed" v-model="radio" value="1">-->

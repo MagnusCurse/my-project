@@ -6,7 +6,6 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 // 使用 VueRouter
 Vue.use(VueRouter)
-
 // 引入路由器
 import router from './router/index'
 // 引入 font-awesome
@@ -23,6 +22,7 @@ import 'element-tiptap/lib/index.css';
 import Buefy from 'buefy'
 // 引入 Buefy css
 import 'buefy/dist/buefy.css'
+
 // 引入 Axios
 import axios from "axios";
 

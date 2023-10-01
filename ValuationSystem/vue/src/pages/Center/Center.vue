@@ -72,9 +72,6 @@ export default {
             // this.$router.push("/login")
           })
     },
-    goBack() {
-      history.back();
-    },
     queryUserInfo() {
       axios.get("/user/info/" + this.user.id)
           .then(({data}) => {
@@ -93,15 +90,18 @@ export default {
     toEdit() {
       location.href = 'info-edit.html'
     },
+    // 登出函数功能
     logout() {
-      axios.post("/user/logout")
-          .then(() => {
-            // 清理session
-            sessionStorage.removeItem("token")
-            // 跳转
-            location.href = "/"
-          })
-          .catch(this.$message.error)
+      if(confirm("是否退出登录")) {
+        axios.post("/user/logout")
+            .then(() => {
+              // 清理 session
+              sessionStorage.removeItem("token")
+              // 跳转到登录页面
+              this.$router.push("/login");
+            })
+            .catch(this.$message.error)
+      }
     },
     handleClick(r) {
       if (r.name === '4') {

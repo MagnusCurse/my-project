@@ -1,7 +1,12 @@
 <script>
 
 export default {
-  name: "Header"
+  name: "Header",
+  methods: {
+    goBack() {
+      history.back();
+    }
+  }
 }
 </script>
 

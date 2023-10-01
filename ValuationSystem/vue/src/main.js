@@ -2,6 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import axios from "axios";
 
+// 引入 font-awesome
+import '@fortawesome/fontawesome-free/css/all.css';
+
 // 引入 VueRouter
 import VueRouter from 'vue-router'
 // 使用 VueRouter
@@ -33,7 +36,6 @@ axios.interceptors.request.use(
         config.headers['authorization'] = token; // 给请求头新增一个字段 authorization, 添加 token 到请求头中
       } else {
           //
-
       }
       return config;
     },

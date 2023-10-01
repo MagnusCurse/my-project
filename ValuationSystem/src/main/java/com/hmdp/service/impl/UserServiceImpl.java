@@ -3,6 +3,7 @@ package com.hmdp.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hmdp.dto.LoginFormDTO;
 import com.hmdp.dto.Result;
@@ -11,6 +12,7 @@ import com.hmdp.entity.User;
 import com.hmdp.mapper.UserMapper;
 import com.hmdp.service.IUserService;
 import com.hmdp.utils.*;
+import org.aspectj.weaver.AjAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.BitFieldSubCommands;
@@ -18,6 +20,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -65,6 +68,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
+    public Result logout(HttpServletRequest request) {
+        // TODO 从请求头中获取到 token
+        String token = request.getHeader(SystemConstants.USER_LOGIN_TOKEN);
+        if(StrUtil.isBlank(token)) {
+            return Result.ok("当前用户未登录");
+        }
+        String tokenKey = RedisConstants.LOGIN_USER_KEY + token;
+        // TODO 将该用户记录从 Redis 中移除
+        stringRedisTemplate.opsForHash().delete(tokenKey);
+        // TODO 将用户对象从 ThreadLocal 中移除
+        UserHolder.removeUser();
+        return Result.ok("退出登录成功");
+    }
+
+    @Override
     public Result phoneLogin(LoginFormDTO loginForm, HttpSession session) {
         // TODO 校验手机号
         String phone = loginForm.getPhone();
@@ -85,7 +103,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             // 用户不存在, 创建一个新用户, 这里相当于注册
             user = createNewUser(phone);
         }
-        // TODO 将用户信息保存到 Redis 中,TODO 随机生成 token, 作为登录令牌
+        // TODO 将用户信息保存到 Redis 中, 随机生成 token, 作为登录令牌
         String token = UUID.randomUUID().toString();
         // 将 User 对象转换为 HashMap 进行存储
         // BeanUtil.copyProperties(user, UserDTO.class) : 将 User 对象转换为一个 UserDTO 的对象
@@ -165,4 +183,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         return Result.ok(count);
     }
+
+
 }
