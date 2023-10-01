@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 import axios from "axios";
+
+
 // 引入 VueRouter
 import VueRouter from 'vue-router'
 // 使用 VueRouter
@@ -11,9 +13,12 @@ import ElementUI from 'element-ui';
 // 引入 ElementUI 样式
 import 'element-ui/lib/theme-chalk/index.css';
 import router from "@/router";
-
 // 安装 ElementUI 插件
 Vue.use(ElementUI);
+
+import Buefy from 'buefy'
+import 'buefy/dist/buefy.css'
+Vue.use(Buefy)
 
 // 配置 axios 的默认路径
 axios.defaults.baseURL = "/api"

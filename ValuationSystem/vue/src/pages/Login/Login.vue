@@ -13,10 +13,10 @@ export default {
   },
   methods: {
     login(){
-      if(!this.radio){
-        this.$message.error("请先确认阅读用户协议！");
-        return
-      }
+      // if(!this.radio){
+      //   this.$message.error("请先确认阅读用户协议！");
+      //   return
+      // }
       if(!this.form.phone || !this.form.code){
         this.$message.error("手机号和验证码不能为空！");
         return
@@ -68,36 +68,37 @@ export default {
 <template>
   <div class="login-container">
     <div class="header">
-      <div class="header-back-btn" @click="goBack" ><i class="el-icon-arrow-left"></i></div>
-      <div class="header-title" style="font-weight: bold;">手机号码快捷登录&nbsp;&nbsp;&nbsp;</div>
+      <div class="header-back-btn" @click="goBack" ><i class="el-icon-caret-left"></i></div>
+      <div class="header-title" style="font-weight: bold;"></div>
     </div>
     <div class="content">
       <div class="login-form">
         <div style="display: flex; justify-content: space-between">
-          <el-input style="width: 60%" placeholder="请输入手机号" v-model="form.phone" >
-          </el-input>
-          <el-button style="width: 38%" @click="sendCode" type="success" :disabled="disabled">{{codeBtnMsg}}</el-button>
+          <b-field>
+            <b-input style="width: 100%" placeholder="请输入手机号" v-model="form.phone"></b-input>
+          </b-field>
+          <b-button style="width: 38%" @click="sendCode" type="is-success" :disabled="disabled">{{ codeBtnMsg }}</b-button>
         </div>
 
         <div style="height: 5px"></div>
-        <el-input placeholder="请输入验证码" v-model="form.code">
-        </el-input>
+        <b-input placeholder="请输入验证码" v-model="form.code"></b-input>
+
         <div style="text-align: center; color: #8c939d;margin: 5px 0">未注册的手机号码验证后自动创建账户</div>
-        <el-button @click="login" style="width: 100%; background-color:#f63; color: #fff;">登录</el-button>
+        <b-button @click="login" style="width: 100%;" type="is-warning">登录</b-button>
         <div style="text-align: right; color:#333333; margin: 5px 0"><a href="/login2.html">密码登录</a></div>
       </div>
-      <div class="login-radio">
-        <div>
-          <input type="radio" name="readed" v-model="radio" value="1">
-          <label for="readed"></label>
-        </div>
-        <div>我已阅读并同意
-          <a href="javascript:void(0)">
-            《黑马点评用户服务协议》</a>、
-          <a href="javascript:void(0)">《隐私政策》</a>
-          等，接受免除或者限制责任、诉讼管辖约定等粗体标示条款
-        </div>
-      </div>
+
+<!--      <div class="login-radio">-->
+<!--        <div>-->
+<!--          <input type="radio" name="readed" v-model="radio" value="1">-->
+<!--          <label for="readed"></label>-->
+<!--        </div>-->
+<!--        <div>我已阅读并同意-->
+<!--          <a href="javascript:void(0)">-->
+<!--            </a>-->
+<!--          <a href="javascript:void(0)"></a>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
   </div>
 </template>
@@ -112,11 +113,11 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 2px solid #ff6633;
+  border-bottom: 2px solid #7957d5;
 }
 .header-back-btn{
   width: 10%;
-  color: #ff6633;
+  color: #7957d5;
   font-size: 22px;
 }
 .header-title {
@@ -153,13 +154,13 @@ input[type="radio"] + label::before {
   height: 0.7em;
   margin-right: .4em;
   border-radius: 50%;
-  border: 2px solid #F63;
+  border: 2px solid #7957d5;
   text-indent: .15em;
   line-height: 1;
   padding: .2em;
 }
 input[type="radio"]:checked + label::before {
-  background-color: #F63;
+  background-color: #7957d5;
   background-clip: content-box;
   padding: .2em;
 }

@@ -18,20 +18,19 @@ export default {
 
 <template>
   <div class="search-bar">
-    <div class="city-btn">杭州 <i class="el-icon-arrow-down"></i></div>
+<!-- note 地区选择功能:  <div class="city-btn">杭州<i class="el-icon-arrow-down"></i></div>  -->
     <div class="search-input">
-      <el-input size="mini" placeholder="请输入商户名、地点">
+      <el-input size="medium" placeholder="请输入商户名、地点" style="width: 100%">
         <i slot="prefix" class="el-input__icon el-icon-search"></i>
       </el-input>
     </div>
-    <div class="header-icon" @click="toPage(4)"><i class="el-icon-user"></i></div>
   </div>
 </template>
 
 <style scoped>
 /*搜索框*/
 .search-bar{
-  background-color: #ff6633;
+  background-color: #7957d5;
   color: white;
   display: flex;
   justify-content: space-around;
@@ -39,31 +38,13 @@ export default {
   align-items: center;
   padding: 0 8px;
 }
-.header-icon{
-  /*width: 2%;*/
-  font-size: 14px;
-}
+
 .search-input{
   width: 70%;
 }
-.type-list {
-  height: 25%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-.type-box{
-  width: 17%;
-  text-align: center;
-}
+
 .type-box img {
   width: 100%;
 }
-.type-text{
-  color: #111;
-  font-size: 10px;
-  margin-top: -8px;
-  margin-bottom: 10px;
-}
+
 </style>

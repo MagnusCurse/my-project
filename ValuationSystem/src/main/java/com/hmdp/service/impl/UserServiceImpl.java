@@ -123,7 +123,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public Result signCOunt() {
+    public Result signCount() {
         // TODO 获取当前登录用户
         Long userId = UserHolder.getUser().getId();
         // TODO 获取当前日期
