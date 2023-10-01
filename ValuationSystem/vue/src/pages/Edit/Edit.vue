@@ -90,9 +90,9 @@ export default {
 <div class="center">
   <div class="header">
     <div class="header-cancel-btn" @click="goBack">取消</div>
-    <div class="header-title">&nbsp;&nbsp;发笔记<i class="el-icon-info"></i></div>
+    <div class="header-title">&nbsp;&nbsp;发笔记</div>
     <div class="header-commit">
-      <div class="header-commit-btn" @click="submitBlog">发布</div>
+      <b-button class="header-commit-btn" type="is-warning" @click="submitBlog">发布</b-button>
     </div>
   </div>
   <div class="upload-box">
@@ -118,7 +118,7 @@ export default {
   <div class="blog-shop" @click="showDialog=true">
     <div class="shop-left">关联商户</div>
     <div v-if="selectedShop.name">{{selectedShop.name}}</div>
-    <div v-else>去选择&nbsp;<i class="el-icon-arrow-right"></i></div>
+    <div v-else>去选择&nbsp;<i class="el-icon-caret-right"></i></div>
   </div>
   <div class="mask" v-show="showDialog" @click="showDialog=false"></div>
   <transition name="el-zoom-in-bottom">
@@ -157,8 +157,7 @@ export default {
   font-weight: bold;
 }
 .header-commit-btn{
-  color: white;
-  background-color: #F63;
+  height: 18px;
   padding: 0 12px;
   border-radius: 15px;
 }

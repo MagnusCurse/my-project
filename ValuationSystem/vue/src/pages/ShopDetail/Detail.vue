@@ -1,10 +1,14 @@
 <script>
 import axios  from "axios";
 import {commonMixin} from "@/mixin";
+import Header from "@/components/Header/Header.vue";
 
 
 export default {
   name: "Detail",
+  components: {
+    Header
+  },
   props: ['id'],
   mixins: [commonMixin],
   data() {
@@ -92,11 +96,7 @@ export default {
 
 <template>
 <div class="shop-detail">
-  <div class="header">
-    <div class="header-back-btn" @click="goBack"><i class="el-icon-arrow-left"></i></div>
-    <div class="header-title"></div>
-    <div class="header-share">...</div>
-  </div>
+  <Header/>
   <div class="top-bar"></div>
   <div class="shop-info-box">
     <div class="shop-title">{{shop.name}}</div>
@@ -166,103 +166,66 @@ export default {
     </div>
   </div>
   <div class="shop-divider"></div>
-  <div class="shop-comments">
-    <div class="comments-head">
-      <div>网友评价 <span>（119）</span></div>
-      <div><i class="el-icon-arrow-right"></i></div>
-    </div>
-    <div class="comment-tags">
-      <div class="tag">味道赞(19)</div>
-      <div class="tag">牛肉赞(16)</div>
-      <div class="tag">菜品不错(11)</div>
-      <div class="tag">回头客(4)</div>
-      <div class="tag">分量足(4)</div>
-      <div class="tag">停车方便(3)</div>
-      <div class="tag">海鲜棒(3)</div>
-      <div class="tag">饮品赞(3)</div>
-      <div class="tag">朋友聚餐(6)</div>
-    </div>
-    <div class="comment-list">
-      <div class="comment-box" v-for="i in 3" :key="i">
-        <div class="comment-icon">
-          <img src="https://p0.meituan.net/userheadpicbackend/57e44d6eba01aad0d8d711788f30a126549507.jpg%4048w_48h_1e_1c_1l%7Cwatermark%3D0" alt="">
-        </div>
-        <div class="comment-info">
-          <div class="comment-user">叶小乙 <span>Lv5</span></div>
-          <div style="display: flex;">
-            打分
-            <el-rate disabled v-model="4.5" ></el-rate>
-          </div>
-          <div style="padding: 5px 0; font-size: 14px">
-            某平台上买的券，价格可以当工作餐吃，虽然价格便宜，但是这家店一点都没有...
-          </div>
-          <div class="comment-images">
-            <img src="https://qcloud.dpfile.com/pc/6T7MfXzx7USPIkSy7jzm40qZSmlHUF2jd-FZUL6WpjE9byagjLlrseWxnl1LcbuSGybIjx5eX6WNgCPvcASYAw.jpg" alt="">
-            <img src="https://qcloud.dpfile.com/pc/sZ5q-zgglv4VXEWU71xCFjnLM_jUHq-ylq0GKivtrz3JksWQ1f7oBWZsxm1DWgcaGybIjx5eX6WNgCPvcASYAw.jpg" alt="">
-            <img src="https://qcloud.dpfile.com/pc/xZy6W4NwuRFchlOi43DVLPFsx7KWWvPqifE1JTe_jreqdsBYA9CFkeSm2ZlF0OVmGybIjx5eX6WNgCPvcASYAw.jpg" alt="">
-            <img src="https://qcloud.dpfile.com/pc/xZy6W4NwuRFchlOi43DVLPFsx7KWWvPqifE1JTe_jreqdsBYA9CFkeSm2ZlF0OVmGybIjx5eX6WNgCPvcASYAw.jpg" alt="">
-          </div>
-          <div>
-            浏览641 &nbsp;&nbsp;&nbsp;&nbsp;评论5
-          </div>
-        </div>
-      </div>
-      <div style="display: flex; justify-content: space-between;padding: 15px 0; border-top: 1px solid #f1f1f1; margin-top: 10px;">
-        <div>查看全部119条评价</div>
-        <div><i class="el-icon-arrow-right"></i></div>
-      </div>
-    </div>
-  </div>
+  <!-- note 用户评论区域: 后面再来实现   -->
+<!--  <div class="shop-comments">-->
+<!--    <div class="comments-head">-->
+<!--      <div>网友评价 <span>（119）</span></div>-->
+<!--      <div><i class="el-icon-arrow-right"></i></div>-->
+<!--    </div>-->
+<!--    <div class="comment-tags">-->
+<!--      <div class="tag">味道赞(19)</div>-->
+<!--      <div class="tag">牛肉赞(16)</div>-->
+<!--      <div class="tag">菜品不错(11)</div>-->
+<!--      <div class="tag">回头客(4)</div>-->
+<!--      <div class="tag">分量足(4)</div>-->
+<!--      <div class="tag">停车方便(3)</div>-->
+<!--      <div class="tag">海鲜棒(3)</div>-->
+<!--      <div class="tag">饮品赞(3)</div>-->
+<!--      <div class="tag">朋友聚餐(6)</div>-->
+<!--    </div>-->
+
+<!--    <div class="comment-list">-->
+<!--      <div class="comment-box" v-for="i in 3" :key="i">-->
+<!--        <div class="comment-icon">-->
+<!--          <img src="https://p0.meituan.net/userheadpicbackend/57e44d6eba01aad0d8d711788f30a126549507.jpg%4048w_48h_1e_1c_1l%7Cwatermark%3D0" alt="">-->
+<!--        </div>-->
+<!--        <div class="comment-info">-->
+<!--          <div class="comment-user">叶小乙 <span>Lv5</span></div>-->
+<!--          <div style="display: flex;">-->
+<!--            打分-->
+<!--            <el-rate disabled v-model="4.5" ></el-rate>-->
+<!--          </div>-->
+<!--          <div style="padding: 5px 0; font-size: 14px">-->
+<!--            某平台上买的券，价格可以当工作餐吃，虽然价格便宜，但是这家店一点都没有...-->
+<!--          </div>-->
+<!--          <div class="comment-images">-->
+<!--            <img src="https://qcloud.dpfile.com/pc/6T7MfXzx7USPIkSy7jzm40qZSmlHUF2jd-FZUL6WpjE9byagjLlrseWxnl1LcbuSGybIjx5eX6WNgCPvcASYAw.jpg" alt="">-->
+<!--            <img src="https://qcloud.dpfile.com/pc/sZ5q-zgglv4VXEWU71xCFjnLM_jUHq-ylq0GKivtrz3JksWQ1f7oBWZsxm1DWgcaGybIjx5eX6WNgCPvcASYAw.jpg" alt="">-->
+<!--            <img src="https://qcloud.dpfile.com/pc/xZy6W4NwuRFchlOi43DVLPFsx7KWWvPqifE1JTe_jreqdsBYA9CFkeSm2ZlF0OVmGybIjx5eX6WNgCPvcASYAw.jpg" alt="">-->
+<!--            <img src="https://qcloud.dpfile.com/pc/xZy6W4NwuRFchlOi43DVLPFsx7KWWvPqifE1JTe_jreqdsBYA9CFkeSm2ZlF0OVmGybIjx5eX6WNgCPvcASYAw.jpg" alt="">-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            浏览641 &nbsp;&nbsp;&nbsp;&nbsp;评论5-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div style="display: flex; justify-content: space-between;padding: 15px 0; border-top: 1px solid #f1f1f1; margin-top: 10px;">-->
+<!--        <div>查看全部119条评价</div>-->
+<!--        <div><i class="el-icon-arrow-right"></i></div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
   <div class="shop-divider"></div>
-  <div class="copyright">
-    copyright ©2021 hmdp.com
-  </div>
+<!--  <div class="copyright">-->
+<!--    copyright ©2021 hmdp.com-->
+<!--  </div>-->
 </div>
 </template>
 
 <style scoped>
 
-.header {
-  background-color: #fff;
-}
-
 .top-bar {
   height: 60px;
-}
-
-.header {
-  width: 100%;
-  line-height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 2px solid #ff6633;
-  position: fixed;
-  top: 0;
-  z-index: 500;
-}
-
-.header-back-btn {
-  width: 10%;
-  color: #ff6633;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.header-title {
-  width: 80%;
-  text-align: center;
-  font-size: 18px;
-  font-family: Hiragino Sans GB, Arial, Helvetica, "\5B8B\4F53", sans-serif;
-}
-
-.header-share {
-  width: 10%;
-  text-align: center;
-  font-size: 18px;
-  color: #82848a;
-  font-weight: bold;
-  font-family: Hiragino Sans GB, Arial, Helvetica, "\5B8B\4F53", sans-serif;
 }
 
 .shop-title {

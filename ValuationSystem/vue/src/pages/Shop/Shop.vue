@@ -1,14 +1,15 @@
 <script>
+import Header from "@/components/Header/Header.vue";
 import axios from "axios";
-import util from "@/utils/common"
-
 
 export default {
   name: "Shop",
+  components: {
+    Header
+  },
   props: ['type','name'],
   data() {
     return {
-      util,
       isReachBottom: false,
       types: [], // 类型列表
       shops: [], // 商店列表
@@ -53,7 +54,15 @@ export default {
           })
     },
     handleCommand(t) {
-      location.href = "/shop-list.html?type="+t.id+"&name="+t.name;
+      // location.href = "/shop-list.html?type="+t.id+"&name="+t.name;
+
+      this.$router.push({
+        path: "/shop",
+        query: {
+          type: t.id,
+          name: t.name
+        }
+      })
     },
     sortAndQuery(sortBy) {
       this.params.sortBy = sortBy;
@@ -100,13 +109,7 @@ export default {
 
 <template>
 <div class="shop">
-  <div class="header">
-    <div class="header-back-btn" @click="goBack"><i class="el-icon-arrow-left"></i></div>
-    <div class="header-title">{{typeName}}</div>
-    <div class="header-search">
-      <i class="el-icon-search"></i>
-    </div>
-  </div>
+  <Header/>
   <div class="sort-bar">
     <div class="sort-item">
       <el-dropdown trigger="click" @command="handleCommand">
@@ -120,15 +123,17 @@ export default {
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-    <div class="sort-item" @click="sortAndQuery('')">
-      距离 <i class="el-icon-arrow-down el-icon--right"></i>
-    </div>
-    <div class="sort-item" @click="sortAndQuery('comments')">
-      人气 <i class="el-icon-arrow-down el-icon--right"></i>
-    </div>
-    <div class="sort-item" @click="sortAndQuery('score')">
-      评分 <i class="el-icon-arrow-down el-icon--right"></i>
-    </div>
+
+<!--    <div class="sort-item" @click="sortAndQuery('')">-->
+<!--      距离 <i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+<!--    </div>-->
+<!--    <div class="sort-item" @click="sortAndQuery('comments')">-->
+<!--      人气 <i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+<!--    </div>-->
+<!--    <div class="sort-item" @click="sortAndQuery('score')">-->
+<!--      评分 <i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+<!--    </div>-->
+
   </div>
   <div class="shop-list" @scroll="onScroll">
     <div class="shop-box" v-for="s in shops" :key="s.id" @click="toDetail(s.id)">
@@ -160,42 +165,8 @@ export default {
 
 <style scoped>
 
-.header,.sort-bar,.shop-list {
-  background-color: #fff;
-}
-#app{
-  background-color: #f1f1f1;
-}
-.header{
-  width: 100%;
-  height: 7%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 2px solid #ff6633;
-}
-.header-back-btn{
-  width: 10%;
-  color: #ff6633;
-  font-size: 24px;
-  font-weight: bold;
-}
-.header-title {
-  width: 80%;
-  text-align: center;
-  font-size: 18px;
-  font-family: Hiragino Sans GB,Arial,Helvetica,"\5B8B\4F53",sans-serif;
-}
-.header-search {
-  width: 10%;
-  text-align: center;
-  font-size: 18px;
-  color: #ff6633;
-}
-.el-dropdown,.el-dropdown-menu__item {
-  font-size: 12px;
-  line-height: 20px;
-}
+
+
 .sort-bar {
   display: flex;
   justify-content: space-around;
