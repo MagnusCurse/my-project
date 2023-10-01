@@ -1,5 +1,6 @@
 <script>
 import Footer from "@/pages/HomeFooter/Footer.vue";
+import Header from "@/components/Header/Header.vue";
 import axios from "axios";
 
 export default {
@@ -21,6 +22,7 @@ export default {
     }
   },
   components: {
+    Header,
     Footer
   },
   methods: {
@@ -163,12 +165,7 @@ export default {
 
 <template>
   <div class="center">
-    <div class="header">
-      <div class="header-back-btn" @click="goBack"><i class="el-icon-arrow-left"></i></div>
-      <div class="header-title">
-        <span></span>
-      </div>
-    </div>
+    <Header/>
     <div class="basic">
       <div class="basic-icon">
         <img :src="user.icon || require('@/assets/imgs/icons/default-icon.png')" alt="">
@@ -194,9 +191,10 @@ export default {
           <div v-for="b in blogs" :key="b.id" class="blog-item">
             <div class="blog-img"><img :src="b.images.split(',')[0]" alt=""></div>
             <div class="blog-info">
-              <div class="blog-title">{{b.title}}</div>
-              <div class="blog-liked"><img src="/imgs/thumbup.png" alt=""> {{b.liked}}</div>
-              <div class="blog-comments"><i class="el-icon-chat-dot-round"></i> {{b.comments}}</div>
+              <div class="blog-title"> <h3> {{b.title}} </h3>
+                </div>
+              <div class="blog-liked"></div>
+              <div class="blog-comments"></div>
             </div>
           </div>
         </el-tab-pane>
@@ -238,26 +236,7 @@ export default {
   flex-direction: column;
   min-height: 100vh; /* 设置最小高度为视窗高度，以确保页脚位于页面底部 */
 }
-.header{
-  width: 100%;
-  line-height: 40px;
-  height: 6%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 2px solid #ff6633;
-}
-.header-back-btn{
-  width: 10%;
-  color: #ff6633;
-  font-size: 22px;
-}
-.header-title {
-  width: 90%;
-  text-align: center;
-  font-size: 18px;
-  font-family: Hiragino Sans GB,Arial,Helvetica,"\5B8B\4F53",sans-serif;
-}
+
 .basic{
   height: 15%;
   display: flex;
@@ -311,7 +290,7 @@ export default {
   color: white;
   padding: 0 2px;
   border-radius: 3px;
-  background-color: #f63;
+  background-color: #7957d5;
   box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.04);
   display: flex;
   justify-content: center;
@@ -336,8 +315,7 @@ export default {
 .blog-item {
   display: flex;
   padding: 10px;
-  height: 90px;
-  width: 90%;
+  width: 100%;
   box-shadow: 1px 1px 4px 1px rgba(0,0,0,0.1);
   margin-bottom: 10px;
 }
