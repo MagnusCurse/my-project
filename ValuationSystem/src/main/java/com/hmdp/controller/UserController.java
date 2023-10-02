@@ -87,6 +87,11 @@ public class UserController {
         return Result.ok(userDTO);
     }
 
+    /**
+     * 获取用户信息
+     * @param userId
+     * @return
+     */
     @GetMapping("/info/{id}")
     public Result info(@PathVariable("id") Long userId){
         // 查询详情
@@ -100,6 +105,24 @@ public class UserController {
         // 返回
         return Result.ok(info);
     }
+
+    /**
+     * 更新用户昵称
+     * @param id
+     * @param nickname
+     * @return
+     */
+    @GetMapping("/info/nickname/{id}")
+    public Result modifyNickname(@PathVariable("id") Long id, String nickname) {
+        // boolean isSuccess = update().setSql("liked = liked + 1").eq("id", id).update();
+        boolean isSuccess = userService.update().set("nickname",nickname).eq("user_id",id).update();
+        if(isSuccess) {
+            return Result.ok();
+        } else {
+            return Result.fail("修改昵称失败");
+        }
+    }
+
 
     /**
      * 签到功能

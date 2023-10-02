@@ -7,6 +7,7 @@ import Shop from "@/pages/Shop/Shop.vue";
 import ShopDetail from "@/pages/ShopDetail/Detail.vue";
 import BlogDetail from "@/pages/BlogDetail/Detail.vue"
 import Edit from "@/pages/Edit/Edit.vue";
+import InfoEdit from "@/pages/InfoEdit/Edit.vue"
 
 
 export default new VueRouter({
@@ -44,6 +45,10 @@ export default new VueRouter({
         {
           path: "/edit",
           component: Edit
+        },
+        {
+          path: "/info-edit",
+          component: InfoEdit
         },
         {
             path: "/detail",

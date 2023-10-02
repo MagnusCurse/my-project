@@ -88,7 +88,7 @@ export default {
           })
     },
     toEdit() {
-      location.href = 'info-edit.html'
+      this.$router.push("/info-edit");
     },
     // 登出函数功能
     logout() {
@@ -198,10 +198,10 @@ export default {
             </div>
           </div>
         </el-tab-pane>
+<!-- note 后面再来实现这两个功能 -->
+<!--        <el-tab-pane label="评价" name="2">评价</el-tab-pane>-->
 
-        <el-tab-pane label="评价" name="2">评价</el-tab-pane>
-
-        <el-tab-pane label="粉丝" name="3">粉丝</el-tab-pane>
+<!--        <el-tab-pane label="粉丝" name="3">粉丝</el-tab-pane>-->
 
         <el-tab-pane label="关注" name="4">
           <div class="blog-list" @scroll="onScroll">

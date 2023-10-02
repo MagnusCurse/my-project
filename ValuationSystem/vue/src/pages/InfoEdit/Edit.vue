@@ -1,0 +1,214 @@
+<script>
+import axios from "axios";
+import Footer from "@/pages/HomeFooter/Footer.vue";
+import Header from "@/components/Header/Header.vue";
+
+export default {
+  name: "Edit",
+  components: {
+    Footer,
+    Header
+  },
+  data() {
+    return {
+      // user 包含 icon 和 nickname 信息
+      user: "",
+      info: {},
+      nickname: ""
+    }
+  },
+  methods: {
+    modifyNickname() {
+
+    },
+    checkLogin() {
+      // 查询用户信息
+      axios.get("/user/me")
+          .then(({data}) => {
+            this.user = data.data;
+            // this.info = JSON.parse(sessionStorage.getItem("userInfo")) || {}
+          })
+          .catch(err => {
+            this.$message.error(err);
+            alert("用户未登录,即将跳转到登录页面");
+            this.$router.push("/login");
+          })
+    },
+    goBack(){
+      history.back();
+    },
+  },
+  mounted() {
+    this.checkLogin();
+  },
+}
+</script>
+
+<template>
+<div class="edit">
+  <Header/>
+  <div class="edit-container">
+    <div class="info-box">
+      <div class="info-item">
+        <div class="info-label">头像</div>
+        <div class="info-btn">
+          <img width="35" :src=" user.icon || '/imgs/icons/default-icon.png'" alt="">
+          <div><i class="el-icon-arrow-right"></i></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <!--  昵称   -->
+      <div class="info-item">
+        <div class="info-label">昵称</div>
+        <div class="info-btn">
+          <div > {{ user.nickName }} </div>
+          <div>
+            <i class="el-icon-arrow-right"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="info-item">
+        <div class="info-label">个人介绍</div>
+        <div class="info-btn">
+          <div style="overflow: hidden; width: 150px;text-align: right">{{info.introduce || '介绍一下自己'}}</div>
+          <div>
+            <i class="el-icon-arrow-right"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <div class="info-item">
+        <div class="info-label">性别</div>
+        <div class="info-btn">
+          <div>{{info.gender || '选择'}}</div>
+          <div><i class="el-icon-arrow-right"></i></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="info-item">
+        <div class="info-label">城市</div>
+        <div class="info-btn">
+          <div>{{info.city || '选择'}}</div>
+          <div><i class="el-icon-arrow-right"></i></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="info-item">
+        <div class="info-label">生日</div>
+        <div class="info-btn">
+          <div>{{info.birthday || '添加'}}</div>
+          <div><i class="el-icon-arrow-right"></i></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <div class="info-item">
+        <div class="info-label">我的积分</div>
+        <div class="info-btn">
+          <div>查看积分</div>
+          <div><i class="el-icon-arrow-right"></i></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="info-item">
+        <div class="info-label">会员等级</div>
+        <div class="info-btn">
+          <div><a href="javascript:void(0)">成为VIP尊享特权</a></div>
+          <div><i class="el-icon-arrow-right"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <Footer/>
+</div>
+</template>
+
+<style scoped>
+.edit {
+  height: 100%;
+  width: 100%;
+}
+
+.basic-icon img {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+}
+
+.basic-info .name{
+  overflow: hidden;
+  font-weight: bold;
+  font-size: 14px;
+}
+.basic-info span{
+  display: inline-block;
+  padding: 0 10px;
+  background-color: #eeeded;
+  margin: 5px 0 10px;
+  border-radius: 2px;
+}
+
+.edit-container{
+  background-color: #f4f4f4;
+  height: 100%;
+}
+.divider {
+  height: 1px;
+  background-color: #e4e4e4;
+}
+.info-box {
+  margin-bottom: 10px;
+  padding: 5px 15px;
+  background-color: #fff;
+}
+.info-item{
+  display: flex;
+  justify-content: space-between;
+  line-height: 40px;
+}
+.info-btn{
+  display: flex;
+}
+.info-btn div {
+  margin-left: 5px;
+}
+
+.blog-img img {
+  width: 100%;
+  height: 100%;
+}
+
+.blog-liked img {
+  width: 16px;
+  height: 16px;
+}
+.blog-comments i {
+  font-size: 16px;
+}
+
+.follow-info-icon img {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+}
+
+.blog-img2 img{
+  width: 100%;
+  border-radius: 3px;
+}
+
+.blog-user-icon img{
+  width: 100%;
+}
+
+.blog-liked img{
+  width: 30%;
+  height: 75%;
+  margin-right: 2px;
+}
+</style>
