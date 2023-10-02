@@ -215,7 +215,7 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
         int res = result.intValue();
         if(res != 0) {
             // 不为 0,为 1 是库存不足, 否则是用户已经下单
-            return Result.fail(res == 1 ? "库存不足" : "不能重复下单");
+            return Result.fail(String.valueOf(res));
         }
         // ERR 这里不使用阻塞队列, 改用 Stream 消息队列
         /*

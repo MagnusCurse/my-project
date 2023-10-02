@@ -48,6 +48,7 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
         return true;
     }
 
+    // NOTE 该方法在请求处理完之后被调用, 无论是正常还是异常现象
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         // TODO 将用户从 ThreadLocal 中移除

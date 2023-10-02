@@ -77,8 +77,16 @@ export default {
       // 秒杀抢购
       axios.post("/voucher-order/seckill/" + id)
           .then(({data}) => {
+            if(data.errorMsg === "1") {
+               this.$message.error("库存不足");
+               return;
+            } else if(data.errorMsg === "2") {
+               this.$message.error("不可以重复下单");
+               return;
+            }
             // 抢购成功，这里输出订单id，支付功能TODO
             this.$message.success("抢购成功，订单 id:" + data.data)
+            location.reload();
           })
           .catch(this.$message.error)
     }
