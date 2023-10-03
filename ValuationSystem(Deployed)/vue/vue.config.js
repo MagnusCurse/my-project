@@ -1,6 +1,12 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
+
+  /* vue项目打包配置文件 */
+  assetsDir: 'static',
+  parallel: false,
+  publicPath: './',
+
   devServer: {
     // 跨域配置
     proxy: {
@@ -12,9 +18,5 @@ module.exports = defineConfig({
         },
       },
     }
-  },
-  /* vue项目打包配置文件 */
-  assetsDir: 'static',
-  parallel: false,
-  publicPath: './'
+  }
 })
