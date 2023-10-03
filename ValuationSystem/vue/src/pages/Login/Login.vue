@@ -48,7 +48,10 @@ export default {
       }
       // 发送验证码
       axios.post("/user/code?phone="+this.form.phone)
-          .then(() => {})
+          .then(({data}) => {
+            console.log("当前验证码为:" + data.data);
+            alert("当前验证码为:" + data.data);
+          })
           .catch(err => {
             console.log(err);
             this.$message.error(err)
