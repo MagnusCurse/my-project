@@ -18,20 +18,36 @@ export default {
     }
   },
   methods: {
-    modifyNickname() {
-
+    modifyNickname(id) {
+      if(confirm("是否要修改昵称?")) {
+        this.user.nickName = prompt("请输入要修改的昵称");
+        axios.get("/user/info/nickname/" + id, {
+          params: {
+            nickname: this.user.nickName
+          }
+        })
+        .then(({data}) => {
+          alert("修改昵称成功,请重新登录");
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      }
     },
     checkLogin() {
       // 查询用户信息
       axios.get("/user/me")
           .then(({data}) => {
+            if(data.data == null) {
+              alert("用户未登录,即将跳转到登录页面");
+              this.$router.push("/login");
+              return;
+            }
             this.user = data.data;
-            // this.info = JSON.parse(sessionStorage.getItem("userInfo")) || {}
           })
           .catch(err => {
             this.$message.error(err);
-            alert("用户未登录,即将跳转到登录页面");
-            this.$router.push("/login");
+
           })
     },
     goBack(){
@@ -60,7 +76,7 @@ export default {
       <!--  昵称   -->
       <div class="info-item">
         <div class="info-label">昵称</div>
-        <div class="info-btn">
+        <div class="info-btn" @click="modifyNickname(user.id)">
           <div > {{ user.nickName }} </div>
           <div>
             <i class="el-icon-arrow-right"></i>

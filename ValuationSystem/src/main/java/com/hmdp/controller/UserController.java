@@ -114,15 +114,13 @@ public class UserController {
      */
     @GetMapping("/info/nickname/{id}")
     public Result modifyNickname(@PathVariable("id") Long id, String nickname) {
-        // boolean isSuccess = update().setSql("liked = liked + 1").eq("id", id).update();
-        boolean isSuccess = userService.update().set("nickname",nickname).eq("user_id",id).update();
+        boolean isSuccess = userService.update().set("nick_name",nickname).eq("id",id).update();
         if(isSuccess) {
             return Result.ok();
         } else {
             return Result.fail("修改昵称失败");
         }
     }
-
 
     /**
      * 签到功能

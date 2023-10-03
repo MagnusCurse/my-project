@@ -109,10 +109,10 @@ export default {
     </div>
   </div>
   <div class="blog-title">
-    <input v-model="params.title" type="text" placeholder="填写标题更容易上首页哦~">
+    <input v-model="params.title" type="text" placeholder="填写标题">
   </div>
   <div class="blog-content">
-    <textarea v-model="params.content" placeholder="最近打卡了什么地方，有什么新奇体验呢？"></textarea>
+    <textarea v-model="params.content" placeholder="笔记内容~~"></textarea>
   </div>
   <div class="divider"></div>
   <div class="blog-shop" @click="showDialog=true">

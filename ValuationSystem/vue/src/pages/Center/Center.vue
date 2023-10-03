@@ -168,11 +168,11 @@ export default {
     <Header/>
     <div class="basic">
       <div class="basic-icon">
-        <img :src="user.icon || require('@/assets/imgs/icons/default-icon.png')" alt="">
+        <img :src="user.icon || require('../../../public/imgs/icons/default-icon.png')" alt="">
       </div>
       <div class="basic-info">
         <div class="name">{{user.nickName}}</div>
-        <span>杭州</span>
+        <!--<span>杭州</span>-->
         <div class="edit-btn" @click="toEdit">
           编辑资料
         </div>
@@ -320,7 +320,7 @@ export default {
   margin-bottom: 10px;
 }
 .blog-img {
-  width: 70px;
+  width: 120px;
   height: 90px;
   margin-right: 10px;
 }
