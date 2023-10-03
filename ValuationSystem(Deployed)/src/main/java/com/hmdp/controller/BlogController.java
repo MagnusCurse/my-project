@@ -1,0 +1,126 @@
+package com.hmdp.controller;
+
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hmdp.dto.Result;
+import com.hmdp.dto.UserDTO;
+import com.hmdp.entity.Blog;
+import com.hmdp.entity.User;
+import com.hmdp.service.IBlogService;
+import com.hmdp.service.IUserService;
+import com.hmdp.utils.SystemConstants;
+import com.hmdp.utils.UserHolder;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+/**
+ */
+@RestController
+@RequestMapping("/blog")
+public class BlogController {
+
+    @Resource
+    private IBlogService blogService;
+    @Resource
+    private IUserService userService;
+
+    /**
+     * 发布探店笔记
+     * @param blog
+     * @return
+     */
+    @PostMapping
+    public Result saveBlog(@RequestBody Blog blog) {
+        return blogService.saveBlog(blog);
+    }
+
+    /**
+     * 博客点赞功能
+     * @param id
+     * @return
+     */
+    @PutMapping("/like/{id}")
+    public Result likeBlog(@PathVariable("id") Long id) {
+       return blogService.likeBlog(id);
+    }
+
+    /**
+     * 查询我的用户详情页博客列表
+     * @param current
+     * @return
+     */
+    @GetMapping("/of/me")
+    public Result queryMyBlog(@RequestParam(value = "current", defaultValue = "1") Integer current) {
+        // TODO 获取登录用户
+        UserDTO user = UserHolder.getUser();
+        // TODO 根据用户查询
+        Page<Blog> page = blogService.query()
+                .eq("user_id", user.getId()).page(new Page<>(current, SystemConstants.MAX_PAGE_SIZE));
+        // TODO 获取当前页数据
+        List<Blog> records = page.getRecords();
+        return Result.ok(records);
+    }
+
+    /**
+     * 根据 id 查询用户详情页面博客列表
+     * @param current
+     * @param id
+     * @return
+     */
+    @GetMapping("/of/user")
+    public Result queryBlogByUserId(@RequestParam(value = "current", defaultValue = "1") Integer current, @RequestParam("id") Long id) {
+        // TODO 根据该用户 id 进行查询
+        Page<Blog> page = blogService.query().
+                eq("user_id", id).page(new Page<>(current, SystemConstants.MAX_PAGE_SIZE));
+        // TODO 获取当前页数据
+        List<Blog> records = page.getRecords();
+        return Result.ok(records);
+    }
+
+    /**
+     * 滚动查询用户关注博主的笔记
+     * @param max
+     * @param offset
+     * @return
+     */
+    @GetMapping("/of/follow")
+    public Result queryBlogOfFollow(
+            @RequestParam("lastId") Long max,
+            @RequestParam(value = "offset", defaultValue = "0") Integer offset) {
+        return blogService.queryBlogOfFollow(max,offset);
+    }
+
+    /**
+     * 查询博客功能
+     * @param current
+     * @return
+     */
+    @GetMapping("/hot")
+    public Result queryHotBlog(@RequestParam(value = "current", defaultValue = "1") Integer current) {
+        return blogService.queryHotBlog(current);
+    }
+
+    /**
+     * 查询该篇博客的点赞用户
+     * @param id
+     * @return
+     */
+    @GetMapping("/likes/{id}")
+    public Result queryBlogLikes(@PathVariable("id") Long id) {
+        return blogService.queryBlogLikes(id);
+    }
+
+    /**
+     * 根据 id 查询博客
+     * @param id
+     * @return
+     */
+    @RequestMapping("/{id}")
+    public Result queryBlogById(@PathVariable("id") Long id) {
+          return blogService.queryBlogById(id);
+    }
+
+
+}
