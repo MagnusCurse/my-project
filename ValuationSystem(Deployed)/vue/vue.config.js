@@ -12,5 +12,9 @@ module.exports = defineConfig({
         },
       },
     }
-  }
+  },
+  /* vue项目打包配置文件 */
+  assetsDir: 'static',
+  parallel: false,
+  publicPath: './'
 })
