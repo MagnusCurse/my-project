@@ -2,7 +2,7 @@ package com.hmdp.utils;
 
 public class SystemConstants {
 
-    public static final String IMAGE_UPLOAD_DIR = "D:/IDEA Project/MyProject(Github)/ValuationSystem/vue/public/imgs/";
+    public static final String IMAGE_UPLOAD_DIR = "/home/valuation-sys";
     public static final String USER_NICK_NAME_PREFIX = "user_";
     public static final String USER_LOGIN_TOKEN = "authorization";
     public static final int DEFAULT_PAGE_SIZE = 5;

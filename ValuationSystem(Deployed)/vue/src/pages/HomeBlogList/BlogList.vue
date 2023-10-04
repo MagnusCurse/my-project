@@ -93,7 +93,7 @@ export default {
       <div class="blog-title">{{b.title}}</div>
       <div class="blog-foot">
         <div class="blog-user-icon">
-          <img :src="iconUrlsMap[b.id] || require('../../../public/imgs/icons/default-icon.png')" alt="">
+          <img :src="iconUrlsMap[b.id] || 'imgs/icons/default-icon.png'" alt="">
         </div>
         <div class="blog-user-name">{{b.name}}</div>
         <div class="blog-liked" @click="addLike(b)">

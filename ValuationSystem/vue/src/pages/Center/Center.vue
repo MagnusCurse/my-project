@@ -168,7 +168,7 @@ export default {
     <Header/>
     <div class="basic">
       <div class="basic-icon">
-        <img :src="user.icon || require('../../../public/imgs/icons/default-icon.png')" alt="">
+        <img :src="user.icon || 'imgs/icons/default-icon.png'" alt="">
       </div>
       <div class="basic-info">
         <div class="name">{{user.nickName}}</div>
