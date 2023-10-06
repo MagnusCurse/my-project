@@ -63,7 +63,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
        stringRedisTemplate.opsForValue().set(RedisConstants.LOGIN_CODE_KEY + phone, code,
                RedisConstants.LOGIN_CODE_TTL, TimeUnit.MINUTES);
        // TODO 发送验证码给手机 : 这里后面再来实现
-
        return Result.ok(code);
     }
 
