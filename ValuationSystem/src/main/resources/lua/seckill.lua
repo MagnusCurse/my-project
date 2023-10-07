@@ -19,7 +19,7 @@ if(tonumber(redis.call('get',stockKey)) <= 0) then
     return 1
 end
 -- 3.2 判断用户是否已经下单
--- sismember <key><value>判断集合<key>是否为含有该<value>值，有 1,没有 0
+-- sismember <key><value> 判断集合 <key> 是否为含有该 <value> 值，有 1,没有 0
 if(redis.call('sismember',orderKey,userId) == 1) then
     -- 3.3 重复下单, 返回 2
     return 2

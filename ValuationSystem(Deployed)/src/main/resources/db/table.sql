@@ -201,6 +201,7 @@ CREATE TABLE `tb_voucher`  (
 -- Records of tb_voucher
 -- ----------------------------
 
+
 -- ----------------------------
 -- Table structure for tb_voucher_order
 -- ----------------------------

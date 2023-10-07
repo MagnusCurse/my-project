@@ -27,7 +27,8 @@ export default {
     // 发布博客功能
     submitBlog() {
       let {...data} = this.params;
-      data.images = '/imgs' + this.fileList.join(",");
+      //
+      data.images = this.fileList.join(",");
       data.shopId = this.selectedShop.id;
       axios.post("/blog", data)
           .then(resp => this.$router.push("/home"))
@@ -46,7 +47,8 @@ export default {
       // 调用上传图片功能
       axios
           .post("/upload/blog", formData, config)
-          .then(({data}) => this.fileList.push(data.data))
+          //
+          .then(({data}) => this.fileList.push("imgs" + data.data))
           // .catch(
           //     // console.log(this.$message.error)
           // )
@@ -103,7 +105,7 @@ export default {
     </div>
     <div class="pic-list">
       <div class="pic-box" v-for="(f,i) in fileList" :key="i">
-        <img :src="'/imgs' + f" alt="">
+        <img :src="f" alt="">
         <i class="el-icon-close" @click="deletePic(i)"></i>
       </div>
     </div>

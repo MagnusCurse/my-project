@@ -44,4 +44,12 @@ INSERT INTO `tb_shop_type` VALUES (10, '美睫·美甲', '/types/mjmj.png', 4, '
 -- ----------------------------
 
 
-
+-- -------------------------------------------
+-- 模拟加入秒杀优惠券功能, 给固定商铺加入一条秒撒谎优惠券
+-- -------------------------------------------
+INSERT INTO tb_voucher (shop_id, title, sub_title, rules, pay_value, actual_value, type)
+VALUES (9, '150元代金券', '周一至周五都可以使用', '全场通用\\n无需预约\\n可无限叠加\\不兑现、不找零\\n仅限堂食', 8000, 10000, 1);
+-- 这里的 voucher_id 要等到上一条插入语句插入后才能确定
+INSERT INTO tb_seckill_voucher (voucher_id,stock,begin_time,end_time)
+VALUES (11,100,'2023-09-18 10:09:17','2026-10-26 12:09:04');
+-- 接下来还要操作 redis 。。。。。。。。这个方法不好用 。。。。。。。。
