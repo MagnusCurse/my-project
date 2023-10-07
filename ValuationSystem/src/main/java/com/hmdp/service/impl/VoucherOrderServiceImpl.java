@@ -44,10 +44,13 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
 
     // NOTE 代理对象
     private IVoucherOrderService proxy;
-    // NOTE 创建阻塞队列
-    // private static final BlockingQueue<VoucherOrder> orderBlockingQueue = new ArrayBlockingQueue<>(1024 * 1024);
+
+    // ERR 创建阻塞队列，后面改为使用 Redis 的 Stream 消息队列
+    /* private static final BlockingQueue<VoucherOrder> orderBlockingQueue = new ArrayBlockingQueue<>(1024 * 1024); */
+
     // NOTE 创建线程池
     private static final ExecutorService seckillOrderExecutor = Executors.newSingleThreadExecutor();
+
     // NOTE 当类初始化完毕,通过线程池执行线程
     @PostConstruct // 在当前类初始化完毕后开始执行 init 方法
     private void init() {
@@ -132,7 +135,7 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
      */
     private void handleVoucherOrder(VoucherOrder voucherOrder) {
         // ERR Can't use this way to get the userId, because there is not the main thread but a child thread
-        // Long userId = UserHolder.getUser().getId(); // 获取当前用户 id
+        /* Long userId = UserHolder.getUser().getId(); // 获取当前用户 id */
         Long userId = voucherOrder.getUserId();
 
         // TODO 创建锁对象
@@ -157,11 +160,11 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
         */
 
         try {
-            // ERR Can't get proxy here like this, because now is a child thread but not a main thread,so init it in
-            //  seckillVoucher(Long voucherId) method
-            // NOTE 这里存在事务失效的问题, 需要用到代理对象调用该方法
-            // IVoucherOrderService proxy = (IVoucherOrderService) AopContext.currentProxy();
-            proxy.createVoucherOrder(voucherOrder); // 通过代理对象调用创建订单方法
+            // ERR Can't get proxy here like this, because now is a child thread but not a main thread,so init it in seckillVoucher(Long voucherId) method
+            /*
+             NOTE 这里存在事务失效的问题, 需要用到代理对象调用该方法
+             IVoucherOrderService proxy = (IVoucherOrderService) AopContext.currentProxy(); */
+             proxy.createVoucherOrder(voucherOrder); // 通过代理对象调用创建订单方法
         } finally {
             // TODO 释放锁
             redisLock.unlock();

@@ -12,7 +12,7 @@ module.exports = defineConfig({
     proxy: {
       '/api': {
         //
-        target: 'http://43.139.61.124:81', // 接口域名
+        target: 'http://localhost:8081', // 接口域名
         changeOrigin: true, // 是否跨域
         pathRewrite: {
           '^/api': '', // 将 '/api' 替换为空

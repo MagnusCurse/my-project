@@ -19,13 +19,15 @@ if(tonumber(redis.call('get',stockKey)) <= 0) then
     return 1
 end
 -- 3.2 判断用户是否已经下单
+-- sismember <key><value>判断集合<key>是否为含有该<value>值，有 1,没有 0
 if(redis.call('sismember',orderKey,userId) == 1) then
     -- 3.3 重复下单, 返回 2
     return 2
 end
 -- 3.4 扣减库存
 redis.call('incrby', stockKey, -1)
--- 3.5 下单 (保存用户)
+-- 3.5 下单 (保存用户) Redis 中的 set 可以将一个或多个元素存储在集合 key 中
+-- 这里是将用户 id 和 订单 id 保存到 orderKey 的集合中
 redis.call('sadd', orderKey, userId, orderId)
 -- 3.6 将消息发送到消息队列中, XADD stream.orders * k1 v1 k2 v2 ......
 -- 注意这里要写 id , 因为最后是要存入数据库的, 数据库表字段是 id
