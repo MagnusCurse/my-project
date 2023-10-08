@@ -54,6 +54,8 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
     // NOTE 当类初始化完毕,通过线程池执行线程
     @PostConstruct // 在当前类初始化完毕后开始执行 init 方法
     private void init() {
+        System.out.println("初始化 init() 方法开始执行"); //
+
         seckillOrderExecutor.submit(new VoucherOrderHandler());
     }
     private class VoucherOrderHandler implements Runnable {
@@ -134,6 +136,8 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
      * @param voucherOrder
      */
     private void handleVoucherOrder(VoucherOrder voucherOrder) {
+        System.out.println("调用了 handleVoucherOrder");
+
         // ERR Can't use this way to get the userId, because there is not the main thread but a child thread
         /* Long userId = UserHolder.getUser().getId(); // 获取当前用户 id */
         Long userId = voucherOrder.getUserId();
@@ -192,6 +196,7 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
                 // NOTE 这里用 stock 当作版本号, 相当于实现了乐观锁, 只需要库存大于 0 即可以修改
                 .gt("stock",0)
                 .update();
+
         if(!success) {
             log.error("库存不足");
             return;
