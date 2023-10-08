@@ -54,8 +54,6 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
     // NOTE 当类初始化完毕,通过线程池执行线程
     @PostConstruct // 在当前类初始化完毕后开始执行 init 方法
     private void init() {
-        System.out.println("初始化 init() 方法开始执行"); //
-
         seckillOrderExecutor.submit(new VoucherOrderHandler());
     }
     private class VoucherOrderHandler implements Runnable {

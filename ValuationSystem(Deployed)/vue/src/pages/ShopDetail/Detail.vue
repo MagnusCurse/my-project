@@ -86,7 +86,8 @@ export default {
             }
             // 抢购成功，这里输出订单id，支付功能TODO
             this.$message.success("抢购成功，订单 id:" + data.data)
-            location.reload();
+
+            // location.reload();
           })
           .catch(this.$message.error)
     }
