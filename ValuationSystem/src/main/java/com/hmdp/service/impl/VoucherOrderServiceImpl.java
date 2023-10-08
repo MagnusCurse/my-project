@@ -134,7 +134,6 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
      * @param voucherOrder
      */
     private void handleVoucherOrder(VoucherOrder voucherOrder) {
-        System.out.println("调用了 handleVoucherOrder");
 
         // ERR Can't use this way to get the userId, because there is not the main thread but a child thread
         /* Long userId = UserHolder.getUser().getId(); // 获取当前用户 id */
