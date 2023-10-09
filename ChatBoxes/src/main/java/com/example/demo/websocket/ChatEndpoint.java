@@ -1,8 +1,8 @@
-package com.example.demo.ws;
+package com.example.demo.websocket;
 import com.alibaba.fastjson.JSON;
 import com.example.demo.config.GetHttpSessionConfig;
 import com.example.demo.utils.MessageUtils;
-import com.example.demo.ws.pojo.Message;
+import com.example.demo.websocket.pojo.Message;
 import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpSession;
 import javax.websocket.*;

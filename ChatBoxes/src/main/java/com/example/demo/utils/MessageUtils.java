@@ -1,7 +1,7 @@
 package com.example.demo.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.example.demo.ws.pojo.ResultMessage;
+import com.example.demo.websocket.pojo.ResultMessage;
 
 
 /**
