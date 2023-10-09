@@ -155,15 +155,12 @@
                 await axios.get("user/getUsername").then(res => {
                     this.username = res.data;
                 });
-
-                //创建webSocket对象
+                // 创建 webSocket 对象
                 ws = new WebSocket("ws://localhost/chat");
-
-                //给ws绑定事件
-                ws.onopen = this.onopen;
-                //接收到服务端推送的消息后触发
+                // 给 ws 绑定事件
+                ws.onopen = this.onOpen;
+                // 接收到服务端推送的消息后触发
                 ws.onmessage = this.onMessage;
-
                 ws.onclose = this.onClose;
             },
             showChat(name) {
