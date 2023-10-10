@@ -22,7 +22,7 @@ public class UserController {
         Result result = new Result();
         if(user != null && "123".equals(user.getPassword())) {
             result.setFlag(true);
-            //将数据存储到session对象中
+            //将数据存储到 session 对象中
             session.setAttribute("user",user.getUsername());
         } else {
             result.setFlag(false);

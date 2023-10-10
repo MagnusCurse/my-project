@@ -9,4 +9,4 @@ mybatis:
   mapper-locations: classpath:mybatis/**Mapper.xml
 
 server:
-  port: 80
+  port: 80 # 这里要用 80 端口

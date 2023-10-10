@@ -131,18 +131,19 @@
                     message: ""
                 },
                 inputMessage: "",
+                // 用来存储所有的消息记录
                 historyMessage: [
-                    /*{toName: "李四", message: "你好,张三"},
+                    /* {toName: "李四", message: "你好,张三"},
                     {toName: "李四", message: "在吗"},
                     {toName: "李四", message: "怎么不说话"},
-                    {fromName: "张三", message: "你好,李四"}*/
+                    {fromName: "张三", message: "你好,李四"} */
                 ],
                 friendsList: [
                    /* "李四",
                     "王五"*/
                 ],
                 systemMessages : [
-                    /*"张三",
+                    /* "张三",
                     "李四"*/
                 ]
             }
@@ -163,42 +164,53 @@
                 ws.onmessage = this.onMessage;
                 ws.onclose = this.onClose;
             },
+            // 展示聊天记录方法
             showChat(name) {
+                // 初始化 toName
                 this.toName = name;
-                //清除聊天区的数据
+                // 清除聊天区的数据
                 let history = sessionStorage.getItem(this.toName);
                 if (!history) {
                     this.historyMessage = [];
                 } else {
                     this.historyMessage = JSON.parse(history);
                 }
-                //展示聊天对话框
+                // 展示聊天对话框
                 this.isShowChat = true;
-                //显示“正在和谁聊天”
+                // 显示“正在和谁聊天”
                 this.chatMes = true;
             },
+            // 发送消息方法
             submit() {
+                // 指定要给谁发送消息
                 this.sendMessage.toName = this.toName;
+                // 将该消息加入到历史消息中
                 this.historyMessage.push(JSON.parse(JSON.stringify(this.sendMessage)));
+                // 将历史数据加入到 session 中, key 为 toName
                 sessionStorage.setItem(this.toName, JSON.stringify(this.historyMessage));
+                // 将 JSON 转换为字符串发送
                 ws.send(JSON.stringify(this.sendMessage));
+                // 将发送窗口消息清空
                 this.sendMessage.message = "";
             },
+            // 建立连接的时候调用
             onOpen() {
                 this.isOnline = true;
             },
+            // 断开连接的时候调用
             onClose() {
                 this.isOnline = false;
             },
+            // 发送消息的时候调用
             onMessage(evt) {
-                //获取服务端推送过来的消息
+                // 获取服务端推送过来的消息
                 var dataStr = evt.data;
-                //将dataStr 转换为json对象
+                // 将 dataStr 转换为 json 对象
                 var res = JSON.parse(dataStr);
 
-                //判断是否是系统消息
+                // 判断是否是系统消息
                 if(res.system) {
-                    //系统消息  好友列表展示
+                    // 系统消息好友列表展示
                     var names = res.message;
                     this.friendsList = [];
                     this.systemMessages = [];
@@ -209,7 +221,7 @@
                         }
                     }
                 }else {
-                    //非系统消息
+                    // 非系统消息
                     var history = sessionStorage.getItem(res.fromName);
                     if (!history) {
                         this.historyMessage = [res];
@@ -221,8 +233,6 @@
             }
         }
     });
-
-
 </script>
 </body>
 </html>

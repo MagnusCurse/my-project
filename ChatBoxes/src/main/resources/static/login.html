@@ -67,7 +67,7 @@
         methods: {
             login() {
                 axios.post("user/login",this.user).then(res => {
-                    //判断登陆是否成功
+                    // 判断登陆是否成功
                     if(res.data.flag) {
                         location.href = "main.html"
                     } else {
