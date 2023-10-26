@@ -114,7 +114,7 @@ export default {
     <div class="sort-item">
       <el-dropdown trigger="click" @command="handleCommand">
       <span class="el-dropdown-link">
-        {{typeName}}<i class="el-icon-arrow-down el-icon--right"></i>
+        {{ typeName }}<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item v-for="t in types" :key="t.id" :command="t">
@@ -137,7 +137,9 @@ export default {
   </div>
   <div class="shop-list" @scroll="onScroll">
     <div class="shop-box" v-for="s in shops" :key="s.id" @click="toDetail(s.id)">
-      <div class="shop-img"><img :src="s.images" alt=""></div>
+      <div class="shop-img">
+        <img :src="s.images" alt="">
+      </div>
       <div class="shop-info">
         <div class="shop-title shop-item">{{s.name}}</div>
         <div class="shop-rate shop-item" >
@@ -165,8 +167,6 @@ export default {
 
 <style scoped>
 
-
-
 .sort-bar {
   display: flex;
   justify-content: space-around;
@@ -180,7 +180,7 @@ export default {
   font-size: 12px;
 }
 .shop-list{
-  height: 600px;
+  height: 700px;
   background-color: #f1f1f1;
   overflow-y: auto;
 }
@@ -232,4 +232,9 @@ export default {
   line-height: 20px;
   overflow: hidden;
 }
+
+.el-dropdown-link {
+  font-weight: bold;
+}
+
 </style>

@@ -20,6 +20,17 @@ INSERT INTO `tb_shop` VALUES (12, '魅(杭州远洋乐堤港店)', 2, 'https://p
 INSERT INTO `tb_shop` VALUES (13, '讴K拉量贩KTV(北城天地店)', 2, 'https://p1.meituan.net/merchantpic/598c83a8c0d06fe79ca01056e214d345875600.jpg,https://qcloud.dpfile.com/pc/HhvI0YyocYHRfGwJWqPQr34hRGRl4cWdvlNwn3dqghvi4WXlM2FY1te0-7pE3Wb9_Gd2X_f-v9T8Yj4uLt25Gg.jpg,https://qcloud.dpfile.com/pc/F5ZVzZaXFE27kvQzPnaL4V8O9QCpVw2nkzGrxZE8BqXgkfyTpNExfNG5CEPQX4pjGybIjx5eX6WNgCPvcASYAw.jpg', 'D32天阳购物中心', '湖州街567号北城天地5层', 120.130453, 30.327655, 58, 0000018997, 0000001857, 41, '12:00-02:00', '2021-12-22 20:38:54', '2021-12-22 20:40:04');
 INSERT INTO `tb_shop` VALUES (14, '星聚会KTV(拱墅区万达店)', 2, 'https://p0.meituan.net/dpmerchantpic/f4cd6d8d4eb1959c3ea826aa05a552c01840451.jpg,https://p0.meituan.net/dpmerchantpic/2efc07aed856a8ab0fc75c86f4b9b0061655777.jpg,https://qcloud.dpfile.com/pc/zWfzzIorCohKT0bFwsfAlHuayWjI6DBEMPHHncmz36EEMU9f48PuD9VxLLDAjdoU_Gd2X_f-v9T8Yj4uLt25Gg.jpg', '北部新城', '杭行路666号万达广场C座1-2F', 120.128958, 30.337252, 60, 0000017771, 0000000685, 47, '10:00-22:00', '2021-12-22 20:48:54', '2021-12-22 20:48:54');
 
+--
+INSERT INTO `tb_shop` VALUES (1, '三星餐厅 (Three Michelin Stars, Paris, France)', 1, '/imgs/shop/food/Three Michelin Stars.png', 'Paris', 'France', 120.150526, 30.325231, 88, 0000002406, 0000001206, 46, '10:00-22:00', '2021-12-22 18:10:39', '2022-01-13 17:32:19');
+INSERT INTO `tb_shop` VALUES (2, '巴塞罗那海鲜屋 (Barcelona Seafood House, Barcelona, Spain)', 1, '/imgs/shop/food/Barcelona Seafood House.png', 'Barcelona', 'Spain', 120.151505, 30.333422, 85, 0000002160, 0000001460, 46, '11:30-03:00', '2021-12-22 19:00:13', '2022-01-11 16:12:26');
+INSERT INTO `tb_shop` VALUES (3, '京都樱花寿司 (Kyoto Cherry Blossom Sushi, Kyoto, Japan)', 1, '/imgs/shop/food/Kyoto Cherry Blossom Sushi.png', 'Kyoto', 'Japan', 120.151954, 30.32497, 61, 0000012035, 0000008045, 47, '10:30-21:00', '2021-12-22 19:10:05', '2022-01-11 16:12:42');
+INSERT INTO `tb_shop` VALUES (4, '纽约烤肉大师 (New York Grill Master, New York City, USA)', 1, '/imgs/shop/food/New York Grill Master.png', 'New York', 'USA', 120.150526, 30.325231, 88, 0000002406, 0000001206, 46, '11:00-22:00', '2021-12-22 19:17:15', '2022-01-11 16:12:51');
+INSERT INTO `tb_shop` VALUES (5, '墨西哥辣椒之夜 (Mexican Chili Night, Mexico City, Mexico)', 1, '/imgs/shop/food/Mexican Chili Night.png', 'Mexico City', 'Mexico', 120.15778, 30.310633, 104, 0000004125, 0000002764, 49, '10:00-07:00', '2021-12-22 19:20:58', '2022-01-11 16:13:01');
+INSERT INTO `tb_shop` VALUES (9, '意大利小巷餐厅 (Italian Alley Ristorante, Rome, Italy)', 1, '/imgs/shop/food/Italian Alley Ristorante.png', 'Rome', 'Italy', 120.150598, 30.325251, 101, 0000002763, 0000001363, 44, '11:00-21:30', '2021-12-22 19:53:59', '2022-01-11 16:13:34');
+INSERT INTO `tb_shop` VALUES (10, '巴西烤肉盛宴 (Brazilian Barbecue Feast, Rio de Janeiro, Brazil)', 1, '/imgs/shop/food/Brazilian Barbecue Feast.png', 'Rio de Janeiro', 'Brazil', 120.150598, 30.325251, 101, 0000002763, 0000001363, 49, '11:00-21:30', '2021-12-22 19:53:59', '2022-01-11 16:13:34');
+INSERT INTO `tb_shop` VALUES (11, '土耳其美食宫 (Turkish Cuisine Palace, Istanbul, Turkey)', 1, '/imgs/shop/food/Turkish Cuisine Palace.png', 'Istanbul', 'Turkey', 120.150598, 30.325251, 101, 0000002763, 0000001363, 50, '11:00-21:30', '2021-12-22 19:53:59', '2022-01-11 16:13:34');
+
+
 -- ----------------------------
 -- Records of tb_shop_type
 -- ----------------------------

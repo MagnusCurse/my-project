@@ -40,9 +40,9 @@ export default {
     formatTime(v){
       let b = new Date(v.beginTime);
       let e = new Date(v.endTime);
-      return b.getMonth() + 1 + "月" + b.getDate() + "日 "
+      return b.getMonth() + 1 + "." + b.getDate() + " "
           +  b.getHours() + ":" + this.formatMinutes(b.getMinutes())
-          + " ~ "/*  + e.getMonth() + 1 + "月" + e.getDate() + "日 " */
+          + " ~ "/*  + e.getMonth() + 1 + "." + e.getDate() */
           +  e.getHours() + ":" + this.formatMinutes(e.getMinutes());
     },
     formatMinutes(m){
@@ -108,20 +108,22 @@ export default {
   <div class="top-bar"></div>
   <div class="shop-info-box">
     <div class="shop-title">{{shop.name}}</div>
-    <div class="shop-rate">
-      <el-rate
-          disabled v-model="shop.score/10"
-          text-color="#F63"
-          show-score
-      ></el-rate>
-      <span>{{shop.comments}}条</span>
-    </div>
-    <div class="shop-rate-info"> 口味:4.9  环境:4.8  服务:4.7 </div>
-    <div class="shop-rank">
-      <img src="@/assets/imgs/bd.png" width="63" height="20" alt="">
-      <span>拱墅区好评榜第3名</span>
-      <div><i class="el-icon-arrow-right"></i></div>
-    </div>
+<!-- 商铺评价功能:后面再来实现  -->
+<!--    <div class="shop-rate">-->
+<!--      <el-rate-->
+<!--          disabled v-model="shop.score/10"-->
+<!--          text-color="#F63"-->
+<!--          show-score-->
+<!--      ></el-rate>-->
+<!--      <span>{{shop.comments}}条</span>-->
+<!--    </div>-->
+<!--    <div class="shop-rate-info"> 口味:4.9  环境:4.8  服务:4.7 </div>-->
+<!--    <div class="shop-rank">-->
+<!--      <img src="@/assets/imgs/bd.png" width="63" height="20" alt="">-->
+<!--      <span>拱墅区好评榜第3名</span>-->
+<!--      <div><i class="el-icon-arrow-right"></i></div>-->
+<!--    </div>-->
+
     <div class="shop-images">
       <div v-for="(s,i) in shop.images" :key="i">
         <img :src="s" alt="">
@@ -138,15 +140,15 @@ export default {
   <div class="shop-divider"></div>
   <div class="shop-open-time">
     <span><i class="el-icon-watch"></i></span>
-    <div>营业时间</div>
+    <div>Opening hours</div>
     <div>{{shop.openHours}}</div>
-    <span class="line-right">查看详情 <i class="el-icon-arrow-right"></i></span>
+    <span class="line-right">Detail <i class="el-icon-arrow-right"></i></span>
   </div>
   <div class="shop-divider"></div>
   <div class="shop-voucher">
     <div>
-      <span class="voucher-icon">券</span>
-      <span style="font-weight: bold;">代金券</span>
+      <span class="voucher-icon">Voucher</span>
+      <span style="font-weight: bold;">Cash coupon</span>
     </div>
     <!--  只显示优惠券的结束时间大于当前时间的优惠券  -->
     <div class="voucher-box" v-for="v in vouchers" :key="v.id" v-if="!isEnd(v)">
@@ -159,17 +161,18 @@ export default {
         <div class="voucher-title">{{v.title}}</div>
         <div class="voucher-subtitle">{{v.subTitle}}</div>
         <div class="voucher-price">
-          <div>￥ {{ formatPrice(v.payValue) }} </div>
-          <span>{{( v.payValue * 10) / v.actualValue }}折</span>
+          <div> ￥ {{ formatPrice(v.payValue) }} </div>
         </div>
       </div>
       <div class="voucher-right">
         <div v-if="v.type" class="seckill-box">
-          <div class="voucher-btn" :class="{'disable-btn': isNotBegin(v) || v.stock < 1}" @click="seckill(v)">限时抢购</div>
-          <div class="seckill-stock">剩余 <span>{{v.stock}}</span> 张</div>
-          <div class="seckill-time">{{formatTime(v)}}</div>
+          <div class="voucher-btn" :class="{'disable-btn': isNotBegin(v) || v.stock < 1}" @click="seckill(v)">Snap up</div>
+          <div class="seckill-stock">Remaining
+            <span style="color: black">{{v.stock}}</span>
+          </div>
+          <div class="seckill-time"> {{ formatTime(v) }} </div>
         </div>
-        <div class="voucher-btn" v-else>抢购</div>
+        <div class="voucher-btn" v-else>Snap up</div>
       </div>
     </div>
   </div>
@@ -341,7 +344,7 @@ export default {
 }
 
 .voucher-box {
-  background-color: #fff1f1;
+  background-color: #f5a966;
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
@@ -393,7 +396,7 @@ export default {
 
 .voucher-price div {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 10px;
 }
 
 .voucher-price span {
@@ -427,30 +430,18 @@ export default {
   background-color: #adacab;
 }
 .seckill-time{
-  color: #F63;
+  color: black;
+  font-size: 10px;
 }
 .seckill-stock {
-  color: #adacab;
+  color: black;
+  font-size: 10px;
 }
 .seckill-stock span{
-  background-color: #fce5e5;
+  background-color: #f5a966;
   color: rgb(240, 51, 51);
 }
-.copyright {
-  color: #d1d1d1;
-  margin-top: 20px;
-  text-shadow: 0 1px 1px #fff;
-  text-align: center;
-}
-.shop-comments {
-  padding: 10px;
-}
-.comments-head {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  font-weight: bold;
-}
+
 .comments-head span {
   font-size: 12px;
   font-weight: normal;
