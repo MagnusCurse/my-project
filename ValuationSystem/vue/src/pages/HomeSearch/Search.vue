@@ -30,8 +30,7 @@ export default {
 <style scoped>
 /*搜索框*/
 .search-bar{
-  background-color: #7957d5;
-  color: white;
+  background-color: whitesmoke;
   display: flex;
   justify-content: space-around;
   height: 7%;
