@@ -194,7 +194,7 @@ export default {
   padding: 10px;
   margin-bottom: 5px;
   border-radius: 8px;
-  color: whitesmoke;
+  color: #cdd9e5;
   background-color: #545d68;
 }
 .shop-img {
@@ -219,7 +219,7 @@ export default {
 }
 
 .shop-area {
-  color: #6f6f71;
+  color: #cdd9e5;
   display: flex;
   justify-content: space-between;
 }
@@ -229,9 +229,10 @@ export default {
 }
 .shop-address{
   display: flex;
+  color: #cdd9e5;
 }
 .shop-address i{
-  color: #6c6767;
+  color: #cdd9e5;
 }
 .shop-address span{
   height: 20px;

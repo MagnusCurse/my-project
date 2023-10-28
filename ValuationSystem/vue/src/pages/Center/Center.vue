@@ -181,28 +181,23 @@ export default {
         <span> 注销 </span>
       </div>
     </div>
-    <div class="introduce" style="color:whitesmoke;">
+    <div class="introduce" style="color:#cdd9e5;">
       <span v-if="info"></span>
-      <span v-else>添加个人简介，让大家更好的认识你 <i class="el-icon-edit"></i></span>
+<!--      <span v-else>添加个人简介，让大家更好的认识你 <i class="el-icon-edit"></i></span>-->
     </div>
     <div class="content">
       <el-tabs v-model="activeName" @tab-click="handleClick" style="width: 90%;">
-        <el-tab-pane label="笔记" name="1" style="color:whitesmoke;">
+        <el-tab-pane label="笔记" name="1">
           <div v-for="b in blogs" :key="b.id" class="blog-item">
             <div class="blog-img"><img :src="b.images.split(',')[0]" alt=""></div>
             <div class="blog-info">
-              <div class="blog-title"> <h3 style="color: whitesmoke"> {{b.title}} </h3>
+              <div class="blog-title"> <h3 style="color: #cdd9e5"> {{b.title}} </h3>
                 </div>
               <div class="blog-liked"></div>
               <div class="blog-comments"></div>
             </div>
           </div>
         </el-tab-pane>
-<!-- note 后面再来实现这两个功能 -->
-<!--        <el-tab-pane label="评价" name="2">评价</el-tab-pane>-->
-
-<!--        <el-tab-pane label="粉丝" name="3">粉丝</el-tab-pane>-->
-
         <el-tab-pane label="关注" name="4">
           <div class="blog-list" @scroll="onScroll">
             <div class="blog-box" v-for="b in blogFollow" :key="b.id">
@@ -224,6 +219,9 @@ export default {
             </div>
           </div>
         </el-tab-pane>
+        <!-- note 后面再来实现这两个功能 -->
+        <!--        <el-tab-pane label="评价" name="2">评价</el-tab-pane>-->
+        <!--        <el-tab-pane label="粉丝" name="3">粉丝</el-tab-pane>-->
       </el-tabs>
     </div>
     <Footer/>
@@ -242,7 +240,8 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 15px 15px 5px 15px;
-  color: whitesmoke;
+  color: #cdd9e5;
+  margin-bottom: 16px;
 }
 .basic-icon {
   width: 80px;
@@ -288,7 +287,7 @@ export default {
   margin-top: 8px;
   height: 20px;
   line-height: 20px;
-  color: white;
+  color: #cdd9e5;
   padding: 0 2px;
   border-radius: 3px;
   background-color: #545d68;
@@ -307,7 +306,7 @@ export default {
   margin-bottom: 15px;
   flex-grow: 1; /* 填充可用空间，推动页脚到底部 */
   overflow-y: auto; /* 允许内容滚动，如果内容超出屏幕高度 */
-  background: whitesmoke; /* */
+  background: #373e47; /* */
 }
 
 .info-btn div {

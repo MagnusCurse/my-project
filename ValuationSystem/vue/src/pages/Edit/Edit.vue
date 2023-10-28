@@ -1,7 +1,6 @@
 <script>
 import axios from "axios";
 
-
 export default {
   name: "Center",
   data() {
@@ -91,17 +90,17 @@ export default {
 <template>
 <div class="center">
   <div class="header">
-    <div class="header-cancel-btn" @click="goBack">取消</div>
-    <div class="header-title">&nbsp;&nbsp;发笔记</div>
+    <div class="header-cancel-btn" @click="goBack"> Cancel </div>
+    <div class="header-title">&nbsp;&nbsp;  </div>
     <div class="header-commit">
-      <b-button class="header-commit-btn" type="is-warning" @click="submitBlog">发布</b-button>
+      <b-button class="header-commit-btn" type="is-warning" @click="submitBlog"> Publish </b-button>
     </div>
   </div>
   <div class="upload-box">
     <input type="file" @change="fileSelected" name="file" ref="fileInput" style="display: none">
     <div class="upload-btn" @click="openFileDialog">
       <i class="el-icon-camera"></i>
-      <div style="font-size: 12px;line-height: 12px">上传照片</div>
+      <div style="font-size: 12px;line-height: 12px"> Upload a photo </div>
     </div>
     <div class="pic-list">
       <div class="pic-box" v-for="(f,i) in fileList" :key="i">
@@ -111,22 +110,24 @@ export default {
     </div>
   </div>
   <div class="blog-title">
-    <input v-model="params.title" type="text" placeholder="填写标题">
+    <input v-model="params.title" type="text">
   </div>
   <div class="blog-content">
-    <textarea v-model="params.content" placeholder="笔记内容~~"></textarea>
+    <textarea v-model="params.content" placeholder=""></textarea>
   </div>
   <div class="divider"></div>
   <div class="blog-shop" @click="showDialog=true">
-    <div class="shop-left">关联商户</div>
+    <div class="shop-left"> Relevant restaurants </div>
     <div v-if="selectedShop.name">{{selectedShop.name}}</div>
-    <div v-else>去选择&nbsp;<i class="el-icon-caret-right"></i></div>
+    <div style="color: #cdd9e5" v-else>Choices&nbsp;
+      <i class="el-icon-caret-right"></i>
+    </div>
   </div>
   <div class="mask" v-show="showDialog" @click="showDialog=false"></div>
   <transition name="el-zoom-in-bottom">
     <div class="shop-dialog" v-show="showDialog">
       <div class="blog-shop">
-        <div class="shop-left">关联商户</div>
+        <div class="shop-left">Relevant restaurants</div>
       </div>
       <div class="search-bar">
         <div class="city-select">杭州 <i class="el-icon-arrow-down"></i></div>
@@ -153,6 +154,7 @@ export default {
   display: flex;
   justify-content: space-between;
   text-align: center;
+  color: #cdd9e5;
 }
 .header-cancel-btn{
   font-size: 14px;
@@ -162,6 +164,7 @@ export default {
   height: 18px;
   padding: 0 12px;
   border-radius: 15px;
+  width: 90px;
 }
 .header-title i {
   font-size: 14px;
@@ -182,7 +185,7 @@ export default {
   line-height: 40px;
   text-align: center;
   align-items: center;
-  border: 1px dashed #3a8ee6;
+  border: 1px dashed #cdd9e5;
   border-radius: 5px;
   font-size: 30px;
   color: #82848a;
@@ -219,6 +222,7 @@ export default {
 }
 .blog-title,.blog-content {
   padding: 5px 15px;
+
 }
 .blog-title input {
   width: 100%;
@@ -228,11 +232,10 @@ export default {
   border-left: 0;
   border-right: 0;
   border-bottom: 1px solid #e6e6e8;
+  border-radius: 5px;
+  background: #cdd9e5;
 }
-input::placeholder {
-  font-weight: bold;
-  color: #cccccc;
-}
+
 textarea::placeholder {
   color: #cccccc;
 }
@@ -240,6 +243,8 @@ textarea::placeholder {
   width: 100%;
   height: 310px;
   border: 0;
+  border-radius: 5px;
+  background: #cdd9e5;
 }
 .blog-shop {
   color: #82848a;
@@ -248,12 +253,12 @@ textarea::placeholder {
   justify-content: space-between;
 }
 .shop-left {
-  color: #111111;
+  color: #cdd9e5;
   font-size: 14px;
   font-weight: bold;
 }
 .divider {
-  background-color: #f4f4f5;
+  background-color: #545d68;
   height: 10px;
 }
 .end-gray {

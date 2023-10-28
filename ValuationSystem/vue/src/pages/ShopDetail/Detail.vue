@@ -304,7 +304,7 @@ export default {
 
 .shop-address {
   font-size: 14px;
-  color: #82848a;
+  color: #cdd9e5;
   height: 42px;
   display: flex;
   align-items: center;

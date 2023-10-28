@@ -21,7 +21,7 @@ export default {
   <div class="foot">
     <div class="foot-box" :class="{active: activeBtn === 1}" @click="toPage(1)">
       <div class="foot-view"><i class="el-icon-s-home"></i></div>
-      <div class="foot-text">首页</div>
+      <div class="foot-text">  </div>
     </div>
 <!--    <div class="foot-box" :class="{active: activeBtn === 2}" @click="toPage(2)">-->
 <!--      <div class="foot-view"><i class="el-icon-map-location"></i></div>-->
@@ -29,7 +29,11 @@ export default {
 <!--    </div>-->
 
     <div class="foot-box" @click="toPage(0)">
-      <img class="add-btn" src="@/assets/imgs/add.png" alt="">
+      <div style="background: #545d68; border-radius: 50%">
+         <span style="color: #cdd9e5; font-size: 12px">
+           Publish
+         </span>
+      </div>
     </div>
 
 <!--    <div class="foot-box" :class="{active: activeBtn === 3}" @click="toPage(3)">-->
@@ -38,7 +42,7 @@ export default {
 <!--    </div>-->
     <div class="foot-box" :class="{active: activeBtn === 4}" @click="toPage(4)">
       <div class="foot-view"><i class="el-icon-user"></i></div>
-      <div class="foot-text">我的</div>
+      <div class="foot-text">  </div>
     </div>
   </div>
 </template>
@@ -73,6 +77,7 @@ export default {
 .foot-text{
   font-size: 8px;
   margin-top: -4px;
+  margin-bottom: 4px;
 }
 .foot-text, .foot-view{
   text-align: center;

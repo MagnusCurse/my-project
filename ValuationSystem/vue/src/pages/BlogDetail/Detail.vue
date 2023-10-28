@@ -4,6 +4,9 @@ import axios from "axios";
 
 export default {
   name: "Detail",
+  components: {
+    Header
+  },
   data() {
     return {
       blog: {},
@@ -246,11 +249,7 @@ export default {
 
 <template>
 <div class="blog-detail">
-  <div class="header">
-    <div class="header-back-btn" @click="goBack"><i class="el-icon-caret-left"></i></div>
-    <div class="header-title"></div>
-    <div class="header-share">...</div>
-  </div>
+  <Header/>
   <div style="height: 85%; overflow-y: scroll; overflow-x: hidden">
     <div class="blog-info-box" ref="swiper"
          @touchstart="moveStart"
@@ -268,7 +267,7 @@ export default {
         <div class="name">{{ blog.name }}</div>
         <span class="time">{{ formatTime(new Date(blog.createTime)) }}</span>
       </div>
-      <div style="width: 20%">
+      <div style="width: 20%;">
         <div class="logout-btn" @click="follow" v-show="!user || user.id !== blog.userId ">
           {{followed ? '取消关注' : '关注'}}
         </div>
@@ -375,51 +374,14 @@ export default {
    height: 100%;
    width: 100%;
 }
-.header {
-  background-color: #fff;
-}
-.top-bar {
-  height: 60px;
-}
-.header {
-  width: 100%;
-  height: 6%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 2px solid#7957d5;
-  position: fixed;
-  top: 0;
-  z-index: 500;
-}
+
 .shop-avg{
   opacity: .4;
 }
-.header-back-btn {
-  width: 10%;
-  color: #7957d5;
-  font-size: 24px;
-  font-weight: bold;
-}
 
-.header-title {
-  width: 80%;
-  text-align: center;
-  font-size: 18px;
-  font-family: Hiragino Sans GB, Arial, Helvetica, "\5B8B\4F53", sans-serif;
-}
-
-.header-share {
-  width: 10%;
-  text-align: center;
-  font-size: 18px;
-  color: #82848a;
-  font-weight: bold;
-  font-family: Hiragino Sans GB, Arial, Helvetica, "\5B8B\4F53", sans-serif;
-}
 .blog-divider {
   height: 10px;
-  background-color: #f3f1f1;
+  background-color: #545d68;
 }
 
 .blog-info-box{
@@ -476,6 +438,8 @@ export default {
   justify-content: space-between;
   padding: 15px 15px 5px 15px;
   box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.1);
+  background: #545d68;
+  color: #cdd9e5;
 }
 .shop-icon {
   width: 50px;
@@ -496,6 +460,7 @@ export default {
 .zan-list{
   width: 88%;
   display: flex;
+  color: #cdd9e5;
 }
 .user-icon-mini{
   margin-left: -5px;
@@ -513,11 +478,12 @@ export default {
 }
 .basic-info {
   width: 60%;
+  color: #cdd9e5;
 }
 .basic-info .name{
   font-weight: bold;
   font-size: 12px;
-  color: #446889;
+  color: #cdd9e5;
 }
 .basic-info .time{
   display: inline-block;
@@ -533,13 +499,13 @@ export default {
   line-height: 25px;
   border-radius: 12px;
   text-align: center;
-  border: #7957d5 1px solid;
-  color: #7957d5;
+  color: #cdd9e5;
   box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.04);
 }
 .blog-text{
   width: 90%;
   padding: 5px 20px;
+  color: #cdd9e5;
 }
 .copyright {
   color: #d1d1d1;
