@@ -21,6 +21,7 @@ body{
 }
 html,body,#app{
   height: 100%;
+
 }
 
 #app {
@@ -28,6 +29,7 @@ html,body,#app{
   width: 100%;
   margin: 0;
   height: 100%;
+  background: #373e47;
 }
 
 /* 达人探店列表 */

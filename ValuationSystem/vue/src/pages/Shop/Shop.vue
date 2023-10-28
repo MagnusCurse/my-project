@@ -111,19 +111,20 @@ export default {
 <div class="shop">
   <Header/>
   <div class="sort-bar">
-    <div class="sort-item">
-      <el-dropdown trigger="click" @command="handleCommand">
-      <span class="el-dropdown-link">
-        {{ typeName }}<i class="el-icon-arrow-down el-icon--right"></i>
-      </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-for="t in types" :key="t.id" :command="t">
-            {{t.name}}
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </div>
-
+<!-- 商铺类型选择,当前只有一个商铺类型,以后再来实现  -->
+<!--    <div class="sort-item">-->
+<!--      <el-dropdown trigger="click" @command="handleCommand">-->
+<!--      <span class="el-dropdown-link">-->
+<!--        {{ typeName }}<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+<!--      </span>-->
+<!--        <el-dropdown-menu slot="dropdown">-->
+<!--          <el-dropdown-item v-for="t in types" :key="t.id" :command="t">-->
+<!--            {{t.name}}-->
+<!--          </el-dropdown-item>-->
+<!--        </el-dropdown-menu>-->
+<!--      </el-dropdown>-->
+<!--    </div>-->
+<!-- 这是其它选择,如距离,人气,评分,也是后面再来实现 -->
 <!--    <div class="sort-item" @click="sortAndQuery('')">-->
 <!--      距离 <i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
 <!--    </div>-->
@@ -166,6 +167,9 @@ export default {
 </template>
 
 <style scoped>
+.shop {
+  background: #373e47;
+}
 
 .sort-bar {
   display: flex;
@@ -173,6 +177,7 @@ export default {
   height: 6%;
   align-items: center;
   margin-bottom: 5px;
+
 }
 .sort-item {
   width: 20%;
@@ -181,15 +186,16 @@ export default {
 }
 .shop-list{
   height: 700px;
-  background-color: #f1f1f1;
+  background-color: #373e47;
   overflow-y: auto;
 }
 .shop-box {
   display: flex;
   padding: 10px;
   margin-bottom: 5px;
-  border-radius: 3px;
-  background-color: #fff;
+  border-radius: 8px;
+  color: whitesmoke;
+  background-color: #545d68;
 }
 .shop-img {
   text-align: center;

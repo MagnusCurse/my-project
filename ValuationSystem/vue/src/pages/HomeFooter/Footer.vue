@@ -23,19 +23,19 @@ export default {
       <div class="foot-view"><i class="el-icon-s-home"></i></div>
       <div class="foot-text">首页</div>
     </div>
-    <div class="foot-box" :class="{active: activeBtn === 2}" @click="toPage(2)">
-      <div class="foot-view"><i class="el-icon-map-location"></i></div>
-      <div class="foot-text">地图</div>
-    </div>
+<!--    <div class="foot-box" :class="{active: activeBtn === 2}" @click="toPage(2)">-->
+<!--      <div class="foot-view"><i class="el-icon-map-location"></i></div>-->
+<!--      <div class="foot-text">地图</div>-->
+<!--    </div>-->
 
     <div class="foot-box" @click="toPage(0)">
       <img class="add-btn" src="@/assets/imgs/add.png" alt="">
     </div>
 
-    <div class="foot-box" :class="{active: activeBtn === 3}" @click="toPage(3)">
-      <div class="foot-view"><i class="el-icon-chat-dot-round"></i></div>
-      <div class="foot-text">消息</div>
-    </div>
+<!--    <div class="foot-box" :class="{active: activeBtn === 3}" @click="toPage(3)">-->
+<!--      <div class="foot-view"><i class="el-icon-chat-dot-round"></i></div>-->
+<!--      <div class="foot-text">消息</div>-->
+<!--    </div>-->
     <div class="foot-box" :class="{active: activeBtn === 4}" @click="toPage(4)">
       <div class="foot-view"><i class="el-icon-user"></i></div>
       <div class="foot-text">我的</div>
@@ -53,6 +53,7 @@ export default {
   align-items: center;
   box-shadow: 0 -1px 2px 1px rgba(0, 0, 0, 0.1);
   bottom: 0;
+  background: #373e47;
 }
 
 .foot .add-btn {

@@ -24,11 +24,11 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 2px solid #7957d5;
+  border-bottom: 2px solid #cdd9e5;
 }
 .header-back-btn{
   width: 10%;
-  color: #7957d5;
+  color: #cdd9e5;
   font-size: 22px;
 }
 .header-title {

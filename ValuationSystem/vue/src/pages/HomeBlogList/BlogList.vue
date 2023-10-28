@@ -110,7 +110,7 @@ export default {
 <style scoped>
 /*达人探店列表*/
 .blog-list {
-  background-color: #eee;
+  background-color: #373e47;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -120,7 +120,7 @@ export default {
 }
 .blog-box{
   width: 48%;
-  background-color: #fff;
+  background-color: #545d68;
   margin: 5px 0;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
   border-radius: 3px;
@@ -134,12 +134,14 @@ export default {
   height: 36px;
   width: 92%;
   overflow: hidden;
+  color: black;
 }
 .blog-foot {
   display: flex;
   justify-content: space-between;
   margin: 10px 0 5px 0;
   padding: 0 10px;
+  color: black;
 }
 .blog-user-icon {
   width: 10%;
@@ -151,6 +153,7 @@ export default {
 }
 .blog-user-icon img{
   width: 100%;
+  border-radius: 50%;
 }
 .blog-liked {
   width: 25%;

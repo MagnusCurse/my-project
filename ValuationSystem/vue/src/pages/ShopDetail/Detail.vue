@@ -134,7 +134,9 @@ export default {
       <span>{{shop.address}}</span>
       <div style="width: 10px; flex-grow: 2; text-align: center; color: #e1e2e3">|</div>
       <div style="margin: 0 5px"><img src="https://p0.meituan.net/travelcube/bf684aa196c870810655e45b1e52ce843484.png@24w_16h_40q" alt=""></div>
-      <div><img src="https://p0.meituan.net/travelcube/9277ace32123e0c9f59dedf4407892221566.png@24w_24h_40q" alt=""></div>
+<!--      <div>-->
+<!--        <img src="https://p0.meituan.net/travelcube/9277ace32123e0c9f59dedf4407892221566.png@24w_24h_40q" alt="">-->
+<!--      </div>-->
     </div>
   </div>
   <div class="shop-divider"></div>
@@ -146,7 +148,7 @@ export default {
   </div>
   <div class="shop-divider"></div>
   <div class="shop-voucher">
-    <div>
+    <div style="color: #cdd9e5">
       <span class="voucher-icon">Voucher</span>
       <span style="font-weight: bold;">Cash coupon</span>
     </div>
@@ -243,6 +245,7 @@ export default {
   font-size: 20px;
   font-weight: bold;
   margin: 5px 0;
+  color: #cdd9e5;
 }
 
 .shop-rate {
@@ -310,13 +313,14 @@ export default {
 
 .shop-divider {
   height: 10px;
-  background-color: #f3f1f1;
+  background-color: #545d68;
 }
 
 .shop-open-time {
   display: flex;
   padding: 10px;
   font-size: 14px;
+  color: #cdd9e5;
 }
 
 .shop-open-time div {

@@ -181,17 +181,17 @@ export default {
         <span> 注销 </span>
       </div>
     </div>
-    <div class="introduce">
+    <div class="introduce" style="color:whitesmoke;">
       <span v-if="info"></span>
       <span v-else>添加个人简介，让大家更好的认识你 <i class="el-icon-edit"></i></span>
     </div>
     <div class="content">
-      <el-tabs v-model="activeName" @tab-click="handleClick" style="width: 90%; ">
-        <el-tab-pane label="笔记" name="1">
+      <el-tabs v-model="activeName" @tab-click="handleClick" style="width: 90%;">
+        <el-tab-pane label="笔记" name="1" style="color:whitesmoke;">
           <div v-for="b in blogs" :key="b.id" class="blog-item">
             <div class="blog-img"><img :src="b.images.split(',')[0]" alt=""></div>
             <div class="blog-info">
-              <div class="blog-title"> <h3> {{b.title}} </h3>
+              <div class="blog-title"> <h3 style="color: whitesmoke"> {{b.title}} </h3>
                 </div>
               <div class="blog-liked"></div>
               <div class="blog-comments"></div>
@@ -242,6 +242,7 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 15px 15px 5px 15px;
+  color: whitesmoke;
 }
 .basic-icon {
   width: 80px;
@@ -290,7 +291,7 @@ export default {
   color: white;
   padding: 0 2px;
   border-radius: 3px;
-  background-color: #7957d5;
+  background-color: #545d68;
   box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.04);
   display: flex;
   justify-content: center;
@@ -306,6 +307,7 @@ export default {
   margin-bottom: 15px;
   flex-grow: 1; /* 填充可用空间，推动页脚到底部 */
   overflow-y: auto; /* 允许内容滚动，如果内容超出屏幕高度 */
+  background: whitesmoke; /* */
 }
 
 .info-btn div {
@@ -318,6 +320,7 @@ export default {
   width: 100%;
   box-shadow: 1px 1px 4px 1px rgba(0,0,0,0.1);
   margin-bottom: 10px;
+  background: #545d68;
 }
 .blog-img {
   width: 120px;

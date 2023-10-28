@@ -68,7 +68,7 @@ export default {
       <div class="info-item">
         <div class="info-label">头像</div>
         <div class="info-btn">
-          <img width="35" :src=" user.icon || '/imgs/icons/default-icon.png'" alt="">
+          <img width="35" :src=" user.icon || '/imgs/icons/default-icon.png'" alt="" style="border-radius: 50%">
           <div><i class="el-icon-arrow-right"></i></div>
         </div>
       </div>
@@ -197,6 +197,7 @@ export default {
 .blog-img img {
   width: 100%;
   height: 100%;
+  border-radius: 50%;
 }
 
 .blog-liked img {
