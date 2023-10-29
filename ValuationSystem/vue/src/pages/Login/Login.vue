@@ -8,7 +8,7 @@ export default {
     return {
       radio: "",
       disabled: false, // 发送短信按钮
-      codeBtnMsg: "发送验证码", // 发送短信按钮提示
+      codeBtnMsg: "Send code", // 发送短信按钮提示
       form: {}
     }
   },
@@ -79,17 +79,16 @@ export default {
       <div class="login-form">
         <div style="display: flex; justify-content: space-between">
           <b-field>
-            <b-input style="width: 100%" placeholder="请输入手机号" v-model="form.phone"></b-input>
+            <b-input style="width: 100%" placeholder="Phone number" v-model="form.phone"></b-input>
           </b-field>
-          <b-button style="width: 38%" @click="sendCode" type="is-success" :disabled="disabled">{{ codeBtnMsg }}</b-button>
+          <b-button style="width: 38%" @click="sendCode" type="is-dark" :disabled="disabled">{{ codeBtnMsg }}</b-button>
         </div>
 
         <div style="height: 5px"></div>
-        <b-input placeholder="请输入验证码" v-model="form.code"></b-input>
+        <b-input placeholder="Verification Code" v-model="form.code"></b-input>
 
-        <div style="text-align: center; color: #8c939d;margin: 5px 0">未注册的手机号码验证后自动创建账户</div>
-        <b-button @click="login" style="width: 100%;" type="is-warning">登录</b-button>
-        <div style="text-align: right; color:#333333; margin: 5px 0"><a href="/login2.html">密码登录</a></div>
+        <div style="text-align: center; color: #cdd9e5;margin: 5px 0"> An account will be created after an unregistered mobile number verified </div>
+        <b-button @click="login" style="width: 100%;" type="is-dark"> Login </b-button>
       </div>
 
 <!-- note 确认协议功能 -->
@@ -104,6 +103,7 @@ export default {
 <!--          <a href="javascript:void(0)"></a>-->
 <!--        </div>-->
 <!--      </div>-->
+
     </div>
   </div>
 </template>
@@ -115,7 +115,7 @@ export default {
 
 .content{
   height: 93%;
-  background-color: #f7f5f5;
+  background-color: #545d68;
   padding: 10px;
   display: flex;
   flex-direction: column;

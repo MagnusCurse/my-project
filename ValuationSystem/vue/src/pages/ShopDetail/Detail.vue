@@ -15,10 +15,23 @@ export default {
     return {
       shop: {},
       vouchers: [],
-      shopId: 0
+      shopId: 0, // 当前商铺 id
+      userId: 0, // 当前用户 id
+      stars: 0, // 星级评分
+      content: "" // 当前用户评论
     }
   },
   methods: {
+    queryUserId() {
+      // 查询用户信息
+      axios.get("/user/me")
+          .then(({data}) => {
+            this.userId = data.data.id; // 获取当前用户的 id
+          })
+          .catch(err => {
+            console.log(err);
+          })
+    },
     goBack() {
       history.back();
     },
@@ -89,6 +102,23 @@ export default {
             location.reload();
           })
           .catch(this.$message.error)
+    },
+    // 评价商户
+    rateShop() {
+      if(this.content === "") {
+        alert("请先输入评论内容"); return;
+      }
+      if(this.stars === 0) {
+        alert("请对餐厅进行评价"); return;
+      }
+      axios.post("/shop-comments/comment",{
+         userId: this.userId,
+         shopId: this.shopId,
+         content: this.content,
+         stars: this.stars
+        }).then(({data}) => {
+         alert("评价商铺成功");
+      })
     }
   },
   mounted() {
@@ -98,6 +128,8 @@ export default {
     this.queryShopById();
     // 查询优惠券信息
     this.queryVoucher();
+    // 查询当前用户 id
+    this.queryUserId();
   },
 }
 </script>
@@ -108,22 +140,6 @@ export default {
   <div class="top-bar"></div>
   <div class="shop-info-box">
     <div class="shop-title">{{shop.name}}</div>
-<!-- 商铺评价功能:后面再来实现  -->
-<!--    <div class="shop-rate">-->
-<!--      <el-rate-->
-<!--          disabled v-model="shop.score/10"-->
-<!--          text-color="#F63"-->
-<!--          show-score-->
-<!--      ></el-rate>-->
-<!--      <span>{{shop.comments}}条</span>-->
-<!--    </div>-->
-<!--    <div class="shop-rate-info"> 口味:4.9  环境:4.8  服务:4.7 </div>-->
-<!--    <div class="shop-rank">-->
-<!--      <img src="@/assets/imgs/bd.png" width="63" height="20" alt="">-->
-<!--      <span>拱墅区好评榜第3名</span>-->
-<!--      <div><i class="el-icon-arrow-right"></i></div>-->
-<!--    </div>-->
-
     <div class="shop-images">
       <div v-for="(s,i) in shop.images" :key="i">
         <img :src="s" alt="">
@@ -179,6 +195,44 @@ export default {
     </div>
   </div>
   <div class="shop-divider"></div>
+  <b-collapse
+      class="card"
+      animation="slide"
+      aria-id="contentIdForA11y3"
+      :open="false">
+    <template #trigger="props">
+      <div
+          class="card-header"
+          role="button"
+          aria-controls="contentIdForA11y3"
+          aria-expanded="props.open">
+        <p class="card-header-title">
+          Click to rate the restaurant
+        </p>
+        <a class="card-header-icon">
+          <b-icon
+              :icon="props.open ? 'menu-down' : 'menu-up'">
+          </b-icon>
+        </a>
+      </div>
+    </template>
+
+    <div class="card-content">
+      <b-field label="Comment" horizontal>
+        <b-input maxlength="200" type="textarea" v-model="content"></b-input>
+      </b-field>
+    </div>
+   <!--星级评分-->
+    <b-rate
+        icon-pack="fas"
+        class="comment-rate"
+    v-model="stars"></b-rate>
+
+    <footer class="card-footer">
+      <a class="card-footer-item" @click="rateShop">Submit</a>
+    </footer>
+  </b-collapse>
+
   <!-- note 用户评论区域: 后面再来实现   -->
 <!--  <div class="shop-comments">-->
 <!--    <div class="comments-head">-->
@@ -229,9 +283,11 @@ export default {
 <!--    </div>-->
 <!--  </div>-->
   <div class="shop-divider"></div>
+
 <!--  <div class="copyright">-->
 <!--    copyright ©2021 hmdp.com-->
 <!--  </div>-->
+
 </div>
 </template>
 
@@ -506,5 +562,14 @@ export default {
   width: 92px;
   border-radius: 5px;
   margin-right: 5px;
+}
+.comment-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.comment-rate {
+  margin-left: 24px;
 }
 </style>

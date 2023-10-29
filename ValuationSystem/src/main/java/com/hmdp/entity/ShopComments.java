@@ -10,19 +10,11 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author 虎哥
- * @since 2021-12-22
- */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_blog_comments")
-public class BlogComments implements Serializable {
+@TableName("tb_shop_comments")
+public class ShopComments implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,29 +25,23 @@ public class BlogComments implements Serializable {
     private Long id;
 
     /**
-     * 用户id
+     * 用户 id
      */
     private Long userId;
 
     /**
-     * 探店id
+     * 探店 id
      */
-    private Long blogId;
-
-    /**
-     * 关联的1级评论id，如果是一级评论，则值为0
-     */
-    private Long parentId;
-
-    /**
-     * 回复的评论id
-     */
-    private Long answerId;
+    private Long shopId;
 
     /**
      * 回复的内容
      */
     private String content;
+    /**
+     * 星级评分
+     */
+    private Integer stars;
 
     /**
      * 点赞数
@@ -76,6 +62,4 @@ public class BlogComments implements Serializable {
      * 更新时间
      */
     private LocalDateTime updateTime;
-
-
 }

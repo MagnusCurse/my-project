@@ -46,16 +46,15 @@ CREATE TABLE `tb_blog`  (
 
 
 -- ----------------------------
--- Table structure for tb_blog_comments
+-- Table structure for tb_shop_comments
 -- ----------------------------
-DROP TABLE IF EXISTS `tb_blog_comments`;
-CREATE TABLE `tb_blog_comments`  (
+DROP TABLE IF EXISTS `tb_shop_comments`;
+CREATE TABLE `tb_shop_comments`  (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
   `user_id` bigint(20) UNSIGNED NOT NULL COMMENT '用户id',
-  `blog_id` bigint(20) UNSIGNED NOT NULL COMMENT '探店id',
-  `parent_id` bigint(20) UNSIGNED NOT NULL COMMENT '关联的1级评论id，如果是一级评论，则值为0',
-  `answer_id` bigint(20) UNSIGNED NOT NULL COMMENT '回复的评论id',
+  `shop_id` bigint(20) UNSIGNED NOT NULL COMMENT '探店id',
   `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '回复的内容',
+  `stars` int(8) UNSIGNED NOT NULL DEFAULT 5 COMMENT '星级评分',
   `liked` int(8) UNSIGNED NULL DEFAULT NULL COMMENT '点赞数',
   `status` tinyint(1) UNSIGNED NULL DEFAULT NULL COMMENT '状态，0：正常，1：被举报，2：禁止查看',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
