@@ -30,7 +30,6 @@ public class ShopCommentsServiceImpl extends ServiceImpl<ShopCommentsMapper, Sho
 
     @Override
     public Result showShopComments(Long shopId) {
-        List<ShopComments> ret = shopCommentsService.query().eq("shopId",shopId).list();
-        return Result.ok(ret);
+        List<ShopComments> ret = shopCommentsService.query().eq("shop_id",shopId).list(); return Result.ok(ret);
     }
 }

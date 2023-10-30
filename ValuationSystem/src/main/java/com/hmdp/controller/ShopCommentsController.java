@@ -7,6 +7,7 @@ import com.hmdp.service.impl.ShopCommentsServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 
@@ -26,6 +27,6 @@ public class ShopCommentsController {
 
     @GetMapping("/show-shop-comments/{shopId}")
     public Result showShopComments(@PathVariable("shopId") Long shopId) {
-        return shopCommentsService.showShopComments(shopId);
+        return  shopCommentsService.showShopComments(shopId);
     }
 }

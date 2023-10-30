@@ -18,10 +18,18 @@ export default {
       shopId: 0, // 当前商铺 id
       userId: 0, // 当前用户 id
       stars: 0, // 星级评分
-      content: "" // 当前用户评论
+      content: "", // 当前用户评论,
+      comments: {}, // 当前所有商铺评论
+      // 建立 comment.id 和 nickname 的映射关系
+      userNicknameMap: {
+
+      }
     }
   },
   methods: {
+    goBack() {
+      history.back();
+    },
     queryUserId() {
       // 查询用户信息
       axios.get("/user/me")
@@ -32,8 +40,18 @@ export default {
             console.log(err);
           })
     },
-    goBack() {
-      history.back();
+    // 根据 id 查询用户昵称
+    queryNicknameById(commentId,userId) {
+      // 查询用户信息
+      axios.get("/user/" + userId)
+          .then(({data}) => {
+            let nickname = data.data.nickName;
+            // 建立 comment.id 和 nickname 的映射关系
+            this.$set(this.userNicknameMap,commentId,nickname);
+          })
+          .catch(err => {
+            console.log(err);
+          })
     },
     queryShopById() {
       axios.get("/shop/" + this.shopId)
@@ -119,6 +137,16 @@ export default {
         }).then(({data}) => {
          alert("评价商铺成功");
       })
+    },
+    // 显示该商铺的所有评价
+    queryShopComments() {
+      axios.get("/shop-comments/show-shop-comments/" + this.shopId
+      ).then(({data}) => {
+        this.comments = data.data;
+        this.comments.forEach(comment => {
+          this.queryNicknameById(comment.id,comment.userId);
+        })
+      })
     }
   },
   mounted() {
@@ -130,6 +158,8 @@ export default {
     this.queryVoucher();
     // 查询当前用户 id
     this.queryUserId();
+    // 查询当前商铺的所有评论
+    this.queryShopComments();
   },
 }
 </script>
@@ -232,61 +262,24 @@ export default {
       <a class="card-footer-item" @click="rateShop">Submit</a>
     </footer>
   </b-collapse>
-
-  <!-- note 用户评论区域: 后面再来实现   -->
-<!--  <div class="shop-comments">-->
-<!--    <div class="comments-head">-->
-<!--      <div>网友评价 <span>（119）</span></div>-->
-<!--      <div><i class="el-icon-arrow-right"></i></div>-->
-<!--    </div>-->
-<!--    <div class="comment-tags">-->
-<!--      <div class="tag">味道赞(19)</div>-->
-<!--      <div class="tag">牛肉赞(16)</div>-->
-<!--      <div class="tag">菜品不错(11)</div>-->
-<!--      <div class="tag">回头客(4)</div>-->
-<!--      <div class="tag">分量足(4)</div>-->
-<!--      <div class="tag">停车方便(3)</div>-->
-<!--      <div class="tag">海鲜棒(3)</div>-->
-<!--      <div class="tag">饮品赞(3)</div>-->
-<!--      <div class="tag">朋友聚餐(6)</div>-->
-<!--    </div>-->
-
-<!--    <div class="comment-list">-->
-<!--      <div class="comment-box" v-for="i in 3" :key="i">-->
-<!--        <div class="comment-icon">-->
-<!--          <img src="https://p0.meituan.net/userheadpicbackend/57e44d6eba01aad0d8d711788f30a126549507.jpg%4048w_48h_1e_1c_1l%7Cwatermark%3D0" alt="">-->
-<!--        </div>-->
-<!--        <div class="comment-info">-->
-<!--          <div class="comment-user">叶小乙 <span>Lv5</span></div>-->
-<!--          <div style="display: flex;">-->
-<!--            打分-->
-<!--            <el-rate disabled v-model="4.5" ></el-rate>-->
-<!--          </div>-->
-<!--          <div style="padding: 5px 0; font-size: 14px">-->
-<!--            某平台上买的券，价格可以当工作餐吃，虽然价格便宜，但是这家店一点都没有...-->
-<!--          </div>-->
-<!--          <div class="comment-images">-->
-<!--            <img src="https://qcloud.dpfile.com/pc/6T7MfXzx7USPIkSy7jzm40qZSmlHUF2jd-FZUL6WpjE9byagjLlrseWxnl1LcbuSGybIjx5eX6WNgCPvcASYAw.jpg" alt="">-->
-<!--            <img src="https://qcloud.dpfile.com/pc/sZ5q-zgglv4VXEWU71xCFjnLM_jUHq-ylq0GKivtrz3JksWQ1f7oBWZsxm1DWgcaGybIjx5eX6WNgCPvcASYAw.jpg" alt="">-->
-<!--            <img src="https://qcloud.dpfile.com/pc/xZy6W4NwuRFchlOi43DVLPFsx7KWWvPqifE1JTe_jreqdsBYA9CFkeSm2ZlF0OVmGybIjx5eX6WNgCPvcASYAw.jpg" alt="">-->
-<!--            <img src="https://qcloud.dpfile.com/pc/xZy6W4NwuRFchlOi43DVLPFsx7KWWvPqifE1JTe_jreqdsBYA9CFkeSm2ZlF0OVmGybIjx5eX6WNgCPvcASYAw.jpg" alt="">-->
-<!--          </div>-->
-<!--          <div>-->
-<!--            浏览641 &nbsp;&nbsp;&nbsp;&nbsp;评论5-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div style="display: flex; justify-content: space-between;padding: 15px 0; border-top: 1px solid #f1f1f1; margin-top: 10px;">-->
-<!--        <div>查看全部119条评价</div>-->
-<!--        <div><i class="el-icon-arrow-right"></i></div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
   <div class="shop-divider"></div>
-
-<!--  <div class="copyright">-->
-<!--    copyright ©2021 hmdp.com-->
-<!--  </div>-->
+  <div class="comment-list">
+    <div class="comment-box" v-for="comment in comments" :key="comment.id">
+      <div class="comment-info">
+        <div class="comment-user">
+          <span style="color: black;"> {{ userNicknameMap[comment.id] }} </span>
+        </div>
+      </div>
+      <div class="comment-content">
+        {{ comment.content }}
+      </div>
+      <b-rate
+          icon-pack="fas"
+          class="comment-rate"
+      disabled=true
+      v-model="comment.stars"></b-rate>
+    </div>
+  </div>
 
 </div>
 </template>
@@ -523,14 +516,20 @@ export default {
 }
 .comment-list {
   margin-top: 15px;
+  background: #373e47;
 }
 .comment-box {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
+  margin: 5px;
+  background: #545d68;
+  border-radius: 2px;
 }
-.comment-icon {
-  width: 55px;
+.comment-content {
+  height: 85px;
+  background: #cdd9e5;
+  border-radius: 2px;
+  margin: 5px;
+  text-indent: 1em;
+  font-size: 14px;
 }
 .comment-icon img{
   width: 48px;
@@ -545,30 +544,22 @@ export default {
   font-size: 14px;
 }
 .comment-user span {
-  font-size: 10px;
+  font-size: 16px;
+  font-weight: bold;
   padding: 0 10px;
-  border-radius: 8px;
+  border-radius: 2px;
   background-color: #f7b253;
   color: white;
+  margin: 5px;
 }
-.comment-images {
-  display: flex;
-  width: 100%;
-  overflow-x: scroll;
-  padding: 10px 0;
-}
+
 .comment-images img {
   height: 94px;
   width: 92px;
   border-radius: 5px;
   margin-right: 5px;
 }
-.comment-button {
-  display: flex;
-  justify-content: center;
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
+
 .comment-rate {
   margin-left: 24px;
 }
