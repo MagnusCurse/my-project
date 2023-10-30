@@ -19,7 +19,8 @@ export default {
       userId: 0, // 当前用户 id
       stars: 0, // 星级评分
       content: "", // 当前用户评论,
-      comments: {}, // 当前所有商铺评论
+      comments: [], // 当前所有商铺评论
+      avgStarts: 0, // 商铺综合评分
       // 建立 comment.id 和 nickname 的映射关系
       userNicknameMap: {
 
@@ -143,9 +144,12 @@ export default {
       axios.get("/shop-comments/show-shop-comments/" + this.shopId
       ).then(({data}) => {
         this.comments = data.data;
+        let sumStars = 0;
         this.comments.forEach(comment => {
           this.queryNicknameById(comment.id,comment.userId);
+          sumStars += comment.stars;
         })
+        this.avgStarts = sumStars / this.comments.length;
       })
     }
   },
@@ -175,6 +179,11 @@ export default {
         <img :src="s" alt="">
       </div>
     </div>
+<!-- 商铺星级评测 -->
+    <b-rate
+        icon-pack="fas"
+        v-model="avgStarts"
+        disabled="true"></b-rate>
     <div class="shop-address">
       <div><i class="el-icon-map-location"></i></div>
       <span>{{shop.address}}</span>

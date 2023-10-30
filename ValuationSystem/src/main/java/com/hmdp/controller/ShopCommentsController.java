@@ -2,12 +2,10 @@ package com.hmdp.controller;
 
 
 import com.hmdp.dto.Result;
-import com.hmdp.entity.ShopComments;
 import com.hmdp.service.impl.ShopCommentsServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Map;
 
 

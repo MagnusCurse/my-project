@@ -20,10 +20,30 @@ export default {
         sortBy: "",
         x: 120.149993, // 经度
         y: 30.334229 // 纬度
+      },
+      // 建立 shop.id 和 平均分 的映射关系
+      shopAvgStarsMap: {
+
       }
     }
   },
   methods: {
+    // 根据 id 查询该商铺的评论,并计算平均星级,建立与 shopId 映射关系
+    queryShopComments(shopId) {
+      axios.get("/shop-comments/show-shop-comments/" + shopId
+      ).then(({data}) => {
+        let comments = data.data;
+        let sumStars = 0;
+        comments.forEach(comment => {
+          sumStars += comment.stars;
+        })
+        let avgStars;
+        if(sumStars === 0) avgStars = 0;
+        else avgStars = sumStars / comments.length;
+        // 建立商铺 id 与 avgStars 的映射关系
+        this.$set(this.shopAvgStarsMap,shopId,avgStars);
+      })
+    },
     // 查询类型列表
     queryTypes() {
       axios.get("/shop-type/list")
@@ -40,18 +60,20 @@ export default {
       axios.get("/shop/of/type", {
         params: this.params
       })
-          .then(({data}) => {
-            if (!data) {
-              return
-            }
-            // Axios 返回的数据存放在 data 中,而我需要的数组也在 data(不是同一个) 中,
-            data.data.forEach(s => s.images = s.images.split(',')[0]);
-            this.shops = this.shops.concat(data.data);
-          })
-          .catch(err => {
-            console.log(err);
-            this.$message.error(err)
-          })
+      .then(({data}) => {
+        if (!data) return;
+        // Axios 返回的数据存放在 data 中,而我需要的数组也在 data(不是同一个) 中,
+        data.data.forEach(s => {
+          s.images = s.images.split(',')[0];
+          //
+          this.queryShopComments(s.id);
+        });
+        this.shops = this.shops.concat(data.data);
+      })
+      .catch(err => {
+        console.log(err);
+        this.$message.error(err)
+      })
     },
     handleCommand(t) {
       // location.href = "/shop-list.html?type="+t.id+"&name="+t.name;
@@ -87,7 +109,7 @@ export default {
       if(scrollTop + offsetHeight + 1 > scrollHeight && !this.isReachBottom){
         this.isReachBottom = true
         console.log("触底")
-        this.params.current++
+        this.params.current++;
         this.queryShops(this.params.current, 5);
       }else{
         this.isReachBottom = false
@@ -111,6 +133,7 @@ export default {
 <div class="shop">
   <Header/>
   <div class="sort-bar">
+
 <!-- 商铺类型选择,当前只有一个商铺类型,以后再来实现  -->
 <!--    <div class="sort-item">-->
 <!--      <el-dropdown trigger="click" @command="handleCommand">-->
@@ -144,18 +167,16 @@ export default {
       <div class="shop-info">
         <div class="shop-title shop-item">{{s.name}}</div>
         <div class="shop-rate shop-item" >
-          <el-rate
-              disabled v-model="s.score/10"
-              text-color="#F63"
-              show-score
-          ></el-rate>
-          <span>{{s.comments}}条</span>
+          <b-rate
+              icon-pack="fas"
+              disabled="true"
+              v-model="shopAvgStarsMap[s.id]"></b-rate>
         </div>
         <div class="shop-area shop-item">
-          <span>{{s.area}}</span>
+          <span> {{s.area}}</span>
           <span v-if="s.distance">{{s.distance < 1000 ? s.distance.toFixed(1) + 'm' : (s.distance/1000).toFixed(1) + 'km'}}</span>
         </div>
-        <div class="shop-avg shop-item">￥{{s.avgPrice}}/人</div>
+        <div class="shop-avg shop-item">${{s.avgPrice}} / Person </div>
         <div class="shop-address shop-item">
           <i class="el-icon-map-location"></i>
           <span>{{s.address}}</span>
@@ -177,7 +198,6 @@ export default {
   height: 6%;
   align-items: center;
   margin-bottom: 5px;
-
 }
 .sort-item {
   width: 20%;
