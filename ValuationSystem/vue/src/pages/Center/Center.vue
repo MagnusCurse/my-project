@@ -17,8 +17,7 @@ export default {
         minTime: 0, // 上一次拉取到的时间戳
         offset: 0, // 偏移量 (初始值设置为 0)
       },
-      count: 5,
-      isReachBottom: false,
+      count: 5
     }
   },
   components: {
@@ -131,6 +130,7 @@ export default {
     },
     // 滑动触发滚动查询
     onScroll(e) {
+      console.log("触发了 onScroll 函数")
       let scrollTop = e.target.scrollTop;
       let offsetHeight = e.target.offsetHeight;
       let scrollHeight = e.target.scrollHeight;
@@ -158,6 +158,7 @@ export default {
   mounted() {
     // 查询用户信息
     this.queryUser();
+    this.onScroll();
   },
 }
 
@@ -183,22 +184,22 @@ export default {
     </div>
     <div class="introduce" style="color:#cdd9e5;">
       <span v-if="info"></span>
-<!--      <span v-else>添加个人简介，让大家更好的认识你 <i class="el-icon-edit"></i></span>-->
     </div>
+
     <div class="content">
       <el-tabs v-model="activeName" @tab-click="handleClick" style="width: 90%;">
-        <el-tab-pane label="笔记" name="1">
+        <el-tab-pane label="Blogs" name="1">
           <div v-for="b in blogs" :key="b.id" class="blog-item">
             <div class="blog-img"><img :src="b.images.split(',')[0]" alt=""></div>
             <div class="blog-info">
               <div class="blog-title"> <h3 style="color: #cdd9e5"> {{b.title}} </h3>
-                </div>
+              </div>
               <div class="blog-liked"></div>
               <div class="blog-comments"></div>
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="关注" name="4">
+        <el-tab-pane label="Subscription" name="4">
           <div class="blog-list" @scroll="onScroll">
             <div class="blog-box" v-for="b in blogFollow" :key="b.id">
               <div class="blog-img2" @click="toBlogDetail(b)"><img :src="b.img" alt=""></div>
@@ -219,11 +220,9 @@ export default {
             </div>
           </div>
         </el-tab-pane>
-        <!-- note 后面再来实现这两个功能 -->
-        <!--        <el-tab-pane label="评价" name="2">评价</el-tab-pane>-->
-        <!--        <el-tab-pane label="粉丝" name="3">粉丝</el-tab-pane>-->
       </el-tabs>
     </div>
+
     <Footer/>
   </div>
 </template>
@@ -301,12 +300,13 @@ export default {
 }
 .content {
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   margin-bottom: 15px;
   flex-grow: 1; /* 填充可用空间，推动页脚到底部 */
   overflow-y: auto; /* 允许内容滚动，如果内容超出屏幕高度 */
-  background: #373e47; /* */
+  background: #d5d7e2; /* */
 }
 
 .info-btn div {

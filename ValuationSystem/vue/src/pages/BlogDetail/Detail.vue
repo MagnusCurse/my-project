@@ -269,7 +269,7 @@ export default {
       </div>
       <div style="width: 20%;">
         <div class="logout-btn" @click="follow" v-show="!user || user.id !== blog.userId ">
-          {{followed ? '取消关注' : '关注'}}
+          {{followed ? 'Unsubscribe' : 'Subscribe'}}
         </div>
       </div>
 
@@ -282,12 +282,8 @@ export default {
       </div>
       <div style="width: 80%">
         <div class="name">{{shop.name}}</div>
-        <div>
-          <el-rate
-              v-model="shop.score/10">
-          </el-rate>
-        </div>
-        <div class="shop-avg">￥{{shop.avgPrice}}/人</div>
+
+        <div class="shop-avg">${{shop.avgPrice}}/Person</div>
       </div>
     </div>
     <div class="zan-box">
@@ -299,8 +295,8 @@ export default {
       </div>
     </div>
     <div class="blog-divider"></div>
-<!-- note 评论区内容, 后面再来实现 -->
 
+<!-- Note 评论区内容, 后面再来实现 -->
 <!--    <div class="blog-comments">-->
 <!--      <div class="comments-head">-->
 <!--        <div>网友评价 <span>（119）</span></div>-->
@@ -499,8 +495,9 @@ export default {
   line-height: 25px;
   border-radius: 12px;
   text-align: center;
-  color: #cdd9e5;
+  color: #545d68;
   box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.04);
+  background: #cdd9e5;
 }
 .blog-text{
   width: 90%;
