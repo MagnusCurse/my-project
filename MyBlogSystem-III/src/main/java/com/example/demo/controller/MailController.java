@@ -1,11 +1,11 @@
 package com.example.demo.controller;
 
-import com.example.demo.common.AjaxResult;
-import com.example.demo.common.SecurityUnit;
-import com.example.demo.common.SessionUnit;
-import com.example.demo.model.User;
-import com.example.demo.service.MailRedisService;
-import com.example.demo.service.MailService;
+import com.example.demo.utils.AjaxResult;
+import com.example.demo.utils.SecurityUnit;
+import com.example.demo.utils.SessionUnit;
+import com.example.demo.entity.User;
+import com.example.demo.service.impl.MailRedisService;
+import com.example.demo.service.impl.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;

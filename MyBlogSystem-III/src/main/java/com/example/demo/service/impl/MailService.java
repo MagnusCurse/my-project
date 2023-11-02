@@ -1,7 +1,7 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import com.example.demo.common.AjaxResult;
 import com.example.demo.mapper.MailMapper;
+import com.example.demo.service.impl.MailRedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;

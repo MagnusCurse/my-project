@@ -1,14 +1,12 @@
 package com.example.demo.controller;
 
-import com.example.demo.common.AjaxResult;
-import com.example.demo.common.SessionUnit;
-import com.example.demo.model.User;
-import com.example.demo.service.BlogLikedRedisService;
-import com.example.demo.service.BlogLikedService;
+import com.example.demo.utils.AjaxResult;
+import com.example.demo.utils.SessionUnit;
+import com.example.demo.entity.User;
+import com.example.demo.service.impl.BlogLikedRedisService;
+import com.example.demo.service.impl.BlogLikedService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;

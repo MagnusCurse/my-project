@@ -1,4 +1,4 @@
-package com.example.demo.common;
+package com.example.demo.utils;
 
 public class RedisKeyUtils {
     // 保存用户点赞数据的 key

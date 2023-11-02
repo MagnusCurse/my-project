@@ -1,6 +1,6 @@
 package com.example.demo.task;
 
-import com.example.demo.service.BlogLikedService;
+import com.example.demo.service.impl.BlogLikedService;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

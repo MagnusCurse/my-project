@@ -1,6 +1,6 @@
-package com.example.demo.common;
+package com.example.demo.utils;
 
-import com.example.demo.model.Constant;
+import com.example.demo.entity.Constant;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 

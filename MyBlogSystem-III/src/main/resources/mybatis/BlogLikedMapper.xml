@@ -10,7 +10,7 @@
         update blog_like set status = #{status} where liked_blog_id = #{liked_blog_id} and liked_post_id = #{liked_post_id}
     </update>
 
-    <select id="getLike" resultType="com.example.demo.model.BlogLike">
+    <select id="getLike" resultType="com.example.demo.entity.BlogLike">
         select * from blog_like where liked_blog_id = #{liked_blog_id} and liked_post_id = #{liked_post_id}
     </select>
 

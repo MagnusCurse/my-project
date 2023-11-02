@@ -17,11 +17,11 @@
         values (#{parent_id},#{user_id},#{blog_id},#{username},#{comment},#{replied_username})
     </insert>
 
-    <select id="initParentComment" resultType="com.example.demo.model.Comment">
+    <select id="initParentComment" resultType="com.example.demo.entity.Comment">
         select * from comment_info where parent_id is null and blog_id = #{blog_id}
     </select>
 
-    <select id="initChildComment" resultType="com.example.demo.model.Comment">
+    <select id="initChildComment" resultType="com.example.demo.entity.Comment">
         select * from comment_info where parent_id = #{parent_id} and blog_id = #{blog_id}
     </select>
 

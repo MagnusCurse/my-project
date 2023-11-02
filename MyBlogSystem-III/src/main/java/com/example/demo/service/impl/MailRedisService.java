@@ -1,6 +1,6 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import com.example.demo.common.RedisKeyUtils;
+import com.example.demo.utils.RedisKeyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;

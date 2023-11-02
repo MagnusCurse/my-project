@@ -5,23 +5,23 @@
            insert into blog_info (title,content,user_id) values (#{title},#{content},#{user_id})
     </insert>
 
-    <select id="search" resultType="com.example.demo.model.Blog">
+    <select id="search" resultType="com.example.demo.entity.Blog">
         select * from blog_info where title like concat('%',#{title},'%')
     </select>
 
-    <select id="initBlogs" resultType="com.example.demo.model.Blog">
+    <select id="initBlogs" resultType="com.example.demo.entity.Blog">
         select * from blog_info
     </select>
 
-    <select id="initUserBlogs" resultType="com.example.demo.model.Blog">
+    <select id="initUserBlogs" resultType="com.example.demo.entity.Blog">
         select * from blog_info where user_id = #{user_id}
     </select>
 
-    <select id="initBlog" resultType="com.example.demo.model.Blog">
+    <select id="initBlog" resultType="com.example.demo.entity.Blog">
         select * from blog_info where id = #{id}
     </select>
 
-    <select id="getBlog" resultType="com.example.demo.model.Blog">
+    <select id="getBlog" resultType="com.example.demo.entity.Blog">
         select * from blog_info where id = #{id}
     </select>
 

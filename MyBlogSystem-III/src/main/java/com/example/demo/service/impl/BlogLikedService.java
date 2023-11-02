@@ -1,8 +1,9 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import com.example.demo.common.BlogLikedCount;
+import com.example.demo.service.impl.BlogLikedRedisService;
+import com.example.demo.utils.BlogLikedCount;
 import com.example.demo.mapper.BlogLikedMapper;
-import com.example.demo.model.BlogLike;
+import com.example.demo.entity.BlogLike;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

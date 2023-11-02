@@ -1,9 +1,9 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import com.example.demo.common.BlogLikedCount;
-import com.example.demo.common.LikedStatusEnum;
-import com.example.demo.common.RedisKeyUtils;
-import com.example.demo.model.BlogLike;
+import com.example.demo.utils.BlogLikedCount;
+import com.example.demo.utils.LikedStatusEnum;
+import com.example.demo.utils.RedisKeyUtils;
+import com.example.demo.entity.BlogLike;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.ScanOptions;

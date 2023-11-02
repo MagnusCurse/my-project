@@ -1,7 +1,7 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.mapper.CommentMapper;
-import com.example.demo.model.Comment;
+import com.example.demo.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

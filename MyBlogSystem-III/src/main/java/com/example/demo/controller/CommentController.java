@@ -1,10 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.common.AjaxResult;
-import com.example.demo.common.SessionUnit;
-import com.example.demo.model.Comment;
-import com.example.demo.model.User;
-import com.example.demo.service.CommentService;
+import com.example.demo.utils.AjaxResult;
+import com.example.demo.utils.SessionUnit;
+import com.example.demo.entity.User;
+import com.example.demo.service.impl.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Map;
 
 @RestController

@@ -1,9 +1,7 @@
-package com.example.demo.model;
+package com.example.demo.entity;
 
-import com.example.demo.common.LikedStatusEnum;
+import com.example.demo.utils.LikedStatusEnum;
 import lombok.Data;
-
-import java.io.Serializable;
 
 /**
  * 用户点赞信息
