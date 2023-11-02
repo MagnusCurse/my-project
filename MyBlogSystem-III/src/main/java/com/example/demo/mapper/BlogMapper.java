@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface BlogMapper extends BaseMapper<Blog> {
+public interface BlogMapper extends BaseMapper<Blog>{
     public int publish(@Param("title") String title,@Param("content") String content,@Param("user_id") Integer user_id);
 
     public List<Blog> search(@Param("title") String title);

@@ -4,7 +4,7 @@ import com.example.demo.utils.AjaxResult;
 import com.example.demo.utils.SessionUnit;
 import com.example.demo.entity.Blog;
 import com.example.demo.entity.User;
-import com.example.demo.service.impl.BlogService;
+import com.example.demo.service.impl.BlogServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ import java.util.Map;
 @RequestMapping("/blog")
 public class BlogController {
     @Autowired
-    private BlogService service;
+    private BlogServiceImpl service;
 
     @RequestMapping("/publish")
     @ResponseBody

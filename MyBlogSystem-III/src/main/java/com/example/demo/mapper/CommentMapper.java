@@ -1,13 +1,14 @@
 package com.example.demo.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.demo.entity.Comment;
-import org.apache.ibatis.annotations.Mapper;
+
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-@Mapper
-public interface CommentMapper {
+
+public interface CommentMapper extends BaseMapper<Comment> {
     public int post(@Param("user_id") Integer user_id,
                     @Param("blog_id") Integer blog_id,
                     @Param("username") String username,

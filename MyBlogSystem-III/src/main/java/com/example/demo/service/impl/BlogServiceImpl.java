@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BlogService {
+public class BlogServiceImpl {
     @Autowired
     private BlogMapper mapper;
 
@@ -46,6 +46,7 @@ public class BlogService {
      * @return
      */
     public List<Blog> initUserBlogs(Integer user_id) {
+
         return mapper.initUserBlogs(user_id);
     }
 
