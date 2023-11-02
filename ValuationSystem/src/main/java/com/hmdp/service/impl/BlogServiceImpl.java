@@ -137,6 +137,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements IBl
         Long userId = UserHolder.getUser().getId();
         // TODO 查询当前用户收件箱 ZREVRANGEBYSCORE key Max(上一次的最小值) Min LIMIT offset count
         String key = RedisConstants.FEED_KEY + userId;
+        // ZSetOperations.TypedTuple 是一个元组, 记录值和分数, 值为字符串类型
         Set<ZSetOperations.TypedTuple<String>> typedTuples =
                 // 关键字为 key, 最小值为 0, 最大值为 max, 偏移量为 offset, 每页数量为 3
                 stringRedisTemplate.opsForZSet().reverseRangeByScoreWithScores(key, 0,max,offset,3);
@@ -156,11 +157,11 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements IBl
             if(time == minTime) {
                 os++;
             } else {
-                minTime = time;
                 os = 1;
+                minTime = time;
             }
         }
-        // TODO 根据 id 查询 blog
+        // TODO 根据 id 查询数据库中的 blogs
         String idStr = StrUtil.join(",", ids);
         List<Blog> blogs = query().in("id",ids)
                 .last("ORDER BY FIELD(id," + idStr + ")").list();
@@ -176,7 +177,6 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements IBl
         result.setList(blogs);
         result.setOffset(os);
         result.setMinTime(minTime);
-
         return Result.ok(result);
     }
 
