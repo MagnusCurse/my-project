@@ -56,6 +56,7 @@ public class CommentService {
      * @return
      */
     public List<Comment> initParentComment(Integer blog_id) {
+        /* 查询评论字段为 null */
         List<Comment> ret = mapper.initParentComment(blog_id);
         return mapper.initParentComment(blog_id);
     }
