@@ -56,6 +56,7 @@ public class CommentService {
      * @return
      */
     public List<Comment> initParentComment(Integer blog_id) {
+        List<Comment> ret = mapper.initParentComment(blog_id);
         return mapper.initParentComment(blog_id);
     }
 

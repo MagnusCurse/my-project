@@ -173,6 +173,7 @@ export default {
                originThis.parentComments.forEach(parentComment => {
                  // 初始化子评论映射表
                  originThis.initChildComment(parentComment.id);
+                 console.log("初始化父评论函数:" + parentComment.user_id);
                  // 初始化图片 url 映射表
                  originThis.initCommentAvatar(parentComment.user_id,parentComment.id);
                  // 建立 parent_id 与 showReply 的映射表
@@ -232,7 +233,7 @@ export default {
           // 通过评论 id 与每一个 url 建立映射关系
           originThis.$set(originThis.imageUrlsMap,comment_id,require("@/img/avatar/" + response.data.val));
         } else {
-          alert("初始化评论头像失败,请重试");
+          // alert("初始化评论头像失败,请重试");
         }
       }).catch(function (error) {
         console.log(error);
