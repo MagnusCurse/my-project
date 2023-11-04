@@ -120,35 +120,31 @@ export default {
     </div>
     <div class="basic-info">
       <div class="name">{{user.nickName}}</div>
-      <span>杭州</span>
     </div>
     <div class="logout-btn" @click="follow" style="text-align: center">
-      {{followed ? "取消关注" : "关注"}}
+      {{followed ? "Unsubscribe" : "Subscribe"}}
     </div>
   </div>
 
   <div class="introduce">
     <!-- 目前还没有用户信息,用 info 即可,info.introduce 会报错  -->
     <span v-if="info"></span>
-    <span v-else>这个人很懒，什么都没有留下</span>
   </div>
 
   <div class="content">
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="笔记" name="1">
+    <el-tabs v-model="activeName" @tab-click="handleClick" style="margin-left: 6px">
+      <el-tab-pane label="Blogs" name="1">
         <div v-for="b in blogs" :key="b.id" class="blog-item">
           <div class="blog-img">
             <img :src="b.images.split(',')[0]" alt="">
           </div>
           <div class="blog-info">
             <div class="blog-title" v-html="b.title"></div>
-            <div class="blog-liked"><img src="/imgs/thumbup.png" alt=""> {{b.liked}}</div>
-            <div class="blog-comments"><i class="el-icon-chat-dot-round"></i> {{b.comments}}</div>
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="共同关注" name="2">
-        <div>你们都关注了：</div>
+      <el-tab-pane label="Mutual Interest" name="2">
+        <div>You all followed the:</div>
         <div class="follow-info" v-for="u in commonFollows" :key="u.id">
           <div class="follow-info-icon" @click="toOtherInfo(u.id)">
             <img :src="u.icon || '/imgs/icons/default-icon.png'" alt="">
@@ -157,7 +153,7 @@ export default {
             <div class="name">{{u.nickName}}</div>
           </div>
           <div class="follow-info-btn" @click="toOtherInfo(u.id)">
-            去主页看看
+            Homepage
           </div>
         </div>
       </el-tab-pane>
@@ -175,11 +171,11 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 2px solid #ff6633;
+  border-bottom: 2px solid #cdd9e5;
 }
 .header-back-btn{
   width: 10%;
-  color: #ff6633;
+  color: #cdd9e5;
   font-size: 22px;
 }
 .header-title {
@@ -216,6 +212,7 @@ export default {
   overflow: hidden;
   font-weight: bold;
   font-size: 14px;
+  color: #cdd9e5;
 }
 .basic-info span{
   display: inline-block;
@@ -234,44 +231,28 @@ export default {
   box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.04);
 }
 .logout-btn{
-  width: 18%;
+  width: 22%;
   margin-top: 8px;
   height: 20px;
   line-height: 20px;
-  color: white;
+  color: #cdd9e5;
   padding: 0 2px;
   border-radius: 3px;
-  background-color: #f63;
+  background-color: #545d68;
   box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.04);
+  display: flex;
+  justify-content: center;
 }
 
 .introduce{
   padding: 0 15px;
 }
 .content {
-  height: 61%;
+  height: 430px;
+  background: #d5d7e2;
 }
 
-.edit-container{
-  background-color: #f4f4f4;
-}
-.divider {
-  height: 1px;
-  background-color: #e4e4e4;
-}
-.info-box {
-  margin-bottom: 10px;
-  padding: 5px 15px;
-  background-color: #fff;
-}
-.info-item{
-  display: flex;
-  justify-content: space-between;
-  line-height: 40px;
-}
-.info-btn{
-  display: flex;
-}
+
 .info-btn div {
   margin-left: 5px;
 }
@@ -282,11 +263,13 @@ export default {
   height: 90px;
   width: 90%;
   box-shadow: 1px 1px 4px 1px rgba(0,0,0,0.1);
+  margin-left: 16px;
   margin-bottom: 10px;
+  background: #545d68;
 }
 .blog-img {
   width: 70px;
-  height: 90px;
+  height: 70px;
   margin-right: 10px;
 }
 .blog-img img {
@@ -299,6 +282,8 @@ export default {
 }
 .blog-title {
   line-height: 20px;
+  font-weight: bold;
+  color: #cdd9e5;
 }
 .blog-liked {
   line-height: 16px;
@@ -341,8 +326,8 @@ export default {
   font-size: 10px;
   line-height: 20px;
   height: 20px;
-  border: #ff6633 1px solid;
-  color: #ff6633;
+  border: #545d68 1px solid;
+  color: #545d68;
   border-radius: 5px;
   text-align: center;
 }

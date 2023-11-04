@@ -171,11 +171,11 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 2px solid #ff6633;
+  border-bottom: 2px solid #cdd9e5;
 }
 .header-back-btn{
   width: 10%;
-  color: #ff6633;
+  color: #cdd9e5;
   font-size: 22px;
 }
 .header-title {
