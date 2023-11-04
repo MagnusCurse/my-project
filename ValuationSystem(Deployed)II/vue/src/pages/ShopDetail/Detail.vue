@@ -117,8 +117,11 @@ export default {
                return;
             }
             // 抢购成功，这里输出订单id，支付功能TODO
-            this.$message.success("抢购成功，订单 id:" + data.data)
-            location.reload();
+            this.$message.success("抢购成功，订单 id:" + data.data);
+            // 延迟刷新页面操作，例如延迟 3 秒执行
+            setTimeout(function() {
+              location.reload();
+            }, 3000); // 3000 毫秒等于 3 秒
           })
           .catch(this.$message.error)
     },
@@ -137,6 +140,7 @@ export default {
          stars: this.stars
         }).then(({data}) => {
          alert("评价商铺成功");
+         location.reload(); // 刷新当前页面
       })
     },
     // 显示该商铺的所有评价
