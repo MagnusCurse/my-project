@@ -117,7 +117,7 @@ public class BlogController {
         if(blog == null) {
             return AjaxResult.fail(-1,"当前 id 博客不存在");
         }
-        if(!blog.getUser_id().equals(curUser.getId())) {
+        if(!blog.getUserId().equals(curUser.getId())) {
             return AjaxResult.fail(-2,"你没有权限修改该博客");
         }
         int res = service.modify(id,title,content);

@@ -32,8 +32,7 @@ server:
 
 # Mybatis-plus 配置
 mybatis-plus:
-  type-aliases-package: com.example.demo.entity
-  # 如果要继续使用 Mybatis 的功能, 记得配置路径
+  # 配置 xml 文件的路径
   mapper-locations: mybatis/*.xml
 
 
