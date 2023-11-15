@@ -9,6 +9,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.io.IOException;
 import java.time.Duration;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -20,24 +21,22 @@ public class BlogLoginTest {
     public static void baseControl() {
         chromeDriver.get("http://43.139.61.124/#/login");
     }
-    // 驱动退出
-    @AfterAll
-    public static void chromeDriverQuit() {
-        chromeDriver.quit();
-    }
+
     /**
      * 检查登录页面是否打开正确
      * 检查登录，注册，忘记密码选项是否存在
      */
     @Order(1)
     @Test
-    public void loginPageLoad() {
+    public void loginPageLoad() throws IOException {
         // 检查登录标签
         chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(2) > a"));
         // 检查注册标签
         chromeDriver.findElement(By.cssSelector("body > div > div > form > div.right-link > a:nth-child(1)"));
         // 检查忘记密码标签
         chromeDriver.findElement(By.cssSelector("body > div > div > form > div.right-link > a:nth-child(2)"));
+        // 进行测试屏幕截图
+        AutoTestUtils.getScreenCapture("loginPageLoad");
     }
 
     /**

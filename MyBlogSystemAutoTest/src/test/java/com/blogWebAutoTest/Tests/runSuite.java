@@ -4,7 +4,7 @@ import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
 @Suite
-@SelectClasses({com.blogWebAutoTest.Tests.BlogLoginTest.class})
+@SelectClasses({BlogLoginTest.class,BlogCenterTest.class, BlogEditTest.class})
 public class runSuite {
 
 }
