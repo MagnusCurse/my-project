@@ -1,0 +1,56 @@
+.reset-container {
+    width: 100%;
+    height: calc(100% - 50px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reset-dialog {
+    width: 400px;
+    height: 500px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+}
+
+.reset-dialog h3 {
+    padding: 50px 0;
+    text-align: center;
+}
+
+.reset-dialog .row {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reset-dialog .row span {
+    display: block;
+    width: 100px;
+    font-weight: 700;
+}
+
+.reset-dialog .row input {
+    width: 200px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 24px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    text-indent: 10px;
+}
+
+.reset-dialog button {
+    width: 300px;
+    height: 50px;
+    color: white;
+    background-color: green;
+    border: none;
+    border-radius: 10px;
+}
+
+.reset-dialog button:active {
+    background-color: #666;
+}

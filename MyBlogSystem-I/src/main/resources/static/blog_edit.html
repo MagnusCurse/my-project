@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客编辑</title>
+
+    <!-- 引入自己写的样式 -->
+    <link rel="stylesheet" href="css/conmmon.css">
+    <link rel="stylesheet" href="css/blog_edit.css">
+
+    <!-- 引入 editor.md 的依赖 -->
+    <link rel="stylesheet" href="editor.md/css/editormd.min.css" />
+    <script src="js/jquery.min.js"></script>
+    <script src="editor.md/editormd.js"></script>
+    <!--引入jquery-->
+    <script src="js/jquery.min.js"></script>
+    <!--引入自己写的js工具包-->
+    <script src="js/tool.js"></script>
+    <!--flatpickr-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
+
+<body>
+   <!-- 导航栏 -->
+   <div class="nav">
+    <img src="img/d-logoblack.png" alt="">
+    <span class="title"></span>
+    <!-- 用来占据中间位置 -->
+    <span class="spacer"></span>
+    <a href="blog_list.html">主页</a>
+    <a href="myblog_list.html">我的博客</a>
+    <a href="blog_edit.html">创作</a>
+    <a href="blog_draft.html">草稿</a>
+    <!--a 标签 onclick 有些浏览器不生效,所以跳转写在href中,javascript表示后面的是js代码-->
+    <a href="javascript:onExit()">注销</a>
+    <!-- <a href="#">注销</a> -->
+</div>
+    <!-- 编辑框容器 -->
+    <div class="blog-edit-container">
+        <!-- 标题编辑区 -->
+        <div class="title">
+            <input type="text" id="title" placeholder="在这里写下文章标题">
+            <!--日期选择器-->
+            <input class="datetime-content" id="datetimepicker" placeholder="Select Datetime" type="datetime-local" style="width: 125px;">
+            <button onclick="mysub()">发布文章</button>
+            <button onclick="schedule()">定时发布</button>
+            <button onclick="saveDraft()">保存草稿</button>
+        </div>
+        <!-- 创建编辑器标签 -->
+        <div id="editorDiv">
+            <textarea id="editor-markdown" style="display:none;"></textarea>
+        </div>
+    </div>
+
+    <script src="js/MyJavaScript/logout.js"></script>
+    <script>
+        var editor;
+        function initEdit(md){
+            // 编辑器设置
+            editor = editormd("editorDiv", {
+                // 这里的尺寸必须在这里设置. 设置样式会被 editormd 自动覆盖掉. 
+                width: "100%",
+                // 高度 100% 意思是和父元素一样高. 要在父元素的基础上去掉标题编辑区的高度
+                height: "calc(100% - 50px)",
+                // 编辑器中的初始内容
+                markdown: md,
+                // 指定 editor.md 依赖的插件路径
+                path: "editor.md/lib/",
+                saveHTMLToTextarea: true // 
+            });
+        }
+        initEdit("# 在这里写下一篇博客"); // 初始化编译器的值
+
+
+        //发表文章函数
+        function mysub(){
+            // alert(editor.getValue()); // 获取值
+            // editor.setValue("#123") // 设置值
+            var title = jQuery("#title");
+            var content = editor.getValue();
+            if(title.val() == ""){
+                title.focus();
+                alert("请先输入标题");
+                return false;
+            }
+
+            if(content == ""){//这里的content不用.val()
+                content.focus();
+                alert("请先输入内容");
+                return false;
+            }
+
+            //给后端发送ajax请求
+            jQuery.ajax({
+                url: "/article/add",
+                type: "POST",
+                data: {
+                    content: content,
+                    title: title.val()
+                },
+                success: function(result){//当前用户是该文章用户才可以修改
+                   if(result.code == 200 && result != null && result.data == 1){
+                      alert("添加成功,即将返回博客列表页");
+                      location.href = "myblog_list.html";
+                   }else{
+                       alert("添加失败,请重试");
+                   }
+                },
+
+                error: function(err){
+                //此时用户未登录,被拦截器拦截
+                  if(err != null && err.status == 401){//err不是你返回的那个哈希表了,里面没有data等值,只有status,所以用status判断
+                    alert("用户未登录,即将返回登录页面");
+                    location.href = "login.html";
+                  }
+               }
+            });
+        }
+
+        //定时发布文章函数
+        function schedule(){
+            var title = jQuery("#title");
+            var content = editor.getValue();
+            var date = jQuery('#datetimepicker') //获取时间戳
+
+            if(title.val() == ""){
+                title.focus();
+                alert("请先输入标题");
+                return false;
+            }
+
+            if(content == ""){//这里的content不用.val()
+                content.focus();
+                alert("请先输入内容");
+                return false;
+            }
+
+            if(date.val() == ""){
+                title.focus();
+                alert("请输入定时发布的时间");
+                return false;
+            }
+
+            //给后端发送ajax请求
+            jQuery.ajax({
+                url: "/article/schedule",
+                type: "POST",
+                data: {
+                    content: content,
+                    title: title.val(),
+                    date: date.val()
+                },
+                success: function(result){//当前用户是该文章用户才可以修改
+                   if(result.code == 200 && result != null && result.data == 1){
+                      alert("添加成功,即将返回博客列表页");
+                      location.href = "myblog_list.html";
+                   }else{
+                       alert("添加失败,请重试");
+                   }
+                },
+
+                error: function(err){
+                //此时用户未登录,被拦截器拦截
+                  if(err != null && err.status == 401){//err不是你返回的那个哈希表了,里面没有data等值,只有status,所以用status判断
+                    alert("用户未登录,即将返回登录页面");
+                    location.href = "login.html";
+                  }
+               }
+            });
+        }
+
+        //保存草稿函数
+        function saveDraft(){
+            // alert(editor.getValue()); // 获取值
+            // editor.setValue("#123") // 设置值
+            var title = jQuery("#title");
+            var content = editor.getValue();
+            if(title.val() == ""){
+                title.focus();
+                alert("请先输入标题");
+                return false;
+            }
+            if(content == ""){//这里的content不用.val()
+                content.focus();
+                alert("请先输入内容");
+                return false;
+            }
+            //发送ajax请求给后端
+            jQuery.ajax({
+              url: "/draft/save",
+              type: "POST",
+              data: {
+                title: title.val(),
+                content: content
+              },
+              success: function(result){
+                if(result.code == 200 && result.data == 1){
+                    alert("保存草稿成功!即将跳转到草稿箱");
+                    location.href="blog_draft.html";//跳转到草稿箱
+                }else{
+                    alert("保存草稿失败,请重试!");
+                }
+              }
+            });
+        }
+
+        //日期选择器配置
+        config = {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+        }
+        flatpickr("input[type=datetime-local]",config);
+    </script>
+</body>
+
+</html>

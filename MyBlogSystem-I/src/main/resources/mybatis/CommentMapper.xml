@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.CommentMapper">
+   <select id="selectAllByID" resultType="com.example.demo.model.CommentInfo">
+       select * from commentinfo where articleID = #{articleID}
+   </select>
+
+    <select id="selectLike" resultType="com.example.demo.model.CommentLikeInfo">
+        select * from commentlikeinfo where userID = #{userID} and commentID = #{commentID}
+    </select>
+
+    <insert id="insertComment">
+        insert into commentinfo (userID,username,content,articleID) values (#{userID},#{username},#{content},#{articleID});
+    </insert>
+
+    <insert id="replyComment">
+        insert into commentinfo (parentCommentID,userID,username,content,articleID) values (#{parentCommentID},#{userID},#{username},#{content},#{articleID})
+    </insert>
+
+    <update id="likeComment">
+       update commentinfo set likes = coalesce(likes, 0) + 1 where commentID = #{commentID}
+    </update>
+
+    <insert id="insertLike">
+        insert into commentlikeinfo (userID,commentID,articleID) values (#{userID},#{commentID},#{articleID})
+    </insert>
+
+    <update id="unlikeComment">
+        update commentinfo set likes = (likes - 1) where commentID = #{commentID}
+    </update>
+
+    <delete id="deleteLike">
+        delete from commentlikeinfo where commentID = #{commentID} and userID = #{userID}
+    </delete>
+
+    <delete id="deleteCommentByArticleID">
+        delete from commentinfo where articleID = #{articleID}
+    </delete>
+
+    <delete id="deleteLikeByArticleID">
+        delete from commentlikeinfo where articleID = #{articleID}
+    </delete>
+</mapper>

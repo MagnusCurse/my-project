@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>blog_content</title>
+    <link rel="stylesheet" href="css/conmmon.css">
+    <link rel="stylesheet" href="css/blog_content.css">
+    <link rel="stylesheet" href="editor.md/css/editormd.preview.min.css"/>
+    <script src="js/jquery.min.js"></script>
+    <script src="editor.md/editormd.js"></script>
+    <script src="editor.md/lib/marked.min.js"></script>
+    <script src="editor.md/lib/prettify.min.js"></script>
+    <!--引入jquery-->
+    <script src="js/jquery.min.js"></script>
+    <!--引入自己写的js工具包-->
+    <script src="js/tool.js"></script>
+    <!--fontawesome 配置文件-->
+    <script src="https://kit.fontawesome.com/f4b134f611.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <div class="nav">
+        <img src="img/d-logoblack.png" alt="">
+        <span class="title"></span>
+        <!-- 用来占据中间位置 -->
+        <span class="spacer"></span>
+        <a href="blog_list.html">主页</a>
+        <a href="myblog_list.html">我的博客</a>
+        <a href="blog_edit.html">创作</a>
+        <!--a 标签 onclick 有些浏览器不生效,所以跳转写在href中,javascript表示后面的是js代码-->
+        <a href="javascript:onExit()">注销</a>
+        <!-- <a href="#">注销</a> -->
+    </div>
+    
+    <!-- 版心 -->
+    <div class="container">
+        <!-- 左侧个人信息 -->
+        <div class="container-left">
+            <div class="card">
+                <img :src="imageUrl" class="avtar" alt="" id="photo">
+
+                <h3 id = "username"></h3>
+                <a href="http:www.github.com">Github 地址</a>
+                <div class="counter">
+                    <span>文章</span>
+                    <span>分类</span>
+                </div>
+                <div class="counter">
+                    <span>2</span>
+                    <span>1</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧内容详情 -->
+        <div class="container-right">
+            <div class="blog-content">
+                <!-- 博客标题 -->
+                <h3 id = "title"></h3>
+                <!-- 博客时间 -->
+                <div class="date" id = "date"></div>
+                <!-- 博客正文 -->
+                <div id="editorDiv">
+
+                  
+                </div>
+
+                <div class="unit-component">
+                    <!-- 评论数量 -->
+                    <i class="fa-regular fa-message fa-lg" style="color: #253b5f; margin-top: 11px; margin-right: 5px;"></i>
+                    <span id="comment-counter" style="margin-right: 5px;">0</span>
+                    <!-- 浏览量 -->
+                    <i class="fa-solid fa-eye fa-lg" style="color: #0f2d61; margin-top: 11px; margin-right: 5px;"></i>
+                    <span id="view-counter" style="margin-right: 5px;">0</span>
+                    <!-- 点赞按钮 -->
+                    <a href="#" class="like-button" style="margin-right: 5px;">
+                      <?xml version="1.0" encoding="utf-8"?>
+                      <svg width="20" height="20" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M320 1344q0-26-19-45t-45-19q-27 0-45.5 19t-18.5 45q0 27 18.5 45.5t45.5 18.5q26 0 45-18.5t19-45.5zm160-512v640q0 26-19 45t-45 19h-288q-26 0-45-19t-19-45v-640q0-26 19-45t45-19h288q26 0 45 19t19 45zm1184 0q0 86-55 149 15 44 15 76 3 76-43 137 17 56 0 117-15 57-54 94 9 112-49 181-64 76-197 78h-129q-66 0-144-15.5t-121.5-29-120.5-39.5q-123-43-158-44-26-1-45-19.5t-19-44.5v-641q0-25 18-43.5t43-20.5q24-2 76-59t101-121q68-87 101-120 18-18 31-48t17.5-48.5 13.5-60.5q7-39 12.5-61t19.5-52 34-50q19-19 45-19 46 0 82.5 10.5t60 26 40 40.5 24 45 12 50 5 45 .5 39q0 38-9.5 76t-19 60-27.5 56q-3 6-10 18t-11 22-8 24h277q78 0 135 57t57 135z"/></svg>
+                    </a>
+                    <!-- 点赞数量 -->
+                    <span id="like-counter" style="margin-right: 5px;">0</span>
+                </div>
+              
+                <!-- 评论区 -->
+                <div class="comments">
+                    <h3>评论区</h3>
+                    <div class="comment-form">
+                        <textarea placeholder="请输入评论" id="comment-box"></textarea>
+                        <button id="submitCommentButton">提交</button>
+                    </div>
+                    <div class="comment-list" id="comment-list">
+
+
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- 引入 Vue 和 Axios -->
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/MyJavaScript/initAvatar(curArticle).js"></script>
+    <script src="js/MyJavaScript/logout.js"></script>
+
+<script type="text/javascript">
+    var editormd;
+    function initEdit(md){
+        editormd = editormd.markdownToHTML("editorDiv", {
+        markdown : md, // Also, you can dynamic set Markdown text
+        // htmlDecode : true,  // Enable / disable HTML tag encode.
+        // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+        });
+    }
+
+    //根据用户初始化左侧个人信息
+    function initMyInfo(){
+        //发送ajxa给后端
+        jQuery.ajax({
+         url: "/user/mycontentinfo",
+         type: "POST",
+         data: {
+            id: getURLParam("id")
+         },
+         success: function(result){
+            if(result != null && result.data != null){
+            jQuery("#username").text(result.data.username);
+            }
+         }
+        });
+    }
+    initMyInfo();//页面渲染后即立刻加载
+
+    //根据文章ID初始化当前博客详情页面
+    function initDetail(){
+       var artId = getURLParam("id");
+       //发送ajxa给后端
+       jQuery.ajax({
+         url: "article/detail",
+         type: "POST",
+         data: {
+            id: artId//前面key的名字要和后端相同,这里不要加.val()
+        },//通过该方法得到目前文章id发送给后端
+         success: function(result){
+            if(result != null && result.code == 200){
+            jQuery("#title").text(result.data.title);
+            jQuery("#date").text(result.data.date);
+            jQuery("#editorDiv").html(initEdit(result.data.content));
+            }
+          }
+       });
+    }
+    initDetail();//页面渲染后即立刻加载
+
+    // 从后端获取评论数据数据
+    function retrieveCommentsFromBackend() {
+      // 发送 ajax 给后端
+      jQuery.ajax({
+         url : "/comment/search",
+         type : "POST",
+         data : {
+            articleID : getURLParam("id")
+         },
+         success : function(result){
+            if(result != null && result.code == 200){ // 初始化 comments 数组
+                var comments = []; // 需要返回的 comments 数组
+                var item = result.data; // 获取 List 对象
+                for(var i = 0;i < item.length;i++){
+                var comment = {
+                    commentID : item[i].commentID,
+                    parentCommentID : item[i].parentCommentID,
+                    userID : item[i].userID,
+                    username : item[i].username,
+                    content : item[i].content,
+                    create_time : new Date(item[i].create_time),
+                    likes : item[i].likes,
+                    articleID : item[i].articleID
+                }
+                comments.push(comment);       
+              }
+              initializeComments(comments); // 获取到 comments 后直接调用初始化函数
+              // 注意这里不能通过返回的方式获取到 comments
+            }
+          },
+          error : function(result){
+              alert("Something wrong! Please try again!!");
+          }
+       });
+    }
+
+    // 创建评论元素
+    function createCommentElement(comment) {
+      const commentDiv = document.createElement('div');
+      commentDiv.className = 'comment';
+
+      const userSpan = document.createElement('div');
+      userSpan.className = 'comment-el';
+      userSpan.innerText = comment.username; // 初始化用户名
+      commentDiv.appendChild(userSpan);
+
+      const contentSpan = document.createElement('div');
+      contentSpan.className = 'comment-el';
+      contentSpan.innerText = comment.content; // 初始化评论内容
+      commentDiv.appendChild(contentSpan);
+
+      const buttonDiv = document.createElement('div'); // 用于存放按钮
+      buttonDiv.className = 'buttons';
+      commentDiv.appendChild(buttonDiv);
+
+      const replyElement = document.createElement('i');
+      replyElement.className = 'fa-solid fa-reply fa-xl';
+      replyElement.style.color = '#71a3d6;';
+
+      // 添加点击事件监听器
+      replyElement.addEventListener('click', function(){ // 回复功能函数
+        const replyText = prompt('Please Input the content of reply:'); 
+        if (replyText) { 
+          // 发送 ajax 请求给后端
+          jQuery.ajax({
+             url : "/comment/reply",
+             type : "POST",
+             data : {
+                parentCommentID : comment.commentID,
+                content : replyText,
+                articleID : getURLParam("id")
+             },
+             success : function(result){
+                if(result.code == 200 && result.data == 1){
+                   alert("回复评论成功!!");
+                   location.reload(); // 刷新当前页面
+                }else{
+                   alert("回复评论失败,请重试!");
+                }
+              }
+          });
+        }
+      });
+      buttonDiv.appendChild(replyElement);
+
+      // 添加回复评论
+      const replyContainer = document.createElement('div');
+      replyContainer.className = 'reply';
+      commentDiv.appendChild(replyContainer);
+
+      const expandButton = document.createElement('button');
+      expandButton.innerText = '展开';
+      expandButton.className = 'expand-button';
+      expandButton.addEventListener('click', function () {
+        replyContainer.style.display = replyContainer.style.display === 'none' ? 'block' : 'none';
+        expandButton.innerText = replyContainer.style.display === 'none' ? '展开' : '隐藏';
+      });
+      commentDiv.appendChild(expandButton);
+
+      // 初始状态设置为隐藏
+      replyContainer.style.display = 'none';
+
+      const likeElement = document.createElement('i');
+      likeElement.className = 'fa-solid fa-heart fa-xl';
+      initLikeColor(comment.commentID);
+
+      // 初始化爱心颜色
+      function initLikeColor(commentID){
+          jQuery.ajax({
+            url : "/comment/color",
+            type : "POST",
+            data : {
+              commentID : commentID
+            },
+            success : function(result){
+              if(result.code == 200 && result.data == 1){
+                likeElement.style.color = '#da1072'; // 将爱心变成红色
+              }else {
+                likeElement.style.color = '#3d66ae'; // 将爱心变成蓝色
+              }
+            }
+          });
+      }
+
+      likeElement.addEventListener('click', function() { // 点赞功能函数
+        jQuery.ajax({
+          url : "/comment/like",
+          type : "POST",
+          data : {
+            commentID : comment.commentID,
+            articleID : getURLParam("id")
+          },
+          success : function(result){
+            if(result.code == 200 && result.data == 1){
+              if(result.msg == '点赞成功'){
+                 likeElement.style.color = '#da1072'; // 将爱心变成红色
+                 location.reload();
+              }else{
+                 likeElement.style.color = '#3d66ae'; // 将爱心变成蓝色
+                 location.reload();
+              }
+            }else{
+              alert("点赞失败,请重试!");    
+            }
+          }
+        })
+      });
+
+      buttonDiv.appendChild(likeElement);
+
+      const countElement = document.createElement('span');
+          if(comment.likes == 0){
+            countElement.innerText = null;
+          }else{
+            countElement.innerText = comment.likes; // 初始化点赞数量
+          }
+          buttonDiv.appendChild(countElement);
+          return commentDiv;
+      }
+
+    // 递归构建评论和回复的层次结构
+    function buildCommentTree(comments, parentCommentId, container) {
+      const childComments = comments.filter(comment => comment.parentCommentID === parentCommentId);  // 过滤器
+
+      for (const comment of childComments) {
+        const commentElement = createCommentElement(comment);
+        container.appendChild(commentElement); 
+        const replyContainer = commentElement.querySelector('.reply');
+        buildCommentTree(comments, comment.commentID, replyContainer); // 递归构建
+      }
+    }
+
+    // 初始化评论区
+    function initializeComments(comments) {
+      const commentContainer = document.getElementById('comment-list');
+      buildCommentTree(comments, null, commentContainer); 
+    }
+
+    // 提交评论
+    function submitComment() {
+      const commentInput = document.getElementById('comment-box'); // 获取到评论输入框的内容
+      const commentText = commentInput.value.trim(); // 去除掉前后的空格得到最终评论内容
+      if(commentText){ // 评论不为空
+        jQuery.ajax({
+          url : "/comment/submit",
+          type : "POST",
+          data : {
+            content : commentText,
+            articleID : getURLParam("id")
+          },
+          success : function(result){
+             if(result.code == 200 && result.data == 1){
+                alert("发表评论成功!");
+                location.reload(); // 刷新当前页面     
+             }else {
+                alert("发表评论失败,请重试!");
+             }
+           }
+        });
+      }else {
+        alert("请先输入评论内容!");
+      }
+    }
+
+    // 在页面加载完成后调用获取评论数据函数
+    window.addEventListener('DOMContentLoaded', retrieveCommentsFromBackend);
+
+    // 在页面加载完成后调用初始化评论区函数
+    window.addEventListener('DOMContentLoaded', initializeComments);
+
+  
+    // 绑定提交评论按钮的点击事件
+    const submitCommentButton = document.getElementById('submitCommentButton');
+    submitCommentButton.addEventListener('click', submitComment);
+
+    // 点赞按钮样式 JS
+    let button = document.querySelector(".like-button");
+
+    button.addEventListener("click", function(e) {
+      e.preventDefault();
+      this.classList.toggle("active");
+      this.classList.add("animated");
+      generateClones(this);
+    });
+
+    function generateClones(button) {
+      let clones = randomInt(2, 4);
+      for (let it = 1; it <= clones; it++) {
+        let clone = button.querySelector("svg").cloneNode(true),
+          size = randomInt(5, 16);
+        button.appendChild(clone);
+        clone.setAttribute("width", size);
+        clone.setAttribute("height", size);
+        clone.style.position = "absolute";
+        clone.style.transition =
+          "transform 0.5s cubic-bezier(0.12, 0.74, 0.58, 0.99) 0.3s, opacity 1s ease-out .5s";
+        let animTimeout = setTimeout(function() {
+          clearTimeout(animTimeout);
+          clone.style.transform =
+            "translate3d(" +
+            (plusOrMinus() * randomInt(10, 25)) +
+            "px," +
+            (plusOrMinus() * randomInt(10, 25)) +
+            "px,0)";
+          clone.style.opacity = 0;
+        }, 1);
+        let removeNodeTimeout = setTimeout(function() {
+          clone.parentNode.removeChild(clone);
+          clearTimeout(removeNodeTimeout);
+        }, 900);
+        let removeClassTimeout = setTimeout( function() {
+          button.classList.remove("animated")
+        }, 600);
+      }
+    }
+
+    function plusOrMinus() {
+      return Math.random() < 0.5 ? -1 : 1;
+    }
+
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    var viewCounter = document.getElementById('view-counter');
+
+    // 初始化浏览量功能
+    function initView(){
+      jQuery.ajax({
+        url : "/article/initview",
+        type : "POST",
+        data : {
+          id : getURLParam("id")
+        },
+        success : function(result){
+          if(result.code == 200){
+            viewCounter.textContent = result.data; // 初始化浏览量
+          }
+        },
+        error : function(result){
+          alert("Something wrong,Please try again!");
+        }
+      });
+    }
+    initView();
+
+    // 浏览功能
+    function view(){
+      jQuery.ajax({
+        url : "/article/view",
+        type : "POST",
+        data : {
+          id : getURLParam("id")
+        },
+        success : function(result){
+          
+        },
+        error : function(result){
+          alert("Something wrong,Please try again!");
+        }
+      });
+    }
+    view(); // 每次进入该页面加载,使得浏览量 + 1
+
+    // 点赞功能
+    var likeButton = document.querySelector('.like-button');
+    var likeCounter = document.getElementById('like-counter');
+    var count = 0;
+    var isLiked = false;
+
+    // 初始化点赞数量
+    function initLikeCount(){
+       jQuery.ajax({
+          url : "/article/count",
+          type : "POST",
+          data : {
+            id : getURLParam("id")
+          },
+          success : function(result){
+            if(result.code == 200){
+              count = result.data; 
+              likeCounter.textContent = count; // 将结果初始化给页面
+            }
+          }
+       });
+    }
+    initLikeCount();
+
+    // 初始化 isLiked 和点赞图标状态
+    function initLikeState(){
+      jQuery.ajax({
+          url : "/article/state",
+          type : "POST",
+          data : {
+            articleID : getURLParam("id")
+          },
+          success : function(result){
+            if(result.code == 200 && result.data == 1){ // 已经点赞过
+              isLiked = true;
+            }else{ // 没有点赞过
+              isLiked = false;
+            }
+          }
+      });
+    }
+    initLikeState();
+    
+
+    // 点赞功能函数
+    likeButton.addEventListener('click', function() {
+      if (isLiked) {
+        count--;
+        likeCounter.textContent = count;
+        isLiked = false;
+      } else {
+        count++;
+        likeCounter.textContent = count;
+        isLiked = true;
+      }
+
+      jQuery.ajax({
+         url : "/article/like",
+         type : "POST",
+         data : {
+           articleID : getURLParam("id")
+         },
+         success : function(result){
+            if(result.code == 200 && result.data == 1){
+              if(result.msg == "点赞成功"){
+                //  alert("点赞成功");
+              }else{
+                //  alert("取消点赞成功");
+              }
+            }else{
+              alert("操作失败,请重试!");
+            }
+         }
+      });
+    });
+</script>
+</body>
+</html>
+
+

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册页面</title>
+    <link rel="stylesheet" href="css/login.css">
+    <!--引入 jquery-->
+    <script src="js/jquery.min.js"></script>
+</head>
+
+<body>
+    <!--星空背景-->
+    <canvas id="canvas"></canvas>
+    <!-- 导航栏 -->
+    <div class="nav">
+        <img src="img/d-logoblack.png" alt="">
+        <span class="title"></span>
+        <!-- 用来占据中间位置 -->
+        <span class="spacer"></span>
+        <a href="blog_list.html">主页</a>
+        <a href="login.html">登录</a>
+        <!-- <a href="#">注销</a> -->
+    </div>
+    <!-- 版心 -->
+    <div class="login-container">
+        <!-- 中间的注册框 -->
+        <div class="login-dialog">
+            <h3>注册</h3>
+            <div class="row">
+                <span>用户名</span>
+                <input type="text" id="username">
+            </div>
+            <div class="row">
+                <span>密码</span>
+                <input type="password" id="password1">
+            </div>
+            <div class="row">
+                <span>确认密码</span>
+                <input type="password" id="password2">
+            </div>
+            <div class="row">
+                <!--不要忘记写onclick了-->
+                <button id="submit" onclick="mysub()">提交</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    function mysub(){
+       var username = jQuery("#username");
+       var password1 = jQuery("#password1");
+       var password2 = jQuery("#password2");
+       //非空判断
+       if(username.val()==""){
+         alert("请先输入用户名");
+         //让光标回到这一块
+         username.focus();
+         return false;
+       }
+       if(password1.val()==""){
+         alert("请先输入密码");
+         password1.focus();
+         return false;
+       }
+       if(password2.val()==""){
+        alert("请先输入确认密码");
+        password2.focus();
+        return false;
+       }
+       if(password1.val() != password2.val()){
+        alert("两次密码输入不一致");
+        password2.focus;
+        return false;
+       }
+       
+       //发送 ajxa 给后端
+       jQuery.ajax({
+         url:"/user/reg",
+         type: "POST",
+         data: {
+            username: username.val(),
+            password: password1.val()
+         },
+         success: function(result){
+            if(result.code == 200 && result.data == 1){
+                alert("注册用户成功");
+                if(confirm("是否要跳转到登录页面")){
+                    location.href = "login.html";
+                }
+            }else{
+                alert("注册失败，请再次尝试");
+            }
+         }
+       });
+    }
+
+
+// 星空背景
+    window.onload = function() {            
+            document.getElementById( "canvas" ).setAttribute( "width", window.innerWidth );
+            document.getElementById( "canvas" ).setAttribute( "height", window.innerHeight );
+
+            let config = {
+                containerID     : "canvas",
+                containerW      : document.getElementById( "canvas" ).offsetWidth,
+                containerH      : document.getElementById( "canvas" ).offsetHeight,
+                particlesCount  : 350,
+                particlesRadius : "random", // "random" or specific size
+                particlesColor  : "random", // "random" or specific color
+            }
+
+            init( config );
+    }
+
+/* =================== S E T T I N G S  V A R I B L E S ==================== */
+/*
+ * space parameters.
+ */
+const starMaxSize    = 0.6;
+const starMinSize    = 0.5;
+const cometApperance = 15000 // ms
+/*
+ * canvas consts.
+ */
+const canvas      = document.getElementById( "canvas" );
+const ctx         = canvas.getContext( "2d" );
+/*
+ * default varibles.
+ */
+var starColors    = [ "#FFEFD5", "#FFFFE0", "#FFE4B5", "#F0E68C", "#FFDAB9", "#E0FFFF" ];
+var particlesArr  = [];
+var mouse         = { x: 2, y: 2 };
+var mouseCoords   = {
+	getX: function(e) {
+		if (e.pageX) {
+			return e.pageX;
+		}
+		else if (e.clientX) {
+            return e.clientX + 
+                (document.documentElement.scrollLeft || document.body.scrollLeft) - 
+                document.documentElement.clientLeft;
+		}
+		return 0;
+	},
+	getY: function(e) {
+		if (e.pageY) {
+			return e.pageY;
+		}
+		else if (e.clientY) {
+            return e.clientY + 
+                (document.documentElement.scrollTop || document.body.scrollTop) - 
+                document.documentElement.clientTop;
+		}
+		return 0;
+	}
+}
+
+/* ===================== R E N D E R I N G   S T A R S ===================== */
+/*
+ * initilize programm.
+ */
+function init( config ) {
+    for( let i = 0; i < config.particlesCount; i++ ) {
+        addParticle( createParticle( config ) );
+    }
+    window.requestAnimationFrame( drawParticles );
+}
+/*
+ * create particle object.
+ */
+function createParticle( config ) {
+    return {
+        container : config.containerID,
+        color     : ( config.particlesColor == "random" ) ? getRandomColor() : config.particlesColor,
+        size      : ( config.particlesRadius == "random" ) ? getRandom( starMaxSize, starMinSize ) : config.particlesRadius,
+        x         : getRandom( config.containerW, 0 ),
+        y         : getRandom( config.containerH, 0 )
+    }
+}
+/*
+ * add particle into particles array.
+ */
+function addParticle( elem ) {
+    particlesArr.push( elem );
+}
+/*
+ * Function for update particles position.
+ */
+function updatePosition() {
+    for( let i = 0; i < particlesArr.length; i++ ) {
+        particlesArr[i].x = 
+            parseFloat( particlesArr[i].x ) +
+            ( parseFloat( ( canvas.width / 2 ) - mouse.x ) / 100 )
+        
+        particlesArr[i].y = 
+            parseFloat( particlesArr[i].y ) +
+            ( parseFloat( ( canvas.width / 2 ) - mouse.y ) / 100 )
+
+        if( 
+            particlesArr[i].x > canvas.width || particlesArr[i].y > canvas.height ||
+            particlesArr[i].x < 0 || particlesArr[i].y < 0
+        ) {
+            particlesArr[i].x = canvas.width - particlesArr[i].x;
+            particlesArr[i].y = canvas.height - particlesArr[i].y;
+        }
+    }
+}
+/*
+ * draw particles on canvas.
+ */
+function drawParticles() {
+    if( particlesArr.length == 0 ){ 
+        console.log("The end of space."); 
+        return;
+    }
+    ctx.clearRect( 0, 0, canvas.width, canvas.height );
+    particlesArr.forEach( function( elem ) {
+        ctx.beginPath();
+        ctx.arc( elem.x, elem.y, elem.size, 0, 2 * Math.PI );
+        ctx.fillStyle = elem.color;
+        ctx.fill();
+    } );
+    updatePosition();
+    setTimeout( 
+        function() { drawParticles() }, 20 
+    );
+}
+
+/* ================= A D D I T I O N A L   F U N C T I O N S ================ */
+/*
+ * Get random number.
+ */
+function getRandom( max, min ) {
+    return min - 0.5 + Math.random() * ( max - min + 1 );
+}
+/*
+ * Get random color.
+ */
+function getRandomColor() {
+    return starColors[ Math.round( Math.random() ) ];
+}
+/*
+ * Mouse movement event.
+ */
+document.onmousemove = function( event ) {
+    if( !event ) { event = window.event };
+    
+    mouse.x = mouseCoords.getX(event);
+    mouse.y = mouseCoords.getY(event);
+
+    console.log(mouse);
+}
+</script>
+</html>

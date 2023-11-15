@@ -69,6 +69,7 @@ export default {
     // 显示通知，在跳转到登录页面的时候提示打开浏览器手机模式
     showNotification() {
       this.isActive = true;
+      // 后面再来实现关闭通知功能
     },
     goBack() {
       history.back();
@@ -86,7 +87,7 @@ export default {
         title="Notification"
         v-model="isActive"
         aria-close-label="Close message">
-        该项目为仿手机 App 项目，请将浏览器改为手机模式，否则可能导致页面混乱。
+        项目为仿手机应用项目，请将浏览器改为手机模式，否则可能导致页面混乱。
     </b-message>
     <Header/>
     <div class="content">

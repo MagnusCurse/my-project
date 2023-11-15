@@ -117,7 +117,7 @@ export default {
                return;
             }
             // 抢购成功，这里输出订单id，支付功能TODO
-            this.$message.success("抢购成功，订单 id:" + data.data);
+            this.$message.success("抢购成功，订单 id:" + data.data)
             // 延迟刷新页面操作，例如延迟 3 秒执行
             setTimeout(function() {
               location.reload();
@@ -227,13 +227,13 @@ export default {
       </div>
       <div class="voucher-right">
         <div v-if="v.type" class="seckill-box">
-          <div class="voucher-btn" :class="{'disable-btn': isNotBegin(v) || v.stock < 1}" @click="seckill(v)">Snap up</div>
+          <div class="voucher-btn" :class="{'disable-btn': isNotBegin(v) || v.stock < 1}" @click="seckill(v)">Grabbing(抢购)</div>
           <div class="seckill-stock">Remaining
             <span style="color: black">{{v.stock}}</span>
           </div>
           <div class="seckill-time"> {{ formatTime(v) }} </div>
         </div>
-        <div class="voucher-btn" v-else>Snap up</div>
+        <div class="voucher-btn" v-else>Grabbing(抢购)</div>
       </div>
     </div>
   </div>
@@ -250,7 +250,7 @@ export default {
           aria-controls="contentIdForA11y3"
           aria-expanded="props.open">
         <p class="card-header-title">
-          Click to rate the restaurant
+           评价餐厅 (Click to rate the restaurant)
         </p>
         <a class="card-header-icon">
           <b-icon
@@ -477,8 +477,9 @@ export default {
   background-color: #ff6633;
   color: white;
   font-size: 14px;
+  font-weight: bold;
   line-height: 30px;
-  width: 65px;
+  width: 105px;
   text-align: center;
   border-radius: 15px;
 }

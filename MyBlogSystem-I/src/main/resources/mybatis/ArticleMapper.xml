@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ArticleMapper">
+
+    <select id="myList" resultType="com.example.demo.model.Articleinfo">
+        select * from articleinfo where uid = #{uid}
+    </select>
+
+    <select id="myDetail" resultType="com.example.demo.model.Articleinfo">
+        select * from articleinfo where id = #{id}
+    </select>
+
+    <delete id="myDelete">
+        delete from articleinfo where id = #{id}
+    </delete>
+
+    <update id="myUpdate">
+        update articleinfo set content = #{content},title = #{title} where id = #{id}
+    </update>
+
+    <insert id="myAdd">
+        insert into articleinfo(title,content,uid)
+        values(#{title},#{content},#{uid})
+    </insert>
+
+    <select id="selectUid" resultType="java.lang.Integer">
+        select uid from articleinfo where id = #{id}
+    </select>
+
+    <select id="pageList" resultType="com.example.demo.model.Articleinfo">
+        select * from articleinfo limit #{psize} offset #{offset}
+    </select>
+
+    <select id="selectAll" resultType="com.example.demo.model.Articleinfo">
+        select * from articleinfo
+    </select>
+
+    <!-- 点赞功能  -->
+    <update id="likeArticle">
+        update articleinfo set likes = coalesce(likes, 0) + 1 where id = #{articleID}
+    </update>
+
+    <insert id="insertLike">
+        insert into articlelikeinfo (userID,articleID) values (#{userID},#{articleID})
+    </insert>
+
+    <update id="unlikeArticle">
+        update articleinfo set likes = (likes - 1) where id = #{articleID}
+    </update>
+
+    <delete id="deleteLike">
+        delete from articlelikeinfo where userID = #{userID} and  articleID = #{articleID}
+    </delete>
+
+    <select id="selectLike" resultType="com.example.demo.model.ArticleLikeInfo">
+        select * from articlelikeinfo where userID = #{userID} and  articleID = #{articleID}
+    </select>
+
+    <!-- 浏览功能  -->
+    <update id="view">
+        update articleinfo set views = (views + 1) where id = #{id}
+    </update>
+</mapper>

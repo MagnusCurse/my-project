@@ -20,7 +20,7 @@ export default {
   <div class="search-bar">
 <!-- note 地区选择功能:  <div class="city-btn">杭州<i class="el-icon-arrow-down"></i></div>  -->
     <div class="search-input">
-      <el-input size="medium" placeholder="请输入商户名、地点" style="width: 100%">
+      <el-input size="medium" style="width: 100%">
         <i slot="prefix" class="el-input__icon el-icon-search"></i>
       </el-input>
     </div>

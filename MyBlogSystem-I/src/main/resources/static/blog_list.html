@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客列表</title>
+    <link rel="stylesheet" href="css/list.css">
+    <link rel="stylesheet" href="css/blog_list.css">
+    <!--引入jquery-->
+    <script src="js/jquery.min.js"></script>
+    <!--引入自己写的js工具包-->
+    <script src="js/tool.js"></script>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <div class="nav">
+        <img src="img/d-logoblack.png" alt="">
+        <span class="title"></span>
+        <!-- 用来占据中间位置 -->
+        <span class="spacer"></span>
+        <a href="blog_list.html">主页</a>
+        <a href="myblog_list.html">我的博客</a>
+        <a href="blog_edit.html">创作</a>
+        <!--a 标签 onclick 有些浏览器不生效,所以跳转写在href中,javascript表示后面的是js代码-->
+        <a href="javascript:onExit()">注销</a>
+        <!-- <a href="#">注销</a> -->
+    </div>
+    <!-- 版心 -->
+    <div class="container">
+        <!-- 内容详情 -->
+        <div class="container-detail">
+            <!--这里新建一个div,要不然按钮会被新的html替换-->
+            <div id = "list">
+            <!-- 每一篇博客包含标题, 摘要, 时间 -->
+            </div>
+            <hr>
+            <div class="blog-pagnation-wrapper">
+                <button class="blog-pagnation-item" onclick="toHomePage()">首页</button> 
+                <button class="blog-pagnation-item" onclick="toPrePage()">上一页</button>  
+                <button class="blog-pagnation-item" onclick="toNextPage()">下一页</button>
+                <button class="blog-pagnation-item" onclick="toLastPage()">末页</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var pindex = 1;//页数
+        var psize = 2;//每页数量
+
+        //分页功能:从 URL 中获取参数并初始化参数
+        function initParam(){
+            var pi = getURLParam("pindex");
+            if(pi != ""){
+                pindex = pi;
+            }
+            var ps = getURLParam("psize");
+            if(ps != ""){
+                psize = ps;
+            }
+        }
+        initParam();
+
+        //获取列表总页数
+        var totalPage = 0;
+        function getTotalPage(){
+            jQuery.ajax({
+               url: "/article/total",
+               type: "POST",
+               data: {
+                psize: psize
+               },
+               success: function(result){
+                   if(result.code == 200 && result.data > 0){
+                     totalPage = result.data;
+                   }
+               }
+            });
+        }
+        getTotalPage();
+
+        //初始化列表页
+        function initList(){
+           jQuery.ajax({
+             url: "/article/list",
+             type: "POST",
+             data: {
+                pindex: pindex,
+                psize: psize
+             },
+             success: function(result){
+                if(result.code == 200 && result.data != null && result.data.length > 0){
+                    var finalHtml = "";
+                    for(var i = 0; i < result.data.length; i++){
+                       var item = result.data[i]; 
+                       finalHtml += '<div class="blog">' + 
+                                    '<div class="title">' + item.title + '</div>' +
+                                    '<div class="date">' + item.createtime + '</div>' +
+                                    '<div class="desc">' + mySubString(item.content) + '</div>' +
+                                    '<a href="blog_content.html?id=' + item.id + '" class="detail">查看全文</a>' +
+                                    '</div>';
+                    }
+                    jQuery("#list").html(finalHtml);//这段代码会将原来的html替换掉
+                 }
+              }
+           });
+        }
+        initList();
+
+        //跳转到首页
+        function toHomePage(){
+            location.href = "blog_list.html";
+        }
+
+        //进入上一页
+        function toPrePage(){
+            if(pindex == 1){
+                alert("当前已经是首页");
+                return false;
+            }
+            pindex = parseInt(pindex) - 1;
+            location.href = "blog_list.html?pindex=" + pindex + "&psize=" + psize
+        }
+
+        //进入下一页
+        function toNextPage(){
+           if(pindex == totalPage){
+                alert("当前已经是末页");
+                return false;
+           }
+           pindex = parseInt(pindex) + 1; 
+           location.href = "blog_list.html?pindex=" + pindex + "&psize=" + psize
+        }
+
+        //进入末页
+        function toLastPage(){
+            location.href = "blog_list.html?pindex=" + totalPage + "&psize=" + psize;
+        }
+
+
+         //退出登录函数
+         function onExit(){
+            if(confirm("是否退出登录?")){
+                //发送 ajax 给后端
+                jQuery.ajax({
+                   url:"/user/logout",
+                   type: "POST",
+                   data: {},//这里不需要传data
+                   success: function(result){
+                    //退出登录后跳转回登录页面
+                      if(result.code == 200 && result.data == 1){
+                        alert("退出登录成功");
+                        location.href = "login.html";
+                      }
+                   },
+
+                   error: function(err){
+                    //此时用户未登录,被拦截器拦截
+                      if(err != null && err.status == 401){//err不是你返回的那个哈希表了,里面没有data等值,只有status,所以用status判断
+                        alert("用户未登录,即将返回登录页面");
+                        location.href = "login.html";
+                      }
+                   }
+                 });
+            }
+        }
+    </script>
+</body>
+</html>
