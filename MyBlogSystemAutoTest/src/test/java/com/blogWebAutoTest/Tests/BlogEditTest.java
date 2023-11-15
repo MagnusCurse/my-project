@@ -6,6 +6,8 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.io.IOException;
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BlogEditTest {
     public static ChromeDriver chromeDriver = AutoTestUtils.createDriver();
@@ -27,10 +29,12 @@ public class BlogEditTest {
      */
     @Test
     @Order(1)
-    public void editPageLoad() {
+    public void editPageLoad() throws IOException {
         // 检测输入框和发布按钮是否存在
         chromeDriver.findElement(By.cssSelector("#home > div > div.main-container > div.user-box.first-box > div.activity.card > div.input-field > div > input"));
         chromeDriver.findElement(By.cssSelector("#home > div > div.main-container > div.user-box.first-box > div.activity.card > div.input-field > button"));
+        // 进行测试屏幕截图
+        AutoTestUtils.getScreenCapture("editPageLoad");
     }
 
     /**
@@ -38,7 +42,7 @@ public class BlogEditTest {
      */
     @Test
     @Order(2)
-    public void submitBlog() throws InterruptedException {
+    public void submitBlog() throws InterruptedException, IOException {
         String expected = "发布文章成功!!";
         // 输入博客标题
         chromeDriver.findElement(By.cssSelector("#home > div > div.main-container > div.user-box.first-box > div.activity.card > div.input-field > div > input")).sendKeys("BlogTestTitle");
@@ -49,6 +53,8 @@ public class BlogEditTest {
         Alert alert = chromeDriver.switchTo().alert();
         String actual = alert.getText();
         alert.accept();
+        // 进行测试屏幕截图
+        AutoTestUtils.getScreenCapture("submitBlog");
         Assertions.assertEquals(expected,actual);
     }
 }

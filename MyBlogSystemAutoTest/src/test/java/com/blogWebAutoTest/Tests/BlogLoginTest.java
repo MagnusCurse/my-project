@@ -3,7 +3,6 @@ package com.blogWebAutoTest.Tests;
 import com.blogWebAutoTest.utils.AutoTestUtils;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -45,7 +44,7 @@ public class BlogLoginTest {
     @Order(2)
     @ParameterizedTest
     @CsvSource({"UserC1,1234","UserC2,5678"})
-    public void loginSuccess(String username, String password) throws InterruptedException {
+    public void loginSuccess(String username, String password) throws InterruptedException, IOException {
         /* TODO 执行登录执行步骤 */
         // 插入数据前要清空，否则自动化会报错
         chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(1) > input[type=text]")).clear();
@@ -59,8 +58,10 @@ public class BlogLoginTest {
         Alert alert = chromeDriver.switchTo().alert();
         alert.accept();
         Thread.sleep(1000);
-        // 对登录结果进行检测，看是否到达了登录页面
+        // 对登录结果进行检测，看是否到达了主页
         chromeDriver.findElement(By.cssSelector("#home > div > div.main-container > div.header > div.logo"));
+        // 进行测试屏幕截图
+        AutoTestUtils.getScreenCapture("loginSuccess");
         // 跳转结束后回到登录页面进行下一组测试
         chromeDriver.navigate().back();
         Thread.sleep(2000);
@@ -69,7 +70,7 @@ public class BlogLoginTest {
     @Order(3)
     @ParameterizedTest
     @CsvSource({"UserWrong1,1234","UserWrong2,1234"})
-    public void loginFail(String username, String password) throws InterruptedException {
+    public void loginFail(String username, String password) throws InterruptedException, IOException {
         // 插入数据前要清空，否则自动化会报错
         chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(1) > input[type=text]")).clear();
         chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(2) > input[type=password]")).clear();
@@ -82,6 +83,8 @@ public class BlogLoginTest {
         Alert alert = chromeDriver.switchTo().alert();
         String actual = alert.getText();
         alert.accept();
+        // 进行测试屏幕截图
+        AutoTestUtils.getScreenCapture("loginFail");
         // 断言弹窗文本是否和预期文本相同
         Assertions.assertEquals(expected,actual);
     }
