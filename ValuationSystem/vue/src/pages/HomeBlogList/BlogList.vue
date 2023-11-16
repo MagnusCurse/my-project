@@ -62,8 +62,13 @@ export default {
           .then(({data}) => {
             this.queryBlogById(b)
           })
-          .catch(err => {
-            this.$message.error(err)
+          .catch(error => {
+            if (error.response && error.response.status === 401) {
+              // 重定向到登录页面
+              if(confirm("当前用户未登录，只有登录后才能点赞，是否跳转到登录页面")) {
+                this.$router.push("/login")
+              }
+            }
           })
     },
     queryBlogById(b) {

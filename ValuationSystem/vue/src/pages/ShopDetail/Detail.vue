@@ -123,7 +123,14 @@ export default {
               location.reload();
             }, 3000); // 3000 毫秒等于 3 秒
           })
-          .catch(this.$message.error)
+          .catch(error => {
+            if (error.response && error.response.status === 401) {
+              // 重定向到登录页面
+              if(confirm("当前用户未登录，是否跳转到登录页面")) {
+                this.$router.push("/login")
+              }
+            }
+          })
     },
     // 评价商户
     rateShop() {
@@ -141,6 +148,14 @@ export default {
         }).then(({data}) => {
          alert("评价商铺成功");
          location.reload(); // 刷新当前页面
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 401) {
+          // 重定向到登录页面
+          if(confirm("当前用户未登录，是否跳转到登录页面")) {
+            this.$router.push("/login")
+          }
+        }
       })
     },
     // 显示该商铺的所有评价

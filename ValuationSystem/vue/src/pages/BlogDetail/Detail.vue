@@ -73,7 +73,14 @@ export default {
             this.queryLikeList();
             this.queryLoginUser();
           })
-          .catch(this.$message.error)
+          .catch(error => {
+            if (error.response && error.response.status === 401) {
+              // 重定向到登录页面
+              if(confirm("当前用户未登录，登录后才能查看其它用户的博客，是否跳转到登录页面")) {
+                this.$router.push("/login")
+              }
+            }
+          })
     },
     // 查询笔记推荐商户信息
     queryShopById(shopId) {
@@ -103,8 +110,13 @@ export default {
                 })
                 .catch(this.$message.error)
           })
-          .catch(err => {
-            console.log(err)
+          .catch(error => {
+            if (error.response && error.response.status === 401) {
+              // 重定向到登录页面
+              if(confirm("当前用户未登录，是否跳转到登录页面")) {
+                this.$router.push("/login")
+              }
+            }
           })
     },
     isFollowed(){

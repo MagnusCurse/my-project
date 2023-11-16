@@ -45,9 +45,12 @@ export default {
             }
             this.user = data.data;
           })
-          .catch(err => {
-            this.$message.error(err);
-
+          .catch(error => {
+            if (error.response && error.response.status === 401) {
+              // 重定向到登录页面
+              alert("当前用户未登录，即将跳转到登录页面");
+              this.$router.push("/login");
+            }
           })
     },
     goBack(){

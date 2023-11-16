@@ -2,7 +2,7 @@
 import axios from "axios";
 
 export default {
-  name: "Center",
+  name: "Edit",
   data() {
     return {
       fileList: [], // 图片文件列表
@@ -62,14 +62,13 @@ export default {
       // 获取 token
       let token = sessionStorage.getItem("token");
       if (!token) {
+        alert("当前用户未登录，登录后才能发布博客，即将跳转到登录页面");
         this.$router.push("/login")
       }
       // 查询用户信息
       axios.get("/user/me")
           .then()
-          .catch(err => {
-            this.$message.error(err);
-            setTimeout(() => this.$router.push("/login"), 200)
+          .catch(error => {
           })
     },
     goBack() {

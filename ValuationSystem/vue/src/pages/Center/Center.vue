@@ -66,9 +66,13 @@ export default {
             // 查询用户笔记
             this.queryBlogs();
           })
-          .catch(err => {
-            console.log(err);
-            // this.$router.push("/login")
+          .catch(error => {
+            if (error.response && error.response.status === 401) {
+              // 重定向到登录页面
+              if(confirm("当前用户未登录，是否跳转到登录页面")) {
+                this.$router.push("/login")
+              }
+            }
           })
     },
     queryUserInfo() {
