@@ -67,6 +67,9 @@ public class BlogLoginTest {
         Thread.sleep(2000);
     }
 
+    /**
+     * 检测异常登录
+     */
     @Order(3)
     @ParameterizedTest
     @CsvSource({"UserWrong1,1234","UserWrong2,1234"})
