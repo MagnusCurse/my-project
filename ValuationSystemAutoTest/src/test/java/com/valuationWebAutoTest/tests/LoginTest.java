@@ -15,10 +15,7 @@ public class LoginTest {
     public static void baseControl() {
         chromeDriver.get("http://43.139.61.124:81/#/login");
     }
-    @AfterAll
-    public static void quitChromeDriver() {
-        chromeDriver.quit();
-    }
+
 
     /**
      * 登录页面加载
@@ -59,7 +56,31 @@ public class LoginTest {
         chromeDriver.findElement(By.cssSelector("#app > div > div.content > div > div.control.is-clearfix > input")).sendKeys(code);
         chromeDriver.findElement(By.cssSelector("#app > div > div.content > div > button")).click();
         Thread.sleep(2000);
+        chromeDriver.findElement(By.cssSelector("#app > div > div.basic > div.logout-btn"));
         chromeDriver.navigate().back();
-        Thread.sleep(2000);
     }
+
+    /**
+     * 检测失败登录 @
+     */
+//    @Order(3)
+//    @ParameterizedTest
+//    @CsvSource({"sdfsdfsdfsdf","1232321321"})
+//    public void loginFail(String phoneNumber) throws InterruptedException {
+//        // 输入之前要清空输入框的值
+//        chromeDriver.findElement(By.cssSelector("#app > div > div.content > div > div:nth-child(1) > div > div > input")).clear();
+//        chromeDriver.findElement(By.cssSelector("#app > div > div.content > div > div.control.is-clearfix > input")).clear();
+//        // 输入手机号码并点击发送验证码按钮
+//        chromeDriver.findElement(By.cssSelector("#app > div > div.content > div > div:nth-child(1) > div > div > input")).sendKeys(phoneNumber);
+//        chromeDriver.findElement(By.cssSelector("#app > div > div.content > div > div:nth-child(1) > button")).click();
+//        Thread.sleep(2000);
+//        Alert alert = chromeDriver.switchTo().alert();
+//        String expected = "当前手机号码不符合格式";
+//        String actual = alert.getText();
+//        alert.accept();
+//        // 断言预期与实际是否相等
+//        Assertions.assertEquals(expected,actual);
+//        chromeDriver.navigate().back();
+//        Thread.sleep(2000);
+//    }
 }
