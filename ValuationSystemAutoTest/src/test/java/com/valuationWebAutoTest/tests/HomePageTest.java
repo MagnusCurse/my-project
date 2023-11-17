@@ -14,10 +14,7 @@ public class HomePageTest {
     public static void baseControl() {
         chromeDriver.get("http://43.139.61.124:81/#/home");
     }
-    @AfterAll
-    public static void quitChromeDriver() {
-        chromeDriver.quit();
-    }
+
 
     /**
      * 主页页面加载

@@ -15,6 +15,10 @@ public class CenterTest {
     public static void baseControl() {
         chromeDriver.get("http://43.139.61.124:81/#/center");
     }
+    @AfterAll
+    public static void quitChromeDriver() {
+        chromeDriver.quit();
+    }
 
     /**
      * 个人中心页面加载
@@ -59,5 +63,21 @@ public class CenterTest {
        alert.accept();
        chromeDriver.navigate().back();
        Thread.sleep(2000);
+    }
+
+    /**
+     * 注销账户功能
+     */
+    @Order(3)
+    @Test
+    public void logout() throws InterruptedException {
+        // 点击注销按钮，弹窗后同意即可注销
+        chromeDriver.findElement(By.cssSelector("#app > div > div.basic > div.logout-btn")).click();
+        Thread.sleep(1000);
+        Alert alert = chromeDriver.switchTo().alert();
+        alert.accept();
+        Thread.sleep(1000);
+        // 注销后跳转到登录页面，查看有无登录按钮即可
+        chromeDriver.findElement(By.cssSelector("#app > div > div.content > div > button"));
     }
 }
