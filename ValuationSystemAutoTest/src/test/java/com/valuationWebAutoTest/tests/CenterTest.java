@@ -7,6 +7,12 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+
+import java.io.IOException;
+
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CenterTest {
@@ -15,6 +21,7 @@ public class CenterTest {
     public static void baseControl() {
         chromeDriver.get("http://43.139.61.124:81/#/center");
     }
+
     @AfterAll
     public static void quitChromeDriver() {
         chromeDriver.quit();
@@ -44,25 +51,57 @@ public class CenterTest {
      */
     @Order(2)
     @ParameterizedTest
-    @CsvSource({"testName1","testName2"})
-    public void editNickname(String nickname) throws InterruptedException {
-       chromeDriver.findElement(By.cssSelector("#app > div > div.basic > div.basic-info > div.edit-btn")).click();
-       chromeDriver.findElement(By.cssSelector("#app > div > div.edit-container > div:nth-child(1) > div:nth-child(3) > div.info-btn")).click();
-       Thread.sleep(2000);
-       // 点击确认修改昵称
-       Alert alert = chromeDriver.switchTo().alert();
-       alert.accept();
-       Thread.sleep(1000);
-       alert = chromeDriver.switchTo().alert();
-       // 输入昵称到输入框
-       alert.sendKeys(nickname);
-       alert.accept();
-       Thread.sleep(1000);
-       // 修改昵称后还有一个弹窗，提示要重新登录
-       alert = chromeDriver.switchTo().alert();
-       alert.accept();
-       chromeDriver.navigate().back();
-       Thread.sleep(2000);
+    @CsvSource({"testName1"})
+    public void editNickname(String nickname) throws InterruptedException, IOException {
+        Thread.sleep(1000);
+        chromeDriver.findElement(By.cssSelector("#app > div > div.basic > div.basic-info > div.edit-btn")).click();
+        chromeDriver.findElement(By.cssSelector("#app > div > div.edit-container > div:nth-child(1) > div:nth-child(3) > div.info-btn")).click();
+        Thread.sleep(1000);
+        // 点击确认修改昵称
+        Alert alert = chromeDriver.switchTo().alert();
+        alert.accept();
+        // Thread.sleep(1000);
+        alert = chromeDriver.switchTo().alert();
+        // 输入昵称到输入框
+        alert.sendKeys(nickname);
+        // 是不是输入前不能那么快接收
+        Thread.sleep(3000);
+        alert.accept();
+        Thread.sleep(1000);
+        // 修改昵称后还有一个弹窗，提示要重新登录
+        alert = chromeDriver.switchTo().alert();
+        alert.accept();
+        chromeDriver.navigate().back();
+        Thread.sleep(2000);
+
+//        Thread.sleep(1000);
+//        chromeDriver.findElement(By.cssSelector("#app > div > div.basic > div.basic-info > div.edit-btn")).click();
+//        chromeDriver.findElement(By.cssSelector("#app > div > div.edit-container > div:nth-child(1) > div:nth-child(3) > div.info-btn")).click();
+//        Thread.sleep(1000);
+//
+//        WebDriverWait wait = new WebDriverWait(chromeDriver,10);
+//        wait.until(ExpectedConditions.alertIsPresent());
+//
+//        Alert alert = chromeDriver.switchTo().alert();
+//        alert.accept();
+//        Thread.sleep(1000);
+//
+//        // Check if another alert appears after accepting the first one
+//        wait.until(ExpectedConditions.alertIsPresent());
+//        alert = chromeDriver.switchTo().alert();
+//        //
+//        alert.sendKeys(nickname);
+//        Thread.sleep(3000);
+//        alert.accept();
+//
+//        // Check for the next alert
+//        wait.until(ExpectedConditions.alertIsPresent());
+//        alert = chromeDriver.switchTo().alert();
+//        alert.accept();
+//
+//        chromeDriver.navigate().back();
+//        Thread.sleep(2000);
+
     }
 
     /**

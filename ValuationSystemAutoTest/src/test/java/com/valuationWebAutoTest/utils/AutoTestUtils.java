@@ -45,7 +45,7 @@ public class AutoTestUtils {
         List<String> list = getTime();
         // ./ 指的是当前文件路径
         // ./src/test/java/com/blogWebAutoTest/Tests/direName/fileName
-        String fileName = "./src/test/java/com/blogWebAutoTest/Tests/" +
+        String fileName = "./src/test/java/com/valuationWebAutoTest/tests/" +
                 list.get(0) + "/" + testType + "-" +
                 list.get(1) + ".png";
         File screenCapture = chromeDriver.getScreenshotAs(OutputType.FILE);
