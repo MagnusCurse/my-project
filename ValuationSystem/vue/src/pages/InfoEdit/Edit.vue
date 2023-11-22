@@ -21,6 +21,10 @@ export default {
     modifyNickname(id) {
       if(confirm("是否要修改昵称?")) {
         this.user.nickName = prompt("请输入要修改的昵称");
+        if(this.user.nickname === "" || this.user.nickname == null) {
+           alert("当前昵称不能为空");
+           return;
+        }
         axios.get("/user/info/nickname/" + id, {
           params: {
             nickname: this.user.nickName
@@ -95,50 +99,6 @@ export default {
           <div>
             <i class="el-icon-arrow-right"></i>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="info-box">
-      <div class="info-item">
-        <div class="info-label">性别</div>
-        <div class="info-btn">
-          <div>{{info.gender || '选择'}}</div>
-          <div><i class="el-icon-arrow-right"></i></div>
-        </div>
-      </div>
-      <div class="divider"></div>
-      <div class="info-item">
-        <div class="info-label">城市</div>
-        <div class="info-btn">
-          <div>{{info.city || '选择'}}</div>
-          <div><i class="el-icon-arrow-right"></i></div>
-        </div>
-      </div>
-      <div class="divider"></div>
-      <div class="info-item">
-        <div class="info-label">生日</div>
-        <div class="info-btn">
-          <div>{{info.birthday || '添加'}}</div>
-          <div><i class="el-icon-arrow-right"></i></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="info-box">
-      <div class="info-item">
-        <div class="info-label">我的积分</div>
-        <div class="info-btn">
-          <div>查看积分</div>
-          <div><i class="el-icon-arrow-right"></i></div>
-        </div>
-      </div>
-      <div class="divider"></div>
-      <div class="info-item">
-        <div class="info-label">会员等级</div>
-        <div class="info-btn">
-          <div><a href="javascript:void(0)">成为VIP尊享特权</a></div>
-          <div><i class="el-icon-arrow-right"></i></div>
         </div>
       </div>
     </div>

@@ -47,6 +47,10 @@ export default {
       // 发送验证码
       axios.post("/user/code?phone=" + this.form.phone)
           .then(({data}) => {
+            if(data.data == null) {
+              alert("当前手机号码格式不正确，请重新输入");
+              return;
+            }
             console.log("当前验证码为:" + data.data);
             alert("当前验证码为:" + data.data);
           })
