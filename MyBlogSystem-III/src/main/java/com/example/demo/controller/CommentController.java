@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.utils.AjaxResult;
 import com.example.demo.utils.SessionUnit;
 import com.example.demo.entity.User;
-import com.example.demo.service.impl.CommentService;
+import com.example.demo.service.impl.CommentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +18,7 @@ import java.util.Map;
 @RequestMapping("/comment")
 public class CommentController {
     @Autowired
-    private CommentService service;
+    private CommentServiceImpl service;
 
     @RequestMapping("/post")
     @ResponseBody

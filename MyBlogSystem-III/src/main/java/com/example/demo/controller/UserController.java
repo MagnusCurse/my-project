@@ -5,7 +5,7 @@ import com.example.demo.utils.SecurityUnit;
 import com.example.demo.utils.SessionUnit;
 import com.example.demo.entity.Constant;
 import com.example.demo.entity.User;
-import com.example.demo.service.impl.UserService;
+import com.example.demo.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ import java.io.IOException;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    private UserService service;
+    private UserServiceImpl service;
     @RequestMapping("/login")
     @ResponseBody
     public Object login(HttpServletRequest request,String username, String password){

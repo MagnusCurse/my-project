@@ -1,7 +1,6 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.mapper.MailMapper;
-import com.example.demo.service.impl.MailRedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -13,12 +12,12 @@ import java.util.Random;
 import java.util.regex.Pattern;
 
 @Service
-public class MailService {
+public class MailServiceImpl {
     @Autowired
     private MailMapper mapper;
 
     @Autowired
-    private MailRedisService redisService;
+    private MailRedisServiceImpl redisService;
 
     @Autowired
     private JavaMailSender sender;

@@ -8,6 +8,6 @@ public class Constant {
     public static final String SESSION_USERINFO_KEY = "SESSION_USERINFO_KEY";
 
     // 保存头像的文件路径
-    public static final String AVATAR_FILE_PATH = "D:/IDEA Project/MyProject(Github)/MyBlogSystem-vue/vue/src/img/avatar/";
+    public static final String AVATAR_FILE_PATH = "D:/IDEA Project/MyProject(Github)/MyBlogSystem-III/vue/public/img/avatar/";
 
 }

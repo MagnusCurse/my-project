@@ -68,9 +68,9 @@ export const userMixin = {
                 method: "get"
             }).then(function (response) {
                 if(response.data.code == 200 && response.data.val != "") {
-                    originThis.imageUrl = require("@/img/avatar/" + response.data.val);
+                    originThis.imageUrl = "/img/avatar/" + response.data.val;
                 } else if(response.data.val == ""){
-                    originThis.imageUrl = require("@/img/avatar/Default.png");
+                    originThis.imageUrl = "/img/avatar/Default.png";
                 } else {
                     alert("初始化头像失败,请重试");
                 }

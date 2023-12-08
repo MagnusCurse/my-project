@@ -1,6 +1,6 @@
 package com.example.demo.utils;
 
-import com.example.demo.service.impl.BlogLikedService;
+import com.example.demo.service.impl.BlogLikedServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -16,7 +16,7 @@ import java.util.Date;
 @Slf4j
 public class BlogLikedTask extends QuartzJobBean {
     @Autowired
-    private BlogLikedService service;
+    private BlogLikedServiceImpl service;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

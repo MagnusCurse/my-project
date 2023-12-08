@@ -173,9 +173,9 @@ export default {
                originThis.parentComments.forEach(parentComment => {
                  // 初始化子评论映射表
                  originThis.initChildComment(parentComment.id);
-                 console.log("初始化父评论函数:" + parentComment.user_id);
                  // 初始化图片 url 映射表
-                 originThis.initCommentAvatar(parentComment.user_id,parentComment.id);
+                 // 这里写 user_id 显示不出来
+                 originThis.initCommentAvatar(parentComment.userId,parentComment.id);
                  // 建立 parent_id 与 showReply 的映射表
                  originThis.$set(originThis.showReplyMap,parentComment.id,false);
                })
@@ -206,7 +206,7 @@ export default {
 
               response.data.val.forEach(childComment => {
                 // 初始化图片 url 映射表
-                originThis.initCommentAvatar(childComment.user_id,childComment.id);
+                originThis.initCommentAvatar(childComment.userId,childComment.id);
               })
             } else {
               alert("初始化子评论失败,请重试");
@@ -231,7 +231,7 @@ export default {
         if(response.data.code == 200 && response.data.val != null) {
           // originThis.imageUrlsMap = require("@/img/avatar/" + response.data.val);
           // 通过评论 id 与每一个 url 建立映射关系
-          originThis.$set(originThis.imageUrlsMap,comment_id,require("@/img/avatar/" + response.data.val));
+          originThis.$set(originThis.imageUrlsMap,comment_id,"/img/avatar/" + response.data.val);
         } else {
           // alert("初始化评论头像失败,请重试");
         }
@@ -367,7 +367,7 @@ export default {
 
      <!--  父评论子评论区域    -->
      <div class="child-comment-list">
-       <div v-if="showReplyMap[childComment.parent_id]" class="child-comment" v-for="childComment in childCommentsMap[parentComment.id]" :key="childComment.id">
+       <div v-if="showReplyMap[childComment.parentId]" class="child-comment" v-for="childComment in childCommentsMap[parentComment.id]" :key="childComment.id">
          <!-- 评论用户模块   -->
          <div class="user">
            <img :src="imageUrlsMap[childComment.id]" alt="">

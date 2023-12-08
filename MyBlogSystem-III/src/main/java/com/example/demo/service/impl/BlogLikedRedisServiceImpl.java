@@ -1,5 +1,8 @@
 package com.example.demo.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.demo.mapper.BlogLikedMapper;
+import com.example.demo.service.IBlogLikedService;
 import com.example.demo.utils.BlogLikedCount;
 import com.example.demo.utils.LikedStatusEnum;
 import com.example.demo.utils.RedisKeyUtils;
@@ -15,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class BlogLikedRedisService {
+public class BlogLikedRedisServiceImpl extends ServiceImpl<BlogLikedMapper, BlogLike> implements IBlogLikedService {
     @Autowired
     private StringRedisTemplate redisTemplate;
 

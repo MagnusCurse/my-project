@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class MailRedisService {
+public class MailRedisServiceImpl {
     @Autowired
     private StringRedisTemplate redisTemplate;
 

@@ -1,11 +1,12 @@
 package com.example.demo.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.demo.entity.BlogLike;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
-public interface BlogLikedMapper {
+public interface BlogLikedMapper extends BaseMapper<BlogLike> {
     /**
      * 保存点赞记录
      * @param liked_blog_id
