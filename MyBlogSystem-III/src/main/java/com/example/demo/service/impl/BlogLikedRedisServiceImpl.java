@@ -88,34 +88,7 @@ public class BlogLikedRedisServiceImpl {
         return (String) redisTemplate.opsForHash().get(RedisKeyUtils.MAP_KEY_BLOG_LIKED_COUNT,likedBlogId);
     }
 
-    /**
-     * 获取 Redis 中所有的点赞数据
-     * @return
-     */
-    public List<BlogLike> getLikedDataFromRedis() {
-        // Cursor: 这是用于接收扫描结果的游标（Cursor）。游标是一种迭代器，允许你逐步遍历大型数据集，而不需要一次性加载全部数据到内存中。
-        // scan(RedisKeyUtils.MAP_KEY_USER_LIKED, ScanOptions.NONE): 这是在 Hash 数据结构中进行扫描的操作。它使用了 scan 方法，该方法允许你迭代遍历一个 Hash 中的元素。
-        // ScanOptions.NONE：这是一个扫描选项对象，用于指定扫描的参数。在这种情况下，使用了 NONE，表示不使用任何特定的扫描选项。
-        // Map.Entry 是 Map 接口中的一个嵌套接口，用于表示单个键值对。
-        Cursor<Map.Entry<Object,Object>> cursor = redisTemplate.opsForHash().scan(RedisKeyUtils.MAP_KEY_USER_LIKED, ScanOptions.NONE);
-        List<BlogLike> res = new ArrayList<>();
-        while (cursor.hasNext()) {
-            Map.Entry<Object,Object> entry = cursor.next();
-            String key = (String) entry.getKey();
-            // 分离出 likedBlogId 和 likedPostId
-            String[] split = key.split("::");
-            String likedBlogId = split[0];
-            String likedPostId = split[1];
-            // 这里拿到的是 Object , 要先转成 String 再变成 Integer
-            Integer value = Integer.valueOf((String) entry.getValue());
 
-            // 组装成 BlogLike 对象
-            BlogLike blogLike = new BlogLike(likedBlogId, likedPostId, value);
-            res.add(blogLike);
-
-        }
-        return res;
-    }
 
     /**
      * 获取 Redis 中每篇博客的点赞数量

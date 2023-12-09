@@ -51,14 +51,13 @@ create table comment_info(
     replied_username varchar(100)
 )default charset 'utf8mb4';
 
---创建用户点赞表
+--创建博客点赞表
 
-drop table if exists blog_like;
-create table blog_like(
+drop table if exists blog_like_info;
+create table blog_like_info(
     id int primary key auto_increment,
-    liked_blog_id int not null, --     被点赞博客的 id
-    liked_post_id int not null, --     点赞该博客用户的 id
-    status tinyint(1) default '1', --     点赞状态,0 取消/ 1 点赞
+    blog_id int not null, -- 被点赞博客的 id
+    user_id int not null, -- 点赞该博客用户的 id
     create_time datetime default now(),
     update_time datetime default now()
 )default charset 'utf8mb4';

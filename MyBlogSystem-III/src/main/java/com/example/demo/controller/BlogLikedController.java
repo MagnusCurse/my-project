@@ -1,8 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.utils.AjaxResult;
-import com.example.demo.utils.SessionUnit;
-import com.example.demo.entity.User;
+
 import com.example.demo.service.impl.BlogLikedRedisServiceImpl;
 import com.example.demo.service.impl.BlogLikedServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

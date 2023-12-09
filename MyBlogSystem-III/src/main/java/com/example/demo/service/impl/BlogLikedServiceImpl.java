@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.entity.Blog;
 import com.example.demo.entity.User;
@@ -25,11 +26,13 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class BlogLikedServiceImpl  extends ServiceImpl<BlogMapper, Blog> implements IBlogService {
+public class BlogLikedServiceImpl extends ServiceImpl<BlogLikedMapper,BlogLike> implements IBlogLikedService {
     @Autowired
     private BlogLikedRedisServiceImpl redisService;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private BlogServiceImpl blogService;
     @Autowired
     private BlogLikedMapper mapper;
 
@@ -56,20 +59,32 @@ public class BlogLikedServiceImpl  extends ServiceImpl<BlogMapper, Blog> impleme
         if(liked) {
             /* 数据库操作 */
             // 点赞数量 - 1
-            boolean isSuccess = update().setSql("like_count = like_count - 1").eq("id",likedBlogId).update();
+            boolean isSuccess = blogService.update().setSql("like_count = like_count - 1").eq("id",likedBlogId).update();
             if(!isSuccess) {
                 return AjaxResult.fail(-1,"数据库更新失败");
             }
+            // 移除数据库中该条记录
+            QueryWrapper<BlogLike> wrapper = new QueryWrapper<>();
+            wrapper.eq("blog_id",likedBlogId);
+            wrapper.eq("user_id",curUser.getId());
+            remove(wrapper);
+
             /* Redis 操作 */
             // 移除 set 中的该条记录
             stringRedisTemplate.opsForSet().remove(key,curUser.getId().toString());
         } else {
             // 用户没有点赞过
             // 点赞数量 + 1
-            boolean isSuccess = update().setSql("like_count = like_count + 1").eq("id",likedBlogId).update();
+            boolean isSuccess = blogService.update().setSql("like_count = like_count + 1").eq("id",likedBlogId).update();
             if(!isSuccess) {
                 return AjaxResult.fail(-1,"数据库更新失败");
             }
+            // 新增一条点赞记录
+            /* ERR 这里一直报类型错误，暂时不知道什么原因，用传统的  MyBatis 好了 */
+            // BlogLike blogLike = new BlogLike(Integer.valueOf(likedBlogId),curUser.getId());
+            // save(blogLike);
+            mapper.saveLike(likedBlogId,curUser.getId().toString());
+
             /* Redis 操作 */
             // 新增 set 一条记录
             stringRedisTemplate.opsForSet().add(key,curUser.getId().toString());
@@ -82,57 +97,17 @@ public class BlogLikedServiceImpl  extends ServiceImpl<BlogMapper, Blog> impleme
      * @param likedBlogId
      * @return
      */
-    @RequestMapping("init-like-count")
     public Object initLikeCount(String likedBlogId) {
         // 从 Redis 中获取到点赞数据
         String key = RedisKeyUtils.BLOG_LIKED_KEY + likedBlogId;
         Long count = stringRedisTemplate.opsForSet().size(key);
         // 如果 Redis 中获取不到，则操作数据库
         if(count == null) {
-            count = (long) getById(likedBlogId).getLikes();
+            count = (long) blogService.getById(likedBlogId).getLikes();
             /* 将数据库的数据重新写入 Redis 中 */
 
 
         }
         return AjaxResult.success(count,"初始化博客点赞数成功");
-    }
-
-    /* 后面大概率不需要这些哩 */
-
-    /**
-     * 将 Redis 所有点赞数据存入数据库
-     */
-    public void saveLikeFromRedisToDb() {
-        // 获取 Redis 中所有的点赞数据
-        List<BlogLike> list = redisService.getLikedDataFromRedis();
-        if(list == null) {
-            return;
-        }
-        // 循环遍历将所有数据存入数据库中
-        for (BlogLike blogLike : list) {
-            String likedBlogId = blogLike.getLikedBlogId();
-            String likedPostId = blogLike.getLikedPostId();
-            String status = String.valueOf(blogLike.getStatus());
-            // 如果当前记录不存在,则插入,否则就更新当前记录
-            if(mapper.getLike(likedBlogId,likedPostId) == null) {
-                mapper.saveLike(likedBlogId,likedPostId,status);
-            } else {
-                mapper.updateLike(likedBlogId,likedPostId,status);
-            }
-        }
-    }
-
-    /**
-     * 将 Redis 所有点赞数存入数据库
-     */
-    public void saveLikeCountFromRedisToDb() {
-       List<BlogLikedCount> list = redisService.getLikedCountFromRedis();
-       if(list == null) {
-           return;
-       }
-       // 循环遍历将所有点赞数存入数据库中
-       for(BlogLikedCount blogLikedCount : list) {
-           mapper.saveLikeCount(String.valueOf(blogLikedCount.getLikeCount()),String.valueOf(blogLikedCount.getLikedBlogId()));
-       }
     }
 }

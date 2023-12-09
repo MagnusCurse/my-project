@@ -3,15 +3,15 @@
 <mapper namespace="com.example.demo.mapper.BlogLikedMapper">
 
     <insert id="saveLike">
-        insert into blog_like (liked_blog_id,liked_post_id,status) values (#{liked_blog_id},#{liked_post_id},#{status})
+        insert into blog_like_info (blog_id,user_id) values (#{liked_blog_id},#{liked_post_id})
     </insert>
 
     <update id="updateLike">
-        update blog_like set status = #{status} where liked_blog_id = #{liked_blog_id} and liked_post_id = #{liked_post_id}
+        update blog_like_info set status = #{status} where liked_blog_id = #{liked_blog_id} and liked_post_id = #{liked_post_id}
     </update>
 
     <select id="getLike" resultType="com.example.demo.entity.BlogLike">
-        select * from blog_like where liked_blog_id = #{liked_blog_id} and liked_post_id = #{liked_post_id}
+        select * from blog_like_info where liked_blog_id = #{liked_blog_id} and liked_post_id = #{liked_post_id}
     </select>
 
     <update id="saveLikeCount">
