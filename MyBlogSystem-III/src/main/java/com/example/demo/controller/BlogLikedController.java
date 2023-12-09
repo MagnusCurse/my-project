@@ -39,12 +39,6 @@ public class BlogLikedController {
      */
     @RequestMapping("init-like-count")
     public Object initLikeCount(String likedBlogId) {
-       String count = redisService.getLikeCountFromRedis(likedBlogId);
-       // 查询结果为空, 点赞数初始化为 0
-       if(count == null) {
-           return AjaxResult.success(0,"初始化点赞数成功");
-       }
-       return AjaxResult.success(Integer.valueOf(count),"初始化点赞数量成功");
+       return service.initLikeCount(likedBlogId);
     }
-
 }

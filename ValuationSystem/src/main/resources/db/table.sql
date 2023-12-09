@@ -134,7 +134,7 @@ CREATE TABLE `tb_shop_type`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_sign`;
 CREATE TABLE `tb_sign`  (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键'
   `user_id` bigint(20) UNSIGNED NOT NULL COMMENT '用户id',
   `year` year NOT NULL COMMENT '签到的年',
   `month` tinyint(2) NOT NULL COMMENT '签到的月',

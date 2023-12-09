@@ -6,6 +6,10 @@ public class RedisKeyUtils {
     // 保存博客被点赞数量的 key
     public static final String MAP_KEY_BLOG_LIKED_COUNT = "MAP_BLOG_LIKED_COUNT";
 
+    // 保存用户点赞数据的 key
+    public static final String BLOG_LIKED_KEY = "blog:liked:";
+
+
     /**
      *
      * @param likedBlogId 被点赞博客的 id
@@ -19,6 +23,8 @@ public class RedisKeyUtils {
         builder.append(likedPostId);
         return builder.toString();
     }
+
+
 
     // 保存验证码的 key
     public static final String MAP_KEY_VERIFICATION_CODE = "map_verification_code";

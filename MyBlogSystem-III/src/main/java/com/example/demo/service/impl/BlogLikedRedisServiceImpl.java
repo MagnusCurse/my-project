@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class BlogLikedRedisServiceImpl extends ServiceImpl<BlogLikedMapper, BlogLike> implements IBlogLikedService {
+public class BlogLikedRedisServiceImpl {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
