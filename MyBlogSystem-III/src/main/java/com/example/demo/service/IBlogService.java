@@ -9,4 +9,6 @@ public interface IBlogService extends IService<Blog> {
     public Object viewBlog(HttpServletRequest request, Integer blogId);
 
     public Object initViews(Integer blogId);
+
+    public Object initTotalPage(Integer pageSize);
 }

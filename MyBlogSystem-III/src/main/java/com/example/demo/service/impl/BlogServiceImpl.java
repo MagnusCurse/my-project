@@ -136,4 +136,14 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
         }
         return AjaxResult.success(view,"初始化浏览量成功");
     }
+
+    /* 初始化总页数 */
+    @Override
+    public Object initTotalPage(Integer pageSize) {
+        List<Blog> blogs = list();
+        if(blogs != null) {
+            return (int) Math.ceil(blogs.size() * 1.0 / pageSize);
+        }
+        return 0;
+    }
 }

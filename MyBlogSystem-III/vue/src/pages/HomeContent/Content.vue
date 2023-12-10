@@ -1,7 +1,7 @@
 <script>
 import Recommend from "@/pages/Recommend/Recommend.vue";
 import axios from "axios";
-import {blogMixin, mixin} from "@/mixin";
+import {blogMixin, commonMixin, mixin} from "@/mixin";
 export default {
   name: "Content",
   components: {
@@ -12,10 +12,78 @@ export default {
       blogs: {
 
       },
-      title: ""
+      title: "",
+      pageIndex: 1, // 页数
+      pageSize: 4, // 每页博客数量
+      totalPage: 0 // 总页数
     }
   },
   methods: {
+    // 初始化页面参数
+    initPageParam() {
+      const pi = this.getURLParam("pageIndex");
+      if(pi !== "") {
+         this.pageIndex = pi;
+      }
+      const ps = this.getURLParam("pageSize");
+      if(ps !== "") {
+        this.pageSize = ps;
+      }
+    },
+    // 初始化总页数
+    initTotalPage() {
+      const originThis = this; // 缓存 this
+      axios({
+        url: "blog/init-total-page",
+        method: "get",
+        params: {
+          pageSize: originThis.pageSize
+        }
+      }).then(function (response) {
+        if(response.data.code === 200) {
+          originThis.totalPage = response.data.val;
+        }
+      }).catch(function (error) {
+        console.log(error);
+        alert("出现异常,详情见控制台");
+      })
+    },
+    // 跳转到首页
+    toHomePage() {
+      this.$router.push("/home");
+    },
+    // 进入上一页
+    toPrePage() {
+      if(this.pageIndex === 1) {
+        alert("当前已经是首页"); return false;
+      }
+      this.pageIndex = parseInt(this.pageIndex) - 1;
+      this.$router.push({ path: "/home",
+        query: {
+          pageIndex: this.pageIndex,
+          pageSize: this.pageSize
+        }});
+    },
+    // 进入下一页
+    toNextPage() {
+      if(this.pageIndex === this.totalPage) {
+        alert("当前已经是末页"); return false;
+      }
+      this.pageIndex = parseInt(this.pageIndex) + 1;
+      this.$router.push({ path: "/home",
+        query: {
+          pageIndex: this.pageIndex,
+          pageSize: this.pageSize
+        }});
+    },
+    // 进入末页
+    toLastPage() {
+      this.$router.push({ path: "/home",
+        query: {
+          pageIndex: this.totalPage,
+          pageSize: this.pageSize
+        }});
+    },
     // 初始化博客列表
     initBlogs() {
       const originThis = this; // 缓存 this
@@ -32,10 +100,16 @@ export default {
         alert("出现异常,详情见控制台");
       })
     }
+
   },
-  mixins: [blogMixin],
+  mixins: [commonMixin,blogMixin],
   mounted() {
-    this.initBlogs(); // 调用初始化博客列表方法
+    // 初始化分页参数
+    // this.initPageParam();
+    // 调用初始化总页数函数
+    // this.initTotalPage();
+    // 调用初始化博客列表方法
+    this.initBlogs();
   }
 }
 </script>

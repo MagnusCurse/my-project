@@ -149,4 +149,9 @@ public class BlogController {
     public Object initBlogViews(Integer blogId) {
         return service.initViews(blogId);
     }
+
+    @RequestMapping("/init-total-page")
+    public Object initTotalPage(Integer pageSize) {
+        return service.initTotalPage(pageSize);
+    }
 }
