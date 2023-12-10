@@ -140,5 +140,13 @@ public class BlogController {
         return AjaxResult.success(res,"删除博客成功");
     }
 
+    @RequestMapping("/view")
+    public Object viewBlog(HttpServletRequest request, Integer blogId) {
+       return service.viewBlog(request, blogId);
+    }
 
+    @RequestMapping("/init-views")
+    public Object initBlogViews(Integer blogId) {
+        return service.initViews(blogId);
+    }
 }

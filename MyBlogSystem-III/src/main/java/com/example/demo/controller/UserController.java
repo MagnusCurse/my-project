@@ -36,6 +36,7 @@ public class UserController {
        if(user == null) {
            return AjaxResult.fail(-1,"找不到该用户对象");
        }else {
+           // 对比输入密码和原密码解密后是否相同
            if(SecurityUnit.decrypt(password,user.getPassword())){
                // 将用户对象保存到 session 中
                SessionUnit.setLoginUser(request,user);

@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.service.impl.BlogLikedRedisServiceImpl;
 import com.example.demo.service.impl.BlogLikedServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/blog-liked")
 public class BlogLikedController {
-    @Autowired
-    private BlogLikedRedisServiceImpl redisService;
+
     @Autowired
     private BlogLikedServiceImpl service;
 

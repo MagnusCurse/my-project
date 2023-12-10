@@ -16,9 +16,9 @@ public class SecurityUnit {
      * @return
      */
     public static String encrypt(String password){
-        //随机生成不同的 32 位的盐值
+        // 随机生成不同的 32 位的盐值
         String salt = UUID.randomUUID().toString().replace("-","");//替换“-”为空
-        //生成最终密码 (盐值 + 密码) 进行加密
+        // 生成最终密码 (盐值 + 密码) 进行加密
         String finalPassword = DigestUtils.md5DigestAsHex((salt + password).getBytes());
         return salt + finalPassword;
     }
@@ -30,9 +30,9 @@ public class SecurityUnit {
      * @return
      */
     public static boolean decrypt(String password,String finalPassword){
-        //获得前面 32 位的盐值
+        // 获得前面 32 位的盐值
         String salt = finalPassword.substring(0,32);
-        //通过待验证密码 + 盐值生成最终待确认密码
+        // 通过待验证密码 + 盐值生成最终待确认密码
         String securityPassword = DigestUtils.md5DigestAsHex((salt + password).getBytes());
         return finalPassword.equals(salt + securityPassword);
     }

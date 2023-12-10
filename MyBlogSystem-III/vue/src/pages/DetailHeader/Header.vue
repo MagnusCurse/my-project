@@ -59,6 +59,24 @@ export default {
         console.log(error);
         alert("出现异常,详情见控制台");
       })
+    },
+    // 浏览量 + 1
+    viewBlog() {
+      // 发送请求给后端
+      const originThis = this; // 缓存 this
+      axios({
+        url: "blog/view",
+        method: "get",
+        params: {
+          blogId: this.getURLParam("id")
+        }
+      }).then(function (response) {
+
+      })
+    },
+    // 初始化博客浏览量
+    initBlogViews() {
+
     }
   },
   mixins: [commonMixin],
