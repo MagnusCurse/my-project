@@ -17,6 +17,6 @@ public class Blog {
     private Date createTime;
     private Date updateTime;
     private Integer userId;
-    private int likes;
-    private int views;
+    private int likeCount;
+    private int viewCount;
 }

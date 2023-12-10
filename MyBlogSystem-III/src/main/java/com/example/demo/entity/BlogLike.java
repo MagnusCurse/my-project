@@ -12,8 +12,8 @@ import java.util.Date;
 @TableName("blog_like_info")
 public class BlogLike {
     private Integer id;
-    private Integer likedBlogId;
-    private Integer likedPostId;
+    private Integer blogId;
+    private Integer userId;
     private Date createTime;
     private Date updateTime;
 
@@ -22,7 +22,7 @@ public class BlogLike {
     }
 
     public BlogLike(Integer likedBlogId,Integer likedPostId) {
-        this.likedBlogId = likedBlogId;
-        this.likedPostId = likedPostId;
+        this.blogId = likedBlogId;
+        this.userId = likedPostId;
     }
 }

@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class BlogLikedServiceImpl extends ServiceImpl<BlogLikedMapper,BlogLike> implements IBlogLikedService {
-    @Autowired
-    private BlogLikedRedisServiceImpl redisService;
+
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     @Autowired
@@ -80,7 +80,7 @@ public class BlogLikedServiceImpl extends ServiceImpl<BlogLikedMapper,BlogLike> 
                 return AjaxResult.fail(-1,"数据库更新失败");
             }
             // 新增一条点赞记录
-            /* ERR 这里一直报类型错误，暂时不知道什么原因，用传统的  MyBatis 好了 */
+            /* 这里一直报类型错误，暂时不知道什么原因，用传统的  MyBatis 好了 */
             // BlogLike blogLike = new BlogLike(Integer.valueOf(likedBlogId),curUser.getId());
             // save(blogLike);
             mapper.saveLike(likedBlogId,curUser.getId().toString());
@@ -101,12 +101,19 @@ public class BlogLikedServiceImpl extends ServiceImpl<BlogLikedMapper,BlogLike> 
         // 从 Redis 中获取到点赞数据
         String key = RedisKeyUtils.BLOG_LIKED_KEY + likedBlogId;
         Long count = stringRedisTemplate.opsForSet().size(key);
+        // 从数据库获取 blog_like_info 表的所有点赞记录
+        List<BlogLike> blogLikes = list();
         // 如果 Redis 中获取不到，则操作数据库
-        if(count == null) {
-            count = (long) blogService.getById(likedBlogId).getLikes();
+        if(count == 0 && blogLikes != null) {
+            // 从数据库中获取到点赞数量
+            count = (long) blogService.getById(likedBlogId).getLikeCount();
+
             /* 将数据库的数据重新写入 Redis 中 */
 
-
+            // 将每一条记录重新写回 Redis
+            for (int i = 0; i < blogLikes.size(); i++) {
+                stringRedisTemplate.opsForSet().add(key,blogLikes.get(i).getUserId().toString());
+            }
         }
         return AjaxResult.success(count,"初始化博客点赞数成功");
     }
