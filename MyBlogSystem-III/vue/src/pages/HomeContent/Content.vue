@@ -14,7 +14,7 @@ export default {
       },
       title: "",
       pageIndex: 1, // 页数
-      pageSize: 4, // 每页博客数量
+      pageSize: 3, // 每页博客数量
       totalPage: 0 // 总页数
     }
   },
@@ -51,10 +51,11 @@ export default {
     // 跳转到首页
     toHomePage() {
       this.$router.push("/home");
+      window.location.reload();
     },
     // 进入上一页
     toPrePage() {
-      if(this.pageIndex === 1) {
+      if(this.pageIndex == 1) {
         alert("当前已经是首页"); return false;
       }
       this.pageIndex = parseInt(this.pageIndex) - 1;
@@ -63,10 +64,11 @@ export default {
           pageIndex: this.pageIndex,
           pageSize: this.pageSize
         }});
+      window.location.reload();
     },
     // 进入下一页
     toNextPage() {
-      if(this.pageIndex === this.totalPage) {
+      if(this.pageIndex == this.totalPage) {
         alert("当前已经是末页"); return false;
       }
       this.pageIndex = parseInt(this.pageIndex) + 1;
@@ -75,6 +77,7 @@ export default {
           pageIndex: this.pageIndex,
           pageSize: this.pageSize
         }});
+      window.location.reload();
     },
     // 进入末页
     toLastPage() {
@@ -83,6 +86,7 @@ export default {
           pageIndex: this.totalPage,
           pageSize: this.pageSize
         }});
+      window.location.reload();
     },
     // 初始化博客列表
     initBlogs() {
@@ -91,6 +95,10 @@ export default {
       axios({
         url: "blog/init-blogs",
         method: "get",
+        params: {
+          pageIndex: this.pageIndex,
+          pageSize: this.pageSize
+        }
       }).then(function (response) {
         if(response.data.code == 200) {
            originThis.blogs = response.data.val;
@@ -100,14 +108,13 @@ export default {
         alert("出现异常,详情见控制台");
       })
     }
-
   },
   mixins: [commonMixin,blogMixin],
   mounted() {
     // 初始化分页参数
-    // this.initPageParam();
+    this.initPageParam();
     // 调用初始化总页数函数
-    // this.initTotalPage();
+    this.initTotalPage();
     // 调用初始化博客列表方法
     this.initBlogs();
   }
@@ -156,6 +163,12 @@ export default {
           </span>
           </div>
         </el-card>
+      </div>
+      <div class="page-button">
+        <button class="custom-btn btn-1" @click="toHomePage">First page</button>
+        <button class="custom-btn btn-1" @click="toNextPage">Next page</button>
+        <button class="custom-btn btn-1" @click="toPrePage">Pre page</button>
+        <button class="custom-btn btn-1" @click="toLastPage">Last page</button>
       </div>
 <!--      <div class="activity-links">-->
 <!--        <div class="activity-link active">Current User</div>-->
@@ -256,5 +269,42 @@ export default {
   margin-left: 20px;
 }
 
+.page-button {
+  display: flex;
+  justify-content: center;
+}
+
+/* 特殊按钮样式 */
+
+.custom-btn {
+  margin: 5px;
+  width: 130px;
+  height: 40px;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+  7px 7px 20px 0px rgba(0,0,0,.1),
+  4px 4px 5px 0px rgba(0,0,0,.1);
+  outline: none;
+}
+
+/* 1 */
+.btn-1 {
+  background: rgb(6,14,131);
+  background: linear-gradient(0deg, rgba(6,14,131,1) 0%, rgba(12,25,180,1) 100%);
+  border: none;
+}
+.btn-1:hover {
+  background: rgb(0,3,255);
+  background: linear-gradient(0deg, rgba(0,3,255,1) 0%, rgba(2,126,251,1) 100%);
+}
 
 </style>

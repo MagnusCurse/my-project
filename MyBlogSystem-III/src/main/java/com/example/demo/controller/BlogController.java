@@ -52,9 +52,10 @@ public class BlogController {
 
     @RequestMapping("/init-blogs")
     @ResponseBody
-    public Object initBlogs() {
-        List<Blog> res = service.initBlogs();
-        return res;
+    public Object initBlogs(Integer pageIndex, Integer pageSize) {
+        List<Blog> ret = service.initBlogs(pageIndex, pageSize);
+        if(ret == null) return AjaxResult.fail(-1,"页面参数出现问题");
+        return ret;
     }
 
     @RequestMapping("/init-user-blogs")

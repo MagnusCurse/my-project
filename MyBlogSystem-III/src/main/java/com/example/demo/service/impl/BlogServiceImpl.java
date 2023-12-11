@@ -46,8 +46,12 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
      * 初始化博客列表
      * @return
      */
-    public List<Blog> initBlogs(){
-        return mapper.initBlogs();
+    public List<Blog> initBlogs(Integer pageIndex, Integer pageSize){
+        if(pageIndex != null && pageSize != null && pageIndex > 0 && pageSize > 0) {
+            Integer offset = pageSize * (pageIndex - 1);
+            return mapper.initBlogs(pageSize,offset);
+        }
+        return null;
     }
 
     /**

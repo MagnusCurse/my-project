@@ -10,7 +10,7 @@
     </select>
 
     <select id="initBlogs" resultType="com.example.demo.entity.Blog">
-        select * from blog_info
+        select * from blog_info limit #{pageSize} offset #{offset}
     </select>
 
     <select id="initUserBlogs" resultType="com.example.demo.entity.Blog">

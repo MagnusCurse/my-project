@@ -13,7 +13,7 @@ public interface BlogMapper extends BaseMapper<Blog>{
 
     public List<Blog> search(@Param("title") String title);
 
-    public List<Blog> initBlogs();
+    public List<Blog> initBlogs(@Param("pageSize") Integer pageSize, @Param("offset") Integer offset);
 
     public List<Blog> initUserBlogs(@Param("user_id") Integer user_id);
 
