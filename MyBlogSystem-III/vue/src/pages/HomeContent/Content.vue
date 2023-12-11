@@ -50,6 +50,7 @@ export default {
     },
     // 跳转到首页
     toHomePage() {
+      if(this.pageIndex == 1) { alert("当前位置已经是首页"); return false; }
       this.$router.push("/home");
       window.location.reload();
     },
