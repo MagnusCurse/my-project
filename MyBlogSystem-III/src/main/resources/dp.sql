@@ -51,7 +51,7 @@ create table comment_info(
     replied_username varchar(100)
 )default charset 'utf8mb4';
 
---创建博客点赞表
+-- 创建点赞记录表
 
 drop table if exists blog_like_info;
 create table blog_like_info(
@@ -61,6 +61,17 @@ create table blog_like_info(
     create_time datetime default now(),
     update_time datetime default now()
 )default charset 'utf8mb4';
+
+-- 创建关注记录表
+
+drop table if exists follow_info;
+create table follow_info (
+    id int primary key auto_increment,
+    user_id int not null,
+    followed_user_id int not null,
+    create_time datetime default now(),
+    update_time datetime default now()
+)
 
 
 

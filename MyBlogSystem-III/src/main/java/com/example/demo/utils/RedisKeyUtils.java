@@ -1,8 +1,6 @@
 package com.example.demo.utils;
 
 public class RedisKeyUtils {
-
-
     // 保存用户点赞数据的 key
     public static final String BLOG_LIKED_KEY = "blog:liked:";
 
