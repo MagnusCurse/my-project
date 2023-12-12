@@ -8,6 +8,8 @@ public class RedisKeyUtils {
 
     // 保存该博客用户浏览数量的 key
     public static final String BLOG_VIEWED_KEY = "blog:viewed:";
+    // 防止恶意刷新浏览量的 key
+    public static final String BLOG_VIEWED_LIMIT = "blog:viewed:limit:";
 
     // 保存验证码的 key
     public static final String MAP_KEY_VERIFICATION_CODE = "map_verification_code";

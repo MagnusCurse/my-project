@@ -8,12 +8,14 @@ import com.example.demo.service.IBlogService;
 import com.example.demo.utils.AjaxResult;
 import com.example.demo.utils.RedisKeyUtils;
 import com.example.demo.utils.SessionUnit;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IBlogService {
@@ -114,6 +116,13 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
         if(curUser == null) {
             return AjaxResult.fail(-1,"当前用户对象为空");
         }
+        /* 判断该用户五分钟前有没有浏览过该博客，如果浏览过不增加浏览量 */
+        // 该博客和该用户的唯一 key，不存在则执行下列操作
+        String viewedKey = RedisKeyUtils.BLOG_VIEWED_LIMIT + blogId + ":" + curUser.getId();
+        String isViewed = stringRedisTemplate.opsForValue().get(viewedKey);
+        if(isViewed != null) {
+            return AjaxResult.success(2,"该用户十分钟前已经浏览过该文章");
+        }
         /* 操作数据库 */
         Boolean isSuccess = update().setSql("like_count = like_count + 1").eq("id",blogId).update();
         if(!isSuccess) {
@@ -123,6 +132,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
         String key = RedisKeyUtils.BLOG_VIEWED_KEY + blogId;
         // 浏览量 + 1
         stringRedisTemplate.opsForValue().increment(key);
+        // 设置标志，表明该用户十分钟前已经浏览过该博客，过期时间设置为 10 分钟
+        stringRedisTemplate.opsForValue().set(viewedKey,curUser.getId().toString());
+        stringRedisTemplate.expire(viewedKey,10,TimeUnit.MINUTES);
         return AjaxResult.success(1,"浏览操作成功");
     }
 

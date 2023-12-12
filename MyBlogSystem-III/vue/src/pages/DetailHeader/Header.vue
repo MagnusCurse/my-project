@@ -8,6 +8,7 @@ export default {
   data() {
     return {
       likeCount: 0,
+      viewCount: 0
     };
   },
   methods: {
@@ -72,16 +73,38 @@ export default {
         }
       }).then(function (response) {
 
+      }).catch(function (error) {
+        console.log(error); alert("出现异常,详情见控制台");
       })
     },
     // 初始化博客浏览量
     initBlogViews() {
-
+      // 发送请求给后端
+      const originThis = this; // 缓存 this
+      axios({
+        url: "blog/init-views",
+        method: "get",
+        params: {
+          blogId: this.getURLParam("id")
+        }
+      }).then(function (response) {
+          if(response.data.code === 200 && response.data.val != null) {
+            originThis.viewCount = response.data.val;
+          }
+      }).catch(function (error) {
+        console.log(error); alert("出现异常,详情见控制台");
+      })
     }
   },
   mixins: [commonMixin],
   mounted() {
+    // 初始化点赞数量
     this.initLikeCount();
+    // 增加博客浏览量
+    this.viewBlog();
+    // 初始化浏览量
+    this.initBlogViews();
+
   }
 }
 </script>
@@ -97,7 +120,7 @@ export default {
       <button class="button is-light">
         <i class="fa-regular fa-eye fa-lg" style="color: #b7c1d1;"></i>
         <span style="margin-left: 6px">View</span>
-        <span style="margin-left: 12px"> 6k </span>
+        <span style="margin-left: 12px"> {{ viewCount }} </span>
       </button>
     </div>
 </div>
