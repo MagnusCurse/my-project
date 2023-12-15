@@ -158,6 +158,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
     public Object initTotalPage(Integer pageSize) {
         List<Blog> blogs = list();
         if(blogs != null) {
+            // Math.ceil: 如果是  2.x 结果为 3
             return (int) Math.ceil(blogs.size() * 1.0 / pageSize);
         }
         return 0;

@@ -19,17 +19,17 @@ public class Follow implements Serializable {
      * 主键
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
      * 用户id
      */
-    private Long userId;
+    private Integer userId;
 
     /**
      * 关联的用户id
      */
-    private Long followUserId;
+    private Integer followUserId;
 
     /**
      * 创建时间

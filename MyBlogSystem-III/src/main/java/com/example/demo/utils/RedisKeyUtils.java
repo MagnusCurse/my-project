@@ -9,6 +9,9 @@ public class RedisKeyUtils {
     // 防止恶意刷新浏览量的 key
     public static final String BLOG_VIEWED_LIMIT = "blog:viewed:limit:";
 
+    // 记录关注记录的 key
+    public static final String USER_FOLLOWED_KEY = "user:followed:";
+
     // 保存验证码的 key
     public static final String MAP_KEY_VERIFICATION_CODE = "map_verification_code";
 
