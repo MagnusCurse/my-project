@@ -23,6 +23,8 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
     private BlogMapper mapper;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private UserServiceImpl userService;
 
     /**
      * 发布文章功能
@@ -103,6 +105,20 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
         return mapper.getBlog(id);
     }
 
+    @Override
+    public Object initBlogUser(Integer blogId) {
+        // 获取当前 id 的博客对象
+        Blog blog = getBlog(blogId);
+        // 获取该博客的用户 id
+        int userId = blog.getUserId();
+        // 获取该篇博客的用户对象
+        User blogUser = userService.getById(userId);
+        if(blogUser == null) {
+            return AjaxResult.fail(-1,"当前博客用户对象为空");
+        }
+        return blogUser;
+    }
+
     /**
      * 浏览博客
      * @param request
@@ -163,4 +179,6 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
         }
         return 0;
     }
+
+
 }

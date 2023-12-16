@@ -12,4 +12,6 @@ public interface IBlogService extends IService<Blog> {
     Object initViews(Integer blogId);
 
     Object initTotalPage(Integer pageSize);
+
+    Object initBlogUser(Integer blogId);
 }

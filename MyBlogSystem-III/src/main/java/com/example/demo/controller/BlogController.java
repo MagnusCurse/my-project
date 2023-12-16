@@ -98,6 +98,16 @@ public class BlogController {
         return AjaxResult.success(blog,"初始化编辑页面成功");
     }
 
+    /**
+     * 初始化当前博客用户对象
+     * @param blogId
+     * @return
+     */
+    @RequestMapping("/init-blog-user")
+    public Object initBlogUser(Integer blogId) {
+        return service.initBlogUser(blogId);
+    }
+
     @RequestMapping("/modify")
     @ResponseBody
     public Object modify(@RequestBody Map<String,String> body,HttpServletRequest request) {
