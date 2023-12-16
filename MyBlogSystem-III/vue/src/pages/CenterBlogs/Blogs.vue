@@ -4,9 +4,13 @@
 import axios from "axios";
 import content from "@/pages/HomeContent/Content.vue";
 import {blogMixin, mixin} from "@/mixin";
+import FollowList from "@/pages/CenterBlogs/FollowList/FollowList.vue";
 
 export default {
   name: "Blogs",
+  components: {
+    FollowList
+  },
   computed: {
     content() {
       return content
@@ -129,7 +133,7 @@ export default {
       </div>
       <el-empty :image-size="200" description="该用户未发布任何博客" v-if="isEmpty"></el-empty>
     </div>
-
+    <FollowList/>
   </div>
 </template>
 
@@ -138,6 +142,8 @@ export default {
   height: 100%;
   width: 100%;
   margin-top: 16px;
+  display: flex;
+
 }
 
 .activity {

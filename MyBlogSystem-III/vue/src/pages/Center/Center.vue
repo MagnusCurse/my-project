@@ -32,6 +32,7 @@ export default {
           <!-- 用户区域 -->
           <User/>
         </div>
+
         <!--  个人中心内容区域,默认显示个人中心博客列表    -->
         <Blogs v-if="isCenterPage"/>
         <router-view></router-view>
