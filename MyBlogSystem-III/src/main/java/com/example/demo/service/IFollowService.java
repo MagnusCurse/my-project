@@ -10,5 +10,5 @@ import javax.servlet.http.HttpServletRequest;
 public interface IFollowService extends IService<Follow> {
     Object followUser(HttpServletRequest request, Integer followUserId, Boolean isFollow);
 
-    Object isFollow(HttpServletRequest request,Integer followUserId);
+    Object isFollow(HttpServletRequest request,String followUserId);
 }

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 
 @Service
 public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> implements IFollowService {
@@ -37,12 +36,16 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
         if(curUser == null) {
             return AjaxResult.fail(-1,"当前用户不存在");
         }
+        // 当前用户 id 和要关注的用户 id 相同
+        if(curUser.getId() == followUserId) {
+           return AjaxResult.fail(-2,"不能关注自己");
+        }
         // 判断当前用户是否已经被关注
         if(!isFollow) {
             /* 操作数据库 */
             Follow follow = new Follow();
             follow.setUserId(curUser.getId());
-            follow.setFollowUserId(followUserId);
+            follow.setFollowedUserId(followUserId);
             Boolean isSuccess = save(follow);
             /* 操作 Redis */
             String key = RedisKeyUtils.USER_FOLLOWED_KEY + curUser.getId();
@@ -67,7 +70,7 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
      * @return
      */
     @Override
-    public Object isFollow(HttpServletRequest request, Integer followUserId) {
+    public Object isFollow(HttpServletRequest request, String followUserId) {
         // 获取到当前用户对象
         User curUser = SessionUnit.getLoginUser(request);
         if(curUser == null) {
@@ -79,12 +82,12 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
         // isFollow 为空即证明 Redis 中没有该条数据
         if(isFollow == null) {
             /* 从数据库中查询 */
-            Integer count = query().eq("user_id",curUser.getId()).eq("followed_user_id",followUserId).count();
+            Integer count = query().eq("user_id",curUser.getId()).eq("followed_user_id", followUserId).count();
             // 获取到数据库该关注记录的创建时间
-            Date createTime = query().eq("user_id",curUser.getId()).eq("followed_user_id",followUserId).one().getCreateTime();
-            if(count > 0) {
+            Follow follow = query().eq("user_id",curUser.getId()).eq("followed_user_id", followUserId).one();
+            if(count > 0 && follow != null) {
                 // 将数据库的内容重新写回 Redis
-                stringRedisTemplate.opsForZSet().add(key,followUserId.toString(),createTime.getTime());
+                stringRedisTemplate.opsForZSet().add(key,followUserId,follow.getCreateTime().getTime());
                 return true;
             }
             // 数据库数据也为空，证明该用户没有关注，返回 false

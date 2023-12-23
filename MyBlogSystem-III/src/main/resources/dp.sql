@@ -71,7 +71,7 @@ create table follow_info (
     followed_user_id int not null,
     create_time datetime default now(),
     update_time datetime default now()
-)
+)default charset 'utf8mb4';
 
 
 

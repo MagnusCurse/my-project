@@ -29,7 +29,7 @@ public class Follow implements Serializable {
     /**
      * 关联的用户id
      */
-    private Integer followUserId;
+    private Integer followedUserId;
 
     /**
      * 创建时间

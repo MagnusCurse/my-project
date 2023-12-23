@@ -10,7 +10,11 @@ export default {
       likeCount: 0,
       viewCount: 0,
       userImgUrl: "",
-      username: ""
+      username: "",
+      // 当前博客用户 id
+      userId: "",
+      // 判断该博客用户是否已经被当前用户关注
+      followed: false
     };
   },
   methods: {
@@ -112,6 +116,47 @@ export default {
           const user = response.data.val;
           originThis.userImgUrl = "/img/avatar/" + user.avatarUrl;
           originThis.username = user.username;
+          originThis.userId = user.id;
+          // 初始化 followed，初始化完 user.id 后即可初始化 followed
+          originThis.isFollow();
+        }
+      }).catch(function (error) {
+        console.log(error); alert("出现异常,详情见控制台");
+      })
+    },
+    // 判断当前博客用户是否已经被当前用户关注
+    isFollow() {
+      // 发送请求给后端
+      const originThis = this; // 缓存 this
+      axios({
+        url: "follow/is-follow",
+        method: "get",
+        params: {
+          followUserId: originThis.userId
+        }
+      }).then(function (response) {
+        if(response.data.code === 200 && response.data.val != null) {
+           originThis.followed = response.data.val;
+        }
+      }).catch(function (error) {
+        console.log(error); alert("出现异常,详情见控制台");
+      })
+    },
+    // 关注当前用户
+    followUser() {
+      // 发送请求给后端
+      const originThis = this; // 缓存 this
+      axios({
+        url: "follow/user",
+        method: "get",
+        params: {
+          followUserId: originThis.userId,
+          isFollow: originThis.followed
+        }
+      }).then(function (response) {
+        if(response.data.code === 200 && response.data.val == 1) {
+           alert("关注成功");
+           // 刷新当前页面
 
         }
       }).catch(function (error) {
@@ -129,7 +174,6 @@ export default {
     this.initBlogViews();
     // 初始化当前博客用户对象
     this.initBlogUser();
-
   }
 }
 </script>
