@@ -21,4 +21,9 @@ public class FollowController {
     public Object isFollow(HttpServletRequest request, String followUserId) {
         return followService.isFollow(request, followUserId);
     }
+
+    @RequestMapping("/init-follow-list")
+    public Object initFollowList(Integer userId) {
+        return followService.initFollowList(userId);
+    }
 }

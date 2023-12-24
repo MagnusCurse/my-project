@@ -155,9 +155,15 @@ export default {
         }
       }).then(function (response) {
         if(response.data.code === 200 && response.data.val == 1) {
-           alert("关注成功");
+           if(originThis.followed) {
+              alert("取消关注成功");
+           } else {
+              alert("关注成功");
+           }
            // 刷新当前页面
-
+           window.location.reload();
+        } else if(response.data.code === -2) {
+           alert("不能自己关注自己");
         }
       }).catch(function (error) {
         console.log(error); alert("出现异常,详情见控制台");
@@ -186,8 +192,8 @@ export default {
       <span class="nickname" style="color: white; margin-left: 18px"> {{ username }} </span>
     </div>
     <div class="buttons">
-      <button class="custom-btn btn-8">
-        <span> Follow </span>
+      <button class="custom-btn btn-8" @click=followUser>
+        <span>{{ followed ? 'UnFollow' : 'Follow' }}</span>
       </button>
       <button @click="likeBlog" class="button is-primary">
         <i class="fa-regular fa-heart fa-lg" style="color: #eca1df;"></i>

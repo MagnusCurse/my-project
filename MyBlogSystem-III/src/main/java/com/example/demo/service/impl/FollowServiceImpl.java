@@ -14,12 +14,19 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Service
 public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> implements IFollowService {
     @Autowired
     StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    UserServiceImpl userService;
 
     /**
      * 关注用户功能
@@ -37,7 +44,7 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
             return AjaxResult.fail(-1,"当前用户不存在");
         }
         // 当前用户 id 和要关注的用户 id 相同
-        if(curUser.getId() == followUserId) {
+        if(Objects.equals(curUser.getId(), followUserId)) {
            return AjaxResult.fail(-2,"不能关注自己");
         }
         // 判断当前用户是否已经被关注
@@ -54,10 +61,10 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
             }
         } else { // 用户已经关注，则取消关注
             // 移除数据库中该条关注记录
-            Boolean isSuccess = remove(new QueryWrapper<Follow>().eq("user_id",curUser.getId()).eq("followed_user_id",followUserId));
+            boolean isSuccess = remove(new QueryWrapper<Follow>().eq("user_id",curUser.getId()).eq("followed_user_id",followUserId.toString()));
             String key = RedisKeyUtils.USER_FOLLOWED_KEY + curUser.getId();
             if(isSuccess) {
-                stringRedisTemplate.opsForZSet().remove(key,followUserId);
+                stringRedisTemplate.opsForZSet().remove(key,followUserId.toString());
             }
         }
         return AjaxResult.success(1,"关注 / 取关成功");
@@ -93,6 +100,23 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
             // 数据库数据也为空，证明该用户没有关注，返回 false
             return false;
         }
-        return isFollow;
+        return true;
+    }
+
+    /**
+     * 显示用户的关注列表功能
+     * @param userId
+     * @return
+     */
+    @Override
+    public Object initFollowList(Integer userId) {
+        /* 根据 key 从 Redis 中获取该用户所有的关注用户的 id */
+        String key = RedisKeyUtils.USER_FOLLOWED_KEY + userId;
+        Set<String> ids = stringRedisTemplate.opsForZSet().range(key,0,-1);
+        List<User> users = new ArrayList<>();
+        for(String id : ids) {
+            users.add(userService.initUserInfo(Integer.valueOf(id)));
+        }
+        return AjaxResult.success(users,"初始化关注列表成功");
     }
 }
