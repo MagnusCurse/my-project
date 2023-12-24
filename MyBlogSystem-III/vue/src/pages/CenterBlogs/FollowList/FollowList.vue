@@ -25,18 +25,13 @@ export default {
           if(response.data.code == 200 && response.data.val != null) {
              originThis.followList = response.data.val;
              originThis.followList.forEach(follow => {
-                originThis.$set(originThis.imageUrlsMap,follow.id,"/img/avatar/" + follow.avatarUrl);
+                const avatarUrl = follow.avatarUrl !== "" ? follow.avatarUrl : "Default.png"
+                originThis.$set(originThis.imageUrlMap,follow.id,"/img/avatar/" + avatarUrl);
              })
            }
         }).catch(function (error) {
           console.log(error);
           alert("出现异常,详情见控制台");
-        })
-      },
-      initImageUrlMap() {
-        this.followList.forEach(follow => {
-          console.log(follow);
-          this.$set(this.imageUrlsMap,follow.id,"/img/avatar/" + follow.avatarUrl);
         })
       }
   },
@@ -63,7 +58,7 @@ export default {
         <!--   博客内容部分   -->
         <div class="text item" style="margin-bottom: 10px">
           <!-- 用户头像 -->
-          <img class="user-img" src="/img/avatar/Default.png" alt="">
+          <img class="user-img" :src="imageUrlMap[follow.id]" alt="">
           <!-- 用户昵称 -->
           <span style="font-weight: bold"> {{ follow.username }} </span>
           <br>
