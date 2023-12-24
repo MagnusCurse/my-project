@@ -1,17 +1,47 @@
 <script>
 
+import axios from "axios";
+
 export default {
   name: "FollowList",
   data() {
     return {
-
+      // 该用户的关注列表
+      followList: [],
+      // 建立头像 url 和 user 的映射关系
+      imageUrlMap: {
+      }
     }
   },
   methods: {
-
+      // 初始化该用户的关注列表
+      initFollowList() {
+        const originThis = this; // 缓存 this
+        // 发送请求给后端
+        axios({
+          url: "follow/init-follow-list",
+          method: "get",
+        }).then(function (response) {
+          if(response.data.code == 200 && response.data.val != null) {
+             originThis.followList = response.data.val;
+             originThis.followList.forEach(follow => {
+                originThis.$set(originThis.imageUrlsMap,follow.id,"/img/avatar/" + follow.avatarUrl);
+             })
+           }
+        }).catch(function (error) {
+          console.log(error);
+          alert("出现异常,详情见控制台");
+        })
+      },
+      initImageUrlMap() {
+        this.followList.forEach(follow => {
+          console.log(follow);
+          this.$set(this.imageUrlsMap,follow.id,"/img/avatar/" + follow.avatarUrl);
+        })
+      }
   },
   mounted() {
-
+     this.initFollowList();
   }
 }
 </script>
@@ -27,7 +57,7 @@ export default {
                @keyup.enter.native="search">
       </b-input>
     </b-field>
-    <div class="users">
+    <div class="users" v-for="follow in followList" :key="follow.id">
       <!--  关注用户对象    -->
       <el-card class="user" style="margin: 16px">
         <!--   博客内容部分   -->
@@ -35,33 +65,7 @@ export default {
           <!-- 用户头像 -->
           <img class="user-img" src="/img/avatar/Default.png" alt="">
           <!-- 用户昵称 -->
-          <span style="font-weight: bold"> Nickname </span>
-          <br>
-          <span>
-            <!-- 这边后面填写博客简介: to be continued -->
-          </span>
-        </div>
-      </el-card>
-      <el-card class="user" style="margin: 16px">
-        <!--   博客内容部分   -->
-        <div class="text item" style="margin-bottom: 10px">
-          <!-- 用户头像 -->
-          <img class="user-img" src="/img/avatar/Default.png" alt="">
-          <!-- 用户昵称 -->
-          <span style="font-weight: bold"> Nickname </span>
-          <br>
-          <span>
-            <!-- 这边后面填写博客简介: to be continued -->
-          </span>
-        </div>
-      </el-card>
-      <el-card class="user" style="margin: 16px">
-        <!--   博客内容部分   -->
-        <div class="text item" style="margin-bottom: 10px">
-          <!-- 用户头像 -->
-          <img class="user-img" src="/img/avatar/Default.png" alt="">
-          <!-- 用户昵称 -->
-          <span style="font-weight: bold"> Nickname </span>
+          <span style="font-weight: bold"> {{ follow.username }} </span>
           <br>
           <span>
             <!-- 这边后面填写博客简介: to be continued -->

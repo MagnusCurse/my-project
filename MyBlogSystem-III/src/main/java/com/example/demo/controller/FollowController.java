@@ -23,7 +23,7 @@ public class FollowController {
     }
 
     @RequestMapping("/init-follow-list")
-    public Object initFollowList(Integer userId) {
-        return followService.initFollowList(userId);
+    public Object initFollowList(HttpServletRequest request) {
+        return followService.initFollowList(request);
     }
 }

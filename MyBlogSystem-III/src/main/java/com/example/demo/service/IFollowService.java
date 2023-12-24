@@ -12,7 +12,5 @@ public interface IFollowService extends IService<Follow> {
 
     Object isFollow(HttpServletRequest request,String followUserId);
 
-    // 根据用户 id，在 follow_info 表中获取到该用户的所有关注记录的 follow_user_id
-    // 根据这个 follow_user_id 初始化关注列表
-    Object initFollowList(Integer userId);
+    Object initFollowList(HttpServletRequest request);
 }
