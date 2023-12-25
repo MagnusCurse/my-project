@@ -54,7 +54,8 @@ public class BlogLikedServiceImpl extends ServiceImpl<BlogLikedMapper,BlogLike> 
         String key = RedisKeyUtils.BLOG_LIKED_KEY + likedBlogId;
         // 判断当前用户是否点赞过
         /* 这里返回的是一个 Boolean, 可能为空, 这样可以防止空指针异常 */
-        boolean liked = Boolean.TRUE.equals(stringRedisTemplate.opsForSet().isMember(key, curUser.getId().toString()));
+        /**/
+        boolean liked = Boolean.TRUE.equals(stringRedisTemplate.opsForSet().isMember(key,curUser.getId().toString()));
         // 如果该用户已经点赞过
         if(liked) {
             /* 数据库操作 */
@@ -85,6 +86,7 @@ public class BlogLikedServiceImpl extends ServiceImpl<BlogLikedMapper,BlogLike> 
             // save(blogLike);
             mapper.saveLike(likedBlogId,curUser.getId().toString());
 
+
             /* Redis 操作 */
             // 新增 set 一条记录
             stringRedisTemplate.opsForSet().add(key,curUser.getId().toString());
@@ -101,15 +103,13 @@ public class BlogLikedServiceImpl extends ServiceImpl<BlogLikedMapper,BlogLike> 
         // 从 Redis 中获取到点赞数据
         String key = RedisKeyUtils.BLOG_LIKED_KEY + likedBlogId;
         Long count = stringRedisTemplate.opsForSet().size(key);
-        // 从数据库获取 blog_like_info 表的所有点赞记录
-        List<BlogLike> blogLikes = list();
+        // 获取当前博客的所有点赞记录
+        List<BlogLike> blogLikes = query().eq("blog_id",likedBlogId).list();
         // 如果 Redis 中获取不到，则操作数据库
-        if(count == 0 && blogLikes != null) {
+        if(count == 0 && blogLikes.size() != 0) {
             // 从数据库中获取到点赞数量
             count = (long) blogService.getById(likedBlogId).getLikeCount();
-
             /* 将数据库的数据重新写入 Redis 中 */
-
             // 将每一条记录重新写回 Redis
             for (int i = 0; i < blogLikes.size(); i++) {
                 stringRedisTemplate.opsForSet().add(key,blogLikes.get(i).getUserId().toString());
