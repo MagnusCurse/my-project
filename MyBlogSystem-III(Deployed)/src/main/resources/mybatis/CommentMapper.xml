@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.CommentMapper">
+
+    <insert id="post">
+        insert into comment_info (user_id,blog_id,username,comment)
+        values (#{user_id},#{blog_id},#{username},#{comment})
+    </insert>
+
+    <insert id="reply">
+        insert into comment_info (parent_id,user_id,blog_id,username,comment)
+        values (#{parent_id},#{user_id},#{blog_id},#{username},#{comment})
+    </insert>
+
+    <insert id="replyChildComment">
+        insert into comment_info (parent_id,user_id,blog_id,username,comment,replied_username)
+        values (#{parent_id},#{user_id},#{blog_id},#{username},#{comment},#{replied_username})
+    </insert>
+
+    <select id="initParentComment" resultType="com.example.demo.entity.Comment">
+        select * from comment_info where parent_id is null and blog_id = #{blog_id}
+    </select>
+
+    <select id="initChildComment" resultType="com.example.demo.entity.Comment">
+        select * from comment_info where parent_id = #{parent_id} and blog_id = #{blog_id}
+    </select>
+
+    <delete id="deleteComment">
+        delete from comment_info where id = #{id}
+    </delete>
+
+    <delete id="deleteChildComment">
+        delete from comment_info where parent_id = #{id}
+    </delete>
+</mapper>
