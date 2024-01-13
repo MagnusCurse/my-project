@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.MailMapper">
+
+    <update id="changeEmail">
+        update user_info set mail = #{mail} where id = #{id}
+    </update>
+
+    <update id="retrievePassword">
+        update user_info set password = #{password} where username = #{username}
+    </update>
+
+    <select id="retrieveSend" resultType="java.lang.String">
+        select mail from user_info where username = #{username}
+    </select>
+</mapper>

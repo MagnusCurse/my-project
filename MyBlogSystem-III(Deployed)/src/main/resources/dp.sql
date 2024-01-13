@@ -1,10 +1,10 @@
 -- 创建数据库
 
-drop database if exists mycnblog_pplus;
-create database mycnblog_pplus DEFAULT CHARACTER SET utf8mb4;
+drop database if exists mycnblog_plus;
+create database mycnblog_plus DEFAULT CHARACTER SET utf8mb4;
 
 -- 使用数据数据
-use mycnblog_pplus
+use mycnblog_plus
 
 -- 创建用户表
 

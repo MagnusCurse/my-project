@@ -11,6 +11,6 @@ public class Constant {
     // public static final String AVATAR_FILE_PATH = "D:/IDEA Project/MyProject(Github)/MyBlogSystem-III/vue/public/img/avatar/";
 
     // Linux 中存放图片的文件路径
-    public static final String AVATAR_FILE_PATH = "/home/mycnblog-pplus/vue/dist/img/avatar/";
+    public static final String AVATAR_FILE_PATH = "/home/mycnblog-plus/vue/dist/img/avatar/";
 
 }
