@@ -1,0 +1,28 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: orderservice
+  datasource:
+    url: jdbc:mysql://localhost:3306/cloud_order?useSSL=false
+    username: root
+    password: 137162
+    driver-class-name: com.mysql.jdbc.Driver
+mybatis:
+  type-aliases-package: cn.itcast.user.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    cn.itcast: debug
+  pattern:
+    dateformat: MM-dd HH:mm:ss:SSS
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+ribbon:
+  eager-load:
+    clients:
+      -userservice # 指定饥饿加载服务名称
+    enabled: true # 开启饥饿加载
