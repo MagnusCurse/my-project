@@ -1,6 +1,11 @@
 server:
   port: 8081
 spring:
+  cloud:
+    nacos:
+      server-addr: localhost:8848 # nacos 配置
+      discovery:
+        cluster-name: NY # 集群名称
   application:
     name: userservice
   datasource:

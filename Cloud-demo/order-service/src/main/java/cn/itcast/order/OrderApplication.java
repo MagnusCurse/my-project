@@ -26,8 +26,8 @@ public class OrderApplication {
     }
 
     // 配置负载均衡的规则
-    @Bean
-    public IRule randomRule() {
-        return new RandomRule();
-    }
+//    @Bean
+//    public IRule randomRule() {
+//        return new RandomRule();
+//    }
 }
