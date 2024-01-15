@@ -6,6 +6,7 @@ spring:
       server-addr: localhost:8848
       discovery:
         cluster-name: NY
+        namespace: 62ea870d-3c52-4063-8274-b6ae8d2b39c1 # 命名空间 ID
   application:
     name: orderservice
   datasource:
