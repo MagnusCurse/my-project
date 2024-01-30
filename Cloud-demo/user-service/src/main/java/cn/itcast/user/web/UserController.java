@@ -45,6 +45,9 @@ public class UserController {
         // 当 id 为 1 的时候，休眠 60ms 来触发慢调用
         if(id == 1){
             Thread.sleep(60);
+        // 抛出异常，触发异常比例熔断
+        } else if(id == 2) {
+            throw new RuntimeException("Exception");
         }
         return userService.queryById(id);
     }
