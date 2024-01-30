@@ -46,9 +46,10 @@ public class UserController {
         if(id == 1){
             Thread.sleep(60);
         // 抛出异常，触发异常比例熔断
-        } else if(id == 2) {
-            throw new RuntimeException("Exception");
         }
+//        else if(id == 2) {
+//            throw new RuntimeException("Exception");
+//        }
         return userService.queryById(id);
     }
 }
