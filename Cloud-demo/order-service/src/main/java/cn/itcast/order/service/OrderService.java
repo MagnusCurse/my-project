@@ -5,6 +5,7 @@ import cn.itcast.feign.pojo.User;
 
 import cn.itcast.order.mapper.OrderMapper;
 import cn.itcast.order.pojo.Order;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,12 @@ public class OrderService {
     // 由于不在 Spring 的默认扫描包下了，所以不会加入到容器中，需要修改启动类配置
     @Autowired
     private UserClient userClient;
+
+    @SentinelResource("goods")
+    public void queryGoods(){
+        System.out.println("Query goods successfully");
+    }
+
 
     public Order queryOrderById(Long orderId) {
         // 1.查询订单
