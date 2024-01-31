@@ -6,6 +6,13 @@ spring:
       transport:
         dashboard: localhost:8080
       web-context-unify: false # 关闭 context 整合
+      datasource: # 配置 Sentinel 的规则持久化
+        flow:
+          nacos:
+            server-addr: localhost:8848
+            dataId: orderservice-flow-rules
+            groupId: SENTINEL_GROUP
+            rule-type: flow
     nacos:
       server-addr: localhost:8848
       discovery:
@@ -37,7 +44,7 @@ ribbon:
     enabled: true # 开启饥饿加载
 feign:
   sentinel:
-    enabled: true # 开启 feign 对 sentinel 的支持
+    enabled: true # 开启 Feign 对 Sentinel 的支持
   httpclient:
     enabled: true # 开启 Feign 对 httpClient 的支持
     max-connections: 200 # 最大连接数
