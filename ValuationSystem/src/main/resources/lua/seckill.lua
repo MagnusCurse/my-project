@@ -1,11 +1,10 @@
--- 1. 参数列表
+-- 1. 参数列表，参数在 seckillVoucher() 函数内调用后传入
 -- 1.1 优惠券 id
 local voucherId = ARGV[1]
 -- 1.2 用户 id
 local userId = ARGV[2]
 -- 1.3 订单 id
 local orderId = ARGV[3]
-
 
 -- 2. 数据 key
 -- 2.1 库存 key (lua 脚本连接字符串 ..)

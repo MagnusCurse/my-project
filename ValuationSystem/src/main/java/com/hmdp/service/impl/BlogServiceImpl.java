@@ -44,7 +44,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements IBl
      * @param blog
      */
     private void queryUserById(Blog blog) {
-        // TODO 根据 id 在数据库中查询到用户
+        //  根据 id 在数据库中查询到用户
         User user = userService.getById(blog.getUserId());
         blog.setName(user.getNickName());
         blog.setIcon(user.getIcon());
@@ -55,34 +55,34 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements IBl
      * @param blog
      */
     private void isBlogLiked(Blog blog) {
-        // TODO 获取当前用户对象
+        // 获取当前用户对象
         UserDTO user = UserHolder.getUser();
         // 如果当前用户没有登录则不需要进行操作
         if(user == null) {
             return;
         }
-        // TODO 获取当前用户 id
+        // 获取当前用户 id
         Long userId = user.getId();
-        // TODO 判断当前用户是否已经点赞
+        // 判断当前用户是否已经点赞
         String key = RedisConstants.BLOG_LIKED_KEY + blog.getId();
         Double score = stringRedisTemplate.opsForZSet().score(key, userId.toString());
-        // TODO 更新 isLiked 字段是值
+        // 更新 isLiked 字段是值
         blog.setIsLike(BooleanUtil.isTrue(score != null));
     }
 
     @Override
     public Result queryBlogById(Long id) {
-        // TODO 查询博客
+        //  查询博客
         Blog blog = getById(id);
         if(blog == null) {
             return Result.fail("查询博客为空");
         }
         System.out.println("blog_username:" + blog.getName());
-        // TODO 查询博客相关用户信息
+        //  查询博客相关用户信息
         queryUserById(blog);
-        // TODO 判断博客是否被点赞过, 即对 isLiked 进行初始化
+        //  判断博客是否被点赞过, 即对 isLiked 进行初始化
         isBlogLiked(blog);
-        // TODO 将博客对象返回
+        //  将博客对象返回
         return Result.ok(blog);
     }
 
@@ -104,22 +104,22 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements IBl
 
     @Override
     public Result queryBlogLikes(Long id) {
-        // TODO 查询该博客的用户 id 前五个
+        //  查询该博客的用户 id 前五个
         Set<String> topFive = stringRedisTemplate.opsForZSet().range(RedisConstants.BLOG_LIKED_KEY + id,0,4);
         if(topFive == null) {
             return Result.ok();
         }
-        // TODO 将其转换为 Long 整数列表
+        //  将其转换为 Long 整数列表
         // .collect(Collectors.toList()): 这是一个终结操作, 它将流中的元素收集到一个新的 List 中
         List<Long> ids = topFive.stream().map(Long :: valueOf).collect(Collectors.toList());
-        // NOTE 注意这里不能把空数组传入 userService.listByIds(ids)
+        // 注意这里不能把空数组传入 userService.listByIds(ids)
         if(ids.size() == 0) {
             return Result.ok();
         }
         // 将 id 用逗号分割并转换为一个字符串
         String idStr = StrUtil.join(",",ids);
-        // TODO 根据用户 id 查询用户
-        // NOTE 这里不能用原来的 listByIds 去查询, listByIds 不是按顺序查询的, 需要自己实现 SQL 语句
+        // 根据用户 id 查询用户
+        // 这里不能用原来的 listByIds 去查询, listByIds 不是按顺序查询的, 需要自己实现 SQL 语句
         List<UserDTO> users = userService.query().in("id",ids)
                 .last("ORDER BY FIELD(id," + idStr + ")").list()
                 // .map(user -> BeanUtil.copyProperties(user, UserDTO.class)): 这是一个流操作，它将每个用户对象转换为 UserDTO 对象。
@@ -127,15 +127,15 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements IBl
                 .stream()
                 .map(user -> BeanUtil.copyProperties(user,UserDTO.class))
                 .collect(Collectors.toList());
-        // TODO 返回用户数据
+        //  返回用户数据
         return Result.ok(users);
     }
 
     @Override
     public Result queryBlogOfFollow(Long max, Integer offset) {
-        // TODO 获取当前用户 id
+        //  获取当前用户 id
         Long userId = UserHolder.getUser().getId();
-        // TODO 查询当前用户收件箱 ZREVRANGEBYSCORE key Max(上一次的最小值) Min LIMIT offset count
+        //  查询当前用户收件箱 ZREVRANGEBYSCORE key Max(上一次的最小值) Min LIMIT offset count
         String key = RedisConstants.FEED_KEY + userId;
         // ZSetOperations.TypedTuple 是一个元组, 记录值和分数, 值为字符串类型
         Set<ZSetOperations.TypedTuple<String>> typedTuples =
@@ -146,14 +146,14 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements IBl
             return Result.ok();
         }
 
-        // TODO 对集合数据进行解析
+        //  对集合数据进行解析
         List<Long> ids = new ArrayList<>(typedTuples.size());
         long minTime = 0; // 最小时间
         int os = 1; // 偏移量
         for(ZSetOperations.TypedTuple<String> tuple : typedTuples) {
             ids.add(Long.valueOf(tuple.getValue())); // 获取 id
             long time = tuple.getScore().longValue(); // 获取时间戳 (score)
-            // TODO 统计要返回给前端的偏移量
+            //  统计要返回给前端的偏移量
             if(time == minTime) {
                 os++;
             } else {
@@ -161,18 +161,17 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements IBl
                 minTime = time;
             }
         }
-        // TODO 根据 id 查询数据库中的 blogs
+        //  根据 id 查询数据库中的 blogs
         String idStr = StrUtil.join(",", ids);
         List<Blog> blogs = query().in("id",ids)
                 .last("ORDER BY FIELD(id," + idStr + ")").list();
         for(Blog blog : blogs) {
-            // TODO 查询博客相关用户信息
+            //  查询博客相关用户信息
             queryUserById(blog);
-            // TODO 判断博客是否被点赞过, 即对 isLiked 进行初始化
+            //  判断博客是否被点赞过, 即对 isLiked 进行初始化
             isBlogLiked(blog);
         }
-
-        // TODO 封装并返回
+        //  封装并返回
         ScrollResult result = new ScrollResult();
         result.setList(blogs);
         result.setOffset(os);
@@ -182,17 +181,17 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements IBl
 
     @Override
     public Result saveBlog(Blog blog) {
-        // TODO 获取登录用户
+        //  获取登录用户
         UserDTO user = UserHolder.getUser();
         blog.setUserId(user.getId());
-        // TODO 保存探店博文
+        //  保存探店博文
         boolean isSuccess = save(blog);
         if(!isSuccess) {
             return Result.fail("保存探店笔记失败");
         }
-        // TODO 查询该笔记作者的所有关注记录
+        //  查询该笔记作者的所有关注记录
         List<Follow> follows = followService.query().eq("follow_user_id", user.getId()).list();
-        // TODO 推送该笔记给所有粉丝
+        //  推送该笔记给所有粉丝
         for(Follow follow : follows) {
            // 获取粉丝 id
            Long userId = follow.getUserId();
@@ -207,9 +206,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements IBl
 
     @Override
     public Result likeBlog(Long id) {
-       // TODO 获取当前用户 id
+       // 获取当前用户 id
        Long userId = UserHolder.getUser().getId();
-       // TODO 判断当前用户是否已经点赞
+       // 判断当前用户是否已经点赞
        String key = RedisConstants.BLOG_LIKED_KEY + id;
        Double score = stringRedisTemplate.opsForZSet().score(key, userId.toString());
        // 当前用户没有点过赞

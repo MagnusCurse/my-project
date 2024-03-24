@@ -88,11 +88,9 @@ public class Voucher implements Serializable {
      */
     private LocalDateTime createTime;
 
-
     /**
      * 更新时间
      */
     private LocalDateTime updateTime;
-
 
 }
