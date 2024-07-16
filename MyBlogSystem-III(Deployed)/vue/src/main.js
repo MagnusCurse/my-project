@@ -40,7 +40,8 @@ Vue.use(ElementTiptapPlugin, {
 Vue.use(axios)
 
 // axios.defaults.baseURL = "http://localhost:9090"
-axios.defaults.baseURL = "http://43.139.61.124:9090"
+// axios.defaults.baseURL = "http://43.139.61.124:9090" // China Server
+axios.defaults.baseURL = "http://43.128.251.4:9090" // Tokyo Server
 
 // 前端解决跨域导致的 Session 丢失问题
 axios.defaults.withCredentials = true;

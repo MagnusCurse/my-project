@@ -9,7 +9,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.IOException;
-import java.time.Duration;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BlogLoginTest {
@@ -47,11 +46,16 @@ public class BlogLoginTest {
     public void loginSuccess(String username, String password) throws InterruptedException, IOException {
         /* TODO 执行登录执行步骤 */
         // 插入数据前要清空，否则自动化会报错
-        chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(1) > input[type=text]")).clear();
-        chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(2) > input[type=password]")).clear();
-        chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(1) > input[type=text]")).sendKeys(username);
-        chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(2) > input[type=password]")).sendKeys(password);
-        chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(2) > a")).click();
+        chromeDriver.findElement(By.cssSelector("body > div > div > form >" +
+                " div:nth-child(1) > input[type=text]")).clear();
+        chromeDriver.findElement(By.cssSelector("body > div > div > form >" +
+                " div:nth-child(2) > input[type=password]")).clear();
+        chromeDriver.findElement(By.cssSelector("body > div > div > form >" +
+                " div:nth-child(1) > input[type=text]")).sendKeys(username);
+        chromeDriver.findElement(By.cssSelector("body > div > div > form >" +
+                " div:nth-child(2) > input[type=password]")).sendKeys(password);
+        chromeDriver.findElement(By.cssSelector("body > div > div > form >" +
+                " div:nth-child(2) > a")).click();
         // 这里要强制等待一下，否则会找不到 Alert 元素
         Thread.sleep(2000);
         // 登录完成后会跳出弹窗，点击确认
@@ -59,7 +63,8 @@ public class BlogLoginTest {
         alert.accept();
         Thread.sleep(1000);
         // 对登录结果进行检测，看是否到达了主页
-        chromeDriver.findElement(By.cssSelector("#home > div > div.main-container > div.header > div.logo"));
+        chromeDriver.findElement(By.cssSelector("#home > div > div.main-container >" +
+                " div.header > div.logo"));
         // 进行测试屏幕截图
         AutoTestUtils.getScreenCapture("loginSuccess");
         // 跳转结束后回到登录页面进行下一组测试
@@ -75,10 +80,14 @@ public class BlogLoginTest {
     @CsvSource({"UserWrong1,1234","UserWrong2,1234"})
     public void loginFail(String username, String password) throws InterruptedException, IOException {
         // 插入数据前要清空，否则自动化会报错
-        chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(1) > input[type=text]")).clear();
-        chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(2) > input[type=password]")).clear();
-        chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(1) > input[type=text]")).sendKeys(username);
-        chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(2) > input[type=password]")).sendKeys(password);
+        chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(1) >" +
+                " input[type=text]")).clear();
+        chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(2) >" +
+                " input[type=password]")).clear();
+        chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(1) >" +
+                " input[type=text]")).sendKeys(username);
+        chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(2) >" +
+                " input[type=password]")).sendKeys(password);
         chromeDriver.findElement(By.cssSelector("body > div > div > form > div:nth-child(2) > a")).click();
         // 登录失败后，弹窗会报错，获取弹窗文本元素
         String expected = "用户名或者密码错误,请重试!!";
@@ -90,5 +99,6 @@ public class BlogLoginTest {
         AutoTestUtils.getScreenCapture("loginFail");
         // 断言弹窗文本是否和预期文本相同
         Assertions.assertEquals(expected,actual);
+
     }
 }

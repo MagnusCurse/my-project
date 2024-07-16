@@ -1,7 +1,6 @@
 package com.blogWebAutoTest.Tests;
 
 import com.blogWebAutoTest.utils.AutoTestUtils;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -23,8 +22,10 @@ public class BlogCenterTest {
      */
     @Test
     public void centerPageLoad() throws InterruptedException, IOException {
-        chromeDriver.findElement(By.cssSelector("#home > div > div.main-container > div.user-box.first-box > div > div.account.card > div.account-info > div:nth-child(1) > div.nickname"));
-        chromeDriver.findElement(By.cssSelector("#home > div > div.main-container > div.user-box.first-box > div > div.account.card > div.account-info > div:nth-child(1) > div.email"));
+        chromeDriver.findElement(By.cssSelector("#home > div > div.main-container >" +
+                " div.user-box.first-box > div > div.account.card > div.account-info > div:nth-child(1) > div.nickname"));
+        chromeDriver.findElement(By.cssSelector("#home > div > div.main-container >" +
+                " div.user-box.first-box > div > div.account.card > div.account-info > div:nth-child(1) > div.email"));
         // 进行测试屏幕截图
         AutoTestUtils.getScreenCapture("centerPageLoad");
         Thread.sleep(3000);

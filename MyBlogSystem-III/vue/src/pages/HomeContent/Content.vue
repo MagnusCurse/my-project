@@ -1,7 +1,7 @@
 <script>
 import Recommend from "@/pages/Recommend/Recommend.vue";
 import axios from "axios";
-import {blogMixin, commonMixin, mixin} from "@/mixin";
+import {blogMixin, commonMixin} from "@/mixin";
 export default {
   name: "Content",
   components: {
