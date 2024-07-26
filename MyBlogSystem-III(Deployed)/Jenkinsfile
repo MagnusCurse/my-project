@@ -1,0 +1,28 @@
+pipeline {
+    agent {
+        label 'MyProjectAgent'
+    }
+
+    tools {
+       maven 'Maven3.9.8'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'env | grep -e PATH -e JAVA_HOME'
+                sh 'which java'
+                sh 'java --version'
+
+                sh 'mvn -B -DskipTests clean package'
+            }
+        }
+        stage('Test') {
+            steps {
+                // execute Maven unit tests
+                // sh 'mvn test'
+                echo 'maven test run'
+            }
+        }
+    }
+}
