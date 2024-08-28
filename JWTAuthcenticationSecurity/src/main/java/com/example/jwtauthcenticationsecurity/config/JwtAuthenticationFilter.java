@@ -8,9 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -43,8 +45,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Get the jwt
         jwt = authHeader.substring(7);
         userEmail = jwtService.extractUsername(jwt);
+        // Get the user email extracted from the jwt and the security context holder is null
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            // Get the user detail from database
             UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+            if(jwtService.isTokenValid(jwt, userDetails)){
+                UsernamePasswordAuthenticationToken authenticationToken =
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities()
+                        );
+                authenticationToken.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(request)
+                );
+                // Update the Security
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            }
         }
+        //
+        filterChain.doFilter(request, response);
     }
 }
