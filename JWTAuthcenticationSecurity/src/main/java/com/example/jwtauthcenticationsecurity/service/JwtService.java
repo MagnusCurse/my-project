@@ -60,11 +60,17 @@ public class JwtService {
     public String generateToken(Map<String, Object> extractClaims, UserDetails userDetails
                                 ) {
         return Jwts.builder()
+                // Set custom claims provided in the extractClaims map
                 .setClaims(extractClaims)
+                // Set the subject of the JWT, typically the username of the user
                 .setSubject(userDetails.getUsername())
+                // Set the issued at date to the current date and time
                 .setIssuedAt(new Date(System.currentTimeMillis()))
+                // Set the expiration date for the token to 24 minutes from now
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                // Sign the JWT using the specified secret key and HS256 algorithm
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                // Compact the JWT to a URL-safe string
                 .compact();
     }
 
