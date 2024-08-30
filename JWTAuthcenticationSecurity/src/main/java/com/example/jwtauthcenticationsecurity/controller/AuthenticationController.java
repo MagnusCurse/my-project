@@ -1,5 +1,9 @@
-package com.example.jwtauthcenticationsecurity.auth;
+package com.example.jwtauthcenticationsecurity.controller;
 
+import com.example.jwtauthcenticationsecurity.auth.AuthenticationRequest;
+import com.example.jwtauthcenticationsecurity.auth.AuthenticationResponse;
+import com.example.jwtauthcenticationsecurity.service.AuthenticationService;
+import com.example.jwtauthcenticationsecurity.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
