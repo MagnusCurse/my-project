@@ -12,16 +12,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.List;
+
 
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
-    @Autowired
-    JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Autowired
-    AuthenticationProvider authenticationProvider;
+    final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    final AuthenticationProvider authenticationProvider;
 
 //    @Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -43,20 +44,26 @@ public class SecurityConfig {
 //
 //        return httpSecurity.build();
 //    }
-    // 上面的代码在新的 Spring 版本中已经不适用，有些方法已经被标记为移除无法使用
+    // The code above has been marked as removal in the new Spring version
+
+
+    /**
+     *  This code defines a SecurityFilterChain configuration method for Spring Security,
+     *  which is typically used to configure the security policies of a web application
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(AbstractHttpConfigurer::disable) // 禁用 CSRF
+                .csrf(AbstractHttpConfigurer::disable) // Disable CSRF
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("").permitAll() // 公开访问的路径
-                        .anyRequest().authenticated()   // 其他请求需要认证
+                        .requestMatchers("").permitAll() // Publicly accessible paths
+                        .anyRequest().authenticated()   // All other requests require authentication
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 无状态会话
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless session
                 )
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // 添加 JWT 认证过滤器
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // Add JWT authentication filter
                 .build();
     }
 }

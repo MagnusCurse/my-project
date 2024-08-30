@@ -23,11 +23,10 @@ import java.io.IOException;
 // All non-initialized final fields get a parameter, as well as any fields that are marked as @NonNull that aren't initialized where they are declared.
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    @Autowired
-    JwtService jwtService;
+    final JwtService jwtService;
 
-    @Autowired
-    UserDetailsService userDetailsService;
+    final UserDetailsService userDetailsService;
+
 
     // You can use @NonNull on a record component, or a parameter of a method or constructor. This will cause to lombok generate a null-check statement for you.
     @Override

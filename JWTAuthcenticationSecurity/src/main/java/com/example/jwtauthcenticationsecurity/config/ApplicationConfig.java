@@ -2,7 +2,6 @@ package com.example.jwtauthcenticationsecurity.config;
 
 import com.example.jwtauthcenticationsecurity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,8 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
-    @Autowired
-    UserRepository userRepository;
+    // @Autowired
+    final UserRepository userRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -27,21 +26,27 @@ public class ApplicationConfig {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+    // Define a bean for password encoding using BCrypt
+    // This bean will be used to encode and decode user passwords securely
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(); // BCryptPasswordEncoder is a strong one-way encryption algorithm
     }
 
+    // Define a bean for the AuthenticationProvider
+    // This provider uses a UserDetailsService to retrieve user details and a PasswordEncoder to validate passwords
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService());
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(); // DaoAuthenticationProvider is a standard implementation of AuthenticationProvider
+        authenticationProvider.setUserDetailsService(userDetailsService()); // Set the UserDetailsService for retrieving user details
+        authenticationProvider.setPasswordEncoder(passwordEncoder()); // Set the PasswordEncoder for password hashing
         return authenticationProvider;
     }
 
+    // Define a bean for AuthenticationManager
+    // This manager is the main entry point for authentication, managing authentication requests
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+        return config.getAuthenticationManager(); // Retrieve the default AuthenticationManager from the AuthenticationConfiguration
     }
 }
