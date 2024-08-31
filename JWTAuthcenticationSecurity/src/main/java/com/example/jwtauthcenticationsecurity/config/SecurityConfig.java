@@ -19,32 +19,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    final AuthenticationProvider authenticationProvider;
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity
-//                .csrf()
-//                .disable()
-//                .authorizeHttpRequests()
-//                .requestMatchers("")
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .authenticationProvider(authenticationProvider)
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//
-//        return httpSecurity.build();
-//    }
-    // The code above has been marked as removal in the new Spring version
-
+    private final AuthenticationProvider authenticationProvider;
 
     /**
      *  This code defines a SecurityFilterChain configuration method for Spring Security,
@@ -53,16 +30,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(AbstractHttpConfigurer::disable) // Disable CSRF
+                .csrf(AbstractHttpConfigurer::disable) // Disable CSRF protection as we are using JWT for authentication
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/auth/**").permitAll() // Publicly accessible paths
-                        .anyRequest().authenticated()   // All other requests require authentication
+                        // Allow public access to authentication endpoints
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+
+                        // Require authentication for all other requests.
+                        // This means that any request not matching the public paths must have a valid authentication token.
+                        // The authentication object must be set in the SecurityContext, which is managed by Spring Security.
+                        // If no valid authentication is found in the SecurityContext, the request will be denied.
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Use stateless session, no session is stored on the server side
                 )
+                // Specify custom authentication provider (e.g., JWT-based authentication)
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // Add JWT authentication filter
+                // Add JWT authentication filter before UsernamePasswordAuthenticationFilter
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 }
