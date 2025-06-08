@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@TableName("blog_info")
+@TableName("posts")
 public class Blog {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;

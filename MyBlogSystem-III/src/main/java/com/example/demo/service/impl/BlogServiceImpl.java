@@ -8,7 +8,6 @@ import com.example.demo.service.IBlogService;
 import com.example.demo.utils.AjaxResult;
 import com.example.demo.utils.RedisKeyUtils;
 import com.example.demo.utils.SessionUnit;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;

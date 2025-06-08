@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Data
 @Accessors(chain = true)
-@TableName("user_info")
+@TableName("users")
 public class User implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;

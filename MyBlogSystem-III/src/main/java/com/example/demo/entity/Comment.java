@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Data
 @Accessors(chain = true)
-@TableName("comment_info")
+@TableName("comments")
 public class Comment {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;

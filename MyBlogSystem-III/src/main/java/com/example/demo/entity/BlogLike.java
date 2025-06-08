@@ -9,7 +9,7 @@ import java.util.Date;
  * 用户点赞信息
  */
 @Data
-@TableName("blog_like_info")
+@TableName("blog_likes")
 public class BlogLike {
     private Integer id;
     private Integer blogId;

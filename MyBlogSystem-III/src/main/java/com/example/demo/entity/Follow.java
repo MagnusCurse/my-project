@@ -12,7 +12,7 @@ import java.util.Date;
 
 
 @Data
-@TableName("follow_info")
+@TableName("follows")
 public class Follow implements Serializable {
 
     /**

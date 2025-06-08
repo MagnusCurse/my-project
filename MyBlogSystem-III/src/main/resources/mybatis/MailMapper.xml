@@ -3,14 +3,14 @@
 <mapper namespace="com.example.demo.mapper.MailMapper">
 
     <update id="changeEmail">
-        update user_info set mail = #{mail} where id = #{id}
+        update users set mail = #{mail} where id = #{id}
     </update>
 
     <update id="retrievePassword">
-        update user_info set password = #{password} where username = #{username}
+        update users set password = #{password} where username = #{username}
     </update>
 
     <select id="retrieveSend" resultType="java.lang.String">
-        select mail from user_info where username = #{username}
+        select mail from users where username = #{username}
     </select>
 </mapper>

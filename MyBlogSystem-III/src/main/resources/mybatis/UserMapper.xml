@@ -3,38 +3,38 @@
 <mapper namespace="com.example.demo.mapper.UserMapper">
 
     <select id="login" resultType="com.example.demo.entity.User">
-        select * from user_info where username = #{username}
+        select * from users where username = #{username}
     </select>
 
     <insert id="reg">
-        insert into user_info (username,password)
+        insert into users (username,password)
         values (#{username},#{password})
     </insert>
 
     <update id="uploadAvatar">
-        update user_info
+        update users
         set avatar_url = #{avatar_url}
         where id = #{id};
     </update>
 
     <select id="initAvatar" resultType="java.lang.String">
-        select avatar_url from user_info where id = #{id}
+        select avatar_url from users where id = #{id}
     </select>
 
     <select id="initCommentAvatar" resultType="java.lang.String">
-        select avatar_url from user_info where id = #{id}
+        select avatar_url from users where id = #{id}
     </select>
 
     <select id="initUserInfo" resultType="com.example.demo.entity.User">
-        select * from user_info where id = #{id}
+        select * from users where id = #{id}
     </select>
 
     <update id="changeNickname">
-        update user_info set nickname = #{nickname} where id = #{id}
+        update users set nickname = #{nickname} where id = #{id}
     </update>
 
     <update id="changeIntroduction">
-        update user_info set introduction = #{introduction} where id = #{id}
+        update users set introduction = #{introduction} where id = #{id}
     </update>
 
 </mapper>
